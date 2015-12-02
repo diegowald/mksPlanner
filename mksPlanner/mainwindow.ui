@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuProyecto">
+    <property name="title">
+     <string>Proyecto</string>
+    </property>
+    <addaction name="actionNuevo"/>
+    <addaction name="actionAbrir"/>
+    <addaction name="separator"/>
+    <addaction name="actionSalir"/>
+   </widget>
+   <widget class="QMenu" name="menuMateriales">
+    <property name="title">
+     <string>Materiales</string>
+    </property>
+    <addaction name="actionVer_Biblioteca"/>
+   </widget>
+   <widget class="QMenu" name="menuProveedores">
+    <property name="title">
+     <string>Proveedores</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuPlanificacion">
+    <property name="title">
+     <string>Planificacion</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuSeguimiento">
+    <property name="title">
+     <string>Seguimiento</string>
+    </property>
+   </widget>
+   <addaction name="menuProyecto"/>
+   <addaction name="menuMateriales"/>
+   <addaction name="menuProveedores"/>
+   <addaction name="menuPlanificacion"/>
+   <addaction name="menuSeguimiento"/>
+  </widget>
+  <action name="actionNuevo">
+   <property name="text">
+    <string>Nuevo</string>
+   </property>
+  </action>
+  <action name="actionAbrir">
+   <property name="text">
+    <string>Abrir</string>
+   </property>
+  </action>
+  <action name="actionSalir">
+   <property name="text">
+    <string>Salir</string>
+   </property>
+  </action>
+  <action name="actionVer_Biblioteca">
+   <property name="text">
+    <string>Ver Biblioteca</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
