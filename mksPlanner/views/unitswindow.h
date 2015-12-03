@@ -2,6 +2,7 @@
 #define UNITSWINDOW_H
 
 #include <QMainWindow>
+#include "models/unitsmodel.h"
 
 namespace Ui {
 class UnitsWindow;
@@ -17,6 +18,7 @@ public:
 
 private:
     Ui::UnitsWindow *ui;
+    UnitsModel _model;
 };
 
 #endif // UNITSWINDOW_H

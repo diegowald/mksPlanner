@@ -6,6 +6,7 @@ UnitsWindow::UnitsWindow(QWidget *parent) :
     ui(new Ui::UnitsWindow)
 {
     ui->setupUi(this);
+    ui->tableView->setModel(&_model);
 }
 
 UnitsWindow::~UnitsWindow()
