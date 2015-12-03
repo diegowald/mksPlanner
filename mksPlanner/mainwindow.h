@@ -18,6 +18,8 @@ public:
 private slots:
     void on_actionSalir_triggered();
 
+    void on_actionUnidades_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

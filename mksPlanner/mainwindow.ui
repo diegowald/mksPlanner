@@ -11,9 +11,18 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>MKS Planner</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <property name="documentMode">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QMdiArea" name="mdiArea"/>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -37,6 +46,8 @@
      <string>Materiales</string>
     </property>
     <addaction name="actionVer_Biblioteca"/>
+    <addaction name="separator"/>
+    <addaction name="actionUnidades"/>
    </widget>
    <widget class="QMenu" name="menuProveedores">
     <property name="title">
@@ -77,6 +88,11 @@
   <action name="actionVer_Biblioteca">
    <property name="text">
     <string>Ver Biblioteca</string>
+   </property>
+  </action>
+  <action name="actionUnidades">
+   <property name="text">
+    <string>Unidades</string>
    </property>
   </action>
  </widget>

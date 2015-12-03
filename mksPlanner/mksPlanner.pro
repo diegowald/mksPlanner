@@ -13,11 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    views/unitswindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    views/unitswindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    views/unitswindow.ui
 
 CONFIG += mobility
 MOBILITY = 
