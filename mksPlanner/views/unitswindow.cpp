@@ -7,7 +7,8 @@ UnitsWindow::UnitsWindow(QWidget *parent) :
     ui(new Ui::UnitsWindow)
 {
     ui->setupUi(this);
-    ui->tableView->setModel(&_model);
+    _model = new UnitsModel(this);
+    ui->tableView->setModel(_model);
 }
 
 UnitsWindow::~UnitsWindow()
@@ -17,6 +18,6 @@ UnitsWindow::~UnitsWindow()
 
 void UnitsWindow::on_tableView_doubleClicked(const QModelIndex &index)
 {
-    dlgUnitEditor dlg(&_model, index.row(), this);
+    dlgUnitEditor dlg(_model, index.row(), this);
     dlg.exec();
 }

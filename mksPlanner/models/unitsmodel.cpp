@@ -24,14 +24,21 @@ QVariant UnitsModel::data(const QModelIndex &index, int role) const
         qDebug() << index.row() << ", " << index.column();
         return _value;
     }
-    return QVariant();
+    else if (role == Qt::EditRole)
+    {
+        return _value;
+    }
+    else
+    {
+        return QVariant();
+    }
 }
 
 QVariant UnitsModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        return QString("Header");
+        return section;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }

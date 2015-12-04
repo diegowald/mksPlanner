@@ -21,7 +21,7 @@ private slots:
 
 private:
     Ui::UnitsWindow *ui;
-    UnitsModel _model;
+    UnitsModel *_model;
 };
 
 #endif // UNITSWINDOW_H

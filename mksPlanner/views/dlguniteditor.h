@@ -18,6 +18,9 @@ public:
     explicit dlgUnitEditor(UnitsModel *model, int selectedEntity, QWidget *parent = 0);
     ~dlgUnitEditor();
 
+private slots:
+    void on_buttonBox_accepted();
+
 private:
     Ui::dlgUnitEditor *ui;
     UnitsModel *_model;
