@@ -1,4 +1,6 @@
 #include "unitsmodel.h"
+#include <QDebug>
+
 
 UnitsModel::UnitsModel(QObject *parent) : QAbstractTableModel(parent)
 {
@@ -19,6 +21,7 @@ QVariant UnitsModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DisplayRole)
     {
+        qDebug() << index.row() << ", " << index.column();
         return _value;
     }
     return QVariant();
@@ -45,5 +48,6 @@ bool UnitsModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
 Qt::ItemFlags UnitsModel::flags(const QModelIndex &index) const
 {
-    return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+//    return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }

@@ -1,5 +1,6 @@
 #include "unitswindow.h"
 #include "ui_unitswindow.h"
+#include "views/dlguniteditor.h"
 
 UnitsWindow::UnitsWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -12,4 +13,10 @@ UnitsWindow::UnitsWindow(QWidget *parent) :
 UnitsWindow::~UnitsWindow()
 {
     delete ui;
+}
+
+void UnitsWindow::on_tableView_doubleClicked(const QModelIndex &index)
+{
+    dlgUnitEditor dlg(&_model, index.row(), this);
+    dlg.exec();
 }

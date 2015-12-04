@@ -16,6 +16,9 @@ public:
     explicit UnitsWindow(QWidget *parent = 0);
     ~UnitsWindow();
 
+private slots:
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::UnitsWindow *ui;
     UnitsModel _model;
