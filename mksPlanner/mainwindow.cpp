@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    loadMaterialLibrary();
 }
 
 MainWindow::~MainWindow()
@@ -28,4 +29,12 @@ void MainWindow::on_actionUnidades_triggered()
     QMdiSubWindow *subWnd = ui->mdiArea->addSubWindow(frm);
     frm->setAttribute(Qt::WA_DeleteOnClose);
     subWnd->show();
+}
+
+void MainWindow::loadMaterialLibrary()
+{
+}
+
+void MainWindow::loadProject(const QString &fileName)
+{
 }

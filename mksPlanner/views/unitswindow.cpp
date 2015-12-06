@@ -7,7 +7,8 @@ UnitsWindow::UnitsWindow(QWidget *parent) :
     ui(new Ui::UnitsWindow)
 {
     ui->setupUi(this);
-    _model = new UnitsModel(this);
+    _model = new UnitsModel("./materiales.db", this);
+    _model->load();
     ui->tableView->setModel(_model);
 }
 

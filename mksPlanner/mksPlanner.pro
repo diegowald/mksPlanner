@@ -4,12 +4,14 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = mksPlanner
 TEMPLATE = app
+
+CONFIG += c++11
 
 
 SOURCES += main.cpp\
@@ -18,14 +20,16 @@ SOURCES += main.cpp\
     models/unitsmodel.cpp \
     models/unit.cpp \
     models/entitybase.cpp \
-    views/dlguniteditor.cpp
+    views/dlguniteditor.cpp \
+    persistance/persister.cpp
 
 HEADERS  += mainwindow.h \
     views/unitswindow.h \
     models/unitsmodel.h \
     models/unit.h \
     models/entitybase.h \
-    views/dlguniteditor.h
+    views/dlguniteditor.h \
+    persistance/persister.h
 
 FORMS    += mainwindow.ui \
     views/unitswindow.ui \

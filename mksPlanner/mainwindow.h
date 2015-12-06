@@ -20,6 +20,9 @@ private slots:
 
     void on_actionUnidades_triggered();
 
+    void loadMaterialLibrary();
+    void loadProject(const QString &fileName);
+
 private:
     Ui::MainWindow *ui;
 };
