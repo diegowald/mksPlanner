@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     loadMaterialLibrary();
+    unitsSubWindow = NULL;
 }
 
 MainWindow::~MainWindow()
@@ -25,10 +26,17 @@ void MainWindow::on_actionSalir_triggered()
 
 void MainWindow::on_actionUnidades_triggered()
 {
-    UnitsWindow *frm = new UnitsWindow();
-    QMdiSubWindow *subWnd = ui->mdiArea->addSubWindow(frm);
-    frm->setAttribute(Qt::WA_DeleteOnClose);
-    subWnd->show();
+    if (unitsSubWindow == NULL)
+    {
+        UnitsWindow *frm = new UnitsWindow();
+        unitsSubWindow = ui->mdiArea->addSubWindow(frm);
+        frm->setAttribute(Qt::WA_DeleteOnClose);
+        unitsSubWindow->show();
+    }
+    else
+    {
+        unitsSubWindow->activateWindow();
+    }
 }
 
 void MainWindow::loadMaterialLibrary()
@@ -37,4 +45,13 @@ void MainWindow::loadMaterialLibrary()
 
 void MainWindow::loadProject(const QString &fileName)
 {
+}
+
+void MainWindow::on_actionSave_Material_Library_triggered()
+{
+    if (unitsSubWindow != NULL)
+    {
+        UnitsWindow *frm = (UnitsWindow*) unitsSubWindow->widget();
+        frm->save();
+    }
 }

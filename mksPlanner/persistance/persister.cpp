@@ -4,9 +4,8 @@
 #include <QDebug>
 #include <QSqlError>
 
-PersisterBase::PersisterBase(const QString &filename, QObject *parent)
+PersisterBase::PersisterBase()
 {
-    _filename = filename;
 }
 
 void PersisterBase::load()
@@ -37,7 +36,34 @@ void PersisterBase::save()
     connectToDatabase();
 
     // Obtengo los queries de eliminacion;
-    //QStringList sql = _getSQLToRemove();
+    QList<QSqlQuery*> queries = getQueries(_database);
+
+    bool result = true;
+    _database.transaction();
+    foreach (QSqlQuery *query, queries)
+    {
+        if (!query->exec())
+        {
+            result = false;
+            break;
+        }
+    }
+    if (result)
+    {
+        _database.commit();
+    }
+    else
+    {
+        _database.rollback();
+    }
+
+    foreach (QSqlQuery *query, queries)
+    {
+        delete query;
+    }
+    queries.clear();
+
+    markAsSaved();
 }
 
 
@@ -56,4 +82,9 @@ bool PersisterBase::connectToDatabase()
         return false;
     }
     return true;
+}
+
+void PersisterBase::setFileName(const QString &filename)
+{
+    _filename = filename;
 }

@@ -21,7 +21,10 @@ SOURCES += main.cpp\
     models/unit.cpp \
     models/entitybase.cpp \
     views/dlguniteditor.cpp \
-    persistance/persister.cpp
+    persistance/persister.cpp \
+    persistance/librarybase.cpp \
+    persistance/materialslibrary.cpp \
+    models/modelbase.cpp
 
 HEADERS  += mainwindow.h \
     views/unitswindow.h \
@@ -29,7 +32,10 @@ HEADERS  += mainwindow.h \
     models/unit.h \
     models/entitybase.h \
     views/dlguniteditor.h \
-    persistance/persister.h
+    persistance/persister.h \
+    persistance/librarybase.h \
+    persistance/materialslibrary.h \
+    models/modelbase.h
 
 FORMS    += mainwindow.ui \
     views/unitswindow.ui \

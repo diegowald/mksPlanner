@@ -8,10 +8,13 @@ class Unit : public EntityBase
 {
     Q_OBJECT
 public:
-    explicit Unit(int id, QString &name, QString &description, QObject *parent = 0);
+
+    explicit Unit(int id, const QString &name, const QString &description, QObject *parent = 0);
 
     virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
+
+    virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
 signals:
 

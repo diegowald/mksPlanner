@@ -9,7 +9,9 @@ class PersisterBase
 {
     Q_GADGET
 public:
-    explicit PersisterBase(const QString &filename, QObject *parent = 0);
+    explicit PersisterBase();
+
+    void setFileName(const QString &filename);
     void load();
     void save();
 
@@ -18,7 +20,8 @@ protected:
 
     virtual QString _getSQLRead() const = 0;
     virtual void _loadEntity(QSqlRecord record) = 0;
-
+    virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database) = 0;
+    virtual void markAsSaved() = 0;
 signals:
 
 public slots:

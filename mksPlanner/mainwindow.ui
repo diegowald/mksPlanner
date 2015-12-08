@@ -48,6 +48,7 @@
     <addaction name="actionVer_Biblioteca"/>
     <addaction name="separator"/>
     <addaction name="actionUnidades"/>
+    <addaction name="actionSave_Material_Library"/>
    </widget>
    <widget class="QMenu" name="menuProveedores">
     <property name="title">
@@ -93,6 +94,11 @@
   <action name="actionUnidades">
    <property name="text">
     <string>Unidades</string>
+   </property>
+  </action>
+  <action name="actionSave_Material_Library">
+   <property name="text">
+    <string>Save Material Library</string>
    </property>
   </action>
  </widget>

@@ -3,6 +3,16 @@
 
 #include <QObject>
 #include <QSharedPointer>
+#include <QSqlQuery>
+
+
+enum class EntityStatus
+{
+    unchanged,
+    added,
+    modified,
+    deleted
+};
 
 class EntityBase : public QObject
 {
@@ -21,6 +31,15 @@ public:
 
     int id() const;
 
+    virtual void deleteEntity();
+
+    virtual QSqlQuery* getQuery(QSqlDatabase &database) = 0;
+
+    EntityStatus status();
+
+    void updateStatus(EntityStatus newStatus);
+
+
 signals:
 
 public slots:
@@ -28,6 +47,7 @@ public slots:
 private:
     bool _dirty;
     int _id;
+    EntityStatus _status;
 };
 
 typedef QSharedPointer<EntityBase> EntityBasePtr;

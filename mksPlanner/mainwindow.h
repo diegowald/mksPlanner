@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "views/unitswindow.h"
+#include <QMdiSubWindow>
 
 namespace Ui {
 class MainWindow;
@@ -23,8 +25,11 @@ private slots:
     void loadMaterialLibrary();
     void loadProject(const QString &fileName);
 
+    void on_actionSave_Material_Library_triggered();
+
 private:
     Ui::MainWindow *ui;
+    QMdiSubWindow *unitsSubWindow;
 };
 
 #endif // MAINWINDOW_H
