@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "views/unitswindow.h"
 #include <QMdiSubWindow>
+#include "persistance/materialslibrary.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +31,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QMdiSubWindow *unitsSubWindow;
+    MaterialsLibrary _materialsLibrary;
+
 };
 
 #endif // MAINWINDOW_H

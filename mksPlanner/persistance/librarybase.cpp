@@ -5,12 +5,12 @@ LibraryBase::LibraryBase(QObject *parent) : QObject(parent)
 
 }
 
-void LibraryBase::load()
+void LibraryBase::load(const QString &filename)
 {
     internalLoadTables();
 }
 
-void LibraryBase::save()
+void LibraryBase::save(const QString &filename)
 {
     internalSaveTables();
 }

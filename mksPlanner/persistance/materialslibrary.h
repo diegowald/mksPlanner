@@ -10,6 +10,10 @@ class MaterialsLibrary : public LibraryBase
 public:
     explicit MaterialsLibrary(QObject *parent = 0);
 
+protected:
+    virtual void internalSaveTables();
+    virtual void internalLoadTables();
+
 signals:
 
 public slots:

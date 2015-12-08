@@ -11,8 +11,8 @@ class LibraryBase : public QObject
 public:
     explicit LibraryBase(QObject *parent = 0);
 
-    void save();
-    void load();
+    void save(const QString &filename);
+    void load(const QString &filename);
 
 protected:
     virtual void internalSaveTables() = 0;
