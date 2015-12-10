@@ -3,14 +3,12 @@
 
 EntityBase::EntityBase() : QObject(0)
 {
-    _dirty = false;
     _id = -1;
     _status = EntityStatus::added;
 }
 
 EntityBase::EntityBase(int id) : QObject(0)
 {
-    _dirty = false;
     _id = id;
     _status = EntityStatus::unchanged;
 }
@@ -18,7 +16,6 @@ EntityBase::EntityBase(int id) : QObject(0)
 bool EntityBase::setData(const int column, const QVariant &value, int role)
 {
     bool res = internalSetData(column, value, role);
-    _dirty = true;
     updateStatus(EntityStatus::modified);
     return res;
 }
@@ -26,11 +23,6 @@ bool EntityBase::setData(const int column, const QVariant &value, int role)
 QVariant EntityBase::data(const int column, int role) const
 {
     return internalData(column, role);
-}
-
-bool EntityBase::isDirty() const
-{
-    return _dirty;
 }
 
 int EntityBase::id() const

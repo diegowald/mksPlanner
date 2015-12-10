@@ -8,6 +8,13 @@ Material::Material(int id, const QString &name, const QString &description, int 
     _idUnit = idUnit;
 }
 
+Material::Material():EntityBase()
+{
+    _name = "";
+    _description = "";
+    _idUnit = -1;
+}
+
 bool Material::internalSetData(const int column, const QVariant &value, int role)
 {
     bool result = false;

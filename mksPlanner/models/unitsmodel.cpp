@@ -72,7 +72,7 @@ bool UnitsModel::removeRow(int row, const QModelIndex &parent)
 
 EntityBasePtr UnitsModel::createEntity()
 {
-    return UnitPtr::create(-1, "Nueva Unidad", "Nueva Unidad");
+    return UnitPtr::create();
 }
 
 

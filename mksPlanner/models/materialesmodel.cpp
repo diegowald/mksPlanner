@@ -76,7 +76,7 @@ bool UnitsModel::removeRow(int row, const QModelIndex &parent)
 
 EntityBasePtr MaterialesModel::createEntity()
 {
-    return MaterialPtr::create(-1, "Nueva Material", "Nueva Material", -1);
+    return MaterialPtr::create();
 }
 
 void MaterialesModel::editEntity(int row)

@@ -4,6 +4,7 @@
 #include "globalcontainer.h"
 #include "persistance/materialslibrary.h"
 #include "views/tablewindow.h"
+#include "models/componentesmateriales.h"
 
 dlgMaterialEditor::dlgMaterialEditor(MaterialesModel *model, int row, QWidget *parent) :
     QDialog(parent),
@@ -24,7 +25,8 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesModel *model, int row, QWidget *p
 
     TableWindow *t = new TableWindow(this);
     //QWidget* w = QWidget::createWindowContainer(t->window(), this);
-    t->setModel(GlobalContainer::instance().materialLibrary()->model("unidades"));
+    dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model("componentesMateriales"))->setIdMaterialPadre(1);
+    t->setModel(GlobalContainer::instance().materialLibrary()->model("componentesMateriales"));
 
     ui->frame->layout()->addWidget(t->window());
 }

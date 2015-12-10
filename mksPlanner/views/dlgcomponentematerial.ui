@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>dlgUnitEditor</class>
- <widget class="QDialog" name="dlgUnitEditor">
+ <class>dlgComponenteMaterial</class>
+ <widget class="QDialog" name="dlgComponenteMaterial">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>368</width>
-    <height>129</height>
+    <width>448</width>
+    <height>179</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,28 +19,50 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Nombre</string>
-       </property>
-       <property name="buddy">
-        <cstring>txtNombre</cstring>
+        <string>Material</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="txtNombre"/>
+      <widget class="QComboBox" name="cboMaterial"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Descripcion</string>
-       </property>
-       <property name="buddy">
-        <cstring>txtDescripcion</cstring>
+        <string>Descripción</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="txtDescripcion"/>
+      <widget class="QLabel" name="lblmaterialDecripcion">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Cantidad necesaria</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="txtCantidad"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Unidad de medida</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="lblUnidadMedida">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -61,7 +83,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>dlgUnitEditor</receiver>
+   <receiver>dlgComponenteMaterial</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -77,7 +99,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>dlgUnitEditor</receiver>
+   <receiver>dlgComponenteMaterial</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

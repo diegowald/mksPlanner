@@ -8,6 +8,12 @@ Unit::Unit(int id, const QString &name, const QString &description) : EntityBase
     _description = description;
 }
 
+Unit::Unit() : EntityBase()
+{
+    _name = "";
+    _description = "";
+}
+
 bool Unit::internalSetData(const int column, const QVariant &value, int role)
 {
     switch (column)

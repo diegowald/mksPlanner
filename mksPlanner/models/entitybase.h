@@ -45,7 +45,6 @@ signals:
 public slots:
 
 private:
-    bool _dirty;
     int _id;
     EntityStatus _status;
 };
