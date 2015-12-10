@@ -12,8 +12,8 @@ public:
     explicit PersisterBase();
 
     void setFileName(const QString &filename);
-    void load();
-    void save();
+    void load(const QString &filename);
+    void save(const QString &filename);
 
 protected:
     bool connectToDatabase();

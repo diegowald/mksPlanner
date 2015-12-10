@@ -1,53 +1,60 @@
-#include "unit.h"
+#include "material.h"
 #include <QVariant>
 
-
-Unit::Unit(int id, const QString &name, const QString &description) : EntityBase(id)
+Material::Material(int id, const QString &name, const QString &description, int idUnit) : EntityBase(id)
 {
     _name = name;
     _description = description;
+    _idUnit = idUnit;
 }
 
-bool Unit::internalSetData(const int column, const QVariant &value, int role)
+bool Material::internalSetData(const int column, const QVariant &value, int role)
 {
+    bool result = false;
     switch (column)
     {
-    case 0:
-        break;
     case 1:
         _name = value.toString();
-        return true;
+        result = true;
         break;
     case 2:
         _description = value.toString();
-        return true;
+        result = true;
+        break;
+    case 3:
+        _idUnit = value.toInt();
+        result = true;
         break;
     default:
         break;
     }
-    return false;
+    return result;
 }
 
-QVariant Unit::internalData(const int column, int role) const
+QVariant Material::internalData(const int column, int role) const
 {
+    QVariant result;
     switch (column)
     {
     case 0:
-        return id();
+        result = id();
         break;
     case 1:
-        return _name;
+        result = _name;
         break;
     case 2:
-        return _description;
+        result = _description;
+        break;
+    case 3:
+        result = _idUnit;
         break;
     default:
-        return QVariant();
         break;
     }
+    return result;
 }
 
-QSqlQuery* Unit::getQuery(QSqlDatabase &database)
+QSqlQuery* Material::getQuery(QSqlDatabase &database)
 {
     QSqlQuery *query;
     switch (status())
@@ -55,24 +62,26 @@ QSqlQuery* Unit::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO units (nombre, descripcion) VALUES (:nombre, :descripcion);");
+        query->prepare("INSERT INTO materiales (name, description, idUnit) VALUES (:nombre, :descripcion, :idUnit);");
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
+        query->bindValue(":idUnit", _idUnit);
         break;
     }
     case EntityStatus::deleted:
     {
         query = new QSqlQuery(database);
-        query->prepare("DELETE FROM units WHERE id = :id;");
+        query->prepare("DELETE FROM materiales WHERE id = :id;");
         query->bindValue(":id", id());
         break;
     }
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE units SET nombre = :nombre, descripcion = :descripcion WHERE id = :id;");
+        query->prepare("UPDATE materiales SET name = :nombre, description = :descripcion, idUnit = :idUnit WHERE id = :id;");
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
+        query->bindValue(":idUnit", _idUnit);
         query->bindValue(":id", id());
         break;
     }

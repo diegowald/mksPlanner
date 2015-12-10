@@ -18,8 +18,8 @@ class EntityBase : public QObject
 {
     Q_OBJECT
 public:
-    explicit EntityBase(QObject *parent = 0);
-    explicit EntityBase(int id, QObject *parent = 0);
+    explicit EntityBase();
+    explicit EntityBase(int id);
 
     bool setData(const int column, const QVariant &value, int role);
     QVariant data(const int column, int role = Qt::DisplayRole) const;

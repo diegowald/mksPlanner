@@ -13,20 +13,21 @@ public:
 
     void save(const QString &filename);
     void load(const QString &filename);
+    ModelBase* model(const QString &name);
 
 protected:
-    virtual void internalSaveTables() = 0;
-    virtual void internalLoadTables() = 0;
+    virtual void internalSaveTables(const QString &filename) = 0;
+    virtual void internalLoadTables(const QString &filename) = 0;
 
-    void addModel(const QString &name, ModelBasePtr model);
-    ModelBasePtr model(const QString &name);
+    void addModel(const QString &name, ModelBase* model);
+
 
 signals:
 
 public slots:
 
 private:
-    QMap<QString, ModelBasePtr> _models;
+    QMap<QString, ModelBase*> _models;
 };
 
 #endif // LIBRARYBASE_H

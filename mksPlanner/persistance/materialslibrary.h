@@ -11,8 +11,8 @@ public:
     explicit MaterialsLibrary(QObject *parent = 0);
 
 protected:
-    virtual void internalSaveTables();
-    virtual void internalLoadTables();
+    virtual void internalSaveTables(const QString &filename);
+    virtual void internalLoadTables(const QString &filename);
 
 signals:
 

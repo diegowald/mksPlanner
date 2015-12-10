@@ -1,8 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "views/unitswindow.h"
+#include "views/tablewindow.h"
 #include <qmdisubwindow.h>
+#include "persistance/materialslibrary.h"
+#include "globalcontainer.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,7 +30,8 @@ void MainWindow::on_actionUnidades_triggered()
 {
     if (unitsSubWindow == NULL)
     {
-        UnitsWindow *frm = new UnitsWindow();
+        TableWindow *frm = new TableWindow();
+        frm->setModel(GlobalContainer::instance().materialLibrary()->model("unidades"));
         unitsSubWindow = ui->mdiArea->addSubWindow(frm);
         frm->setAttribute(Qt::WA_DeleteOnClose);
         unitsSubWindow->show();
@@ -41,6 +44,9 @@ void MainWindow::on_actionUnidades_triggered()
 
 void MainWindow::loadMaterialLibrary()
 {
+    MaterialsLibrary* materialsLibrary = new MaterialsLibrary();
+    materialsLibrary->load("./materiales.db");
+    GlobalContainer::instance().setMaterialLibrary(materialsLibrary);
 }
 
 void MainWindow::loadProject(const QString &fileName)
@@ -49,9 +55,13 @@ void MainWindow::loadProject(const QString &fileName)
 
 void MainWindow::on_actionSave_Material_Library_triggered()
 {
-    if (unitsSubWindow != NULL)
-    {
-        UnitsWindow *frm = (UnitsWindow*) unitsSubWindow->widget();
-        frm->save();
-    }
+    GlobalContainer::instance().materialLibrary()->save("./materiales.db");
 }
+
+void MainWindow::on_actionVer_Biblioteca_triggered()
+{
+    TableWindow* frm = new TableWindow();
+    frm->setModel(GlobalContainer::instance().materialLibrary()->model("materiales"));
+    QMdiSubWindow* subWindow = ui->mdiArea->addSubWindow(frm);
+    frm->setAttribute(Qt::WA_DeleteOnClose);
+    subWindow->show();}

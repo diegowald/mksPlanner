@@ -2,21 +2,22 @@
 #define UNITSWINDOW_H
 
 #include <QMainWindow>
-#include "models/unitsmodel.h"
+//#include "models/unitsmodel.h"
+#include "models/modelbase.h"
 
 namespace Ui {
-class UnitsWindow;
+class TableWindow;
 }
 
-class UnitsWindow : public QMainWindow
+class TableWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit UnitsWindow(QWidget *parent = 0);
-    ~UnitsWindow();
+    explicit TableWindow(QWidget *parent = 0);
+    ~TableWindow();
 
-    void save();
+    void setModel(ModelBase* model);
 
 private slots:
     void on_tableView_doubleClicked(const QModelIndex &index);
@@ -28,8 +29,8 @@ private slots:
     void on_actionRemove_triggered();
 
 private:
-    Ui::UnitsWindow *ui;
-    UnitsModel *_model;
+    Ui::TableWindow *ui;
+    ModelBase* _model;
 };
 
 #endif // UNITSWINDOW_H

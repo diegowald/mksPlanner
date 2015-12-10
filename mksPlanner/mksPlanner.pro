@@ -16,7 +16,6 @@ CONFIG += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    views/unitswindow.cpp \
     models/unitsmodel.cpp \
     models/unit.cpp \
     models/entitybase.cpp \
@@ -24,10 +23,14 @@ SOURCES += main.cpp\
     persistance/persister.cpp \
     persistance/librarybase.cpp \
     persistance/materialslibrary.cpp \
-    models/modelbase.cpp
+    models/modelbase.cpp \
+    views/tablewindow.cpp \
+    models/materialesmodel.cpp \
+    models/material.cpp \
+    views/dlgmaterialeditor.cpp \
+    globalcontainer.cpp
 
 HEADERS  += mainwindow.h \
-    views/unitswindow.h \
     models/unitsmodel.h \
     models/unit.h \
     models/entitybase.h \
@@ -35,11 +38,17 @@ HEADERS  += mainwindow.h \
     persistance/persister.h \
     persistance/librarybase.h \
     persistance/materialslibrary.h \
-    models/modelbase.h
+    models/modelbase.h \
+    views/tablewindow.h \
+    models/materialesmodel.h \
+    models/material.h \
+    views/dlgmaterialeditor.h \
+    globalcontainer.h
 
 FORMS    += mainwindow.ui \
-    views/unitswindow.ui \
-    views/dlguniteditor.ui
+    views/dlguniteditor.ui \
+    views/tablewindow.ui \
+    views/dlgmaterialeditor.ui
 
 CONFIG += mobility
 MOBILITY = 

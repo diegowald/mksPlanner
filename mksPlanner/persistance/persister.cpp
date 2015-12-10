@@ -8,8 +8,9 @@ PersisterBase::PersisterBase()
 {
 }
 
-void PersisterBase::load()
+void PersisterBase::load(const QString &filename)
 {
+    _filename = filename;
     // Abro la base de datos
     connectToDatabase();
 
@@ -30,8 +31,9 @@ void PersisterBase::load()
     _database.close();
 }
 
-void PersisterBase::save()
+void PersisterBase::save(const QString &filename)
 {
+    _filename = filename;
     // Abro la base de datos
     connectToDatabase();
 
@@ -44,6 +46,7 @@ void PersisterBase::save()
     {
         if (!query->exec())
         {
+            qDebug() << query->lastError().text();
             result = false;
             break;
         }

@@ -1,14 +1,14 @@
 #include "entitybase.h"
 #include <QVariant>
 
-EntityBase::EntityBase(QObject *parent) : QObject(parent)
+EntityBase::EntityBase() : QObject(0)
 {
     _dirty = false;
     _id = -1;
     _status = EntityStatus::added;
 }
 
-EntityBase::EntityBase(int id, QObject *parent) : QObject(parent)
+EntityBase::EntityBase(int id) : QObject(0)
 {
     _dirty = false;
     _id = id;

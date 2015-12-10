@@ -1,15 +1,14 @@
-#ifndef UNIT_H
-#define UNIT_H
+#ifndef MATERIAL_H
+#define MATERIAL_H
 
 #include <QObject>
 #include "models/entitybase.h"
 
-class Unit : public EntityBase
+class Material : public EntityBase
 {
     Q_OBJECT
 public:
-
-    explicit Unit(int id, const QString &name, const QString &description);
+    explicit Material(int id, const QString &name, const QString &description, int idUnit);
 
     virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
@@ -23,8 +22,9 @@ public slots:
 private:
     QString _name;
     QString _description;
+    int _idUnit;
 };
 
-typedef QSharedPointer<Unit> UnitPtr;
+typedef QSharedPointer<Material> MaterialPtr;
 
-#endif // UNIT_H
+#endif // MATERIAL_H
