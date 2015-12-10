@@ -18,6 +18,7 @@ void TableWindow::setModel(ModelBase* model)
 {
     _model = model;
     ui->tableView->setModel(_model);
+    ui->tableView->setColumnHidden(0, true);
 }
 
 void TableWindow::on_tableView_doubleClicked(const QModelIndex &index)

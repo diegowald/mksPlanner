@@ -25,6 +25,7 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesModel *model, int row, QWidget *p
     TableWindow *t = new TableWindow(this);
     //QWidget* w = QWidget::createWindowContainer(t->window(), this);
     t->setModel(GlobalContainer::instance().materialLibrary()->model("unidades"));
+
     ui->frame->layout()->addWidget(t->window());
 }
 
