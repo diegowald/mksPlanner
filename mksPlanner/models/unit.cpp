@@ -8,7 +8,7 @@ Unit::Unit(int id, const QString &name, const QString &description) : EntityBase
     _description = description;
 }
 
-Unit::Unit(int id) : EntityBase(id)
+Unit::Unit(int id) : EntityBase(id, true)
 {
     _name = "";
     _description = "";

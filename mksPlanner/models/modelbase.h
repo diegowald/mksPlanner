@@ -13,9 +13,9 @@ class ModelBase : public QAbstractTableModel, virtual public PersisterBase
     Q_OBJECT
 public:
     explicit ModelBase(QObject *parent = 0);
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
@@ -39,7 +39,7 @@ signals:
 
 public slots:
 
-private:
+protected:
     QList<int> _entityMapping;
     QMap<int, EntityBasePtr> _entities;
     int _maxId;

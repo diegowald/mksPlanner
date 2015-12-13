@@ -11,7 +11,7 @@ Material::Material(int id, const QString &name, const QString &description, int 
     _idUnit = idUnit;
 }
 
-Material::Material(int id):EntityBase(id)
+Material::Material(int id):EntityBase(id, true)
 {
     _name = "";
     _description = "";

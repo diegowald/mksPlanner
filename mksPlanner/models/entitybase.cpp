@@ -7,10 +7,10 @@ EntityBase::EntityBase() : QObject(0)
     _status = EntityStatus::added;
 }
 
-EntityBase::EntityBase(int id) : QObject(0)
+EntityBase::EntityBase(int id, bool isNew) : QObject(0)
 {
     _id = id;
-    _status = EntityStatus::unchanged;
+    _status = isNew ? EntityStatus::added : EntityStatus::unchanged;
 }
 
 bool EntityBase::setData(const int column, const QVariant &value, int role)

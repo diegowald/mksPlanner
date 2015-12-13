@@ -12,6 +12,11 @@ int ComponentesMaterialesModel::columnCount(const QModelIndex &parent) const
     return 6;
 }
 
+int ComponentesMaterialesModel::rowCount(const QModelIndex &/*parent*/) const
+{
+    return _entityMappingByIdMaterialPadre[_idMterialPadre].count();
+}
+
 QVariant ComponentesMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
@@ -74,6 +79,7 @@ void ComponentesMaterialesModel::_loadEntity(QSqlRecord record)
     double cantidad = record.value("cantidad").toDouble();
     EntityBasePtr entity = ComponenteMaterialPtr::create(id, idMaterialPadre, idMaterial, cantidad);
     addEntity(entity);
+    classifyEntity(entity);
 }
 
 
@@ -102,4 +108,39 @@ void ComponentesMaterialesModel::editEntity(int row)
 void ComponentesMaterialesModel::setIdMaterialPadre(int idMaterialPadre)
 {
     _idMterialPadre = idMaterialPadre;
+}
+
+void ComponentesMaterialesModel::classifyEntity(EntityBasePtr entity)
+{
+    ComponenteMaterialPtr componente = qSharedPointerDynamicCast<ComponenteMaterial>(entity);
+    //QMap<int, QMap<int, EntityBasePtr>> _entityMappingByIdMaterialPadre;
+    _entityMappingByIdMaterialPadre[componente->idMaterialPadre()].append(entity->id());
+}
+
+QVariant ComponentesMaterialesModel::data(const QModelIndex &index, int role) const
+{
+    if (role == Qt::DisplayRole)
+    {
+        EntityBasePtr entity = _entities[_entityMappingByIdMaterialPadre[_idMterialPadre].at(index.row())];
+        return entity->data(index.column(), role);
+    }
+    else if (role == Qt::EditRole)
+    {
+        EntityBasePtr entity = _entities[_entityMappingByIdMaterialPadre[_idMterialPadre].at(index.row())];
+        return entity->data(index.column(), role);
+    }
+    else
+    {
+        return QVariant();
+    }
+}
+
+bool ComponentesMaterialesModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (role == Qt::EditRole)
+    {
+        EntityBasePtr entity = _entities[_entityMappingByIdMaterialPadre[_idMterialPadre].at(index.row())];
+        entity->setData(index.column(), value, role);
+    }
+    return true;
 }
