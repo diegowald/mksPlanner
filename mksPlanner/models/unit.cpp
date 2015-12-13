@@ -88,3 +88,13 @@ QSqlQuery* Unit::getQuery(QSqlDatabase &database)
     }
     return query;
 }
+
+QString Unit::name() const
+{
+    return _name;
+}
+
+QString Unit::description() const
+{
+    return _description;
+}

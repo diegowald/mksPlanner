@@ -1,5 +1,8 @@
 #include "material.h"
 #include <QVariant>
+#include "globalcontainer.h"
+#include "models/unit.h"
+
 
 Material::Material(int id, const QString &name, const QString &description, int idUnit) : EntityBase(id)
 {
@@ -53,7 +56,10 @@ QVariant Material::internalData(const int column, int role) const
         result = _description;
         break;
     case 3:
-        result = _idUnit;
+        if (!unit().isNull())
+        {
+            result = qSharedPointerDynamicCast<Unit>(unit())->name();
+        }
         break;
     default:
         break;
@@ -97,4 +103,24 @@ QSqlQuery* Material::getQuery(QSqlDatabase &database)
         break;
     }
     return query;
+}
+
+QString Material::name() const
+{
+    return _name;
+}
+
+QString Material::desription() const
+{
+    return _description;
+}
+
+int Material::idUnit() const
+{
+    return _idUnit;
+}
+
+EntityBasePtr Material::unit() const
+{
+    return GlobalContainer::instance().materialLibrary()->model("unidades")->getItem(_idUnit);
 }

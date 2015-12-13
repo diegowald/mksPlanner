@@ -3,7 +3,8 @@
 
 #include <QDialog>
 #include "models/componentesmateriales.h"
-#include <QDataWidgetMapper>
+#include <QMap>
+#include <QVariant>
 
 namespace Ui {
 class dlgComponenteMaterial;
@@ -20,10 +21,12 @@ public:
 private slots:
     void on_buttonBox_accepted();
 
+    void on_cboMaterial_currentIndexChanged(int index);
+
 private:
     Ui::dlgComponenteMaterial *ui;
     ComponentesMaterialesModel *_model;
-    QDataWidgetMapper *_mapper;
+    EntityBasePtr _entity;
 };
 
 #endif // DLGCOMPONENTEMATERIAL_H

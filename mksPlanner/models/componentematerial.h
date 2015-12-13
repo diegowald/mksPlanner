@@ -16,6 +16,15 @@ public:
 
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
+    int idMaterialPadre() const;
+    EntityBasePtr materialPadre() const;
+    int idMaterial() const;
+    EntityBasePtr material() const;
+    double cantidad() const;
+
+    void setIdMaterialPadre(int id);
+    void setIdMaterial(int id);
+    void setCantidad(double value);
 signals:
 
 public slots:

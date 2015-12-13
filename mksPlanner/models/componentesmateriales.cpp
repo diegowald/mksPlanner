@@ -9,7 +9,7 @@ ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent) : ModelB
 
 int ComponentesMaterialesModel::columnCount(const QModelIndex &parent) const
 {
-    return 4;
+    return 6;
 }
 
 QVariant ComponentesMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -27,15 +27,26 @@ QVariant ComponentesMaterialesModel::headerData(int section, Qt::Orientation ori
             }
             case 1:
             {
-                return QString("Material");
+                return QString("idMaterialPadre");
                 break;
             }
             case 2:
             {
-                return QString("Cantidad");
+                return QString("idMaterial");
                 break;
             }
             case 3:
+            {
+                return QString("Material");
+                break;
+            }
+
+            case 4:
+            {
+                return QString("Cantidad");
+                break;
+            }
+            case 5:
             {
                 return QString("Unidad de medida");
                 break;
@@ -76,7 +87,9 @@ bool UnitsModel::removeRow(int row, const QModelIndex &parent)
 
 EntityBasePtr ComponentesMaterialesModel::createEntity()
 {
-    return ComponenteMaterialPtr::create();
+    EntityBasePtr entity = ComponenteMaterialPtr::create();
+    qSharedPointerDynamicCast<ComponenteMaterial>(entity)->setIdMaterialPadre(_idMterialPadre);
+    return entity;
 }
 
 

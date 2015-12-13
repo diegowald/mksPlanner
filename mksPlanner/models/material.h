@@ -15,6 +15,10 @@ public:
 
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
+    QString name() const;
+    QString desription() const;
+    int idUnit() const;
+    EntityBasePtr unit() const;
 signals:
 
 public slots:

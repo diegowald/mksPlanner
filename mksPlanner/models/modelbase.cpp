@@ -1,4 +1,6 @@
 #include "modelbase.h"
+#include <QDebug>
+
 
 ModelBase::ModelBase(QObject *parent) :
     PersisterBase(),
@@ -105,4 +107,29 @@ void ModelBase::addEntity(EntityBasePtr entity)
 {
     _entities[entity->id()] = entity;
     _entityMapping.append(entity->id());
+}
+
+
+EntityBasePtr ModelBase::getItem(int id)
+{
+    if (_entities.contains(id))
+    {
+        return _entities[id];
+    }
+    else
+        return EntityBasePtr();
+}
+
+EntityBasePtr ModelBase::getItemByRowid(int row)
+{
+    qDebug() << row;
+    qDebug() << _entityMapping.contains(row);
+    qDebug() << _entityMapping[row];
+    return getItem(_entityMapping[row]);
+}
+
+void ModelBase::setModified()
+{
+    QModelIndex idx;
+    emit dataChanged(idx, idx);
 }

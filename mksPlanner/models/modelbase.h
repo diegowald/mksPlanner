@@ -22,6 +22,10 @@ public:
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
     virtual void editEntity(int row) = 0;
 
+    virtual EntityBasePtr getItem(int id);
+    virtual EntityBasePtr getItemByRowid(int row);
+    void setModified();
+
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);
     virtual void markAsSaved();
