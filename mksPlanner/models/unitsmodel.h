@@ -17,7 +17,7 @@ public:
 protected:
     virtual QString _getSQLRead() const;
     virtual void _loadEntity(QSqlRecord record);
-    virtual EntityBasePtr createEntity();
+    virtual EntityBasePtr internalCreateEntity(int assignedId);
 
 signals:
 

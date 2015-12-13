@@ -70,9 +70,9 @@ bool UnitsModel::removeRow(int row, const QModelIndex &parent)
 }
 */
 
-EntityBasePtr UnitsModel::createEntity()
+EntityBasePtr UnitsModel::internalCreateEntity(int assignedId)
 {
-    return UnitPtr::create();
+    return UnitPtr::create(assignedId);
 }
 
 

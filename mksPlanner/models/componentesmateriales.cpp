@@ -85,9 +85,9 @@ bool UnitsModel::removeRow(int row, const QModelIndex &parent)
 }
 */
 
-EntityBasePtr ComponentesMaterialesModel::createEntity()
+EntityBasePtr ComponentesMaterialesModel::internalCreateEntity(int assignedId)
 {
-    EntityBasePtr entity = ComponenteMaterialPtr::create();
+    EntityBasePtr entity = ComponenteMaterialPtr::create(assignedId);
     qSharedPointerDynamicCast<ComponenteMaterial>(entity)->setIdMaterialPadre(_idMterialPadre);
     return entity;
 }

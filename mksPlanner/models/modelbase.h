@@ -26,11 +26,12 @@ public:
     virtual EntityBasePtr getItemByRowid(int row);
     void setModified();
 
+    EntityBasePtr createEntity();
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);
     virtual void markAsSaved();
 
-    virtual EntityBasePtr createEntity() = 0;
+    virtual EntityBasePtr internalCreateEntity(int assignedId) = 0;
 
     void addEntity(EntityBasePtr entity);
 
@@ -41,6 +42,7 @@ public slots:
 private:
     QList<int> _entityMapping;
     QMap<int, EntityBasePtr> _entities;
+    int _maxId;
 };
 
 

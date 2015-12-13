@@ -3,7 +3,7 @@
 #include "globalcontainer.h"
 #include "models/material.h"
 
-ComponenteMaterial::ComponenteMaterial() : EntityBase()
+ComponenteMaterial::ComponenteMaterial(int id) : EntityBase(id)
 {
     _idMaterial = -1;
     _cantidad = -1;

@@ -6,7 +6,7 @@ ModelBase::ModelBase(QObject *parent) :
     PersisterBase(),
     QAbstractTableModel(parent)
 {
-
+    _maxId = -1;
 }
 
 int ModelBase::rowCount(const QModelIndex &/*parent*/) const
@@ -107,8 +107,17 @@ void ModelBase::addEntity(EntityBasePtr entity)
 {
     _entities[entity->id()] = entity;
     _entityMapping.append(entity->id());
+    _maxId = (_maxId < entity->id()) ? entity->id() : _maxId;
 }
 
+EntityBasePtr ModelBase::createEntity()
+{
+    if (_maxId == -1)
+        _maxId = 0;
+    _maxId++;
+    EntityBasePtr entity = internalCreateEntity(_maxId);
+    return entity;
+}
 
 EntityBasePtr ModelBase::getItem(int id)
 {

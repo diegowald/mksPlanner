@@ -10,7 +10,7 @@ class Unit : public EntityBase
 public:
 
     explicit Unit(int id, const QString &name, const QString &description);
-    explicit Unit();
+    explicit Unit(int id);
 
     virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
