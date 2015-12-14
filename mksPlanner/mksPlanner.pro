@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     views/dlgcomponentematerial.cpp \
     models/materialesbasemodel.cpp \
     models/materialesmodel.cpp \
-    models/tasksmodel.cpp
+    models/tasksmodel.cpp \
+    models/proveedoresmodel.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -53,7 +54,8 @@ HEADERS  += mainwindow.h \
     views/dlgcomponentematerial.h \
     models/materialesbasemodel.h \
     models/materialesmodel.h \
-    models/tasksmodel.h
+    models/tasksmodel.h \
+    models/proveedoresmodel.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
