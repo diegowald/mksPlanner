@@ -9,7 +9,7 @@ MaterialesModel::MaterialesModel(QObject *parent) : ModelBase(parent)
 
 int MaterialesModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    return 4;
+    return 6;
 }
 
 QVariant MaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -38,6 +38,16 @@ QVariant MaterialesModel::headerData(int section, Qt::Orientation orientation, i
             case 3:
             {
                 return QString("Unidad de medida");
+                break;
+            }
+            case 4:
+            {
+                return QString("Material para usar en planificacion");
+                break;
+            }
+            case 5:
+            {
+                return QString("Es una tarea");
                 break;
             }
             default:

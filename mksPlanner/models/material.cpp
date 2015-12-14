@@ -61,6 +61,12 @@ QVariant Material::internalData(const int column, int role) const
             result = qSharedPointerDynamicCast<Unit>(unit())->name();
         }
         break;
+    case 4:
+        result = _isUsableMaterial;
+        break;
+    case 5:
+        result = _isTask;
+        break;
     default:
         break;
     }

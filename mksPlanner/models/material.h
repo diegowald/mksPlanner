@@ -27,6 +27,10 @@ private:
     QString _name;
     QString _description;
     int _idUnit;
+    bool _isUsableMaterial;
+    // bool isUsableMaterial: true, para poder usarlo como material en tareas, por ejemplo mamposteroa
+    // bool isUsableMaterial: false, es un material para ser usado por otros materiales, como por ejemplo cemento portland
+    bool _isTask; // true, si es tarea.
 };
 
 typedef QSharedPointer<Material> MaterialPtr;
