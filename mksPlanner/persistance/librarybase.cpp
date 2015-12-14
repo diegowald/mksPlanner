@@ -15,12 +15,12 @@ void LibraryBase::save(const QString &filename)
     internalSaveTables(filename);
 }
 
-void LibraryBase::addModel(const QString &name, ModelBase* model)
+void LibraryBase::addModel(Tables name, ModelBase* model)
 {
     _models[name] = model;
 }
 
-ModelBase *LibraryBase::model(const QString &name)
+ModelBase *LibraryBase::model(Tables name)
 {
     return _models[name];
 }

@@ -29,6 +29,8 @@ private slots:
 
     void on_actionVer_Biblioteca_triggered();
 
+    void on_actionTareas_triggered();
+
 private:
     Ui::MainWindow *ui;
     QMdiSubWindow *unitsSubWindow;

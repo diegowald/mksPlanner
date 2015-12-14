@@ -4,18 +4,22 @@
 #include "models/unit.h"
 
 
-Material::Material(int id, const QString &name, const QString &description, int idUnit) : EntityBase(id)
+Material::Material(int id, const QString &name, const QString &description, int idUnit, bool isUsableMaterial, bool isTask) : EntityBase(id)
 {
     _name = name;
     _description = description;
     _idUnit = idUnit;
+    _isUsableMaterial = isUsableMaterial;
+    _isTask = isTask;
 }
 
-Material::Material(int id):EntityBase(id, true)
+Material::Material(int id, bool isTask):EntityBase(id, true)
 {
     _name = "";
     _description = "";
     _idUnit = -1;
+    _isUsableMaterial = false;
+    _isTask = isTask;
 }
 
 bool Material::internalSetData(const int column, const QVariant &value, int role)
@@ -81,10 +85,12 @@ QSqlQuery* Material::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO materiales (name, description, idUnit) VALUES (:nombre, :descripcion, :idUnit);");
+        query->prepare("INSERT INTO materiales (name, description, idUnit, isUsableMaterial, isTask) VALUES (:nombre, :descripcion, :idUnit, :isUsableMaterial, :isTask);");
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
         query->bindValue(":idUnit", _idUnit);
+        query->bindValue(":isUsableMaterial", _isUsableMaterial);
+        query->bindValue(":isTask", _isTask);
         break;
     }
     case EntityStatus::deleted:
@@ -97,10 +103,12 @@ QSqlQuery* Material::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE materiales SET name = :nombre, description = :descripcion, idUnit = :idUnit WHERE id = :id;");
+        query->prepare("UPDATE materiales SET name = :nombre, description = :descripcion, idUnit = :idUnit, isUsableMaterial = :isUsableMaterial, isTask = :isTask WHERE id = :id;");
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
         query->bindValue(":idUnit", _idUnit);
+        query->bindValue(":isUsableMaterial", _isUsableMaterial);
+        query->bindValue(":isTask", _isTask);
         query->bindValue(":id", id());
         break;
     }
@@ -128,5 +136,5 @@ int Material::idUnit() const
 
 EntityBasePtr Material::unit() const
 {
-    return GlobalContainer::instance().materialLibrary()->model("unidades")->getItem(_idUnit);
+    return GlobalContainer::instance().materialLibrary()->model(Tables::Unidades)->getItem(_idUnit);
 }

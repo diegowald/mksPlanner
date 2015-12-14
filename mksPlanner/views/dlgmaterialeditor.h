@@ -2,7 +2,7 @@
 #define DLGMATERIALEDITOR_H
 
 #include <QDialog>
-#include "models/materialesmodel.h"
+#include "models/materialesbasemodel.h"
 #include <QDataWidgetMapper>
 
 
@@ -15,7 +15,7 @@ class dlgMaterialEditor : public QDialog
     Q_OBJECT
 
 public:
-    explicit dlgMaterialEditor(MaterialesModel *model, int row, QWidget *parent = 0);
+    explicit dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidget *parent = 0);
     ~dlgMaterialEditor();
 
 private slots:
@@ -23,7 +23,7 @@ private slots:
 
 private:
     Ui::dlgMaterialEditor *ui;
-    MaterialesModel *_model;
+    MaterialesBaseModel *_model;
     QDataWidgetMapper *_mapper;
 };
 

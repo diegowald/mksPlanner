@@ -19,7 +19,7 @@ protected:
     bool connectToDatabase();
 
     virtual QString _getSQLRead() const = 0;
-    virtual void _loadEntity(QSqlRecord record) = 0;
+    virtual int _loadEntity(QSqlRecord record) = 0;
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database) = 0;
     virtual void markAsSaved() = 0;
 signals:

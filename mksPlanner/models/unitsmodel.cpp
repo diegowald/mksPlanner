@@ -52,13 +52,14 @@ QString UnitsModel::_getSQLRead() const
     return "select * from units;";
 }
 
-void UnitsModel::_loadEntity(QSqlRecord record)
+int UnitsModel::_loadEntity(QSqlRecord record)
 {
     int id = record.value(record.indexOf("id")).toInt();
     QString nombre = record.value(record.indexOf("nombre")).toString();
     QString descripcion = record.value(record.indexOf("descripcion")).toString();
     EntityBasePtr entity = UnitPtr::create(id, nombre, descripcion);
     addEntity(entity);
+    return id;
 }
 
 

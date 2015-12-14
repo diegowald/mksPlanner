@@ -17,9 +17,11 @@ public:
 
     virtual void editEntity(int row);
     void setIdMaterialPadre(int idMaterialPadre);
+
+    virtual EntityBasePtr getItemByRowid(int row);
 protected:
     virtual QString _getSQLRead() const;
-    virtual void _loadEntity(QSqlRecord record);
+    virtual int _loadEntity(QSqlRecord record);
     virtual EntityBasePtr internalCreateEntity(int assignedId);
 
 private:

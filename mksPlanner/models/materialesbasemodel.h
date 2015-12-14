@@ -1,14 +1,14 @@
-#ifndef UNITSMODEL_H
-#define UNITSMODEL_H
+#ifndef MATERIALESBASEMODEL_H
+#define MATERIALESBASEMODEL_H
 
+#include <QObject>
 #include "models/modelbase.h"
 
-
-class UnitsModel : public ModelBase
+class MaterialesBaseModel : public ModelBase
 {
     Q_OBJECT
 public:
-    UnitsModel(QObject *parent = 0);
+    explicit MaterialesBaseModel(bool filterByTask, QObject *parent = 0);
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
@@ -17,13 +17,13 @@ public:
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);
-    virtual EntityBasePtr internalCreateEntity(int assignedId);
 
 signals:
 
 public slots:
 
 private:
+    bool _filterByTask;
 };
 
-#endif // UNITSMODEL_H
+#endif // MATERIALESBASEMODEL_H

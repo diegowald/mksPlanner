@@ -6,6 +6,8 @@ ModelBase::ModelBase(const QString &counterName, QObject *parent) :
     PersisterBase(),
     QAbstractTableModel(parent)
 {
+    _counterName = counterName;
+
 }
 
 int ModelBase::rowCount(const QModelIndex &/*parent*/) const

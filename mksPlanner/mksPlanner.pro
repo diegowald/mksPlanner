@@ -25,13 +25,15 @@ SOURCES += main.cpp\
     persistance/materialslibrary.cpp \
     models/modelbase.cpp \
     views/tablewindow.cpp \
-    models/materialesmodel.cpp \
     models/material.cpp \
     views/dlgmaterialeditor.cpp \
     globalcontainer.cpp \
     models/componentesmateriales.cpp \
     models/componentematerial.cpp \
-    views/dlgcomponentematerial.cpp
+    views/dlgcomponentematerial.cpp \
+    models/materialesbasemodel.cpp \
+    models/materialesmodel.cpp \
+    models/tasksmodel.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -43,13 +45,15 @@ HEADERS  += mainwindow.h \
     persistance/materialslibrary.h \
     models/modelbase.h \
     views/tablewindow.h \
-    models/materialesmodel.h \
     models/material.h \
     views/dlgmaterialeditor.h \
     globalcontainer.h \
     models/componentesmateriales.h \
     models/componentematerial.h \
-    views/dlgcomponentematerial.h
+    views/dlgcomponentematerial.h \
+    models/materialesbasemodel.h \
+    models/materialesmodel.h \
+    models/tasksmodel.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

@@ -71,7 +71,7 @@ QString ComponentesMaterialesModel::_getSQLRead() const
     return "select * from componentesMateriales;";
 }
 
-void ComponentesMaterialesModel::_loadEntity(QSqlRecord record)
+int ComponentesMaterialesModel::_loadEntity(QSqlRecord record)
 {
     int id = record.value(record.indexOf("id")).toInt();
     int idMaterialPadre = record.value("idMaterialPadre").toInt();
@@ -80,6 +80,7 @@ void ComponentesMaterialesModel::_loadEntity(QSqlRecord record)
     EntityBasePtr entity = ComponenteMaterialPtr::create(id, idMaterialPadre, idMaterial, cantidad);
     addEntity(entity);
     classifyEntity(entity);
+    return id;
 }
 
 
@@ -95,6 +96,7 @@ EntityBasePtr ComponentesMaterialesModel::internalCreateEntity(int assignedId)
 {
     EntityBasePtr entity = ComponenteMaterialPtr::create(assignedId);
     qSharedPointerDynamicCast<ComponenteMaterial>(entity)->setIdMaterialPadre(_idMterialPadre);
+    classifyEntity(entity);
     return entity;
 }
 
@@ -115,6 +117,12 @@ void ComponentesMaterialesModel::classifyEntity(EntityBasePtr entity)
     ComponenteMaterialPtr componente = qSharedPointerDynamicCast<ComponenteMaterial>(entity);
     //QMap<int, QMap<int, EntityBasePtr>> _entityMappingByIdMaterialPadre;
     _entityMappingByIdMaterialPadre[componente->idMaterialPadre()].append(entity->id());
+}
+
+EntityBasePtr ComponentesMaterialesModel::getItemByRowid(int row)
+{
+    int id = _entityMappingByIdMaterialPadre[_idMterialPadre].at(row);
+    return _entities[id];
 }
 
 QVariant ComponentesMaterialesModel::data(const QModelIndex &index, int role) const

@@ -5,6 +5,13 @@
 #include <QMap>
 #include "models/modelbase.h"
 
+enum class Tables {
+    Unidades,
+    Materiales,
+    ComponentesMateriales,
+    Tareas
+};
+
 class LibraryBase : public QObject
 {
     Q_OBJECT
@@ -13,13 +20,13 @@ public:
 
     void save(const QString &filename);
     void load(const QString &filename);
-    ModelBase* model(const QString &name);
+    ModelBase* model(Tables name);
 
 protected:
     virtual void internalSaveTables(const QString &filename) = 0;
     virtual void internalLoadTables(const QString &filename) = 0;
 
-    void addModel(const QString &name, ModelBase* model);
+    void addModel(Tables name, ModelBase* model);
 
 
 signals:
@@ -27,7 +34,7 @@ signals:
 public slots:
 
 private:
-    QMap<QString, ModelBase*> _models;
+    QMap<Tables, ModelBase*> _models;
 };
 
 #endif // LIBRARYBASE_H

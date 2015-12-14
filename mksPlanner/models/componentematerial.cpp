@@ -2,6 +2,7 @@
 #include <QVariant>
 #include "globalcontainer.h"
 #include "models/material.h"
+#include "models/unit.h"
 
 ComponenteMaterial::ComponenteMaterial(int id) : EntityBase(id, true)
 {
@@ -100,7 +101,19 @@ QVariant ComponenteMaterial::internalData(const int column, int role) const
         }
         case 5:
         {
-            result = QString("Unidad de medida");
+            if (_idMaterial == -1)
+                result = "";
+            else
+            {
+                MaterialPtr mat = qSharedPointerDynamicCast<Material>(material());
+                if (mat.isNull())
+                    result = "";
+                else
+                {
+                    UnitPtr unit = qSharedPointerDynamicCast<Unit>(mat->unit());
+                    result = unit.isNull() ? "" : unit->name();
+                }
+            }
             break;
         }
         default:
@@ -156,7 +169,7 @@ int ComponenteMaterial::idMaterialPadre() const
 
 EntityBasePtr ComponenteMaterial::materialPadre() const
 {
-    return GlobalContainer::instance().materialLibrary()->model("materiales")->getItem(_idMaterialPadre);
+    return GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItem(_idMaterialPadre);
 }
 
 int ComponenteMaterial::idMaterial() const
@@ -166,7 +179,7 @@ int ComponenteMaterial::idMaterial() const
 
 EntityBasePtr ComponenteMaterial::material() const
 {
-    return GlobalContainer::instance().materialLibrary()->model("materiales")->getItem(_idMaterial);
+    return GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItem(_idMaterial);
 }
 
 double ComponenteMaterial::cantidad() const

@@ -31,7 +31,7 @@ void MainWindow::on_actionUnidades_triggered()
     if (unitsSubWindow == NULL)
     {
         TableWindow *frm = new TableWindow();
-        frm->setModel(GlobalContainer::instance().materialLibrary()->model("unidades"));
+        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Unidades));
         unitsSubWindow = ui->mdiArea->addSubWindow(frm);
         frm->setAttribute(Qt::WA_DeleteOnClose);
         unitsSubWindow->show();
@@ -61,7 +61,17 @@ void MainWindow::on_actionSave_Material_Library_triggered()
 void MainWindow::on_actionVer_Biblioteca_triggered()
 {
     TableWindow* frm = new TableWindow();
-    frm->setModel(GlobalContainer::instance().materialLibrary()->model("materiales"));
+    frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Materiales));
     QMdiSubWindow* subWindow = ui->mdiArea->addSubWindow(frm);
     frm->setAttribute(Qt::WA_DeleteOnClose);
-    subWindow->show();}
+    subWindow->show();
+}
+
+void MainWindow::on_actionTareas_triggered()
+{
+    TableWindow *frm = new TableWindow();
+    frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Tareas));
+    QMdiSubWindow* subWindow = ui->mdiArea->addSubWindow(frm);
+    frm->setAttribute(Qt::WA_DeleteOnClose);
+    subWindow->show();
+}

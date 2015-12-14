@@ -8,8 +8,8 @@ class Material : public EntityBase
 {
     Q_OBJECT
 public:
-    explicit Material(int id, const QString &name, const QString &description, int idUnit);
-    explicit Material(int id);
+    explicit Material(int id, const QString &name, const QString &description, int idUnit, bool isUsableMaterial, bool isTask);
+    explicit Material(int id, bool isTask);
     virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
 

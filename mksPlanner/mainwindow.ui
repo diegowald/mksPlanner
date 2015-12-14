@@ -29,7 +29,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProyecto">
@@ -48,6 +48,9 @@
     <addaction name="actionVer_Biblioteca"/>
     <addaction name="separator"/>
     <addaction name="actionUnidades"/>
+    <addaction name="separator"/>
+    <addaction name="actionTareas"/>
+    <addaction name="separator"/>
     <addaction name="actionSave_Material_Library"/>
    </widget>
    <widget class="QMenu" name="menuProveedores">
@@ -99,6 +102,11 @@
   <action name="actionSave_Material_Library">
    <property name="text">
     <string>Save Material Library</string>
+   </property>
+  </action>
+  <action name="actionTareas">
+   <property name="text">
+    <string>Tareas</string>
    </property>
   </action>
  </widget>

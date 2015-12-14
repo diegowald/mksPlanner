@@ -6,12 +6,12 @@
 #include "views/tablewindow.h"
 #include "models/componentesmateriales.h"
 
-dlgMaterialEditor::dlgMaterialEditor(MaterialesModel *model, int row, QWidget *parent) :
+dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::dlgMaterialEditor)
 {
     ui->setupUi(this);
-    ui->cboUnit->setModel(GlobalContainer::instance().materialLibrary()->model("unidades"));
+    ui->cboUnit->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Unidades));
     //falta hacer que se vea el nombre de la unidad y que se seleccione el id
     ui->cboUnit->setModelColumn(1);
     _model = model;
@@ -25,9 +25,9 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesModel *model, int row, QWidget *p
 
     TableWindow *t = new TableWindow(this);
     //QWidget* w = QWidget::createWindowContainer(t->window(), this);
-    EntityBasePtr entity = GlobalContainer::instance().materialLibrary()->model("materiales")->getItemByRowid(row);
-    dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model("componentesMateriales"))->setIdMaterialPadre(entity->id());
-    t->setModel(GlobalContainer::instance().materialLibrary()->model("componentesMateriales"));
+    EntityBasePtr entity = _model->getItemByRowid(row);
+    dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales))->setIdMaterialPadre(entity->id());
+    t->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
 
     ui->frame->layout()->addWidget(t->window());
 }

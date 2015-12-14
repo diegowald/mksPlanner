@@ -1,20 +1,21 @@
-#ifndef MATERIALESMODEL_H
-#define MATERIALESMODEL_H
+#ifndef TASKSMODEL_H
+#define TASKSMODEL_H
 
 #include <QObject>
 #include "models/materialesbasemodel.h"
 
-class MaterialesModel : public MaterialesBaseModel
+class TasksModel : public MaterialesBaseModel
 {
     Q_OBJECT
 public:
-    explicit MaterialesModel(QObject *parent = 0);
+    explicit TasksModel(QObject *parent = 0);
 
 protected:
     virtual EntityBasePtr internalCreateEntity(int assignedId);
+
 signals:
 
 public slots:
 };
 
-#endif // MATERIALESMODEL_H
+#endif // TASKSMODEL_H

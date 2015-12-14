@@ -5,6 +5,7 @@
 #include "persistance/materialslibrary.h"
 #include <QMap>
 
+
 class GlobalContainer : public QObject
 {
     Q_OBJECT
