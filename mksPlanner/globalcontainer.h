@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "persistance/materialslibrary.h"
+#include <QMap>
 
 class GlobalContainer : public QObject
 {
@@ -12,6 +13,10 @@ public:
 
     void setMaterialLibrary(MaterialsLibrary *materialLibrary);
     MaterialsLibrary *materialLibrary() const;
+
+    int counter(const QString &counterName);
+    void setCounter(const QString &counterName, int value);
+
 private:
     explicit GlobalContainer(QObject *parent = 0);
 
@@ -23,6 +28,7 @@ private:
     static GlobalContainer _instance;
 
     MaterialsLibrary *_materialLibrary;
+    QMap<QString, int> _counter;
 };
 
 #endif // GLOBALCONTAINER_H

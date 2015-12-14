@@ -5,7 +5,7 @@
 #include "views/dlguniteditor.h"
 
 UnitsModel::UnitsModel(QObject *parent) :
-    ModelBase(parent)
+    ModelBase("units", parent)
 {
 }
 

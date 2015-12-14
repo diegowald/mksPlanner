@@ -12,7 +12,7 @@ class ModelBase : public QAbstractTableModel, virtual public PersisterBase
 {
     Q_OBJECT
 public:
-    explicit ModelBase(QObject *parent = 0);
+    explicit ModelBase(const QString &counterName, QObject *parent = 0);
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
@@ -42,7 +42,7 @@ public slots:
 protected:
     QList<int> _entityMapping;
     QMap<int, EntityBasePtr> _entities;
-    int _maxId;
+    QString _counterName;
 };
 
 

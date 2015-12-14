@@ -2,7 +2,7 @@
 #include "models/componentematerial.h"
 #include "views/dlgcomponentematerial.h"
 
-ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent) : ModelBase(parent)
+ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent) : ModelBase("componentesMateriales", parent)
 {
 
 }

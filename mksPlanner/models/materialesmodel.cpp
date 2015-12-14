@@ -2,7 +2,7 @@
 #include "models/material.h"
 #include "views/dlgmaterialeditor.h"
 
-MaterialesModel::MaterialesModel(QObject *parent) : ModelBase(parent)
+MaterialesModel::MaterialesModel(QObject *parent) : ModelBase("matreiales", parent)
 {
 
 }

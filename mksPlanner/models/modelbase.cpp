@@ -1,12 +1,11 @@
 #include "modelbase.h"
 #include <QDebug>
+#include "globalcontainer.h"
 
-
-ModelBase::ModelBase(QObject *parent) :
+ModelBase::ModelBase(const QString &counterName, QObject *parent) :
     PersisterBase(),
     QAbstractTableModel(parent)
 {
-    _maxId = -1;
 }
 
 int ModelBase::rowCount(const QModelIndex &/*parent*/) const
@@ -107,15 +106,19 @@ void ModelBase::addEntity(EntityBasePtr entity)
 {
     _entities[entity->id()] = entity;
     _entityMapping.append(entity->id());
-    _maxId = (_maxId < entity->id()) ? entity->id() : _maxId;
+    int maxId = GlobalContainer::instance().counter(_counterName);
+    maxId = (maxId < entity->id()) ? entity->id() : maxId;
+    GlobalContainer::instance().setCounter(_counterName, maxId);
 }
 
 EntityBasePtr ModelBase::createEntity()
 {
-    if (_maxId == -1)
-        _maxId = 0;
-    _maxId++;
-    EntityBasePtr entity = internalCreateEntity(_maxId);
+    int maxId = GlobalContainer::instance().counter(_counterName);
+    if (maxId == -1)
+        maxId = 0;
+    maxId++;
+    EntityBasePtr entity = internalCreateEntity(maxId);
+    GlobalContainer::instance().setCounter(_counterName, maxId);
     return entity;
 }
 
