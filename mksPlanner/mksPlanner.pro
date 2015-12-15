@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     models/proveedor.cpp \
     views/dlgeditproveedor.cpp \
     models/tareasproveedoresmodel.cpp \
-    models/taskproveedor.cpp
+    models/taskproveedor.cpp \
+    views/dlgtaskproveedoredit.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -63,14 +64,16 @@ HEADERS  += mainwindow.h \
     models/proveedor.h \
     views/dlgeditproveedor.h \
     models/tareasproveedoresmodel.h \
-    models/taskproveedor.h
+    models/taskproveedor.h \
+    views/dlgtaskproveedoredit.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
     views/tablewindow.ui \
     views/dlgmaterialeditor.ui \
     views/dlgcomponentematerial.ui \
-    views/dlgeditproveedor.ui
+    views/dlgeditproveedor.ui \
+    views/dlgtaskproveedoredit.ui
 
 CONFIG += mobility
 MOBILITY = 

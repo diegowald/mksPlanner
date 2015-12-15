@@ -5,7 +5,7 @@
 #include "globalcontainer.h"
 #include "persistance/materialslibrary.h"
 #include "views/tablewindow.h"
-#include "models/componentesmateriales.h"
+#include "models/tareasproveedoresmodel.h"
 
 dlgEditProveedor::dlgEditProveedor(ProveedoresModel *model, int row, QWidget *parent) :
     QDialog(parent),
@@ -24,8 +24,8 @@ dlgEditProveedor::dlgEditProveedor(ProveedoresModel *model, int row, QWidget *pa
     TableWindow *t = new TableWindow(this);
     //QWidget* w = QWidget::createWindowContainer(t->window(), this);
     EntityBasePtr entity = _model->getItemByRowid(row);
-//    dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales))->setIdMaterialPadre(entity->id());
-//    t->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
+    dynamic_cast<TareasProveedoresModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::TareasProveedores))->setIdProveedor(entity->id());
+    t->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::TareasProveedores));
 
     ui->frame->layout()->addWidget(t->window());
 }
