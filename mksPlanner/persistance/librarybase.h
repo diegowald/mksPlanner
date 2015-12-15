@@ -9,7 +9,9 @@ enum class Tables {
     Unidades,
     Materiales,
     ComponentesMateriales,
-    Tareas
+    Tareas,
+    Proveedores,
+    TareasProveedores
 };
 
 class LibraryBase : public QObject

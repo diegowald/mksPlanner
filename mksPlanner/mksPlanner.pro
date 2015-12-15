@@ -34,7 +34,11 @@ SOURCES += main.cpp\
     models/materialesbasemodel.cpp \
     models/materialesmodel.cpp \
     models/tasksmodel.cpp \
-    models/proveedoresmodel.cpp
+    models/proveedoresmodel.cpp \
+    models/proveedor.cpp \
+    views/dlgeditproveedor.cpp \
+    models/tareasproveedoresmodel.cpp \
+    models/taskproveedor.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -55,13 +59,18 @@ HEADERS  += mainwindow.h \
     models/materialesbasemodel.h \
     models/materialesmodel.h \
     models/tasksmodel.h \
-    models/proveedoresmodel.h
+    models/proveedoresmodel.h \
+    models/proveedor.h \
+    views/dlgeditproveedor.h \
+    models/tareasproveedoresmodel.h \
+    models/taskproveedor.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
     views/tablewindow.ui \
     views/dlgmaterialeditor.ui \
-    views/dlgcomponentematerial.ui
+    views/dlgcomponentematerial.ui \
+    views/dlgeditproveedor.ui
 
 CONFIG += mobility
 MOBILITY = 

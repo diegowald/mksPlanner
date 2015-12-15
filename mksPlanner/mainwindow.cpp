@@ -75,3 +75,12 @@ void MainWindow::on_actionTareas_triggered()
     frm->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->show();
 }
+
+void MainWindow::on_actionListado_triggered()
+{
+    TableWindow *frm = new TableWindow();
+    frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Proveedores));
+    QMdiSubWindow* subWindow = ui->mdiArea->addSubWindow(frm);
+    frm->setAttribute(Qt::WA_DeleteOnClose);
+    subWindow->show();
+}

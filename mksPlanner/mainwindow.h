@@ -31,6 +31,8 @@ private slots:
 
     void on_actionTareas_triggered();
 
+    void on_actionListado_triggered();
+
 private:
     Ui::MainWindow *ui;
     QMdiSubWindow *unitsSubWindow;

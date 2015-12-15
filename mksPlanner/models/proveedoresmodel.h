@@ -9,10 +9,15 @@ class ProveedoresModel : public ModelBase
     Q_OBJECT
 public:
     explicit ProveedoresModel(QObject *parent = 0);
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
-signals:
+    virtual void editEntity(int row);
 
-public slots:
+protected:
+    virtual QString _getSQLRead() const;
+    virtual int _loadEntity(QSqlRecord record);
+    virtual EntityBasePtr internalCreateEntity(int assignedId);
 };
 
 #endif // PROVEEDORESMODEL_H

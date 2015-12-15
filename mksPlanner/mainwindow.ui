@@ -29,7 +29,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>27</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProyecto">
@@ -57,6 +57,7 @@
     <property name="title">
      <string>Proveedores</string>
     </property>
+    <addaction name="actionListado"/>
    </widget>
    <widget class="QMenu" name="menuPlanificacion">
     <property name="title">
@@ -107,6 +108,11 @@
   <action name="actionTareas">
    <property name="text">
     <string>Tareas</string>
+   </property>
+  </action>
+  <action name="actionListado">
+   <property name="text">
+    <string>Listado</string>
    </property>
   </action>
  </widget>
