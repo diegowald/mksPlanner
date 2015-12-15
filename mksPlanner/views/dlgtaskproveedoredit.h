@@ -14,7 +14,7 @@ class dlgTaskProveedorEdit : public QDialog
     Q_OBJECT
 
 public:
-    explicit dlgTaskProveedorEdit(TareasProveedoresModel *model, int selectedEntity, QWidget *parent = 0);
+    explicit dlgTaskProveedorEdit(int idProveedor, TareasProveedoresModel *model, int selectedEntity, QWidget *parent = 0);
     ~dlgTaskProveedorEdit();
 
 private slots:
@@ -23,7 +23,7 @@ private slots:
 private:
     Ui::dlgTaskProveedorEdit *ui;
     TareasProveedoresModel *_model;
-    QDataWidgetMapper *_mapper;
+    EntityBasePtr _entity;
 };
 
 #endif // DLGTASKPROVEEDOREDIT_H

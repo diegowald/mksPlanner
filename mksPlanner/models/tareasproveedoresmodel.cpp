@@ -1,5 +1,7 @@
 #include "tareasproveedoresmodel.h"
 #include "models/taskproveedor.h"
+#include "views/dlgtaskproveedoredit.h"
+
 
 TareasProveedoresModel::TareasProveedoresModel(QObject *parent) : ModelBase("tareasProveedores", parent)
 {
@@ -90,8 +92,8 @@ EntityBasePtr TareasProveedoresModel::internalCreateEntity(int assignedId)
 
 void TareasProveedoresModel::editEntity(int row)
 {
-/*    dlgComponenteMaterial dlg(_idMterialPadre, this, row);
-    dlg.exec();*/
+    dlgTaskProveedorEdit dlg(_idProveedor, this, row);
+    dlg.exec();
 }
 
 void TareasProveedoresModel::setIdProveedor(int idProveedor)

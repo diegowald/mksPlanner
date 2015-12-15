@@ -140,5 +140,5 @@ int TaskProveedor::idTask() const
 
 EntityBasePtr TaskProveedor::task() const
 {
-    return GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItem(_idTask);
+    return GlobalContainer::instance().materialLibrary()->model(Tables::Tareas)->getItem(_idTask);
 }
