@@ -27,6 +27,9 @@ public:
     void setModified();
 
     EntityBasePtr createEntity();
+    void removeEntity(QWidget *parent, int row);
+    bool removeRow(int row, const QModelIndex &parent);
+
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);
     virtual void markAsSaved();

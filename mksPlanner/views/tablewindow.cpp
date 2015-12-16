@@ -1,11 +1,13 @@
 #include "tablewindow.h"
 #include "ui_tablewindow.h"
+#include <QModelIndex>
 
-TableWindow::TableWindow(QWidget *parent) :
+TableWindow::TableWindow(const QString &windowTitle, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::TableWindow)
 {
     ui->setupUi(this);
+    setWindowTitle(windowTitle);
 }
 
 TableWindow::~TableWindow()
@@ -47,10 +49,12 @@ void TableWindow::on_actionCreate_triggered()
 
 void TableWindow::on_actionEdit_triggered()
 {
-
+    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+    _model->editEntity(index.row());
 }
 
 void TableWindow::on_actionRemove_triggered()
 {
-
+    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+    _model->removeEntity(this->window(), index.row());
 }

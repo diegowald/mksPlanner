@@ -21,7 +21,7 @@ dlgEditProveedor::dlgEditProveedor(ProveedoresModel *model, int row, QWidget *pa
     _mapper->setCurrentIndex(row);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-    TableWindow *t = new TableWindow(this);
+    TableWindow *t = new TableWindow("", this);
     //QWidget* w = QWidget::createWindowContainer(t->window(), this);
     EntityBasePtr entity = _model->getItemByRowid(row);
     dynamic_cast<TareasProveedoresModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::TareasProveedores))->setIdProveedor(entity->id());

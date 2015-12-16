@@ -23,7 +23,7 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
     _mapper->setCurrentIndex(row);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-    TableWindow *t = new TableWindow(this);
+    TableWindow *t = new TableWindow("", this);
     //QWidget* w = QWidget::createWindowContainer(t->window(), this);
     EntityBasePtr entity = _model->getItemByRowid(row);
     dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales))->setIdMaterialPadre(entity->id());

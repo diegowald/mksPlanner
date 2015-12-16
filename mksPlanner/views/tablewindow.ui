@@ -43,21 +43,44 @@
    <addaction name="actionRemove"/>
   </widget>
   <action name="actionCreate">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/add</normaloff>:/tableWindow/tools/add</iconset>
+   </property>
    <property name="text">
-    <string>Create</string>
+    <string>Nuevo</string>
+   </property>
+   <property name="toolTip">
+    <string>Nuevo elemento</string>
    </property>
   </action>
   <action name="actionEdit">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/edit</normaloff>:/tableWindow/tools/edit</iconset>
+   </property>
    <property name="text">
-    <string>Edit</string>
+    <string>Editar</string>
+   </property>
+   <property name="toolTip">
+    <string>Edita el elemento seleccionado</string>
    </property>
   </action>
   <action name="actionRemove">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/remove</normaloff>:/tableWindow/tools/remove</iconset>
+   </property>
    <property name="text">
-    <string>Remove</string>
+    <string>Eliminar</string>
+   </property>
+   <property name="toolTip">
+    <string>Elimina el elemento seleccionado</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../mksplanner.qrc"/>
+ </resources>
  <connections/>
 </ui>

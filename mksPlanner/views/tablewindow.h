@@ -14,7 +14,7 @@ class TableWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit TableWindow(QWidget *parent = 0);
+    explicit TableWindow(const QString &windowTitle, QWidget *parent = 0);
     ~TableWindow();
 
     void setModel(ModelBase* model);

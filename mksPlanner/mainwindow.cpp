@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     loadMaterialLibrary();
-    unitsSubWindow = NULL;
 }
 
 MainWindow::~MainWindow()
@@ -26,19 +25,37 @@ void MainWindow::on_actionSalir_triggered()
     close();
 }
 
-void MainWindow::on_actionUnidades_triggered()
+bool MainWindow::showSubWindow(const QString &windowName)
 {
-    if (unitsSubWindow == NULL)
+    QMdiSubWindow *subWindow = ui->mdiArea->findChild<QMdiSubWindow*>(windowName);
+    if (subWindow == NULL)
     {
-        TableWindow *frm = new TableWindow();
-        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Unidades));
-        unitsSubWindow = ui->mdiArea->addSubWindow(frm);
-        frm->setAttribute(Qt::WA_DeleteOnClose);
-        unitsSubWindow->show();
+        return false;
     }
     else
     {
-        unitsSubWindow->activateWindow();
+        subWindow->activateWindow();
+        subWindow->show();
+        subWindow->setFocus();
+        return true;
+    }
+}
+
+void MainWindow::createSubWindow(const QString &windowName, QWidget *widget)
+{
+    QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
+    subWindow->setObjectName(windowName);
+    widget->setAttribute(Qt::WA_DeleteOnClose);
+    subWindow->show();
+}
+
+void MainWindow::on_actionUnidades_triggered()
+{
+    if (!showSubWindow("Unidades de medida"))
+    {
+        TableWindow *frm = new TableWindow("Unidades de medida");
+        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Unidades));
+        createSubWindow("Unidades de medida", frm);
     }
 }
 
@@ -60,27 +77,29 @@ void MainWindow::on_actionSave_Material_Library_triggered()
 
 void MainWindow::on_actionVer_Biblioteca_triggered()
 {
-    TableWindow* frm = new TableWindow();
-    frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Materiales));
-    QMdiSubWindow* subWindow = ui->mdiArea->addSubWindow(frm);
-    frm->setAttribute(Qt::WA_DeleteOnClose);
-    subWindow->show();
+    if (!showSubWindow("Biblioteca de Materiales"))
+    {
+        TableWindow* frm = new TableWindow("Biblioteca de materiales");
+        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Materiales));
+        createSubWindow("Biblioteca de Materiales", frm);
+    }
 }
-
 void MainWindow::on_actionTareas_triggered()
 {
-    TableWindow *frm = new TableWindow();
-    frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Tareas));
-    QMdiSubWindow* subWindow = ui->mdiArea->addSubWindow(frm);
-    frm->setAttribute(Qt::WA_DeleteOnClose);
-    subWindow->show();
+    if (!showSubWindow("Tareas"))
+    {
+        TableWindow *frm = new TableWindow("Tareas");
+        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Tareas));
+        createSubWindow("Tareas", frm);
+    }
 }
 
 void MainWindow::on_actionListado_triggered()
 {
-    TableWindow *frm = new TableWindow();
-    frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Proveedores));
-    QMdiSubWindow* subWindow = ui->mdiArea->addSubWindow(frm);
-    frm->setAttribute(Qt::WA_DeleteOnClose);
-    subWindow->show();
+    if (!showSubWindow("Proveedores"))
+    {
+        TableWindow *frm = new TableWindow("Proveedores");
+        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Proveedores));
+        createSubWindow("Proveedores", frm);
+    }
 }

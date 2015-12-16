@@ -1,6 +1,8 @@
 #include "modelbase.h"
 #include <QDebug>
 #include "globalcontainer.h"
+#include <QMessageBox>
+
 
 ModelBase::ModelBase(const QString &counterName, QObject *parent) :
     PersisterBase(),
@@ -66,13 +68,13 @@ bool ModelBase::insertRows(int row, int count, const QModelIndex &parent)
     return success;
 }
 
-/*
-bool UnitsModel::removeRow(int row, const QModelIndex &parent)
+
+bool ModelBase::removeRow(int row, const QModelIndex &parent)
 {
     _entities[_entityMapping.at(row)]->deleteEntity();
     _entityMapping.removeAt(row);
 }
-*/
+
 
 
 QList<QSqlQuery*> ModelBase::getQueries(QSqlDatabase &database)
@@ -122,6 +124,15 @@ EntityBasePtr ModelBase::createEntity()
     EntityBasePtr entity = internalCreateEntity(maxId);
     GlobalContainer::instance().setCounter(_counterName, maxId);
     return entity;
+}
+
+void ModelBase::removeEntity(QWidget *parent, int row)
+{
+    EntityBasePtr entity = getItemByRowid(row);
+    if (QMessageBox::question(parent, "Confirmar borrar elemento", "Desea borrar el elemento?", QMessageBox::StandardButton::Yes, QMessageBox::No) == QMessageBox::Yes)
+    {
+        removeRow(row, QModelIndex());
+    }
 }
 
 EntityBasePtr ModelBase::getItem(int id)

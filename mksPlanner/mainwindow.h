@@ -17,6 +17,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private:
+    bool showSubWindow(const QString &windowName);
+    void createSubWindow(const QString &windowName, QWidget *widget);
+
 private slots:
     void on_actionSalir_triggered();
 
@@ -35,7 +39,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QMdiSubWindow *unitsSubWindow;
 };
 
 #endif // MAINWINDOW_H

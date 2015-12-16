@@ -9,8 +9,8 @@ dlgUnitEditor::dlgUnitEditor(UnitsModel *model, int selectedEntity, QWidget *par
     ui->setupUi(this);
     _mapper = new QDataWidgetMapper(this);
     _mapper->setModel(_model);
-    _mapper->addMapping(ui->txtNombre, 0);
-    _mapper->addMapping(ui->txtDescripcion, 1);
+    _mapper->addMapping(ui->txtNombre, 1);
+    _mapper->addMapping(ui->txtDescripcion, 2);
     _mapper->setCurrentIndex(selectedEntity);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 }

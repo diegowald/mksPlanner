@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/tableWindow/tools">
+        <file alias="add">ic_add_circle_outline_black_24dp_2x.png</file>
+        <file alias="edit">ic_mode_edit_black_24dp_2x.png</file>
+        <file alias="remove">ic_remove_circle_outline_black_24dp_2x.png</file>
+    </qresource>
+</RCC>
