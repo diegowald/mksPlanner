@@ -103,3 +103,8 @@ void MainWindow::on_actionListado_triggered()
         createSubWindow("Proveedores", frm);
     }
 }
+
+void MainWindow::on_actionCalculadora_de_materiales_triggered()
+{
+
+}

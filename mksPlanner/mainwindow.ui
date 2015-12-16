@@ -61,6 +61,7 @@
      <string>Materiales</string>
     </property>
     <addaction name="actionVer_Biblioteca"/>
+    <addaction name="actionCalculadora_de_materiales"/>
     <addaction name="separator"/>
     <addaction name="actionUnidades"/>
     <addaction name="separator"/>
@@ -128,6 +129,11 @@
   <action name="actionListado">
    <property name="text">
     <string>Listado</string>
+   </property>
+  </action>
+  <action name="actionCalculadora_de_materiales">
+   <property name="text">
+    <string>Calculadora de materiales</string>
    </property>
   </action>
  </widget>
