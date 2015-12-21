@@ -19,6 +19,9 @@ public:
     QString desription() const;
     int idUnit() const;
     EntityBasePtr unit() const;
+
+    QSet<int> materialsComposedBy();
+
 signals:
 
 public slots:

@@ -35,6 +35,11 @@ QVariant ModelBase::data(const QModelIndex &index, int role) const
     }
 }
 
+QVariant ModelBase::data(const int id, const int column, int role) const
+{
+    return _entities[id]->data(column, role);
+}
+
 bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (role == Qt::EditRole)
@@ -157,4 +162,9 @@ void ModelBase::setModified()
 {
     QModelIndex idx;
     emit dataChanged(idx, idx);
+}
+
+QSet<int> ModelBase::ids()
+{
+    return QSet<int>::fromList(_entities.keys());
 }

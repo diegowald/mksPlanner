@@ -1,6 +1,8 @@
 #include "componentesmateriales.h"
 #include "models/componentematerial.h"
 #include "views/dlgcomponentematerial.h"
+#include <QSet>
+#include "models/material.h"
 
 ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent) : ModelBase("componentesMateriales", parent)
 {
@@ -151,4 +153,30 @@ bool ComponentesMaterialesModel::setData(const QModelIndex &index, const QVarian
         entity->setData(index.column(), value, role);
     }
     return true;
+}
+
+QSet<int> ComponentesMaterialesModel::compuestosPor(int idMaterial)
+{
+    QSet<int> result;
+
+    // 1er parte: busco los padres que tienen como componente idMaterial.
+    foreach (EntityBasePtr entity, _entities)
+    {
+        ComponenteMaterialPtr componente = qSharedPointerDynamicCast<ComponenteMaterial>(entity);
+        if (componente->idMaterial() == idMaterial)
+        {
+            result.insert(componente->idMaterialPadre());
+        }
+    }
+
+    // 2da parte: busco los abuelos
+    QSet<int> ids;
+    foreach (int idPadre, result)
+    {
+        ids.unite(compuestosPor(idPadre));
+    }
+
+    // 3er parte combino todos los resultados
+    result.unite(ids);
+    return result;
 }

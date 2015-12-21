@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     models/tareasproveedoresmodel.cpp \
     models/taskproveedor.cpp \
     views/dlgtaskproveedoredit.cpp \
-    views/calculadoramaterialeswindow.cpp
+    views/calculadoramaterialeswindow.cpp \
+    models/validmaterialfiltermodel.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -67,7 +68,8 @@ HEADERS  += mainwindow.h \
     models/tareasproveedoresmodel.h \
     models/taskproveedor.h \
     views/dlgtaskproveedoredit.h \
-    views/calculadoramaterialeswindow.h
+    views/calculadoramaterialeswindow.h \
+    models/validmaterialfiltermodel.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

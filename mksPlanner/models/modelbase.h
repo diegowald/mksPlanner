@@ -15,6 +15,7 @@ public:
     explicit ModelBase(const QString &counterName, QObject *parent = 0);
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    virtual QVariant data(const int id, const int column, int role = Qt::DisplayRole) const;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -29,6 +30,8 @@ public:
     EntityBasePtr createEntity();
     void removeEntity(QWidget *parent, int row);
     bool removeRow(int row, const QModelIndex &parent);
+
+    virtual QSet<int> ids();
 
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);

@@ -2,7 +2,8 @@
 #include <QVariant>
 #include "globalcontainer.h"
 #include "models/unit.h"
-
+#include <QSet>
+#include "models/componentesmateriales.h"
 
 Material::Material(int id, const QString &name, const QString &description, int idUnit, bool isUsableMaterial, bool isTask) : EntityBase(id)
 {
@@ -137,4 +138,10 @@ int Material::idUnit() const
 EntityBasePtr Material::unit() const
 {
     return GlobalContainer::instance().materialLibrary()->model(Tables::Unidades)->getItem(_idUnit);
+}
+
+QSet<int> Material::materialsComposedBy()
+{
+    ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
+    return model->compuestosPor(id());
 }

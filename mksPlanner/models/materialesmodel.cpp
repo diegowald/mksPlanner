@@ -10,3 +10,4 @@ EntityBasePtr MaterialesModel::internalCreateEntity(int assignedId)
 {
     return MaterialPtr::create(assignedId, false);
 }
+

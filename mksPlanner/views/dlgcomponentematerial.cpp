@@ -7,13 +7,17 @@
 #include "models/componentematerial.h"
 #include "models/material.h"
 #include "models/unit.h"
+#include "models/validmaterialfiltermodel.h"
 
 dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMaterialesModel *model, int row, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::dlgComponenteMaterial)
 {
     ui->setupUi(this);
-    ui->cboMaterial->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Materiales));
+
+    ui->cboMaterial->setModel(new ValidMaterialFilterModel(idMaterialPadre,
+                GlobalContainer::instance().materialLibrary()->model(Tables::Materiales),
+                                                           this));
     ui->cboMaterial->setModelColumn(1);
     _model = model;
 

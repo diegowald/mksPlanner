@@ -19,6 +19,9 @@ public:
     void setIdMaterialPadre(int idMaterialPadre);
 
     virtual EntityBasePtr getItemByRowid(int row);
+
+    QSet<int> compuestosPor(int idMaterial);
+
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);
