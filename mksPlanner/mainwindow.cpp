@@ -6,6 +6,7 @@
 #include "persistance/materialslibrary.h"
 #include "globalcontainer.h"
 #include "views/dlgeditproject.h"
+#include "persistance/projectlibrary.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -69,6 +70,9 @@ void MainWindow::loadMaterialLibrary()
 
 void MainWindow::loadProject(const QString &fileName)
 {
+    ProjectLibrary * projectLibrary = new ProjectLibrary();
+    projectLibrary->load(fileName);
+    GlobalContainer::instance().setProjectLibrary(projectLibrary);
 }
 
 void MainWindow::on_actionSave_Material_Library_triggered()

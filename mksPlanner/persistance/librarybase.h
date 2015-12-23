@@ -11,7 +11,8 @@ enum class Tables {
     ComponentesMateriales,
     Tareas,
     Proveedores,
-    TareasProveedores
+    TareasProveedores,
+    Projectos
 };
 
 class LibraryBase : public QObject

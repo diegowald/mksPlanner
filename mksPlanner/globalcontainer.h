@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "persistance/materialslibrary.h"
+#include "persistance/projectlibrary.h"
 #include <QMap>
 
 
@@ -14,6 +15,9 @@ public:
 
     void setMaterialLibrary(MaterialsLibrary *materialLibrary);
     MaterialsLibrary *materialLibrary() const;
+
+    void setProjectLibrary(ProjectLibrary *projectLibrary);
+    ProjectLibrary *projectLibrary() const;
 
     int counter(const QString &counterName);
     void setCounter(const QString &counterName, int value);
@@ -30,6 +34,7 @@ private:
 
     MaterialsLibrary *_materialLibrary;
     QMap<QString, int> _counter;
+    ProjectLibrary *_projectLibrary;
 };
 
 #endif // GLOBALCONTAINER_H

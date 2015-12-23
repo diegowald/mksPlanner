@@ -42,7 +42,9 @@ SOURCES += main.cpp\
     views/dlgtaskproveedoredit.cpp \
     views/calculadoramaterialeswindow.cpp \
     models/validmaterialfiltermodel.cpp \
-    views/dlgeditproject.cpp
+    views/dlgeditproject.cpp \
+    persistance/projectlibrary.cpp \
+    models/proyectomodel.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -71,7 +73,9 @@ HEADERS  += mainwindow.h \
     views/dlgtaskproveedoredit.h \
     views/calculadoramaterialeswindow.h \
     models/validmaterialfiltermodel.h \
-    views/dlgeditproject.h
+    views/dlgeditproject.h \
+    persistance/projectlibrary.h \
+    models/proyectomodel.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
