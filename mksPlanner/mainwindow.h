@@ -39,6 +39,8 @@ private slots:
 
     void on_actionCalculadora_de_materiales_triggered();
 
+    void on_actionNuevo_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

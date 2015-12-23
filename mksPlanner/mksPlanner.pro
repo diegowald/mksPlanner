@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     models/taskproveedor.cpp \
     views/dlgtaskproveedoredit.cpp \
     views/calculadoramaterialeswindow.cpp \
-    models/validmaterialfiltermodel.cpp
+    models/validmaterialfiltermodel.cpp \
+    views/dlgeditproject.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -69,7 +70,8 @@ HEADERS  += mainwindow.h \
     models/taskproveedor.h \
     views/dlgtaskproveedoredit.h \
     views/calculadoramaterialeswindow.h \
-    models/validmaterialfiltermodel.h
+    models/validmaterialfiltermodel.h \
+    views/dlgeditproject.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
@@ -78,7 +80,8 @@ FORMS    += mainwindow.ui \
     views/dlgcomponentematerial.ui \
     views/dlgeditproveedor.ui \
     views/dlgtaskproveedoredit.ui \
-    views/calculadoramaterialeswindow.ui
+    views/calculadoramaterialeswindow.ui \
+    views/dlgeditproject.ui
 
 CONFIG += mobility
 MOBILITY = 

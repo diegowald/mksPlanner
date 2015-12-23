@@ -36,6 +36,7 @@ void TableWindow::on_actionCreate_triggered()
     if (!_model->insertRow(index.row() + 1, index.parent()))
         return;
 
+    _model->editEntity(index.row() + 1);
 /*    updateActions();
 
     for (int column = 0; column < model->columnCount(index.parent()); ++column) {

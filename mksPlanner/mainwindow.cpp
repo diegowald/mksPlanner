@@ -5,6 +5,7 @@
 #include <qmdisubwindow.h>
 #include "persistance/materialslibrary.h"
 #include "globalcontainer.h"
+#include "views/dlgeditproject.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -107,4 +108,10 @@ void MainWindow::on_actionListado_triggered()
 void MainWindow::on_actionCalculadora_de_materiales_triggered()
 {
 
+}
+
+void MainWindow::on_actionNuevo_triggered()
+{
+    dlgEditProject dlg(this);
+    dlg.exec();
 }
