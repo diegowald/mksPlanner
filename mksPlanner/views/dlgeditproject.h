@@ -2,6 +2,8 @@
 #define DLGEDITPROJECT_H
 
 #include <QDialog>
+#include "models/proyectomodel.h"
+
 
 namespace Ui {
 class dlgEditProject;
@@ -12,7 +14,7 @@ class dlgEditProject : public QDialog
     Q_OBJECT
 
 public:
-    explicit dlgEditProject(QWidget *parent = 0);
+    explicit dlgEditProject(ProyectoModel*model, int row, QWidget *parent = 0);
     ~dlgEditProject();
 
 private:

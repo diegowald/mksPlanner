@@ -116,6 +116,6 @@ void MainWindow::on_actionCalculadora_de_materiales_triggered()
 
 void MainWindow::on_actionNuevo_triggered()
 {
-    dlgEditProject dlg(this);
-    dlg.exec();
+/*    dlgEditProject dlg(this);
+    dlg.exec();*/
 }

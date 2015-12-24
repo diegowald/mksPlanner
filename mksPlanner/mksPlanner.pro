@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     models/validmaterialfiltermodel.cpp \
     views/dlgeditproject.cpp \
     persistance/projectlibrary.cpp \
-    models/proyectomodel.cpp
+    models/proyectomodel.cpp \
+    models/proyecto.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -75,7 +76,8 @@ HEADERS  += mainwindow.h \
     models/validmaterialfiltermodel.h \
     views/dlgeditproject.h \
     persistance/projectlibrary.h \
-    models/proyectomodel.h
+    models/proyectomodel.h \
+    models/proyecto.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

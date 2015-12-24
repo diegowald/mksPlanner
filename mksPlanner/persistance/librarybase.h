@@ -12,7 +12,7 @@ enum class Tables {
     Tareas,
     Proveedores,
     TareasProveedores,
-    Projectos
+    Proyectos
 };
 
 class LibraryBase : public QObject
