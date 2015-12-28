@@ -5,8 +5,9 @@
 #include <qmdisubwindow.h>
 #include "persistance/materialslibrary.h"
 #include "globalcontainer.h"
-#include "views/dlgeditproject.h"
 #include "persistance/projectlibrary.h"
+#include "views/projectwindow.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -118,4 +119,10 @@ void MainWindow::on_actionNuevo_triggered()
 {
 /*    dlgEditProject dlg(this);
     dlg.exec();*/
+    if (!showSubWindow("Proyecto"))
+    {
+        ProjectWindow *frm = new ProjectWindow("Proyecto");
+        frm->setModel(GlobalContainer::instance().projectLibrary()->model(Tables::Proyectos));
+        createSubWindow("Proyecto", frm);
+    }
 }

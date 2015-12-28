@@ -45,7 +45,8 @@ SOURCES += main.cpp\
     views/dlgeditproject.cpp \
     persistance/projectlibrary.cpp \
     models/proyectomodel.cpp \
-    models/proyecto.cpp
+    models/proyecto.cpp \
+    views/projectwindow.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -77,7 +78,8 @@ HEADERS  += mainwindow.h \
     views/dlgeditproject.h \
     persistance/projectlibrary.h \
     models/proyectomodel.h \
-    models/proyecto.h
+    models/proyecto.h \
+    views/projectwindow.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
@@ -87,7 +89,8 @@ FORMS    += mainwindow.ui \
     views/dlgeditproveedor.ui \
     views/dlgtaskproveedoredit.ui \
     views/calculadoramaterialeswindow.ui \
-    views/dlgeditproject.ui
+    views/dlgeditproject.ui \
+    views/projectwindow.ui
 
 CONFIG += mobility
 MOBILITY = 
