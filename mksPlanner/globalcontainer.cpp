@@ -4,7 +4,6 @@ GlobalContainer GlobalContainer::_instance;
 
 GlobalContainer::GlobalContainer(QObject *parent) : QObject(parent)
 {
-    _projectLibrary = NULL;
     _materialLibrary = NULL;
 }
 
@@ -27,18 +26,9 @@ MaterialsLibrary *GlobalContainer::materialLibrary() const
     return _materialLibrary;
 }
 
-void GlobalContainer::setProjectLibrary(ProjectLibrary *projectLibrary)
+ProjectLibrary *GlobalContainer::projectLibrary(int id) const
 {
-    if (_projectLibrary != NULL)
-    {
-        _projectLibrary->deleteLater();
-    }
-    _projectLibrary = projectLibrary;
-}
-
-ProjectLibrary *GlobalContainer::projectLibrary() const
-{
-    return _projectLibrary;
+    return _projectLibraries.at(id);
 }
 
 
@@ -50,4 +40,20 @@ int GlobalContainer::counter(const QString &counterName)
 void GlobalContainer::setCounter(const QString &counterName, int value)
 {
     _counter[counterName] = value;
+}
+
+int GlobalContainer::createProject()
+{
+    int id = _projectLibraries.count();
+    ProjectLibrary *project = new ProjectLibrary(this);
+    _projectLibraries.append(project);
+    return id;
+}
+
+int GlobalContainer::loadProject(const QString &filename)
+{
+    int id = createProject();
+    ProjectLibrary *project = projectLibrary(id);
+    project->load(filename);
+    return id;
 }

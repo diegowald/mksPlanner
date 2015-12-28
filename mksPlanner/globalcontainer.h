@@ -16,8 +16,9 @@ public:
     void setMaterialLibrary(MaterialsLibrary *materialLibrary);
     MaterialsLibrary *materialLibrary() const;
 
-    void setProjectLibrary(ProjectLibrary *projectLibrary);
-    ProjectLibrary *projectLibrary() const;
+    int createProject();
+    int loadProject(const QString &filename);
+    ProjectLibrary *projectLibrary(int id) const;
 
     int counter(const QString &counterName);
     void setCounter(const QString &counterName, int value);
@@ -34,7 +35,7 @@ private:
 
     MaterialsLibrary *_materialLibrary;
     QMap<QString, int> _counter;
-    ProjectLibrary *_projectLibrary;
+    QList<ProjectLibrary *> _projectLibraries;
 };
 
 #endif // GLOBALCONTAINER_H

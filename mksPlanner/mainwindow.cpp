@@ -71,9 +71,13 @@ void MainWindow::loadMaterialLibrary()
 
 void MainWindow::loadProject(const QString &fileName)
 {
-    ProjectLibrary * projectLibrary = new ProjectLibrary();
-    projectLibrary->load(fileName);
-    GlobalContainer::instance().setProjectLibrary(projectLibrary);
+    if (!showSubWindow("Proyecto"))
+    {
+        int id = GlobalContainer::instance().loadProject(fileName);
+        ProjectWindow *frm = new ProjectWindow("Proyecto");
+        frm->setModel(GlobalContainer::instance().projectLibrary(id)->model(Tables::Proyectos));
+        createSubWindow("Proyecto", frm);
+    }
 }
 
 void MainWindow::on_actionSave_Material_Library_triggered()
@@ -121,8 +125,9 @@ void MainWindow::on_actionNuevo_triggered()
     dlg.exec();*/
     if (!showSubWindow("Proyecto"))
     {
+        int tmpId = GlobalContainer::instance().createProject();
         ProjectWindow *frm = new ProjectWindow("Proyecto");
-        frm->setModel(GlobalContainer::instance().projectLibrary()->model(Tables::Proyectos));
+        frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
         createSubWindow("Proyecto", frm);
     }
 }
