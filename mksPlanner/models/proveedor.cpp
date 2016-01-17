@@ -7,10 +7,14 @@ Proveedor::Proveedor(int id) : EntityBase(id, true)
 
 }
 
-Proveedor::Proveedor(int id, const QString &name, const QString &telefono) : EntityBase(id)
+Proveedor::Proveedor(int id, const QString &name, const QString &contacto,
+                     const QString &email, const QString &telefono, const QString &direccion) : EntityBase(id)
 {
     _name = name;
+    _contacto = contacto;
+    _email = email;
     _telefono = telefono;
+    _direccion = direccion;
 }
 
 bool Proveedor::internalSetData(const int column, const QVariant &value, int role)
@@ -24,7 +28,19 @@ bool Proveedor::internalSetData(const int column, const QVariant &value, int rol
         return true;
         break;
     case 2:
+        _contacto = value.toString();
+        return true;
+        break;
+    case 3:
+        _email = value.toString();
+        return true;
+        break;
+    case 4:
         _telefono = value.toString();
+        return true;
+        break;
+    case 5:
+        _direccion = value.toString();
         return true;
         break;
     default:
@@ -44,7 +60,16 @@ QVariant Proveedor::internalData(const int column, int role) const
         return _name;
         break;
     case 2:
+        return _contacto;
+        break;
+    case 3:
+        return _email;
+        break;
+    case 4:
         return _telefono;
+        break;
+    case 5:
+        return _direccion;
         break;
     default:
         return QVariant();
@@ -60,9 +85,12 @@ QSqlQuery* Proveedor::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO proveedores (name, telefono) VALUES (:name, :telefono);");
+        query->prepare("INSERT INTO proveedores (name, contacto, email, telefono, direccion) VALUES (:name, :contacto, :email, :telefono, :direccion);");
         query->bindValue(":name", _name);
+        query->bindValue(":contacto", _contacto);
+        query->bindValue(":email", _email);
         query->bindValue(":telefono", _telefono);
+        query->bindValue(":direccion", _direccion);
         break;
     }
     case EntityStatus::deleted:
@@ -75,9 +103,12 @@ QSqlQuery* Proveedor::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE proveedores SET name = :name, telefono = :telefono WHERE id = :id;");
+        query->prepare("UPDATE proveedores SET name = :name, contacto = :contacto, email = :email, telefono = :telefono, direccion = :direccion WHERE id = :id;");
         query->bindValue(":name", _name);
+        query->bindValue(":contacto", _contacto);
+        query->bindValue(":email", _email);
         query->bindValue(":telefono", _telefono);
+        query->bindValue(":direccion", _direccion);
         query->bindValue(":id", id());
         break;
     }
@@ -93,7 +124,22 @@ QString Proveedor::name() const
     return _name;
 }
 
+QString Proveedor::contacto() const
+{
+    return _contacto;
+}
+
+QString Proveedor::email() const
+{
+    return _email;
+}
+
 QString Proveedor::telefono() const
 {
     return _telefono;
+}
+
+QString Proveedor::direccion() const
+{
+    return _direccion;
 }

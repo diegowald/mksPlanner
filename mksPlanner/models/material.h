@@ -20,6 +20,8 @@ public:
     int idUnit() const;
     EntityBasePtr unit() const;
 
+    void setUnit(int idUnit);
+
     QSet<int> materialsComposedBy();
 
 signals:

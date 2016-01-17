@@ -50,7 +50,7 @@
      <item row="0" column="1">
       <widget class="QLineEdit" name="txtNombre"/>
      </item>
-     <item row="1" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Telefono</string>
@@ -60,8 +60,47 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="3" column="1">
       <widget class="QLineEdit" name="txtTelefono"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Contacto</string>
+       </property>
+       <property name="buddy">
+        <cstring>txtContacto</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>eMail</string>
+       </property>
+       <property name="buddy">
+        <cstring>txtEmail</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Direccion</string>
+       </property>
+       <property name="buddy">
+        <cstring>txtDireccion</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="txtContacto"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="txtEmail"/>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="txtDireccion"/>
      </item>
     </layout>
    </item>
@@ -104,6 +143,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtNombre</tabstop>
+  <tabstop>txtContacto</tabstop>
+  <tabstop>txtEmail</tabstop>
+  <tabstop>txtTelefono</tabstop>
+  <tabstop>txtDireccion</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -113,8 +159,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>250</x>
+     <y>286</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>

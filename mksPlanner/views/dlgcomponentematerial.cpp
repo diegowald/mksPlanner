@@ -7,7 +7,6 @@
 #include "models/componentematerial.h"
 #include "models/material.h"
 #include "models/unit.h"
-#include "models/validmaterialfiltermodel.h"
 
 dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMaterialesModel *model, int row, QWidget *parent) :
     QDialog(parent),
@@ -15,9 +14,10 @@ dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMat
 {
     ui->setupUi(this);
 
-    ui->cboMaterial->setModel(new ValidMaterialFilterModel(idMaterialPadre,
-                GlobalContainer::instance().materialLibrary()->model(Tables::Materiales),
-                                                           this));
+    _materialsModel = new ValidMaterialFilterModel(idMaterialPadre,
+                                                   GlobalContainer::instance().materialLibrary()->model(Tables::Materiales),
+                                                   this);
+    ui->cboMaterial->setModel(_materialsModel);
     ui->cboMaterial->setModelColumn(1);
     _model = model;
 
@@ -67,7 +67,7 @@ void dlgMaterialEditor::on_buttonBox_accepted()
 void dlgComponenteMaterial::on_buttonBox_accepted()
 {
     ComponenteMaterialPtr componente = qSharedPointerDynamicCast<ComponenteMaterial>(_entity);
-    MaterialPtr material = qSharedPointerDynamicCast<Material>(GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItemByRowid(ui->cboMaterial->currentIndex()));
+    MaterialPtr material = qSharedPointerDynamicCast<Material>(_materialsModel->getItemByRowid(ui->cboMaterial->currentIndex()));
     componente->setIdMaterial(!material.isNull() ? material->id() : -1);
     componente->setCantidad(ui->txtCantidad->text().toDouble());
     _model->setModified();
@@ -78,7 +78,7 @@ void dlgComponenteMaterial::on_cboMaterial_currentIndexChanged(int index)
 {
     QString materialDescription = "";
     QString unidad = "";
-    EntityBasePtr entity = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItemByRowid(ui->cboMaterial->currentIndex());
+    EntityBasePtr entity = _materialsModel->getItemByRowid(ui->cboMaterial->currentIndex());
     if (!entity.isNull())
     {
         MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);

@@ -145,3 +145,9 @@ QSet<int> Material::materialsComposedBy()
     ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
     return model->compuestosPor(id());
 }
+
+void Material::setUnit(int idUnit)
+{
+    _idUnit = idUnit;
+    updateStatus(EntityStatus::modified);
+}

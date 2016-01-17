@@ -12,6 +12,7 @@ public:
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     virtual int columnCount(const QModelIndex &parent) const;
 
+    virtual EntityBasePtr getItemByRowid(int row);
 public slots:
 
 signals:

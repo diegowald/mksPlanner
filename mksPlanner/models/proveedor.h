@@ -11,7 +11,8 @@ class Proveedor : public EntityBase
 public:
     explicit Proveedor(int id);
 
-    explicit Proveedor(int id, const QString &name, const QString &telefono);
+    explicit Proveedor(int id, const QString &name, const QString &contacto,
+                       const QString &email, const QString &telefono, const QString &direccion);
 
     virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
@@ -19,14 +20,20 @@ public:
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
     QString name() const;
+    QString contacto() const;
+    QString email() const;
     QString telefono() const;
+    QString direccion() const;
 signals:
 
 public slots:
 
 private:
     QString _name;
+    QString _contacto;
+    QString _email;
     QString _telefono;
+    QString _direccion;
 };
 
 typedef QSharedPointer<Proveedor> ProveedorPtr;

@@ -5,6 +5,8 @@
 #include "models/componentesmateriales.h"
 #include <QMap>
 #include <QVariant>
+#include "models/validmaterialfiltermodel.h"
+
 
 namespace Ui {
 class dlgComponenteMaterial;
@@ -26,6 +28,7 @@ private slots:
 private:
     Ui::dlgComponenteMaterial *ui;
     ComponentesMaterialesModel *_model;
+    ValidMaterialFilterModel *_materialsModel;
     EntityBasePtr _entity;
 };
 

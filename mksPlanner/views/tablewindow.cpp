@@ -30,13 +30,14 @@ void TableWindow::on_tableView_doubleClicked(const QModelIndex &index)
 
 void TableWindow::on_actionCreate_triggered()
 {
+    int rowCount = ui->tableView->model()->rowCount();
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
 
 
-    if (!_model->insertRow(index.row() + 1, index.parent()))
+    if (!_model->insertRow(rowCount /*index.row() + 1*/, index.parent()))
         return;
 
-    _model->editEntity(index.row() + 1);
+    _model->editEntity(rowCount/*index.row() + 1*/);
 /*    updateActions();
 
     for (int column = 0; column < model->columnCount(index.parent()); ++column) {

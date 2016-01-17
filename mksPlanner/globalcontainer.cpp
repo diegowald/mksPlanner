@@ -1,15 +1,25 @@
 #include "globalcontainer.h"
 
-GlobalContainer GlobalContainer::_instance;
+GlobalContainer *GlobalContainer::_instance;
 
 GlobalContainer::GlobalContainer(QObject *parent) : QObject(parent)
 {
     _materialLibrary = NULL;
 }
 
+void GlobalContainer::initialize()
+{
+    _instance = new GlobalContainer();
+}
+
+void GlobalContainer::finalize()
+{
+    _instance->deleteLater();
+}
+
 GlobalContainer &GlobalContainer::instance()
 {
-    return _instance;
+    return *_instance;
 }
 
 void GlobalContainer::setMaterialLibrary(MaterialsLibrary *materialLibrary)

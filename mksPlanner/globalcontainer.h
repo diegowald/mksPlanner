@@ -12,6 +12,8 @@ class GlobalContainer : public QObject
     Q_OBJECT
 public:
     static GlobalContainer &instance();
+    static void initialize();
+    static void finalize();
 
     void setMaterialLibrary(MaterialsLibrary *materialLibrary);
     MaterialsLibrary *materialLibrary() const;
@@ -31,7 +33,7 @@ signals:
 public slots:
 
 private:
-    static GlobalContainer _instance;
+    static GlobalContainer *_instance;
 
     MaterialsLibrary *_materialLibrary;
     QMap<QString, int> _counter;

@@ -25,6 +25,7 @@ private:
     Ui::dlgMaterialEditor *ui;
     MaterialesBaseModel *_model;
     QDataWidgetMapper *_mapper;
+    int _selectedRow;
 };
 
 #endif // DLGMATERIALEDITOR_H

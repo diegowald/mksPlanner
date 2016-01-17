@@ -17,7 +17,11 @@ dlgEditProveedor::dlgEditProveedor(ProveedoresModel *model, int row, QWidget *pa
     _mapper = new QDataWidgetMapper(this);
     _mapper->setModel(_model);
     _mapper->addMapping(ui->txtNombre, 1);
-    _mapper->addMapping(ui->txtTelefono, 2);
+    _mapper->addMapping(ui->txtContacto, 2);
+    _mapper->addMapping(ui->txtEmail, 3);
+    _mapper->addMapping(ui->txtTelefono, 4);
+    _mapper->addMapping(ui->txtDireccion, 5);
+
     _mapper->setCurrentIndex(row);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
