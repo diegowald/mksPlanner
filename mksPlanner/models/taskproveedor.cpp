@@ -142,3 +142,9 @@ EntityBasePtr TaskProveedor::task() const
 {
     return GlobalContainer::instance().materialLibrary()->model(Tables::Tareas)->getItem(_idTask);
 }
+
+QString TaskProveedor::toDebugString()
+{
+    return QString("id: %1, idProveedor: %2, idTask: %3")
+            .arg(id()).arg(_idProveedor).arg(_idTask);
+}

@@ -14,6 +14,8 @@ public:
     virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
 
+    virtual QString toDebugString();
+
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
     int idMaterialPadre() const;

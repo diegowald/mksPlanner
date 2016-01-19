@@ -98,3 +98,8 @@ QString Unit::description() const
 {
     return _description;
 }
+
+QString Unit::toDebugString()
+{
+    return QString("id: %1, name: %2").arg(id()).arg(_name);
+}

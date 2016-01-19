@@ -8,6 +8,8 @@
 #include "models/material.h"
 #include "models/unit.h"
 
+#include <QDebug>
+
 dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMaterialesModel *model, int row, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::dlgComponenteMaterial)
@@ -17,6 +19,7 @@ dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMat
     _materialsModel = new ValidMaterialFilterModel(idMaterialPadre,
                                                    GlobalContainer::instance().materialLibrary()->model(Tables::Materiales),
                                                    this);
+    ui->cboMaterial->setDuplicatesEnabled(true);
     ui->cboMaterial->setModel(_materialsModel);
     ui->cboMaterial->setModelColumn(1);
     _model = model;
@@ -76,6 +79,7 @@ void dlgComponenteMaterial::on_buttonBox_accepted()
 
 void dlgComponenteMaterial::on_cboMaterial_currentIndexChanged(int index)
 {
+    qDebug() << ui->cboMaterial->count();
     QString materialDescription = "";
     QString unidad = "";
     EntityBasePtr entity = _materialsModel->getItemByRowid(ui->cboMaterial->currentIndex());

@@ -39,6 +39,7 @@ public:
 
     void updateStatus(EntityStatus newStatus);
 
+    virtual QString toDebugString() = 0;
 
 signals:
 

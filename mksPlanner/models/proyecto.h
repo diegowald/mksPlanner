@@ -8,13 +8,14 @@ class Proyecto : public EntityBase
 {
     Q_OBJECT
 public:
-    explicit Proyecto(int id, const QString &propietario, const QString &direccion, const QString &email, const QString &telefono, QObject *parent = 0);
-    explicit Proyecto(int id, QObject *parent = 0);
+    explicit Proyecto(int id, const QString &propietario, const QString &direccion, const QString &email, const QString &telefono);
+    explicit Proyecto(int id);
 
     virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
+    virtual QString toDebugString();
 signals:
 
 public slots:

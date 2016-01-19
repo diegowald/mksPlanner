@@ -151,3 +151,10 @@ void Material::setUnit(int idUnit)
     _idUnit = idUnit;
     updateStatus(EntityStatus::modified);
 }
+
+QString Material::toDebugString()
+{
+    return QString("id: %1, name: %2, description: %3, idUnit: %4, isUsableMaterial: %5, isTask: %6")
+            .arg(id()).arg(_name).arg(_description).arg(_idUnit).arg(_isUsableMaterial).arg(_isTask);
+
+}

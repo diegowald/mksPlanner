@@ -2,7 +2,7 @@
 #include <QVariant>
 
 
-Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion, const QString &email, const QString &telefono, QObject *parent)
+Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion, const QString &email, const QString &telefono)
     :EntityBase(id)
 {
     _propietario = propietario;
@@ -12,7 +12,7 @@ Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion,
 }
 
 
-Proyecto::Proyecto(int id, QObject *parent) : EntityBase(id, true)
+Proyecto::Proyecto(int id) : EntityBase(id, true)
 {
 
 }
@@ -123,3 +123,8 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
     return query;
 }
 
+QString Proyecto::toDebugString()
+{
+    return QString("id: %1, propietario: %2, direccion: %3, email: %4, telefono: %5")
+            .arg(id()).arg(_propietario).arg(_direccion).arg(_email).arg(_telefono);
+}

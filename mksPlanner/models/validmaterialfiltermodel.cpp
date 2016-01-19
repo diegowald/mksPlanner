@@ -2,7 +2,7 @@
 #include "models/componentematerial.h"
 #include "models/material.h"
 #include <QSet>
-
+#include <QDebug>
 
 ValidMaterialFilterModel::ValidMaterialFilterModel(int idMaterial, ModelBase *model, QObject *parent) : QAbstractTableModel(parent)
 {
@@ -47,5 +47,8 @@ int ValidMaterialFilterModel::columnCount(const QModelIndex &parent) const
 EntityBasePtr ValidMaterialFilterModel::getItemByRowid(int row)
 {
     int id = _mapping.at(row);
-    return _model->getItem(id);
+    qDebug() << "row: " << row << ", id: " << id;
+    EntityBasePtr entity = _model->getItem(id);
+    qDebug() << "entity: " << entity->toDebugString();
+    return entity;
 }

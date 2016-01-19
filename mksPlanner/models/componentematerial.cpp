@@ -186,3 +186,9 @@ double ComponenteMaterial::cantidad() const
 {
     return _cantidad;
 }
+
+QString ComponenteMaterial::toDebugString()
+{
+    return QString("id: %1, idMaterialPadre: %2, idMaterial: %3, cantidad: %4").arg(id())
+            .arg(_idMaterialPadre).arg(_idMaterial).arg(_cantidad);
+}

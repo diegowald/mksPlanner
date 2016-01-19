@@ -143,3 +143,9 @@ QString Proveedor::direccion() const
 {
     return _direccion;
 }
+
+QString Proveedor::toDebugString()
+{
+    return QString("id: %1, name: %2, contacto: %3, email: %4, telefono: %5, direccion: %6")
+            .arg(id()).arg(_name).arg(_contacto).arg(_email).arg(_telefono).arg(_direccion);
+}
