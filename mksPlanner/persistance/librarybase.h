@@ -12,6 +12,7 @@ enum class Tables {
     Tareas,
     Proveedores,
     TareasProveedores,
+    RubrosProveedores,
     Proyectos
 };
 
@@ -28,10 +29,12 @@ public:
 protected:
     virtual void internalSaveTables(const QString &filename) = 0;
     virtual void internalLoadTables(const QString &filename) = 0;
+    virtual void updateFromVersion(const QString &filename, const QString &versionInfo) = 0;
 
     void addModel(Tables name, ModelBase* model);
 
-
+private:
+    void checkVersion(const QString &filename);
 signals:
 
 public slots:

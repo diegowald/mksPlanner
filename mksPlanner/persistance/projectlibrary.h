@@ -14,6 +14,7 @@ public:
 protected:
     virtual void internalSaveTables(const QString &filename);
     virtual void internalLoadTables(const QString &filename);
+    virtual void updateFromVersion(const QString &filename, const QString &versionInfo);
 
 signals:
 

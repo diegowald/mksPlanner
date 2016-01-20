@@ -2,14 +2,16 @@
 #include <QVariant>
 #include "globalcontainer.h"
 #include "models/unit.h"
+#include "models/rubro.h"
 #include <QSet>
 #include "models/componentesmateriales.h"
 
-Material::Material(int id, const QString &name, const QString &description, int idUnit, bool isUsableMaterial, bool isTask) : EntityBase(id)
+Material::Material(int id, const QString &name, const QString &description, int idUnit, int idRubro, bool isUsableMaterial, bool isTask) : EntityBase(id)
 {
     _name = name;
     _description = description;
     _idUnit = idUnit;
+    _idRubro = idRubro;
     _isUsableMaterial = isUsableMaterial;
     _isTask = isTask;
 }
@@ -19,6 +21,7 @@ Material::Material(int id, bool isTask):EntityBase(id, true)
     _name = "";
     _description = "";
     _idUnit = -1;
+    _idRubro = -1;
     _isUsableMaterial = false;
     _isTask = isTask;
 }
@@ -38,6 +41,10 @@ bool Material::internalSetData(const int column, const QVariant &value, int role
         break;
     case 3:
         _idUnit = value.toInt();
+        result = true;
+        break;
+    case 4:
+        _idRubro = value.toInt();
         result = true;
         break;
     default:
@@ -67,9 +74,14 @@ QVariant Material::internalData(const int column, int role) const
         }
         break;
     case 4:
+        if (!rubro().isNull())
+        {
+            result = qSharedPointerDynamicCast<Rubro>(rubro())->name();
+        }
+    case 5:
         result = _isUsableMaterial;
         break;
-    case 5:
+    case 6:
         result = _isTask;
         break;
     default:
@@ -86,10 +98,11 @@ QSqlQuery* Material::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO materiales (name, description, idUnit, isUsableMaterial, isTask) VALUES (:nombre, :descripcion, :idUnit, :isUsableMaterial, :isTask);");
+        query->prepare("INSERT INTO materiales (name, description, idUnit, idRubro, isUsableMaterial, isTask) VALUES (:nombre, :descripcion, :idUnit, :idRubro, :isUsableMaterial, :isTask);");
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
         query->bindValue(":idUnit", _idUnit);
+        query->bindValue(":idRubro", _idRubro);
         query->bindValue(":isUsableMaterial", _isUsableMaterial);
         query->bindValue(":isTask", _isTask);
         break;
@@ -104,10 +117,11 @@ QSqlQuery* Material::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE materiales SET name = :nombre, description = :descripcion, idUnit = :idUnit, isUsableMaterial = :isUsableMaterial, isTask = :isTask WHERE id = :id;");
+        query->prepare("UPDATE materiales SET name = :nombre, description = :descripcion, idUnit = :idUnit, idRubro = :idRubro, isUsableMaterial = :isUsableMaterial, isTask = :isTask WHERE id = :id;");
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
         query->bindValue(":idUnit", _idUnit);
+        query->bindValue(":idRubro", _idRubro);
         query->bindValue(":isUsableMaterial", _isUsableMaterial);
         query->bindValue(":isTask", _isTask);
         query->bindValue(":id", id());
@@ -140,6 +154,16 @@ EntityBasePtr Material::unit() const
     return GlobalContainer::instance().materialLibrary()->model(Tables::Unidades)->getItem(_idUnit);
 }
 
+int Material::idRubro() const
+{
+    return _idRubro;
+}
+
+EntityBasePtr Material::rubro() const
+{
+    return GlobalContainer::instance().materialLibrary()->model(Tables::RubrosProveedores)->getItem(_idRubro);
+}
+
 QSet<int> Material::materialsComposedBy()
 {
     ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
@@ -152,10 +176,16 @@ void Material::setUnit(int idUnit)
     updateStatus(EntityStatus::modified);
 }
 
+void Material::setRubro(int idRubro)
+{
+    _idRubro = idRubro;
+    updateStatus(EntityStatus::modified);
+}
+
 QString Material::toDebugString()
 {
-    return QString("id: %1, name: %2, description: %3, idUnit: %4, isUsableMaterial: %5, isTask: %6")
-            .arg(id()).arg(_name).arg(_description).arg(_idUnit).arg(_isUsableMaterial).arg(_isTask);
+    return QString("id: %1, name: %2, description: %3, idUnit: %4, idRubro: %5, isUsableMaterial: %6, isTask: %7")
+            .arg(id()).arg(_name).arg(_description).arg(_idUnit).arg(_idRubro).arg(_isUsableMaterial).arg(_isTask);
 
 }
 

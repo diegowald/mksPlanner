@@ -46,7 +46,12 @@ SOURCES += main.cpp\
     persistance/projectlibrary.cpp \
     models/proyectomodel.cpp \
     models/proyecto.cpp \
-    views/projectwindow.cpp
+    views/projectwindow.cpp \
+    models/rubro.cpp \
+    models/rubrosmodel.cpp \
+    views/dlgeditrubro.cpp \
+    persistance/updater.cpp \
+    persistance/materialesupdater.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -79,7 +84,12 @@ HEADERS  += mainwindow.h \
     persistance/projectlibrary.h \
     models/proyectomodel.h \
     models/proyecto.h \
-    views/projectwindow.h
+    views/projectwindow.h \
+    models/rubro.h \
+    models/rubrosmodel.h \
+    views/dlgeditrubro.h \
+    persistance/updater.h \
+    persistance/materialesupdater.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
@@ -90,7 +100,8 @@ FORMS    += mainwindow.ui \
     views/dlgtaskproveedoredit.ui \
     views/calculadoramaterialeswindow.ui \
     views/dlgeditproject.ui \
-    views/projectwindow.ui
+    views/projectwindow.ui \
+    views/dlgeditrubro.ui
 
 CONFIG += mobility
 MOBILITY = 

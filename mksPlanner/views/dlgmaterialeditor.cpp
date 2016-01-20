@@ -7,7 +7,7 @@
 #include "models/componentesmateriales.h"
 #include "models/unit.h"
 #include "models/material.h"
-
+#include "models/rubro.h"
 
 dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidget *parent) :
     QDialog(parent),
@@ -17,8 +17,12 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
 
     ui->cboUnit->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Unidades));
 
+    ui->cboRubro->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::RubrosProveedores));
+
     //falta hacer que se vea el nombre de la unidad y que se seleccione el id
     ui->cboUnit->setModelColumn(1);
+    ui->cboRubro->setModelColumn(1);
+
     _model = model;
     _mapper = new QDataWidgetMapper(this);
     _mapper->setModel(_model);
@@ -42,6 +46,13 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
     {
         ui->cboUnit->setCurrentIndex(ui->cboUnit->findText(unit->name()));
     }
+
+    RubroPtr rubro = qSharedPointerDynamicCast<Rubro>(material->rubro());
+    if (!rubro.isNull())
+    {
+        ui->cboRubro->setCurrentIndex(ui->cboRubro->findText(rubro->name()));
+    }
+
     _mapper->setCurrentIndex(row);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
     _selectedRow = row;
@@ -75,6 +86,16 @@ void dlgMaterialEditor::on_buttonBox_accepted()
         MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);
         material->setUnit(unit->id());
     }
+
+    entity = GlobalContainer::instance().materialLibrary()->model(Tables::RubrosProveedores)->getItemByRowid(ui->cboRubro->currentIndex());
+    if (!entity.isNull())
+    {
+        RubroPtr rubro = qSharedPointerDynamicCast<Rubro>(entity);
+        entity = _model->getItemByRowid(_selectedRow);
+        MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);
+        material->setRubro(rubro->id());
+    }
+
     _mapper->submit();
     close();
 }

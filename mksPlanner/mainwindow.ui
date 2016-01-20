@@ -44,7 +44,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProyecto">
@@ -60,10 +60,11 @@
     <property name="title">
      <string>Materiales</string>
     </property>
-    <addaction name="actionVer_Biblioteca"/>
-    <addaction name="actionCalculadora_de_materiales"/>
-    <addaction name="separator"/>
     <addaction name="actionUnidades"/>
+    <addaction name="actionRubros"/>
+    <addaction name="actionVer_Biblioteca"/>
+    <addaction name="separator"/>
+    <addaction name="actionCalculadora_de_materiales"/>
     <addaction name="separator"/>
     <addaction name="actionTareas"/>
     <addaction name="separator"/>
@@ -108,7 +109,13 @@
   </action>
   <action name="actionVer_Biblioteca">
    <property name="text">
-    <string>Ver Biblioteca</string>
+    <string>Tareas y Materiales...</string>
+   </property>
+   <property name="iconText">
+    <string>Materiales...</string>
+   </property>
+   <property name="toolTip">
+    <string>Listado de Materiales</string>
    </property>
   </action>
   <action name="actionUnidades">
@@ -143,6 +150,14 @@
    </property>
    <property name="text">
     <string>Calculadora de materiales</string>
+   </property>
+  </action>
+  <action name="actionRubros">
+   <property name="text">
+    <string>Rubros...</string>
+   </property>
+   <property name="iconText">
+    <string>Rubros...</string>
    </property>
   </action>
  </widget>

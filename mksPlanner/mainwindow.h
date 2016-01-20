@@ -41,6 +41,8 @@ private slots:
 
     void on_actionNuevo_triggered();
 
+    void on_actionRubros_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

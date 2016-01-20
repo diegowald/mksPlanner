@@ -8,7 +8,7 @@ class Material : public EntityBase
 {
     Q_OBJECT
 public:
-    explicit Material(int id, const QString &name, const QString &description, int idUnit, bool isUsableMaterial, bool isTask);
+    explicit Material(int id, const QString &name, const QString &description, int idUnit, int idRubro, bool isUsableMaterial, bool isTask);
     explicit Material(int id, bool isTask);
     virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
@@ -22,10 +22,13 @@ public:
     QString desription() const;
     int idUnit() const;
     EntityBasePtr unit() const;
+    int idRubro() const;
+    EntityBasePtr rubro() const;
 
     bool isTask() const;
 
     void setUnit(int idUnit);
+    void setRubro(int idRubro);
 
     QSet<int> materialsComposedBy();
 
@@ -37,6 +40,7 @@ private:
     QString _name;
     QString _description;
     int _idUnit;
+    int _idRubro;
     bool _isUsableMaterial;
     // bool isUsableMaterial: true, para poder usarlo como material en tareas, por ejemplo mamposteroa
     // bool isUsableMaterial: false, es un material para ser usado por otros materiales, como por ejemplo cemento portland

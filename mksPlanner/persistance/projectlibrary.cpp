@@ -1,5 +1,6 @@
 #include "projectlibrary.h"
 #include "models/proyectomodel.h"
+#include "persistance/materialesupdater.h"
 
 ProjectLibrary::ProjectLibrary(QObject *parent) : LibraryBase(parent)
 {
@@ -14,4 +15,10 @@ void ProjectLibrary::internalSaveTables(const QString &filename)
 void ProjectLibrary::internalLoadTables(const QString &filename)
 {
     model(Tables::Proyectos)->load(filename);
+}
+
+void ProjectLibrary::updateFromVersion(const QString &filename, const QString &versionInfo)
+{
+    MaterialesUpdater updater;
+    updater.updateFromVersion(filename, versionInfo.toInt());
 }
