@@ -23,6 +23,8 @@ public:
     int idUnit() const;
     EntityBasePtr unit() const;
 
+    bool isTask() const;
+
     void setUnit(int idUnit);
 
     QSet<int> materialsComposedBy();

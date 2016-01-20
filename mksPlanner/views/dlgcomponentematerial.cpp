@@ -14,12 +14,13 @@ dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMat
     QDialog(parent),
     ui(new Ui::dlgComponenteMaterial)
 {
-    ui->setupUi(this);
-
+    // Aca hay que quitar el filtro
     _materialsModel = new ValidMaterialFilterModel(idMaterialPadre,
                                                    GlobalContainer::instance().materialLibrary()->model(Tables::Materiales),
                                                    this);
-    ui->cboMaterial->setDuplicatesEnabled(true);
+
+    ui->setupUi(this);
+
     ui->cboMaterial->setModel(_materialsModel);
     ui->cboMaterial->setModelColumn(1);
     _model = model;
@@ -39,6 +40,7 @@ dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMat
             MaterialPtr material = qSharedPointerDynamicCast<Material>(componente->material());
             if (!material.isNull())
             {
+                qDebug() << ui->cboMaterial->count();
                 ui->cboMaterial->setCurrentIndex(ui->cboMaterial->findText(material->name()));
                 ui->lblmaterialDecripcion->setText(material->desription());
                 UnitPtr unidad = qSharedPointerDynamicCast<Unit>(material->unit());

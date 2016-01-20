@@ -18,6 +18,7 @@ public:
     ~TableWindow();
 
     void setModel(ModelBase* model);
+    void hideColumn(int idColumn);
 
 private slots:
     void on_tableView_doubleClicked(const QModelIndex &index);

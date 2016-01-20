@@ -60,3 +60,8 @@ void TableWindow::on_actionRemove_triggered()
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
     _model->removeEntity(this->window(), index.row());
 }
+
+void TableWindow::hideColumn(int idColumn)
+{
+    ui->tableView->setColumnHidden(idColumn, true);
+}

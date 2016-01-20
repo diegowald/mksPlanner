@@ -158,3 +158,8 @@ QString Material::toDebugString()
             .arg(id()).arg(_name).arg(_description).arg(_idUnit).arg(_isUsableMaterial).arg(_isTask);
 
 }
+
+bool Material::isTask() const
+{
+    return _isTask;
+}

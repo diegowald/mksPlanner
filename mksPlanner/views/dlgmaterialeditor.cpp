@@ -29,6 +29,14 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
 
     EntityBasePtr entity = model->getItemByRowid(row);
     MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);
+    if (material->isTask())
+    {
+        setWindowTitle("Editar Tarea");
+    }
+    else
+    {
+        setWindowTitle("Editar Material");
+    }
     UnitPtr unit = qSharedPointerDynamicCast<Unit>(material->unit());
     if (!unit.isNull())
     {
@@ -43,7 +51,8 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
     entity = _model->getItemByRowid(row);
     dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales))->setIdMaterialPadre(entity->id());
     t->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
-
+    t->hideColumn(1);
+    t->hideColumn(2);
     ui->frame->layout()->addWidget(t->window());
 }
 
