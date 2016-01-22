@@ -138,6 +138,7 @@ QVariant CostoMaterialesModel::data(const QModelIndex &index, int role) const
             int idCosto = _mappingMaterialToCosto[entity->id()];
             if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
             {
+                // ACA HAY UN BUG
                 EntityBasePtr entity = _entities[idCosto];
                 result = entity->data(index.column(), role);
             }
