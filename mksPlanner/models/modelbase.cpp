@@ -9,7 +9,6 @@ ModelBase::ModelBase(const QString &counterName, QObject *parent) :
     QAbstractTableModel(parent)
 {
     _counterName = counterName;
-
 }
 
 int ModelBase::rowCount(const QModelIndex &/*parent*/) const
@@ -65,8 +64,6 @@ bool ModelBase::insertRows(int row, int count, const QModelIndex &parent)
     beginInsertRows(parent, row, row + count - 1);
     //success = parentItem->insertChildren(position, rows, rootItem->columnCount());
     EntityBasePtr entity = createEntity();
-    _entities[entity->id()] = entity;
-    _entityMapping.append(entity->id());
     success = true;
     endInsertRows();
 
@@ -128,6 +125,8 @@ EntityBasePtr ModelBase::createEntity()
     maxId++;
     EntityBasePtr entity = internalCreateEntity(maxId);
     GlobalContainer::instance().setCounter(_counterName, maxId);
+    _entities[entity->id()] = entity;
+    _entityMapping.append(entity->id());
     return entity;
 }
 

@@ -1,8 +1,10 @@
 #include "costomaterialesmodel.h"
 #include "models/costomaterial.h"
+#include "globalcontainer.h"
+
 //#include "views/dlgcomponentematerial.h"
 //#include <QSet>
-//#include "models/material.h"
+#include "models/material.h"
 
 CostoMaterialesModel::CostoMaterialesModel(QObject *parent) : ModelBase("costoMateriales", parent)
 {
@@ -15,10 +17,11 @@ int CostoMaterialesModel::columnCount(const QModelIndex &parent) const
     return 4;
 }
 
-/*int CostoMaterialesModel::rowCount(const QModelIndex &/*parent*-/) const
+int CostoMaterialesModel::rowCount(const QModelIndex &parent) const
 {
-    return _entityMappingByIdMaterialPadre[_idMterialPadre].count();
-}*/
+    return GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->rowCount(parent);
+    //return _entityMappingByIdMaterialPadre[_idMterialPadre].count();
+}
 
 QVariant CostoMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -35,7 +38,7 @@ QVariant CostoMaterialesModel::headerData(int section, Qt::Orientation orientati
             }
             case 1:
             {
-                return QString("idMaterial");
+                return QString("Material");
                 break;
             }
             case 2:
@@ -72,6 +75,7 @@ int CostoMaterialesModel::_loadEntity(QSqlRecord record)
     EntityBasePtr entity = CostoMaterialPtr::create(id, idMaterial, costo, desde);
     addEntity(entity);
     //classifyEntity(entity);
+    _mappingMaterialToCosto[idMaterial] = id;
     return id;
 }
 
@@ -102,37 +106,69 @@ void CostoMaterialesModel::editEntity(int row)
     _idMterialPadre = idMaterialPadre;
 }*/
 
-/*EntityBasePtr CostoMaterialesModel::getItemByRowid(int row)
+EntityBasePtr CostoMaterialesModel::getItemByRowid(int row)
 {
-    int id = _entityMappingByIdMaterialPadre[_idMterialPadre].at(row);
-    return _entities[id];
-}*/
-
-/*QVariant CostoMaterialesModel::data(const QModelIndex &index, int role) const
-{
-    if (role == Qt::DisplayRole)
+    EntityBasePtr entity;
+    entity.clear();
+    if (_mappingMaterialToCosto.contains(row))
     {
-        EntityBasePtr entity = _entities[_entityMappingByIdMaterialPadre[_idMterialPadre].at(index.row())];
-        return entity->data(index.column(), role);
+        int idCosto = _mappingMaterialToCosto[row];
+        entity = _entities[idCosto];
     }
-    else if (role == Qt::EditRole)
+    return entity;
+}
+
+QVariant CostoMaterialesModel::data(const QModelIndex &index, int role) const
+{
+    QVariant result = QVariant();
+    if (index.column() == 1)
     {
-        EntityBasePtr entity = _entities[_entityMappingByIdMaterialPadre[_idMterialPadre].at(index.row())];
-        return entity->data(index.column(), role);
+        if (role == Qt::DisplayRole)
+        {
+            EntityBasePtr entity = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItemByRowid(index.row());
+            MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);
+            result = material->name();
+        }
     }
     else
     {
-        return QVariant();
+        if (_mappingMaterialToCosto.contains(index.row()))
+        {
+            EntityBasePtr entity = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItemByRowid(index.row());
+            int idCosto = _mappingMaterialToCosto[entity->id()];
+            if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
+            {
+                EntityBasePtr entity = _entities[idCosto];
+                result = entity->data(index.column(), role);
+            }
+        }
     }
+    return result;
 }
-*/
-/*bool CostoMaterialesModel::setData(const QModelIndex &index, const QVariant &value, int role)
+
+bool CostoMaterialesModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (role == Qt::EditRole)
     {
-        EntityBasePtr entity = _entities[_entityMappingByIdMaterialPadre[_idMterialPadre].at(index.row())];
+        EntityBasePtr entity = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItemByRowid(index.row());
+        int idMaterial = entity->id();
+        if (!_mappingMaterialToCosto.contains(index.row()))
+        {
+            entity = createEntity();
+            CostoMaterialPtr cm = qSharedPointerDynamicCast<CostoMaterial>(entity);
+            cm->setIdMaterial(idMaterial);
+            _mappingMaterialToCosto[idMaterial] = entity->id();
+        }
+        entity = _entities[_mappingMaterialToCosto[idMaterial]];
         entity->setData(index.column(), value, role);
     }
     return true;
 }
-*/
+
+
+Qt::ItemFlags CostoMaterialesModel::flags(const QModelIndex &index) const
+{
+//    return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+
+}

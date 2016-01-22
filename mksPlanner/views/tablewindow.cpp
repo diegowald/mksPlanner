@@ -8,11 +8,11 @@ TableWindow::TableWindow(const QString &windowTitle, QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle(windowTitle);
+    _inPlaceEdit = false;
 }
 
 TableWindow::~TableWindow()
 {
-
     delete ui;
 }
 
@@ -25,7 +25,12 @@ void TableWindow::setModel(ModelBase* model)
 
 void TableWindow::on_tableView_doubleClicked(const QModelIndex &index)
 {
-    _model->editEntity(index.row());
+    if (!_inPlaceEdit)
+        _model->editEntity(index.row());
+    else
+    {
+        ui->tableView->edit(index);
+    }
 }
 
 void TableWindow::on_actionCreate_triggered()
@@ -64,4 +69,9 @@ void TableWindow::on_actionRemove_triggered()
 void TableWindow::hideColumn(int idColumn)
 {
     ui->tableView->setColumnHidden(idColumn, true);
+}
+
+void TableWindow::setInPlaceEditable(bool value)
+{
+    _inPlaceEdit = value;
 }

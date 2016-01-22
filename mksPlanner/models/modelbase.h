@@ -49,7 +49,6 @@ protected:
     QList<int> _entityMapping;
     QMap<int, EntityBasePtr> _entities;
     QString _counterName;
-
 };
 
 

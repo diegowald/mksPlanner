@@ -20,6 +20,8 @@ public:
     void setModel(ModelBase* model);
     void hideColumn(int idColumn);
 
+    void setInPlaceEditable(bool value);
+
 private slots:
     void on_tableView_doubleClicked(const QModelIndex &index);
 
@@ -32,6 +34,7 @@ private slots:
 private:
     Ui::TableWindow *ui;
     ModelBase* _model;
+    bool _inPlaceEdit;
 };
 
 #endif // UNITSWINDOW_H
