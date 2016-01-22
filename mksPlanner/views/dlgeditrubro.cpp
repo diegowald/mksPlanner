@@ -11,6 +11,7 @@ DlgEditRubro::DlgEditRubro(RubrosModel *model, int selectedEntity, QWidget *pare
     _mapper->setModel(_model);
     _mapper->addMapping(ui->txtNombre, 1);
     _mapper->addMapping(ui->txtDescripcion, 2);
+    _mapper->addMapping(ui->chkRubroTareas, 3);
     _mapper->setCurrentIndex(selectedEntity);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 }

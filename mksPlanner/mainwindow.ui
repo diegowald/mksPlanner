@@ -63,6 +63,7 @@
     <addaction name="actionUnidades"/>
     <addaction name="actionRubros"/>
     <addaction name="actionVer_Biblioteca"/>
+    <addaction name="actionCostos"/>
     <addaction name="separator"/>
     <addaction name="actionCalculadora_de_materiales"/>
     <addaction name="separator"/>
@@ -158,6 +159,11 @@
    </property>
    <property name="iconText">
     <string>Rubros...</string>
+   </property>
+  </action>
+  <action name="actionCostos">
+   <property name="text">
+    <string>Costos...</string>
    </property>
   </action>
  </widget>

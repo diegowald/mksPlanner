@@ -9,7 +9,7 @@ MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent) : M
 
 int MaterialesBaseModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    return 6;
+    return 7;
 }
 
 QVariant MaterialesBaseModel::headerData(int section, Qt::Orientation orientation, int role) const

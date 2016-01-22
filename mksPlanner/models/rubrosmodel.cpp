@@ -12,7 +12,7 @@ RubrosModel::RubrosModel(QObject *parent) : ModelBase("rubros", parent)
 
 int RubrosModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    return 3;
+    return 4;
 }
 
 QVariant RubrosModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -36,6 +36,11 @@ QVariant RubrosModel::headerData(int section, Qt::Orientation orientation, int r
             case 2:
             {
                 return QString("Descripción");
+                break;
+            }
+            case 3:
+            {
+                return QString("Contiene tareas");
                 break;
             }
             default:

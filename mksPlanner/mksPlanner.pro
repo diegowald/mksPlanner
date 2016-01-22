@@ -51,7 +51,9 @@ SOURCES += main.cpp\
     models/rubrosmodel.cpp \
     views/dlgeditrubro.cpp \
     persistance/updater.cpp \
-    persistance/materialesupdater.cpp
+    persistance/materialesupdater.cpp \
+    models/costomaterialesmodel.cpp \
+    models/costomaterial.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -89,7 +91,9 @@ HEADERS  += mainwindow.h \
     models/rubrosmodel.h \
     views/dlgeditrubro.h \
     persistance/updater.h \
-    persistance/materialesupdater.h
+    persistance/materialesupdater.h \
+    models/costomaterialesmodel.h \
+    models/costomaterial.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

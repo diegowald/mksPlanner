@@ -43,6 +43,8 @@ private slots:
 
     void on_actionRubros_triggered();
 
+    void on_actionCostos_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

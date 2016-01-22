@@ -42,6 +42,13 @@
      <item row="1" column="1">
       <widget class="QLineEdit" name="txtDescripcion"/>
      </item>
+     <item row="2" column="0" colspan="2">
+      <widget class="QCheckBox" name="chkRubroTareas">
+       <property name="text">
+        <string>Rubro que contiene tareas</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

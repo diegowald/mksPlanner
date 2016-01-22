@@ -141,3 +141,13 @@ void MainWindow::on_actionRubros_triggered()
         createSubWindow("Rubros", frm);
     }
 }
+
+void MainWindow::on_actionCostos_triggered()
+{
+    if (!showSubWindow("Costos"))
+    {
+        TableWindow *frm = new TableWindow("Costos");
+        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::CostosUnitarios));
+        createSubWindow("Costos", frm);
+    }
+}

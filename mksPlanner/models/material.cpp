@@ -78,6 +78,7 @@ QVariant Material::internalData(const int column, int role) const
         {
             result = qSharedPointerDynamicCast<Rubro>(rubro())->name();
         }
+        break;
     case 5:
         result = _isUsableMaterial;
         break;
