@@ -3,7 +3,7 @@
 #include "views/dlgtaskproveedoredit.h"
 
 
-TareasProveedoresModel::TareasProveedoresModel(QObject *parent) : ModelBase("tareasProveedores", parent)
+TareasProveedoresModel::TareasProveedoresModel(QObject *parent) : ModelBase("tareasProveedores", false, parent)
 {
 
 }

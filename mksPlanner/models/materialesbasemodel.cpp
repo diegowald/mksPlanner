@@ -2,7 +2,7 @@
 #include "models/material.h"
 #include "views/dlgmaterialeditor.h"
 
-MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent) : ModelBase("materiales", parent)
+MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent) : ModelBase("materiales", false, parent)
 {
     _filterByTask = filterByTask;
 }

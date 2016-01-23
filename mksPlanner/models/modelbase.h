@@ -7,12 +7,13 @@
 #include <QSharedPointer>
 #include "models/entitybase.h"
 #include <QMap>
+#include <QStyledItemDelegate>
 
 class ModelBase : public QAbstractTableModel, virtual public PersisterBase
 {
     Q_OBJECT
 public:
-    explicit ModelBase(const QString &counterName, QObject *parent = 0);
+    explicit ModelBase(const QString &counterName, bool implementsDelegate, QObject *parent = 0);
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     virtual QVariant data(const int id, const int column, int role = Qt::DisplayRole) const;
@@ -32,6 +33,8 @@ public:
     bool removeRow(int row, const QModelIndex &parent);
 
     virtual QSet<int> ids();
+    bool implementsDelegate() const;
+    virtual QStyledItemDelegate* delegate();
 
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);
@@ -49,6 +52,7 @@ protected:
     QList<int> _entityMapping;
     QMap<int, EntityBasePtr> _entities;
     QString _counterName;
+    bool _implementsDelegate;
 };
 
 

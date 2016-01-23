@@ -23,6 +23,7 @@ public:
     virtual EntityBasePtr getItemByRowid(int row);
 
     QSet<int> compuestosPor(int idMaterial);
+    QStyledItemDelegate *delegate();
 
 protected:
     virtual QString _getSQLRead() const;

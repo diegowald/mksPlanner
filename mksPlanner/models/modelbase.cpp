@@ -4,11 +4,12 @@
 #include <QMessageBox>
 
 
-ModelBase::ModelBase(const QString &counterName, QObject *parent) :
+ModelBase::ModelBase(const QString &counterName, bool implementsDelegate, QObject *parent) :
     PersisterBase(),
     QAbstractTableModel(parent)
 {
     _counterName = counterName;
+    _implementsDelegate = implementsDelegate;
 }
 
 int ModelBase::rowCount(const QModelIndex &/*parent*/) const
@@ -166,4 +167,14 @@ void ModelBase::setModified()
 QSet<int> ModelBase::ids()
 {
     return QSet<int>::fromList(_entities.keys());
+}
+
+bool ModelBase::implementsDelegate() const
+{
+    return _implementsDelegate;
+}
+
+QStyledItemDelegate *ModelBase::delegate()
+{
+    return NULL;
 }

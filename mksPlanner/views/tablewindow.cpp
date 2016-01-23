@@ -19,6 +19,10 @@ TableWindow::~TableWindow()
 void TableWindow::setModel(ModelBase* model)
 {
     _model = model;
+    if (_model->implementsDelegate())
+    {
+        ui->tableView->setItemDelegate(_model->delegate());
+    }
     ui->tableView->setModel(_model);
     ui->tableView->setColumnHidden(0, true);
 }

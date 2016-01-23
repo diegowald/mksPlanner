@@ -4,7 +4,7 @@
 #include <QSet>
 #include "models/material.h"
 
-ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent) : ModelBase("componentesMateriales", parent)
+ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent) : ModelBase("componentesMateriales", false, parent)
 {
 
 }

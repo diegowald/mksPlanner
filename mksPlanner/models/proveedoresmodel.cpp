@@ -5,7 +5,7 @@
 #include "views/dlgeditproveedor.h"
 
 
-ProveedoresModel::ProveedoresModel(QObject *parent) : ModelBase("proveedores", parent)
+ProveedoresModel::ProveedoresModel(QObject *parent) : ModelBase("proveedores", false, parent)
 {
 
 }

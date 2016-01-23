@@ -7,7 +7,7 @@ CostoMaterial::CostoMaterial(int id) : EntityBase(id, true)
 {
     _idMaterial = -1;
     _costo = 0.0;
-    _desde = QDate::fromJulianDay(0);
+    _desde = QDate::currentDate();
 }
 
 CostoMaterial::CostoMaterial(int id, int idMaterial, double costo, QDate desde) : EntityBase(id)
@@ -108,7 +108,7 @@ QSqlQuery* CostoMaterial::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO costoMateriales (idMaterial, costo, desde) VALUES (:idMaterial, :costo, :desde);");
+        query->prepare("INSERT INTO costosMateriales (idMaterial, costo, desde) VALUES (:idMaterial, :costo, :desde);");
         query->bindValue(":idMaterial", _idMaterial);
         query->bindValue(":costo", _costo);
         query->bindValue(":desde", _desde);
@@ -117,14 +117,14 @@ QSqlQuery* CostoMaterial::getQuery(QSqlDatabase &database)
     case EntityStatus::deleted:
     {
         query = new QSqlQuery(database);
-        query->prepare("DELETE FROM costoMateriales WHERE id = :id;");
+        query->prepare("DELETE FROM costosMateriales WHERE id = :id;");
         query->bindValue(":id", id());
         break;
     }
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE costoMateriales SET idMaterial = :idMaterial, costo = :costo, desde = :desde WHERE id = :id;");
+        query->prepare("UPDATE costosMateriales SET idMaterial = :idMaterial, costo = :costo, desde = :desde WHERE id = :id;");
         query->bindValue(":idMaterial", _idMaterial);
         query->bindValue(":costo", _costo);
         query->bindValue(":desde", _desde);

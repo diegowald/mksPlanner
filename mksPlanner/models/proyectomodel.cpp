@@ -3,7 +3,7 @@
 #include "models/proyecto.h"
 
 
-ProyectoModel::ProyectoModel(QObject *parent) : ModelBase("prouecto", parent)
+ProyectoModel::ProyectoModel(QObject *parent) : ModelBase("prouecto", false, parent)
 {
 
 }

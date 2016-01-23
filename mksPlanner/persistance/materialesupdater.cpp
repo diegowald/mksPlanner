@@ -24,5 +24,12 @@ MaterialesUpdater::MaterialesUpdater(QObject *parent) : Updater(parent)
                    " `isTask`	INTEGER "
                " ); ");
 
+    addCommand(1,     "CREATE TABLE `costosMateriales` ( "
+                      "    `id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                      "    `idMaterial`	INTEGER NOT NULL, "
+                      "    `costo`	REAL NOT NULL, "
+                      "    `desde`	TEXT "
+                      " ); ");
+
     addCommand(1, "INSERT into version (versionInfo) VALUES (1)");
 }
