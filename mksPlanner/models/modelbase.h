@@ -46,6 +46,7 @@ protected:
 
     virtual void postProcessData();
 
+    virtual QVariant modelData(EntityBasePtr entity, int column, int role = Qt::DisplayRole) const = 0;
 signals:
 
 public slots:

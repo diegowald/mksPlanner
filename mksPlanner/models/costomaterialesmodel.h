@@ -31,6 +31,7 @@ protected:
     virtual int _loadEntity(QSqlRecord record);
     virtual EntityBasePtr internalCreateEntity(int assignedId);
     virtual void postProcessData();
+    virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
 
 private:
     //void classifyEntity(EntityBasePtr entity);

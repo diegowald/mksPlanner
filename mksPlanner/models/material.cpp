@@ -53,7 +53,7 @@ bool Material::internalSetData(const int column, const QVariant &value, int role
     return result;
 }
 
-QVariant Material::internalData(const int column, int role) const
+/*QVariant Material::internalData(const int column, int role) const
 {
     QVariant result;
     switch (column)
@@ -89,7 +89,7 @@ QVariant Material::internalData(const int column, int role) const
         break;
     }
     return result;
-}
+}*/
 
 QSqlQuery* Material::getQuery(QSqlDatabase &database)
 {
@@ -140,7 +140,7 @@ QString Material::name() const
     return _name;
 }
 
-QString Material::desription() const
+QString Material::description() const
 {
     return _description;
 }
@@ -200,4 +200,10 @@ bool Material::isCompuesto() const
 {
     ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
     return model->idComponentes(id()).count() > 0;
+}
+
+
+bool Material::isUsableMaterial() const
+{
+    return _isUsableMaterial;
 }

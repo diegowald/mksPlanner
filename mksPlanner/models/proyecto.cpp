@@ -50,7 +50,7 @@ bool Proyecto::internalSetData(const int column, const QVariant &value, int role
     return false;
 }
 
-QVariant Proyecto::internalData(const int column, int role) const
+/*QVariant Proyecto::internalData(const int column, int role) const
 {
     switch (column)
     {
@@ -81,7 +81,7 @@ QVariant Proyecto::internalData(const int column, int role) const
         return QVariant();
         break;
     }
-}
+}*/
 
 QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
 {
@@ -127,4 +127,25 @@ QString Proyecto::toDebugString()
 {
     return QString("id: %1, propietario: %2, direccion: %3, email: %4, telefono: %5")
             .arg(id()).arg(_propietario).arg(_direccion).arg(_email).arg(_telefono);
+}
+
+
+QString Proyecto::propietario()
+{
+    return _propietario;
+}
+
+QString Proyecto::direccion()
+{
+    return _direccion;
+}
+
+QString Proyecto::email()
+{
+    return _email;
+}
+
+QString Proyecto::telefono()
+{
+    return _telefono;
 }

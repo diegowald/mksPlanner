@@ -12,13 +12,14 @@ public:
     explicit Rubro(int id, const QString &name, const QString &description, bool isTask);
 
     virtual bool internalSetData(const int column, const QVariant &value, int role);
-    virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
+    //virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
     virtual QString toDebugString();
 
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
     QString name() const;
     QString description() const;
+    bool isTask() const;
 
 signals:
 

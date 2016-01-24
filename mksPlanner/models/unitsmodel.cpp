@@ -46,6 +46,30 @@ QVariant UnitsModel::headerData(int section, Qt::Orientation orientation, int ro
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
+QVariant UnitsModel::modelData(EntityBasePtr entity, int column, int role) const
+{
+    UnitPtr unit = qSharedPointerDynamicCast<Unit>(entity);
+    QVariant result;
+    if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
+    {
+        switch (column)
+        {
+        case 0:
+            result = unit->id();
+            break;
+        case 1:
+            result = unit->name();
+            break;
+        case 2:
+            result = unit->description();
+            break;
+        default:
+            result = QVariant();
+            break;
+        }
+    }
+    return result;
+}
 
 QString UnitsModel::_getSQLRead() const
 {

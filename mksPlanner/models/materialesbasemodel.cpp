@@ -1,6 +1,8 @@
 #include "materialesbasemodel.h"
 #include "models/material.h"
 #include "views/dlgmaterialeditor.h"
+#include "models/unit.h"
+#include "models/rubro.h"
 
 MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent) : ModelBase("materiales", false, parent)
 {
@@ -64,6 +66,44 @@ QVariant MaterialesBaseModel::headerData(int section, Qt::Orientation orientatio
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
+QVariant MaterialesBaseModel::modelData(EntityBasePtr entity, int column, int role) const
+{
+    MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);
+    QVariant result;
+    switch (column)
+    {
+    case 0:
+        result = material->id();
+        break;
+    case 1:
+        result = material->name();
+        break;
+    case 2:
+        result = material->description();
+        break;
+    case 3:
+        if (!material->unit().isNull())
+        {
+            result = qSharedPointerDynamicCast<Unit>(material->unit())->name();
+        }
+        break;
+    case 4:
+        if (!material->rubro().isNull())
+        {
+            result = qSharedPointerDynamicCast<Rubro>(material->rubro())->name();
+        }
+        break;
+    case 5:
+        result = material->isUsableMaterial();
+        break;
+    case 6:
+        result = material->isTask();
+        break;
+    default:
+        break;
+    }
+    return result;
+}
 
 QString MaterialesBaseModel::_getSQLRead() const
 {

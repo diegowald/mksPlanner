@@ -1,7 +1,7 @@
 #include "tareasproveedoresmodel.h"
 #include "models/taskproveedor.h"
 #include "views/dlgtaskproveedoredit.h"
-
+#include "models/material.h"
 
 TareasProveedoresModel::TareasProveedoresModel(QObject *parent) : ModelBase("tareasProveedores", false, parent)
 {
@@ -53,6 +53,42 @@ QVariant TareasProveedoresModel::headerData(int section, Qt::Orientation orienta
         return section;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
+}
+
+QVariant TareasProveedoresModel::modelData(EntityBasePtr entity, int column, int role) const
+{
+    TaskProveedorPtr tp = qSharedPointerDynamicCast<TaskProveedor>(entity);
+    QVariant result;
+    if (role == Qt::DisplayRole)
+    {
+        switch (column)
+        {
+        case 0:
+        {
+            result = tp->id();
+            break;
+        }
+        case 1:
+        {
+            result = tp->idProveedor();
+            break;
+        }
+        case 2:
+        {
+            result = tp->idTask();
+            break;
+        }
+        case 3:
+        {
+            result = tp->idTask() != -1 ? qSharedPointerDynamicCast<Material>(tp->task())->name() : "";
+            break;
+        }
+        default:
+            break;
+        }
+    }
+    return result;
+
 }
 
 
@@ -116,20 +152,8 @@ EntityBasePtr TareasProveedoresModel::getItemByRowid(int row)
 
 QVariant TareasProveedoresModel::data(const QModelIndex &index, int role) const
 {
-    if (role == Qt::DisplayRole)
-    {
-        EntityBasePtr entity = _entities[_entityMappingByIdProveedor[_idProveedor].at(index.row())];
-        return entity->data(index.column(), role);
-    }
-    else if (role == Qt::EditRole)
-    {
-        EntityBasePtr entity = _entities[_entityMappingByIdProveedor[_idProveedor].at(index.row())];
-        return entity->data(index.column(), role);
-    }
-    else
-    {
-        return QVariant();
-    }
+    EntityBasePtr entity = _entities[_entityMappingByIdProveedor[_idProveedor].at(index.row())];
+    modelData(entity, index.column(), role);
 }
 
 bool TareasProveedoresModel::setData(const QModelIndex &index, const QVariant &value, int role)

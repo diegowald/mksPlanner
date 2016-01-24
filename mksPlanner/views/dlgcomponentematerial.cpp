@@ -42,7 +42,7 @@ dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMat
             {
                 qDebug() << ui->cboMaterial->count();
                 ui->cboMaterial->setCurrentIndex(ui->cboMaterial->findText(material->name()));
-                ui->lblmaterialDecripcion->setText(material->desription());
+                ui->lblmaterialDecripcion->setText(material->description());
                 UnitPtr unidad = qSharedPointerDynamicCast<Unit>(material->unit());
                 if (!unidad.isNull())
                 {
@@ -90,7 +90,7 @@ void dlgComponenteMaterial::on_cboMaterial_currentIndexChanged(int index)
         MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);
         if (!material.isNull())
         {
-            materialDescription = material->desription();
+            materialDescription = material->description();
             UnitPtr unit = qSharedPointerDynamicCast<Unit>(material->unit());
             if (!unit.isNull())
             {

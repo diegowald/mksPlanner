@@ -2,6 +2,7 @@
 #include <QDebug>
 #include "globalcontainer.h"
 #include <QMessageBox>
+#include <QAbstractTableModel>
 
 
 ModelBase::ModelBase(const QString &counterName, bool implementsDelegate, QObject *parent) :
@@ -19,15 +20,10 @@ int ModelBase::rowCount(const QModelIndex &/*parent*/) const
 
 QVariant ModelBase::data(const QModelIndex &index, int role) const
 {
-    if (role == Qt::DisplayRole)
+    if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
     {
         EntityBasePtr entity = _entities[_entityMapping.at(index.row())];
-        return entity->data(index.column(), role);
-    }
-    else if (role == Qt::EditRole)
-    {
-        EntityBasePtr entity = _entities[_entityMapping.at(index.row())];
-        return entity->data(index.column(), role);
+        return modelData(entity, index.column(), role);
     }
     else
     {
@@ -37,7 +33,8 @@ QVariant ModelBase::data(const QModelIndex &index, int role) const
 
 QVariant ModelBase::data(const int id, const int column, int role) const
 {
-    return _entities[id]->data(column, role);
+    return modelData(_entities[id], column, role);
+//    return _entities[id]->data(column, role);
 }
 
 bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int role)

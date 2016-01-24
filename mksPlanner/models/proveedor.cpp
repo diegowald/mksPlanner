@@ -49,7 +49,7 @@ bool Proveedor::internalSetData(const int column, const QVariant &value, int rol
     return false;
 }
 
-QVariant Proveedor::internalData(const int column, int role) const
+/*QVariant Proveedor::internalData(const int column, int role) const
 {
     switch (column)
     {
@@ -75,7 +75,7 @@ QVariant Proveedor::internalData(const int column, int role) const
         return QVariant();
         break;
     }
-}
+}*/
 
 QSqlQuery* Proveedor::getQuery(QSqlDatabase &database)
 {

@@ -55,6 +55,40 @@ QVariant ProyectoModel::headerData(int section, Qt::Orientation orientation, int
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
+QVariant ProyectoModel::modelData(EntityBasePtr entity, int column, int role) const
+{
+    ProyectoPtr p = qSharedPointerDynamicCast<Proyecto>(entity);
+    switch (column)
+    {
+    case 0:
+        return p->id();
+        break;
+    case 1:
+    {
+        return p->propietario();
+        break;
+    }
+    case 2:
+    {
+        return p->direccion();
+        break;
+    }
+    case 3:
+    {
+        return p->email();
+        break;
+    }
+    case 4:
+    {
+        return p->telefono();
+        break;
+    }
+    default:
+        return QVariant();
+        break;
+    }
+}
+
 
 QString ProyectoModel::_getSQLRead() const
 {

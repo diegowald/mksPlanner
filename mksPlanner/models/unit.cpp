@@ -34,7 +34,7 @@ bool Unit::internalSetData(const int column, const QVariant &value, int role)
     return false;
 }
 
-QVariant Unit::internalData(const int column, int role) const
+/*QVariant Unit::internalData(const int column, int role) const
 {
     switch (column)
     {
@@ -51,7 +51,7 @@ QVariant Unit::internalData(const int column, int role) const
         return QVariant();
         break;
     }
-}
+}*/
 
 QSqlQuery* Unit::getQuery(QSqlDatabase &database)
 {

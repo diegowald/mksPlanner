@@ -52,6 +52,29 @@ QVariant RubrosModel::headerData(int section, Qt::Orientation orientation, int r
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
+QVariant RubrosModel::modelData(EntityBasePtr entity, int column, int role) const
+{
+    RubroPtr r = qSharedPointerDynamicCast<Rubro>(entity);
+    switch (column)
+    {
+    case 0:
+        return r->id();
+        break;
+    case 1:
+        return r->name();
+        break;
+    case 2:
+        return r->description();
+        break;
+    case 3:
+        return r->isTask();
+        break;
+    default:
+        return QVariant();
+        break;
+    }
+}
+
 
 QString RubrosModel::_getSQLRead() const
 {

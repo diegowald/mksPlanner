@@ -11,6 +11,7 @@ public:
     explicit ComponentesMaterialesModel(QObject *parent = 0);
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);

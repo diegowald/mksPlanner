@@ -11,6 +11,7 @@ public:
     UnitsModel(QObject *parent = 0);
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    virtual QVariant modelData(EntityBasePtr entity, int column, int role = Qt::DisplayRole) const;
 
     virtual void editEntity(int row);
 

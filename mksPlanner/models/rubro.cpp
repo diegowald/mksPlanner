@@ -39,7 +39,7 @@ bool Rubro::internalSetData(const int column, const QVariant &value, int role)
     return false;
 }
 
-QVariant Rubro::internalData(const int column, int role) const
+/*QVariant Rubro::internalData(const int column, int role) const
 {
     switch (column)
     {
@@ -59,7 +59,7 @@ QVariant Rubro::internalData(const int column, int role) const
         return QVariant();
         break;
     }
-}
+}*/
 
 QString Rubro::toDebugString()
 {
@@ -114,3 +114,7 @@ QString Rubro::description() const
     return _description;
 }
 
+bool Rubro::isTask() const
+{
+    return _isTask;
+}

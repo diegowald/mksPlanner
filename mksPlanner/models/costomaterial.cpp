@@ -66,7 +66,7 @@ void CostoMaterial::setDesde(QDate &date)
     updateStatus(EntityStatus::modified);
 }
 
-QVariant CostoMaterial::internalData(const int column, int role) const
+/*QVariant CostoMaterial::internalData(const int column, int role) const
 {
     QVariant result;
     if (role == Qt::DisplayRole)
@@ -98,7 +98,7 @@ QVariant CostoMaterial::internalData(const int column, int role) const
         }
     }
     return result;
-}
+}*/
 
 QSqlQuery* CostoMaterial::getQuery(QSqlDatabase &database)
 {
@@ -162,5 +162,5 @@ QDate CostoMaterial::desde() const
 QString CostoMaterial::toDebugString()
 {
     return QString("id: %1, idMaterial: %2, costo: %3, desde: %4").arg(id())
-            .arg(_idMaterial).arg(_costo).arg(_desde.toString());
+            .arg(_idMaterial).arg(costo()).arg(desde().toString());
 }

@@ -12,6 +12,7 @@ public:
 
 protected:
     virtual EntityBasePtr internalCreateEntity(int assignedId);
+
 signals:
 
 public slots:

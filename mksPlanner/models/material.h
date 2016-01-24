@@ -11,7 +11,7 @@ public:
     explicit Material(int id, const QString &name, const QString &description, int idUnit, int idRubro, bool isUsableMaterial, bool isTask);
     explicit Material(int id, bool isTask);
     virtual bool internalSetData(const int column, const QVariant &value, int role);
-    virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
+    //virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
 
     virtual QString toDebugString();
 
@@ -19,7 +19,7 @@ public:
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
     QString name() const;
-    QString desription() const;
+    QString description() const;
     int idUnit() const;
     EntityBasePtr unit() const;
     int idRubro() const;
@@ -33,6 +33,7 @@ public:
     QSet<int> materialsComposedBy();
 
     bool isCompuesto() const;
+    bool isUsableMaterial() const;
 
 signals:
 

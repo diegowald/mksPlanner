@@ -11,6 +11,7 @@ public:
     explicit MaterialesBaseModel(bool filterByTask, QObject *parent = 0);
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
 
     virtual void editEntity(int row);
 

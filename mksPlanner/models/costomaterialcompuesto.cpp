@@ -8,12 +8,12 @@
 #include "models/componentematerial.h"
 #include <QSharedPointer>
 
-CostoMaterialCompuesto::CostoMaterialCompuesto(int id, int idMaterial) : EntityBase(id, false)
+CostoMaterialCompuesto::CostoMaterialCompuesto(int id, int idMaterial) : CostoMaterial(id, idMaterial, 0., QDate(0, 0, 0))
 {
     _idMaterial = idMaterial;
 }
 
-CostoMaterialCompuesto::CostoMaterialCompuesto(int id): EntityBase(id, false)
+CostoMaterialCompuesto::CostoMaterialCompuesto(int id): CostoMaterial(id)
 {
     _idMaterial = -1;
 }
@@ -38,14 +38,7 @@ bool CostoMaterialCompuesto::internalSetData(const int column, const QVariant &v
     return false;
 }
 
-void CostoMaterialCompuesto::setIdMaterial(int id)
-{
-    _idMaterial = id;
-//    updateStatus(EntityStatus::modified); // Estos elementos no se guardaran en la base
-}
-
-
-QVariant CostoMaterialCompuesto::internalData(const int column, int role) const
+/*QVariant CostoMaterialCompuesto::internalData(const int column, int role) const
 {
     QVariant result;
     if (role == Qt::DisplayRole)
@@ -77,7 +70,7 @@ QVariant CostoMaterialCompuesto::internalData(const int column, int role) const
         }
     }
     return result;
-}
+}*/
 
 QSqlQuery* CostoMaterialCompuesto::getQuery(QSqlDatabase &database)
 {
@@ -129,11 +122,4 @@ QDate CostoMaterialCompuesto::desde() const
         fechaCostoMasViejo = (fechaCosto < fechaCostoMasViejo) ? fechaCosto : fechaCostoMasViejo;
     }
     return fechaCostoMasViejo;
-}
-
-
-QString CostoMaterialCompuesto::toDebugString()
-{
-    return QString("id: %1, idMaterial: %2, costo: %3, desde: %4").arg(id())
-            .arg(_idMaterial).arg(costo()).arg(desde().toString());
 }

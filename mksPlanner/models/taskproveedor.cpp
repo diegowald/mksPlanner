@@ -53,7 +53,7 @@ void TaskProveedor::setIdTask(int id)
     updateStatus(EntityStatus::modified);
 }
 
-QVariant TaskProveedor::internalData(const int column, int role) const
+/*QVariant TaskProveedor::internalData(const int column, int role) const
 {
     QVariant result;
     if (role == Qt::DisplayRole)
@@ -85,7 +85,7 @@ QVariant TaskProveedor::internalData(const int column, int role) const
         }
     }
     return result;
-}
+}*/
 
 QSqlQuery* TaskProveedor::getQuery(QSqlDatabase &database)
 {

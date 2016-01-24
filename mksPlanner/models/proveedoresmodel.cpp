@@ -62,6 +62,34 @@ QVariant ProveedoresModel::headerData(int section, Qt::Orientation orientation, 
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
+QVariant ProveedoresModel::modelData(EntityBasePtr entity, int column, int role) const
+{
+    ProveedorPtr prov = qSharedPointerDynamicCast<Proveedor>(entity);
+    switch (column)
+    {
+    case 0:
+        return prov->id();
+        break;
+    case 1:
+        return prov->name();
+        break;
+    case 2:
+        return prov->contacto();
+        break;
+    case 3:
+        return prov->email();
+        break;
+    case 4:
+        return prov->telefono();
+        break;
+    case 5:
+        return prov->direccion();
+        break;
+    default:
+        return QVariant();
+        break;
+    }
+}
 
 QString ProveedoresModel::_getSQLRead() const
 {

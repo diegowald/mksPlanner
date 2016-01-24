@@ -22,10 +22,10 @@ public:
     explicit EntityBase(int id, bool isNew = false);
 
     bool setData(const int column, const QVariant &value, int role);
-    QVariant data(const int column, int role = Qt::DisplayRole) const;
+    //QVariant data(const int column, int role = Qt::DisplayRole) const;
 
     virtual bool internalSetData(const int column, const QVariant &value, int role) = 0;
-    virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const = 0;
+    //virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const = 0;
     virtual QSqlQuery* getQuery(QSqlDatabase &database) = 0;
     virtual QString toDebugString() = 0;
 

@@ -66,7 +66,7 @@ void ComponenteMaterial::setCantidad(double value)
     updateStatus(EntityStatus::modified);
 }
 
-QVariant ComponenteMaterial::internalData(const int column, int role) const
+/*QVariant ComponenteMaterial::internalData(const int column, int role) const
 {
     QVariant result;
     if (role == Qt::DisplayRole)
@@ -121,7 +121,7 @@ QVariant ComponenteMaterial::internalData(const int column, int role) const
         }
     }
     return result;
-}
+}*/
 
 QSqlQuery* ComponenteMaterial::getQuery(QSqlDatabase &database)
 {

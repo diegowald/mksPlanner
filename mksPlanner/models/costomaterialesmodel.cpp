@@ -63,6 +63,40 @@ QVariant CostoMaterialesModel::headerData(int section, Qt::Orientation orientati
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
+QVariant CostoMaterialesModel::modelData(EntityBasePtr entity, int column, int role) const
+{
+    CostoMaterialPtr cm = qSharedPointerDynamicCast<CostoMaterial>(entity);
+    QVariant result;
+    if (role == Qt::DisplayRole)
+    {
+        switch (column)
+        {
+        case 0:
+        {
+            result = cm->id();
+            break;
+        }
+        case 1:
+        {
+            result = cm->idMaterial();
+            break;
+        }
+        case 2:
+        {
+            result = cm->costo();
+            break;
+        }
+        case 3:
+        {
+            result = cm->desde();
+            break;
+        }
+        default:
+            break;
+        }
+    }
+    return result;
+}
 
 QString CostoMaterialesModel::_getSQLRead() const
 {
@@ -164,7 +198,35 @@ QVariant CostoMaterialesModel::data(const QModelIndex &index, int role) const
             if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
             {
                 EntityBasePtr entity = _entities[idCosto];
-                result = entity->data(index.column(), role);
+                CostoMaterialPtr cm = qSharedPointerDynamicCast<CostoMaterial>(entity);
+                if (role == Qt::DisplayRole)
+                {
+                    switch (index.column())
+                    {
+                    case 0:
+                    {
+                        result = cm->id();
+                        break;
+                    }
+                    case 1:
+                    {
+                        result = cm->idMaterial();
+                        break;
+                    }
+                    case 2:
+                    {
+                        result = cm->costo();
+                        break;
+                    }
+                    case 3:
+                    {
+                        result = cm->desde();
+                        break;
+                    }
+                    default:
+                        break;
+                    }
+                }
             }
         }
     }
