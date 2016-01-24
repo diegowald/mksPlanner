@@ -22,6 +22,7 @@ protected:
     virtual int _loadEntity(QSqlRecord record) = 0;
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database) = 0;
     virtual void markAsSaved() = 0;
+    virtual void postProcessData() = 0;
 signals:
 
 public slots:

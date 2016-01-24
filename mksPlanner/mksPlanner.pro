@@ -54,7 +54,8 @@ SOURCES += main.cpp\
     persistance/materialesupdater.cpp \
     models/costomaterialesmodel.cpp \
     models/costomaterial.cpp \
-    models/costomaterialesdelegate.cpp
+    models/costomaterialesdelegate.cpp \
+    models/costomaterialcompuesto.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -95,7 +96,8 @@ HEADERS  += mainwindow.h \
     persistance/materialesupdater.h \
     models/costomaterialesmodel.h \
     models/costomaterial.h \
-    models/costomaterialesdelegate.h
+    models/costomaterialesdelegate.h \
+    models/costomaterialcompuesto.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

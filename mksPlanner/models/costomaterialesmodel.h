@@ -29,6 +29,7 @@ protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);
     virtual EntityBasePtr internalCreateEntity(int assignedId);
+    virtual void postProcessData();
 
 private:
     //void classifyEntity(EntityBasePtr entity);
@@ -37,6 +38,7 @@ signals:
 public slots:
 private:
     QMap<int, int> _mappingMaterialToCosto;
+    bool _crearMaterialCompuesto; // esta es una propiedad temporal que se utiliza para crear un nuevo elemento
 };
 
 #endif // COSTOMATERIALESMODEL_H

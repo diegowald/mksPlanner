@@ -21,18 +21,18 @@ public:
 
     int idMaterial() const;
     EntityBasePtr material() const;
-    double costo() const;
-    QDate desde() const;
+    virtual double costo() const;
+    virtual QDate desde() const;
 
     void setIdMaterial(int id);
-    void setCosto(double value);
-    void setDesde(QDate &date);
+    virtual void setCosto(double value);
+    virtual void setDesde(QDate &date);
 
 signals:
 
 public slots:
 
-private:
+protected:
     int _idMaterial;
     double _costo;
     QDate _desde;

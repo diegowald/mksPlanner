@@ -180,3 +180,8 @@ QSet<int> ComponentesMaterialesModel::compuestosPor(int idMaterial)
     result.unite(ids);
     return result;
 }
+
+QList<int> ComponentesMaterialesModel::idComponentes(int idMaterialPadre) const
+{
+    return _entityMappingByIdMaterialPadre[idMaterialPadre];
+}

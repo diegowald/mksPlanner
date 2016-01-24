@@ -26,6 +26,8 @@ public:
 
     virtual bool internalSetData(const int column, const QVariant &value, int role) = 0;
     virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const = 0;
+    virtual QSqlQuery* getQuery(QSqlDatabase &database) = 0;
+    virtual QString toDebugString() = 0;
 
     bool isDirty() const;
 
@@ -33,13 +35,11 @@ public:
 
     virtual void deleteEntity();
 
-    virtual QSqlQuery* getQuery(QSqlDatabase &database) = 0;
 
     EntityStatus status();
 
     void updateStatus(EntityStatus newStatus);
 
-    virtual QString toDebugString() = 0;
 
 signals:
 

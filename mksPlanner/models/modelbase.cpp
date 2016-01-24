@@ -178,3 +178,7 @@ QStyledItemDelegate *ModelBase::delegate()
 {
     return NULL;
 }
+
+void ModelBase::postProcessData()
+{
+}

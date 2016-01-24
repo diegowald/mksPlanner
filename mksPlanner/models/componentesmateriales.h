@@ -22,6 +22,8 @@ public:
 
     QSet<int> compuestosPor(int idMaterial);
 
+    QList<int> idComponentes(int idMaterialPadre) const;
+
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);

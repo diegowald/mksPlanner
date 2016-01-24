@@ -44,6 +44,8 @@ protected:
 
     void addEntity(EntityBasePtr entity);
 
+    virtual void postProcessData();
+
 signals:
 
 public slots:

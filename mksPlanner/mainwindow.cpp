@@ -67,8 +67,8 @@ void MainWindow::on_actionUnidades_triggered()
 void MainWindow::loadMaterialLibrary()
 {
     MaterialsLibrary* materialsLibrary = new MaterialsLibrary();
-    materialsLibrary->load("./materiales.db");
     GlobalContainer::instance().setMaterialLibrary(materialsLibrary);
+    materialsLibrary->load("./materiales.db");
 }
 
 void MainWindow::loadProject(const QString &fileName)

@@ -32,6 +32,8 @@ public:
 
     QSet<int> materialsComposedBy();
 
+    bool isCompuesto() const;
+
 signals:
 
 public slots:

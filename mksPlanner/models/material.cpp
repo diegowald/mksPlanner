@@ -194,3 +194,10 @@ bool Material::isTask() const
 {
     return _isTask;
 }
+
+
+bool Material::isCompuesto() const
+{
+    ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
+    return model->idComponentes(id()).count() > 0;
+}

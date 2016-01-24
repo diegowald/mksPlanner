@@ -29,6 +29,8 @@ void PersisterBase::load(const QString &filename)
     }
     // cierro la base de datos
     _database.close();
+
+    postProcessData();
 }
 
 void PersisterBase::save(const QString &filename)
