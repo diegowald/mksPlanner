@@ -21,6 +21,7 @@ public:
     void setIdMaterialPadre(int idMaterialPadre);
 
     virtual EntityBasePtr getItemByRowid(int row);
+    virtual EntityBasePtr getItemByIdMaterial(int idMaterial);
 
     QSet<int> compuestosPor(int idMaterial);
     QStyledItemDelegate *delegate();

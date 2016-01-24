@@ -18,7 +18,7 @@ public:
                       const QModelIndex &index) const Q_DECL_OVERRIDE;
 
     void updateEditorGeometry(QWidget *editor,
-        const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
+                              const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 signals:
 

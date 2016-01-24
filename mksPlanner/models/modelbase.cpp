@@ -154,7 +154,8 @@ EntityBasePtr ModelBase::getItemByRowid(int row)
 {
     qDebug() << row;
     qDebug() << _entityMapping.contains(row);
-    qDebug() << _entityMapping[row];
+    if (_entityMapping.contains(row))
+        qDebug() << _entityMapping[row];
     return getItem(_entityMapping[row]);
 }
 

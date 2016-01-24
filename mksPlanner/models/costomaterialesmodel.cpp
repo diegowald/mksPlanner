@@ -7,7 +7,7 @@
 //#include <QSet>
 #include "models/material.h"
 #include "models/costomaterialesdelegate.h"
-
+#include <QSet>
 
 CostoMaterialesModel::CostoMaterialesModel(QObject *parent) : ModelBase("costoMateriales", true, parent)
 {
@@ -131,6 +131,18 @@ EntityBasePtr CostoMaterialesModel::getItemByRowid(int row)
     return entity;
 }
 
+EntityBasePtr CostoMaterialesModel::getItemByIdMaterial(int idMaterial)
+{
+    EntityBasePtr entity;
+    entity.clear();
+    if (_mappingMaterialToCosto.contains(idMaterial))
+    {
+        int idCosto = _mappingMaterialToCosto[idMaterial];
+        entity = _entities[idCosto];
+    }
+    return entity;
+}
+
 QVariant CostoMaterialesModel::data(const QModelIndex &index, int role) const
 {
     EntityBasePtr entityMaterial = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItemByRowid(index.row());
@@ -200,7 +212,8 @@ QStyledItemDelegate *CostoMaterialesModel::delegate()
 
 void CostoMaterialesModel::postProcessData()
 {
-    foreach (int idMaterial, _mappingMaterialToCosto.keys())
+    QSet<int> idMateriales = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->ids();
+    foreach (int idMaterial, idMateriales)
     {
         EntityBasePtr entityMaterial = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItem(idMaterial);
         MaterialPtr material = qSharedPointerDynamicCast<Material>(entityMaterial);

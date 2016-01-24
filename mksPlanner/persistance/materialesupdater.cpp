@@ -5,7 +5,7 @@ MaterialesUpdater::MaterialesUpdater(QObject *parent) : Updater(parent)
     addCommand(1, "CREATE TABLE `version` (`versionInfo` INTEGER);");
     addCommand(1, "ALTER TABLE materiales RENAME TO materialesOld;");
     addCommand(1, "CREATE TABLE `materiales` ( "
-                                             " `id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+                                             " `id`	INTEGER NOT NULL PRIMARY KEY, "
                                              " `name`	TEXT NOT NULL, "
                                              " `description`	TEXT, "
                                              " `idUnit`	INTEGER, "

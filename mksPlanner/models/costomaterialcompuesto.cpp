@@ -87,15 +87,22 @@ QSqlQuery* CostoMaterialCompuesto::getQuery(QSqlDatabase &database)
 double CostoMaterialCompuesto::costo() const
 {
     ComponentesMaterialesModel* modelComponentes = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
-    QList<int> idMateriales = modelComponentes->idComponentes(_idMaterial);
+    QList<int> idComponentes = modelComponentes->idComponentes(_idMaterial);
 
     CostoMaterialesModel* modelCostos = dynamic_cast<CostoMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::CostosUnitarios));
 
     double costoAcumulado = 0.;
-    foreach (int id, idMateriales)
+    foreach (int id, idComponentes)
     {
-        double factor = qSharedPointerDynamicCast<ComponenteMaterial>(modelComponentes->getItem(id))->cantidad();
-        double costo = qSharedPointerDynamicCast<CostoMaterial>(modelCostos->getItem(id))->costo();
+        ComponenteMaterialPtr componente = qSharedPointerDynamicCast<ComponenteMaterial>(modelComponentes->getItem(id));
+        double factor = componente->cantidad();
+        CostoMaterialPtr cm = qSharedPointerDynamicCast<CostoMaterial>(modelCostos->getItemByIdMaterial(componente->idMaterial()));
+        if (cm.isNull())
+        {
+            costoAcumulado = NAN;
+            break;
+        }
+        double costo = cm->costo();
         costoAcumulado += factor * costo;
     }
     return costoAcumulado;
@@ -104,14 +111,21 @@ double CostoMaterialCompuesto::costo() const
 QDate CostoMaterialCompuesto::desde() const
 {
     ComponentesMaterialesModel* modelComponentes = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
-    QList<int> idMateriales = modelComponentes->idComponentes(_idMaterial);
+    QList<int> idComponentes = modelComponentes->idComponentes(_idMaterial);
 
     CostoMaterialesModel* modelCostos = dynamic_cast<CostoMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::CostosUnitarios));
 
     QDate fechaCostoMasViejo = QDate::currentDate();
-    foreach (int id, idMateriales)
+    foreach (int id, idComponentes)
     {
-        QDate fechaCosto = qSharedPointerDynamicCast<CostoMaterial>(modelCostos->getItem(id))->desde();
+        ComponenteMaterialPtr componente = qSharedPointerDynamicCast<ComponenteMaterial>(modelComponentes->getItem(id));
+        CostoMaterialPtr cm = qSharedPointerDynamicCast<CostoMaterial>(modelCostos->getItemByIdMaterial(componente->idMaterial()));
+        if (cm.isNull())
+        {
+            fechaCostoMasViejo.setDate(0, 0, 0);
+            break;
+        }
+        QDate fechaCosto = cm->desde();
         fechaCostoMasViejo = (fechaCosto < fechaCostoMasViejo) ? fechaCosto : fechaCostoMasViejo;
     }
     return fechaCostoMasViejo;
