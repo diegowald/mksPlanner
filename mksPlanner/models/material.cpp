@@ -162,7 +162,7 @@ int Material::idRubro() const
 
 EntityBasePtr Material::rubro() const
 {
-    return GlobalContainer::instance().materialLibrary()->model(Tables::RubrosProveedores)->getItem(_idRubro);
+    return GlobalContainer::instance().materialLibrary()->model(Tables::Rubros)->getItem(_idRubro);
 }
 
 QSet<int> Material::materialsComposedBy()

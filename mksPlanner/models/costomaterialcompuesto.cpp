@@ -38,7 +38,7 @@ bool CostoMaterialCompuesto::internalSetData(const int column, const QVariant &v
     return false;
 }
 
-QSqlQuery* CostoMaterialCompuesto::getQuery(QSqlDatabase &database)
+QSqlQuery* CostoMaterialCompuesto::getQuery(QSqlDatabase &/*database*/)
 {
     return NULL; // Este es un material compuesto, por lo que el costo siempre se calcula en base a los materiales
 }

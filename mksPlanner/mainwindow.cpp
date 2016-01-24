@@ -136,7 +136,7 @@ void MainWindow::on_actionRubros_triggered()
     if (!showSubWindow("Rubros"))
     {
         TableWindow *frm = new TableWindow("Rubros");
-        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::RubrosProveedores));
+        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Rubros));
         createSubWindow("Rubros", frm);
     }
 }

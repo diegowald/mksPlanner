@@ -6,6 +6,8 @@
 #include "persistance/materialslibrary.h"
 #include "views/tablewindow.h"
 #include "models/tareasproveedoresmodel.h"
+#include <QListView>
+
 
 dlgEditProveedor::dlgEditProveedor(ProveedoresModel *model, int row, QWidget *parent) :
     QDialog(parent),
@@ -25,12 +27,16 @@ dlgEditProveedor::dlgEditProveedor(ProveedoresModel *model, int row, QWidget *pa
     _mapper->setCurrentIndex(row);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-    TableWindow *t = new TableWindow("", this);
+/*    TableWindow *t = new TableWindow("", this);
     EntityBasePtr entity = _model->getItemByRowid(row);
     dynamic_cast<TareasProveedoresModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::TareasProveedores))->setIdProveedor(entity->id());
     t->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::TareasProveedores));
+*/
+    ui->tblRubros->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Rubros));
 
-    ui->frame->layout()->addWidget(t->window());
+    ui->tblRubros->setSelectionMode(QAbstractItemView::MultiSelection);
+    ui->tblRubros->setSelectionBehavior(QAbstractItemView::SelectRows);
+    //ui->frame->layout()->addWidget(t->window());
 }
 
 dlgEditProveedor::~dlgEditProveedor()
@@ -40,6 +46,10 @@ dlgEditProveedor::~dlgEditProveedor()
 
 void dlgEditProveedor::on_buttonBox_accepted()
 {
+    QModelIndexList lst = ui->tblRubros->selectionModel()->selectedRows(0);
+    foreach (QModelIndex mi, lst) {
+        qDebug() << mi.row();
+    }
     _mapper->submit();
     close();
 }

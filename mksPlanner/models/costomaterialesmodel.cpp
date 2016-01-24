@@ -15,7 +15,7 @@ CostoMaterialesModel::CostoMaterialesModel(QObject *parent) : ModelBase("costoMa
 }
 
 
-int CostoMaterialesModel::columnCount(const QModelIndex &parent) const
+int CostoMaterialesModel::columnCount(const QModelIndex &/*parent*/) const
 {
     return 4;
 }
@@ -136,7 +136,7 @@ EntityBasePtr CostoMaterialesModel::internalCreateEntity(int assignedId)
 }
 
 
-void CostoMaterialesModel::editEntity(int row)
+void CostoMaterialesModel::editEntity(int /*row*/)
 {
 }
 

@@ -17,7 +17,7 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
 
     ui->cboUnit->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Unidades));
 
-    ui->cboRubro->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::RubrosProveedores));
+    ui->cboRubro->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Rubros));
 
     //falta hacer que se vea el nombre de la unidad y que se seleccione el id
     ui->cboUnit->setModelColumn(1);
@@ -86,7 +86,7 @@ void dlgMaterialEditor::on_buttonBox_accepted()
         material->setUnit(unit->id());
     }
 
-    entity = GlobalContainer::instance().materialLibrary()->model(Tables::RubrosProveedores)->getItemByRowid(ui->cboRubro->currentIndex());
+    entity = GlobalContainer::instance().materialLibrary()->model(Tables::Rubros)->getItemByRowid(ui->cboRubro->currentIndex());
     if (!entity.isNull())
     {
         RubroPtr rubro = qSharedPointerDynamicCast<Rubro>(entity);

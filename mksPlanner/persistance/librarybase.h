@@ -12,7 +12,7 @@ enum class Tables {
     Tareas,
     Proveedores,
     TareasProveedores,
-    RubrosProveedores,
+    Rubros,
     Proyectos,
     CostosUnitarios
 };
