@@ -26,7 +26,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionSalir_triggered()
 {
-    //QApplication::exit(0);
     close();
 }
 

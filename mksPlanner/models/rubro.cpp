@@ -39,28 +39,6 @@ bool Rubro::internalSetData(const int column, const QVariant &value, int role)
     return false;
 }
 
-/*QVariant Rubro::internalData(const int column, int role) const
-{
-    switch (column)
-    {
-    case 0:
-        return id();
-        break;
-    case 1:
-        return _name;
-        break;
-    case 2:
-        return _description;
-        break;
-    case 3:
-        return _isTask;
-        break;
-    default:
-        return QVariant();
-        break;
-    }
-}*/
-
 QString Rubro::toDebugString()
 {
     return QString("id: %1, name: %2").arg(id()).arg(_name);

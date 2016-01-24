@@ -66,63 +66,6 @@ void ComponenteMaterial::setCantidad(double value)
     updateStatus(EntityStatus::modified);
 }
 
-/*QVariant ComponenteMaterial::internalData(const int column, int role) const
-{
-    QVariant result;
-    if (role == Qt::DisplayRole)
-    {
-        switch (column)
-        {
-        case 0:
-        {
-            result = id();
-            break;
-        }
-        case 1:
-        {
-            result = _idMaterialPadre;
-            break;
-        }
-        case 2:
-        {
-            result = _idMaterial;
-            break;
-        }
-        case 3:
-        {
-            result = _idMaterial != -1 ? qSharedPointerDynamicCast<Material>(material())->name() : "";
-            break;
-        }
-
-        case 4:
-        {
-            result = _cantidad;
-            break;
-        }
-        case 5:
-        {
-            if (_idMaterial == -1)
-                result = "";
-            else
-            {
-                MaterialPtr mat = qSharedPointerDynamicCast<Material>(material());
-                if (mat.isNull())
-                    result = "";
-                else
-                {
-                    UnitPtr unit = qSharedPointerDynamicCast<Unit>(mat->unit());
-                    result = unit.isNull() ? "" : unit->name();
-                }
-            }
-            break;
-        }
-        default:
-            break;
-        }
-    }
-    return result;
-}*/
-
 QSqlQuery* ComponenteMaterial::getQuery(QSqlDatabase &database)
 {
     QSqlQuery *query;

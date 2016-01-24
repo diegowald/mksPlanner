@@ -34,7 +34,6 @@ QVariant ModelBase::data(const QModelIndex &index, int role) const
 QVariant ModelBase::data(const int id, const int column, int role) const
 {
     return modelData(_entities[id], column, role);
-//    return _entities[id]->data(column, role);
 }
 
 bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -50,17 +49,14 @@ bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int rol
 Qt::ItemFlags ModelBase::flags(const QModelIndex &index) const
 {
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
-//    return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
 
 bool ModelBase::insertRows(int row, int count, const QModelIndex &parent)
 {
-    //TreeItem *parentItem = getItem(parent);
     bool success;
 
     beginInsertRows(parent, row, row + count - 1);
-    //success = parentItem->insertChildren(position, rows, rootItem->columnCount());
     EntityBasePtr entity = createEntity();
     success = true;
     endInsertRows();

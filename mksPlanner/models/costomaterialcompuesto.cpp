@@ -38,40 +38,6 @@ bool CostoMaterialCompuesto::internalSetData(const int column, const QVariant &v
     return false;
 }
 
-/*QVariant CostoMaterialCompuesto::internalData(const int column, int role) const
-{
-    QVariant result;
-    if (role == Qt::DisplayRole)
-    {
-        switch (column)
-        {
-        case 0:
-        {
-            result = id();
-            break;
-        }
-        case 1:
-        {
-            result = _idMaterial;
-            break;
-        }
-        case 2:
-        {
-            result = costo();
-            break;
-        }
-        case 3:
-        {
-            result = desde();
-            break;
-        }
-        default:
-            break;
-        }
-    }
-    return result;
-}*/
-
 QSqlQuery* CostoMaterialCompuesto::getQuery(QSqlDatabase &database)
 {
     return NULL; // Este es un material compuesto, por lo que el costo siempre se calcula en base a los materiales

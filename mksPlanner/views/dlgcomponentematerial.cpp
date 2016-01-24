@@ -58,16 +58,6 @@ dlgComponenteMaterial::~dlgComponenteMaterial()
     delete ui;
 }
 
-/*
-void dlgMaterialEditor::on_buttonBox_accepted()
-{
-    qDebug() << ui->cboUnit->currentData();
-    qDebug() << ui->cboUnit->currentIndex();
-    qDebug() << ui->cboUnit->currentText();
-    _mapper->submit();
-    close();
-}
-*/
 
 void dlgComponenteMaterial::on_buttonBox_accepted()
 {

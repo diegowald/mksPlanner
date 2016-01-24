@@ -34,11 +34,6 @@ protected:
     virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
 
 private:
-    //void classifyEntity(EntityBasePtr entity);
-signals:
-
-public slots:
-private:
     QMap<int, int> _mappingMaterialToCosto;
     bool _crearMaterialCompuesto; // esta es una propiedad temporal que se utiliza para crear un nuevo elemento
 };

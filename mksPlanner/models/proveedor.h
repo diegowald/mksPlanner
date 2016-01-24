@@ -15,7 +15,6 @@ public:
                        const QString &email, const QString &telefono, const QString &direccion);
 
     virtual bool internalSetData(const int column, const QVariant &value, int role);
-    //virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
 
     virtual QString toDebugString();
 

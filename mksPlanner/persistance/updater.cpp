@@ -13,7 +13,6 @@ Updater::Updater(QObject *parent) : QObject(parent)
 void Updater::updateFromVersion(const QString &filename, const int version)
 {
     QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
-    //_database.setDatabaseName(":memory:");
     database.setDatabaseName(filename);
     if (database.open())
     {

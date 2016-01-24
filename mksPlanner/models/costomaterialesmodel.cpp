@@ -117,13 +117,7 @@ int CostoMaterialesModel::_loadEntity(QSqlRecord record)
 }
 
 
-/*
-bool UnitsModel::removeRow(int row, const QModelIndex &parent)
-{
-    _entities[_entityMapping.at(row)]->deleteEntity();
-    _entityMapping.removeAt(row);
-}
-*/
+
 
 EntityBasePtr CostoMaterialesModel::internalCreateEntity(int assignedId)
 {
@@ -143,15 +137,9 @@ EntityBasePtr CostoMaterialesModel::internalCreateEntity(int assignedId)
 
 
 void CostoMaterialesModel::editEntity(int row)
-{/*
-    dlgComponenteMaterial dlg(_idMterialPadre, this, row);
-    dlg.exec();*/
+{
 }
 
-/*void CostoMaterialesModel::setIdMaterialPadre(int idMaterialPadre)
-{
-    _idMterialPadre = idMaterialPadre;
-}*/
 
 EntityBasePtr CostoMaterialesModel::getItemByRowid(int row)
 {

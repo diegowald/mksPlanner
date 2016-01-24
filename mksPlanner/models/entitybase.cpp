@@ -20,11 +20,6 @@ bool EntityBase::setData(const int column, const QVariant &value, int role)
     return res;
 }
 
-/*QVariant EntityBase::data(const int column, int role) const
-{
-    return internalData(column, role);
-}*/
-
 int EntityBase::id() const
 {
     return _id;

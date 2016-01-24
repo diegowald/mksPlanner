@@ -53,40 +53,6 @@ void TaskProveedor::setIdTask(int id)
     updateStatus(EntityStatus::modified);
 }
 
-/*QVariant TaskProveedor::internalData(const int column, int role) const
-{
-    QVariant result;
-    if (role == Qt::DisplayRole)
-    {
-        switch (column)
-        {
-        case 0:
-        {
-            result = id();
-            break;
-        }
-        case 1:
-        {
-            result = _idProveedor;
-            break;
-        }
-        case 2:
-        {
-            result = _idTask;
-            break;
-        }
-        case 3:
-        {
-            result = _idTask != -1 ? qSharedPointerDynamicCast<Material>(task())->name() : "";
-            break;
-        }
-        default:
-            break;
-        }
-    }
-    return result;
-}*/
-
 QSqlQuery* TaskProveedor::getQuery(QSqlDatabase &database)
 {
     QSqlQuery *query;

@@ -50,38 +50,6 @@ bool Proyecto::internalSetData(const int column, const QVariant &value, int role
     return false;
 }
 
-/*QVariant Proyecto::internalData(const int column, int role) const
-{
-    switch (column)
-    {
-    case 0:
-        return id();
-        break;
-    case 1:
-    {
-        return _propietario;
-        break;
-    }
-    case 2:
-    {
-        return _direccion;
-        break;
-    }
-    case 3:
-    {
-        return _email;
-        break;
-    }
-    case 4:
-    {
-        return _telefono;
-        break;
-    }
-    default:
-        return QVariant();
-        break;
-    }
-}*/
 
 QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
 {

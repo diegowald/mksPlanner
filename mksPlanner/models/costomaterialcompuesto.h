@@ -14,7 +14,6 @@ public:
     explicit CostoMaterialCompuesto(int id);
 
     virtual bool internalSetData(const int column, const QVariant &value, int role);
-    //virtual QVariant internalData(const int column, int role = Qt::DisplayRole) const;
 
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 

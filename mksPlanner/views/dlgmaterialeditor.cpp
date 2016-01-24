@@ -58,7 +58,6 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
     _selectedRow = row;
 
     TableWindow *t = new TableWindow("", this);
-    //QWidget* w = QWidget::createWindowContainer(t->window(), this);
     entity = _model->getItemByRowid(row);
     dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales))->setIdMaterialPadre(entity->id());
     t->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));

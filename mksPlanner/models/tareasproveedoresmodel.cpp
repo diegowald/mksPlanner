@@ -140,7 +140,6 @@ void TareasProveedoresModel::setIdProveedor(int idProveedor)
 void TareasProveedoresModel::classifyEntity(EntityBasePtr entity)
 {
     TaskProveedorPtr tareaProveedor = qSharedPointerDynamicCast<TaskProveedor>(entity);
-    //QMap<int, QMap<int, EntityBasePtr>> _entityMappingByIdMaterialPadre;
     _entityMappingByIdProveedor[tareaProveedor->idProveedor()].append(entity->id());
 }
 

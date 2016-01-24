@@ -93,14 +93,6 @@ int RubrosModel::_loadEntity(QSqlRecord record)
 }
 
 
-/*
-bool UnitsModel::removeRow(int row, const QModelIndex &parent)
-{
-    _entities[_entityMapping.at(row)]->deleteEntity();
-    _entityMapping.removeAt(row);
-}
-*/
-
 EntityBasePtr RubrosModel::internalCreateEntity(int assignedId)
 {
     return RubroPtr::create(assignedId);

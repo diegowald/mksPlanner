@@ -34,25 +34,6 @@ bool Unit::internalSetData(const int column, const QVariant &value, int role)
     return false;
 }
 
-/*QVariant Unit::internalData(const int column, int role) const
-{
-    switch (column)
-    {
-    case 0:
-        return id();
-        break;
-    case 1:
-        return _name;
-        break;
-    case 2:
-        return _description;
-        break;
-    default:
-        return QVariant();
-        break;
-    }
-}*/
-
 QSqlQuery* Unit::getQuery(QSqlDatabase &database)
 {
     QSqlQuery *query;

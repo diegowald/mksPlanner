@@ -112,15 +112,6 @@ int ProveedoresModel::_loadEntity(QSqlRecord record)
     return id;
 }
 
-
-/*
-bool UnitsModel::removeRow(int row, const QModelIndex &parent)
-{
-    _entities[_entityMapping.at(row)]->deleteEntity();
-    _entityMapping.removeAt(row);
-}
-*/
-
 EntityBasePtr ProveedoresModel::internalCreateEntity(int assignedId)
 {
     return ProveedorPtr::create(assignedId);

@@ -32,15 +32,9 @@ void LibraryBase::checkVersion(const QString &filename)
 {
     QString sql = "select versionInfo from version";
     QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
-    //_database.setDatabaseName(":memory:");
     database.setDatabaseName(filename);
-    if (!database.open()) {
-        /*QMessageBox::critical(0, "Cannot open database",
-                              "Unable to establish a database connection.\n"
-                              "This example needs SQLite support. Please read "
-                              "the Qt SQL driver documentation for information how "
-                              "to build it.\n\n"
-                              "Click Cancel to exit.", QMessageBox::Cancel);*/
+    if (!database.open())
+    {
         return;
     }
 
@@ -48,7 +42,6 @@ void LibraryBase::checkVersion(const QString &filename)
     qDebug() << query.exec(sql);
     qDebug() << query.lastError().text();
 
-    // cargo los registros.
     QString versionInfo = "";
     while (query.next())
     {
@@ -57,6 +50,5 @@ void LibraryBase::checkVersion(const QString &filename)
 
     qDebug() << versionInfo;
     updateFromVersion(filename, versionInfo);
-    // cierro la base de datos
     database.close();
 }

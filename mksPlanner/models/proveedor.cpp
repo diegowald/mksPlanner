@@ -49,34 +49,6 @@ bool Proveedor::internalSetData(const int column, const QVariant &value, int rol
     return false;
 }
 
-/*QVariant Proveedor::internalData(const int column, int role) const
-{
-    switch (column)
-    {
-    case 0:
-        return id();
-        break;
-    case 1:
-        return _name;
-        break;
-    case 2:
-        return _contacto;
-        break;
-    case 3:
-        return _email;
-        break;
-    case 4:
-        return _telefono;
-        break;
-    case 5:
-        return _direccion;
-        break;
-    default:
-        return QVariant();
-        break;
-    }
-}*/
-
 QSqlQuery* Proveedor::getQuery(QSqlDatabase &database)
 {
     QSqlQuery *query;

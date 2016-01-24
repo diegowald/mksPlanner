@@ -66,40 +66,6 @@ void CostoMaterial::setDesde(QDate &date)
     updateStatus(EntityStatus::modified);
 }
 
-/*QVariant CostoMaterial::internalData(const int column, int role) const
-{
-    QVariant result;
-    if (role == Qt::DisplayRole)
-    {
-        switch (column)
-        {
-        case 0:
-        {
-            result = id();
-            break;
-        }
-        case 1:
-        {
-            result = _idMaterial;
-            break;
-        }
-        case 2:
-        {
-            result = _costo;
-            break;
-        }
-        case 3:
-        {
-            result = _desde;
-            break;
-        }
-        default:
-            break;
-        }
-    }
-    return result;
-}*/
-
 QSqlQuery* CostoMaterial::getQuery(QSqlDatabase &database)
 {
     QSqlQuery *query;

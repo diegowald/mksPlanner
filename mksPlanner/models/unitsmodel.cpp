@@ -86,15 +86,6 @@ int UnitsModel::_loadEntity(QSqlRecord record)
     return id;
 }
 
-
-/*
-bool UnitsModel::removeRow(int row, const QModelIndex &parent)
-{
-    _entities[_entityMapping.at(row)]->deleteEntity();
-    _entityMapping.removeAt(row);
-}
-*/
-
 EntityBasePtr UnitsModel::internalCreateEntity(int assignedId)
 {
     return UnitPtr::create(assignedId);
