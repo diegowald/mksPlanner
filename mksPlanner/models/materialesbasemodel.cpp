@@ -105,6 +105,35 @@ QVariant MaterialesBaseModel::modelData(EntityBasePtr entity, int column, int ro
     return result;
 }
 
+bool MaterialesBaseModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+{
+    MaterialPtr m = qSharedPointerDynamicCast<Material>(entity);
+    bool result = false;
+    switch (column)
+    {
+    case 1:
+        m->setName(value.toString());
+        result = true;
+        break;
+    case 2:
+        m->setDescription(value.toString());
+        result = true;
+        break;
+    case 3:
+        m->setUnit(value.toInt());
+        result = true;
+        break;
+    case 4:
+        m->setRubro(value.toInt());
+        result = true;
+        break;
+    default:
+        break;
+    }
+    return result;
+}
+
+
 QString MaterialesBaseModel::_getSQLRead() const
 {
     return "select * from materiales;";

@@ -26,7 +26,7 @@ Material::Material(int id, bool isTask):EntityBase(id, true)
     _isTask = isTask;
 }
 
-bool Material::internalSetData(const int column, const QVariant &value, int role)
+/*bool Material::internalSetData(const int column, const QVariant &value, int role)
 {
     bool result = false;
     switch (column)
@@ -51,7 +51,7 @@ bool Material::internalSetData(const int column, const QVariant &value, int role
         break;
     }
     return result;
-}
+}*/
 
 /*QVariant Material::internalData(const int column, int role) const
 {
@@ -206,4 +206,17 @@ bool Material::isCompuesto() const
 bool Material::isUsableMaterial() const
 {
     return _isUsableMaterial;
+}
+
+
+void Material::setName(const QString &value)
+{
+    _name = value;
+    updateStatus();
+}
+
+void Material::setDescription(const QString &value)
+{
+    _description = value;
+    updateStatus();
 }

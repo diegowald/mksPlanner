@@ -12,13 +12,16 @@ public:
     explicit Unit(int id, const QString &name, const QString &description);
     explicit Unit(int id);
 
-    virtual bool internalSetData(const int column, const QVariant &value, int role);
+    //virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QString toDebugString();
 
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
     QString name() const;
     QString description() const;
+
+    void setName(const QString &value);
+    void setDescripcion(const QString &value);
 signals:
 
 public slots:

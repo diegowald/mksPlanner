@@ -18,7 +18,7 @@ CostoMaterialCompuesto::CostoMaterialCompuesto(int id): CostoMaterial(id)
     _idMaterial = -1;
 }
 
-bool CostoMaterialCompuesto::internalSetData(const int column, const QVariant &value, int role)
+/*bool CostoMaterialCompuesto::internalSetData(const int column, const QVariant &value, int role)
 {
     if (role == Qt::EditRole)
     {
@@ -36,7 +36,7 @@ bool CostoMaterialCompuesto::internalSetData(const int column, const QVariant &v
         return true;
     }
     return false;
-}
+}*/
 
 QSqlQuery* CostoMaterialCompuesto::getQuery(QSqlDatabase &/*database*/)
 {

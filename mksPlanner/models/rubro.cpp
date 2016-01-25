@@ -15,7 +15,7 @@ Rubro::Rubro(int id, const QString &name, const QString &description, bool isTas
     _isTask = isTask;
 }
 
-bool Rubro::internalSetData(const int column, const QVariant &value, int role)
+/*bool Rubro::internalSetData(const int column, const QVariant &value, int role)
 {
     switch (column)
     {
@@ -37,7 +37,7 @@ bool Rubro::internalSetData(const int column, const QVariant &value, int role)
         break;
     }
     return false;
-}
+}*/
 
 QString Rubro::toDebugString()
 {
@@ -95,4 +95,23 @@ QString Rubro::description() const
 bool Rubro::isTask() const
 {
     return _isTask;
+}
+
+
+void Rubro::setName(const QString &value)
+{
+    _name = value;
+    updateStatus();
+}
+
+void Rubro::setDescripcion(const QString &value)
+{
+    _description = value;
+    updateStatus();
+}
+
+void Rubro::setIsTask(bool value)
+{
+    _isTask = value;
+    updateStatus();
 }

@@ -75,6 +75,32 @@ QVariant RubrosModel::modelData(EntityBasePtr entity, int column, int role) cons
     }
 }
 
+bool RubrosModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+{
+    RubroPtr r = qSharedPointerDynamicCast<Rubro>(entity);
+    bool result = false;
+    switch (column)
+    {
+    case 0:
+        result = true;
+        break;
+    case 1:
+        r->setName(value.toString());
+        result = true;
+        break;
+    case 2:
+        r->setDescripcion(value.toString());
+        result = true;
+        break;
+    case 3:
+        r->setIsTask(value.toBool());
+        result = true;
+        break;
+    default:
+        break;
+    }
+    return result;
+}
 
 QString RubrosModel::_getSQLRead() const
 {

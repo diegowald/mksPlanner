@@ -21,9 +21,9 @@ public:
     explicit EntityBase();
     explicit EntityBase(int id, bool isNew = false);
 
-    bool setData(const int column, const QVariant &value, int role);
+    //bool setData(const int column, const QVariant &value, int role);
 
-    virtual bool internalSetData(const int column, const QVariant &value, int role) = 0;
+    //virtual bool internalSetData(const int column, const QVariant &value, int role) = 0;
     virtual QSqlQuery* getQuery(QSqlDatabase &database) = 0;
     virtual QString toDebugString() = 0;
 
@@ -36,7 +36,7 @@ public:
 
     EntityStatus status();
 
-    void updateStatus(EntityStatus newStatus);
+    void updateStatus(EntityStatus newStatus = EntityStatus::modified);
 
 private:
     int _id;

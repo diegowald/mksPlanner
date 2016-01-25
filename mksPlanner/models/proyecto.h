@@ -11,7 +11,7 @@ public:
     explicit Proyecto(int id, const QString &propietario, const QString &direccion, const QString &email, const QString &telefono);
     explicit Proyecto(int id);
 
-    virtual bool internalSetData(const int column, const QVariant &value, int role);
+    //virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
     virtual QString toDebugString();
@@ -21,6 +21,10 @@ public:
     QString email();
     QString telefono();
 
+    void setPropietario(const QString& value);
+    void setDireccion(const QString& value);
+    void setEMail(const QString& value);
+    void setTelefono(const QString& value);
 signals:
 
 public slots:

@@ -10,7 +10,7 @@ public:
     explicit RubroProveedor(int id, int idProveedor, int idRubro);
     explicit RubroProveedor(int id);
 
-    virtual bool internalSetData(const int column, const QVariant &value, int role);
+    //virtual bool internalSetData(const int column, const QVariant &value, int role);
 
     virtual QString toDebugString();
     virtual QSqlQuery* getQuery(QSqlDatabase &database);

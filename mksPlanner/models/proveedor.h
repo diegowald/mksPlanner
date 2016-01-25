@@ -14,7 +14,7 @@ public:
     explicit Proveedor(int id, const QString &name, const QString &contacto,
                        const QString &email, const QString &telefono, const QString &direccion);
 
-    virtual bool internalSetData(const int column, const QVariant &value, int role);
+    //virtual bool internalSetData(const int column, const QVariant &value, int role);
 
     virtual QString toDebugString();
 
@@ -25,6 +25,12 @@ public:
     QString email() const;
     QString telefono() const;
     QString direccion() const;
+
+    void setName(const QString &value);
+    void setContacto(const QString &value);
+    void setEMail(const QString &value);
+    void setTelefono(const QString &value);
+    void setDireccion(const QString &value);
 signals:
 
 public slots:

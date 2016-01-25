@@ -16,7 +16,7 @@ RubroProveedor::RubroProveedor(int id) : EntityBase(id, true)
     _idRubro = -1;
 }
 
-bool RubroProveedor::internalSetData(const int column, const QVariant &value, int role)
+/*bool RubroProveedor::internalSetData(const int column, const QVariant &value, int role)
 {
     if (role == Qt::EditRole)
     {
@@ -39,7 +39,7 @@ bool RubroProveedor::internalSetData(const int column, const QVariant &value, in
         return true;
     }
     return false;
-}
+}*/
 
 void RubroProveedor::setIdProveedor(int id)
 {

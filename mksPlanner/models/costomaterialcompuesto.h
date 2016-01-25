@@ -13,7 +13,7 @@ public:
     explicit CostoMaterialCompuesto(int id, int idMaterial);
     explicit CostoMaterialCompuesto(int id);
 
-    virtual bool internalSetData(const int column, const QVariant &value, int role);
+    //virtual bool internalSetData(const int column, const QVariant &value, int role);
 
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 

@@ -235,7 +235,8 @@ bool CostoMaterialesModel::setData(const QModelIndex &index, const QVariant &val
             _mappingMaterialToCosto[idMaterial] = entity->id();
         }
         entity = _entities[_mappingMaterialToCosto[idMaterial]];
-        entity->setData(index.column(), value, role);
+        modelSetData(entity, index.column(), value, role);
+//        entity->setData(index.column(), value, role);
     }
     return true;
 }
@@ -243,14 +244,16 @@ bool CostoMaterialesModel::setData(const QModelIndex &index, const QVariant &val
 
 Qt::ItemFlags CostoMaterialesModel::flags(const QModelIndex &index) const
 {
-    Qt::ItemFlags result;
-    if (index.column() < 2)
+    Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+
+    if (index.column() >= 2)
     {
-        result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
-    }
-    else
-    {
-        result = Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+        EntityBasePtr entityMaterial = GlobalContainer::instance().library()->model(Tables::Materiales)->getItemByRowid(index.row());
+        MaterialPtr material = qSharedPointerDynamicCast<Material>(entityMaterial);
+        if (!material->isCompuesto())
+        {
+            result = Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+        }
     }
     return result;
 }
@@ -280,4 +283,40 @@ void CostoMaterialesModel::postProcessData()
             }
         }
     }
+}
+
+bool CostoMaterialesModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+{
+    CostoMaterialPtr cm = qSharedPointerDynamicCast<CostoMaterial>(entity);
+    bool resultado = false;
+    if (role == Qt::EditRole)
+    {
+        switch (column)
+        {
+        case 1:
+        {
+            cm->setIdMaterial(value.toInt());
+            resultado = true;
+            break;
+        }
+        case 2:
+        {
+            cm->setCosto(value.toDouble());
+            resultado = true;
+            break;
+        }
+        case 3:
+        {
+            QDate date = value.toDate();
+            cm->setDesde(date);
+            resultado = true;
+            break;
+        }
+        default:
+            break;
+        }
+
+        return true;
+    }
+    return false;
 }

@@ -18,7 +18,7 @@ Proyecto::Proyecto(int id) : EntityBase(id, true)
 }
 
 
-bool Proyecto::internalSetData(const int column, const QVariant &value, int role)
+/*bool Proyecto::internalSetData(const int column, const QVariant &value, int role)
 {
     switch (column)
     {
@@ -48,7 +48,7 @@ bool Proyecto::internalSetData(const int column, const QVariant &value, int role
         break;
     }
     return false;
-}
+}*/
 
 
 QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
@@ -116,4 +116,28 @@ QString Proyecto::email()
 QString Proyecto::telefono()
 {
     return _telefono;
+}
+
+void Proyecto::setPropietario(const QString &value)
+{
+    _propietario = value;
+    updateStatus();
+}
+
+void Proyecto::setDireccion(const QString &value)
+{
+    _direccion = value;
+    updateStatus();
+}
+
+void Proyecto::setEMail(const QString &value)
+{
+    _email = value;
+    updateStatus();
+}
+
+void Proyecto::setTelefono(const QString &value)
+{
+    _telefono = value;
+    updateStatus();
 }

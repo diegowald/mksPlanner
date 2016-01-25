@@ -89,6 +89,41 @@ QVariant ProyectoModel::modelData(EntityBasePtr entity, int column, int role) co
     }
 }
 
+bool ProyectoModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+{
+    ProyectoPtr p = qSharedPointerDynamicCast<Proyecto>(entity);
+    bool result = false;
+    switch (column)
+    {
+    case 0:
+        result = true;
+        break;
+    case 1:
+        p->setPropietario(value.toString());
+        result = true;
+        break;
+    case 2:
+        p->setDireccion(value.toString());
+        result = true;
+        break;
+    case 3:
+    {
+        p->setEMail(value.toString());
+        result = true;
+        break;
+    }
+    case 4:
+    {
+        p->setTelefono(value.toString());
+        result = true;
+        break;
+    }
+    default:
+        break;
+    }
+    return result;
+}
+
 
 QString ProyectoModel::_getSQLRead() const
 {

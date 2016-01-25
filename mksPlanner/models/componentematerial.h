@@ -11,7 +11,7 @@ public:
     explicit ComponenteMaterial(int id, int idMaterialPadre, int idMaterial, double cantidad);
     explicit ComponenteMaterial(int id);
 
-    virtual bool internalSetData(const int column, const QVariant &value, int role);
+    //virtual bool internalSetData(const int column, const QVariant &value, int role);
 
     virtual QString toDebugString();
 

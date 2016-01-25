@@ -14,7 +14,7 @@ Unit::Unit(int id) : EntityBase(id, true)
     _description = "";
 }
 
-bool Unit::internalSetData(const int column, const QVariant &value, int role)
+/*bool Unit::internalSetData(const int column, const QVariant &value, int role)
 {
     switch (column)
     {
@@ -32,7 +32,7 @@ bool Unit::internalSetData(const int column, const QVariant &value, int role)
         break;
     }
     return false;
-}
+}*/
 
 QSqlQuery* Unit::getQuery(QSqlDatabase &database)
 {
@@ -83,4 +83,16 @@ QString Unit::description() const
 QString Unit::toDebugString()
 {
     return QString("id: %1, name: %2").arg(id()).arg(_name);
+}
+
+void Unit::setName(const QString &value)
+{
+    _name = name();
+    updateStatus();
+}
+
+void Unit::setDescripcion(const QString &value)
+{
+    _description = value;
+    updateStatus();
 }

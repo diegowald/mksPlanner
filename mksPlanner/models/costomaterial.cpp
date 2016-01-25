@@ -18,7 +18,7 @@ CostoMaterial::CostoMaterial(int id, int idMaterial, double costo, QDate desde) 
 }
 
 
-bool CostoMaterial::internalSetData(const int column, const QVariant &value, int role)
+/*bool CostoMaterial::internalSetData(const int column, const QVariant &value, int role)
 {
     if (role == Qt::EditRole)
     {
@@ -46,7 +46,7 @@ bool CostoMaterial::internalSetData(const int column, const QVariant &value, int
         return true;
     }
     return false;
-}
+}*/
 
 void CostoMaterial::setIdMaterial(int id)
 {

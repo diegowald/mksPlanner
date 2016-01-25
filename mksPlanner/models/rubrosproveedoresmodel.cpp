@@ -91,7 +91,33 @@ QVariant RubrosProveedoresModel::modelData(EntityBasePtr entity, int column, int
         }
     }
     return result;
+}
 
+bool RubrosProveedoresModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+{
+    RubroProveedorPtr rp = qSharedPointerDynamicCast<RubroProveedor>(entity);
+    bool result = false;
+    if (role == Qt::EditRole)
+    {
+        switch (column)
+        {
+        case 1:
+        {
+            rp->setIdProveedor(value.toInt());
+            result = true;
+            break;
+        }
+        case 2:
+        {
+            rp->setIdRubro(value.toInt());
+            result = true;
+            break;
+        }
+        default:
+            break;
+        }
+    }
+    return result;
 }
 
 
@@ -163,7 +189,8 @@ bool RubrosProveedoresModel::setData(const QModelIndex &index, const QVariant &v
     if (role == Qt::EditRole)
     {
         EntityBasePtr entity = _entities[_entityMappingByIdProveedor[_idProveedor].at(index.row())];
-        entity->setData(index.column(), value, role);
+        modelSetData(entity, index.column(), value, role);
+        //entity->setData(index.column(), value, role);
     }
     return true;
 }

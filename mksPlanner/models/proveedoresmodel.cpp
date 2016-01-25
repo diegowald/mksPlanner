@@ -91,6 +91,41 @@ QVariant ProveedoresModel::modelData(EntityBasePtr entity, int column, int role)
     }
 }
 
+bool ProveedoresModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+{
+    ProveedorPtr p = qSharedPointerDynamicCast<Proveedor>(entity);
+    bool result = false;
+    switch (column)
+    {
+    case 0:
+        result = true;
+        break;
+    case 1:
+        p->setName(value.toString());
+        result = true;
+        break;
+    case 2:
+        p->setContacto(value.toString());
+        result = true;
+        break;
+    case 3:
+        p->setEMail(value.toString());
+        result = true;
+        break;
+    case 4:
+        p->setTelefono(value.toString());
+        result = true;
+        break;
+    case 5:
+        p->setDireccion(value.toString());
+        result = true;
+        break;
+    default:
+        break;
+    }
+    return result;
+}
+
 QString ProveedoresModel::_getSQLRead() const
 {
     return "select * from proveedores;";

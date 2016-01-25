@@ -13,12 +13,12 @@ EntityBase::EntityBase(int id, bool isNew) : QObject(0)
     _status = isNew ? EntityStatus::added : EntityStatus::unchanged;
 }
 
-bool EntityBase::setData(const int column, const QVariant &value, int role)
+/*bool EntityBase::setData(const int column, const QVariant &value, int role)
 {
     bool res = internalSetData(column, value, role);
     updateStatus(EntityStatus::modified);
     return res;
-}
+}*/
 
 int EntityBase::id() const
 {

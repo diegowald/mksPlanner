@@ -10,7 +10,7 @@ class Material : public EntityBase
 public:
     explicit Material(int id, const QString &name, const QString &description, int idUnit, int idRubro, bool isUsableMaterial, bool isTask);
     explicit Material(int id, bool isTask);
-    virtual bool internalSetData(const int column, const QVariant &value, int role);
+    //virtual bool internalSetData(const int column, const QVariant &value, int role);
 
     virtual QString toDebugString();
 
@@ -26,6 +26,8 @@ public:
 
     bool isTask() const;
 
+    void setName(const QString &value);
+    void setDescription(const QString &value);
     void setUnit(int idUnit);
     void setRubro(int idRubro);
 

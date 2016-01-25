@@ -32,13 +32,11 @@ dlgEditProveedor::dlgEditProveedor(ProveedoresModel *model, int row, QWidget *pa
     EntityBasePtr entity = _model->getItemByRowid(row);
     dynamic_cast<RubrosProveedoresModel*>(GlobalContainer::instance().library()->model(Tables::RubrosProveedores))->setIdProveedor(entity->id());
     t->setModel(GlobalContainer::instance().library()->model(Tables::RubrosProveedores));
+    t->hideColumn(1);
+    t->hideColumn(2);
 
     ui->frmRubros->layout()->addWidget(t->window());
 
-    /*ui->tblRubros->setModel(GlobalContainer::instance().library()->model(Tables::Rubros));
-
-    ui->tblRubros->setSelectionMode(QAbstractItemView::MultiSelection);
-    ui->tblRubros->setSelectionBehavior(QAbstractItemView::SelectRows);*/
 }
 
 dlgEditProveedor::~dlgEditProveedor()

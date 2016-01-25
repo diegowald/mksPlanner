@@ -19,6 +19,7 @@ protected:
     virtual int _loadEntity(QSqlRecord record);
     virtual EntityBasePtr internalCreateEntity(int assignedId);
     virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
+    virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
 };
 
 #endif // PROYECTOMODEL_H

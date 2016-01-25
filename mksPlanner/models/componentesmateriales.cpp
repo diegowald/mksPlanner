@@ -127,6 +127,36 @@ QVariant ComponentesMaterialesModel::modelData(EntityBasePtr entity, int column,
     return result;
 }
 
+bool ComponentesMaterialesModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+{
+    ComponenteMaterialPtr cm = qSharedPointerDynamicCast<ComponenteMaterial>(entity);
+    if (role == Qt::EditRole)
+    {
+        switch (column)
+        {
+        case 1:
+        {
+            cm->setIdMaterialPadre(value.toInt());
+            break;
+        }
+        case 2:
+        {
+            cm->setIdMaterial(value.toInt());
+            break;
+        }
+        case 4:
+        {
+            cm->setCantidad(value.toDouble());
+            break;
+        }
+        default:
+            break;
+        }
+        return true;
+    }
+    return false;
+}
+
 QString ComponentesMaterialesModel::_getSQLRead() const
 {
     return "select * from componentesMateriales;";
@@ -188,7 +218,8 @@ bool ComponentesMaterialesModel::setData(const QModelIndex &index, const QVarian
     if (role == Qt::EditRole)
     {
         EntityBasePtr entity = _entities[_entityMappingByIdMaterialPadre[_idMterialPadre].at(index.row())];
-        entity->setData(index.column(), value, role);
+        return modelSetData(entity, index.column(), value, role);
+//        entity->setData(index.column(), value, role);
     }
     return true;
 }

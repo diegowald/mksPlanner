@@ -41,7 +41,7 @@ bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int rol
     if (role == Qt::EditRole)
     {
         EntityBasePtr entity = _entities[_entityMapping.at(index.row())];
-        entity->setData(index.column(), value, role);
+        return modelSetData(entity, index.column(), value, role);
     }
     return true;
 }

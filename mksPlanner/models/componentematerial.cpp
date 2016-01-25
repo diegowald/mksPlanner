@@ -18,7 +18,7 @@ ComponenteMaterial::ComponenteMaterial(int id, int idMaterialPadre, int idMateri
     _idMaterialPadre = idMaterialPadre;
 }
 
-bool ComponenteMaterial::internalSetData(const int column, const QVariant &value, int role)
+/*bool ComponenteMaterial::internalSetData(const int column, const QVariant &value, int role)
 {
     if (role == Qt::EditRole)
     {
@@ -46,7 +46,7 @@ bool ComponenteMaterial::internalSetData(const int column, const QVariant &value
         return true;
     }
     return false;
-}
+}*/
 
 void ComponenteMaterial::setIdMaterialPadre(int id)
 {

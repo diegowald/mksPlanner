@@ -71,6 +71,31 @@ QVariant UnitsModel::modelData(EntityBasePtr entity, int column, int role) const
     return result;
 }
 
+bool UnitsModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+{
+    UnitPtr unit = qSharedPointerDynamicCast<Unit>(entity);
+    bool result = false;
+    switch (column)
+    {
+    case 0:
+        // Se ignora
+        result = true;
+    case 1:
+        unit->setName(value.toString());
+        result = true;
+        break;
+    case 2:
+        unit->setDescripcion(value.toString());
+        result = true;
+        break;
+    default:
+        result = false;
+        break;
+    }
+
+    return result;
+}
+
 QString UnitsModel::_getSQLRead() const
 {
     return "select * from units;";

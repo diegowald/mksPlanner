@@ -17,7 +17,7 @@ Proveedor::Proveedor(int id, const QString &name, const QString &contacto,
     _direccion = direccion;
 }
 
-bool Proveedor::internalSetData(const int column, const QVariant &value, int role)
+/*bool Proveedor::internalSetData(const int column, const QVariant &value, int role)
 {
     switch (column)
     {
@@ -47,7 +47,7 @@ bool Proveedor::internalSetData(const int column, const QVariant &value, int rol
         break;
     }
     return false;
-}
+}*/
 
 QSqlQuery* Proveedor::getQuery(QSqlDatabase &database)
 {
@@ -120,4 +120,35 @@ QString Proveedor::toDebugString()
 {
     return QString("id: %1, name: %2, contacto: %3, email: %4, telefono: %5, direccion: %6")
             .arg(id()).arg(_name).arg(_contacto).arg(_email).arg(_telefono).arg(_direccion);
+}
+
+
+void Proveedor::setName(const QString &value)
+{
+    _name = value;
+    updateStatus();
+}
+
+void Proveedor::setContacto(const QString &value)
+{
+    _contacto = value;
+    updateStatus();
+}
+
+void Proveedor::setEMail(const QString &value)
+{
+    _email = value;
+    updateStatus();
+}
+
+void Proveedor::setTelefono(const QString &value)
+{
+    _telefono = value;
+    updateStatus();
+}
+
+void Proveedor::setDireccion(const QString &value)
+{
+    _direccion = value;
+    updateStatus();
 }

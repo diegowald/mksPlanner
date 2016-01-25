@@ -47,6 +47,7 @@ protected:
     virtual void postProcessData();
 
     virtual QVariant modelData(EntityBasePtr entity, int column, int role = Qt::DisplayRole) const = 0;
+    virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role) = 0;
 signals:
 
 public slots:

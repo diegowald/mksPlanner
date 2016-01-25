@@ -12,7 +12,7 @@ public:
     explicit CostoMaterial(int id, int idMaterial, double costo, QDate desde);
     explicit CostoMaterial(int id);
 
-    virtual bool internalSetData(const int column, const QVariant &value, int role);
+    //virtual bool internalSetData(const int column, const QVariant &value, int role);
 
     virtual QString toDebugString();
 
