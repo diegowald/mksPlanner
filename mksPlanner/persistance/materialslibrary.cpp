@@ -4,7 +4,7 @@
 #include "models/componentesmateriales.h"
 #include "models/tasksmodel.h"
 #include "models/proveedoresmodel.h"
-#include "models/tareasproveedoresmodel.h"
+#include "models/rubrosproveedoresmodel.h"
 #include "models/rubrosmodel.h"
 #include "persistance/materialesupdater.h"
 #include "models/costomaterialesmodel.h"
@@ -16,9 +16,9 @@ MaterialsLibrary::MaterialsLibrary(QObject *parent) : LibraryBase(parent)
     addModel(Tables::ComponentesMateriales, new ComponentesMaterialesModel(this));
     addModel(Tables::Tareas, new TasksModel(this));
     addModel(Tables::Proveedores, new ProveedoresModel(this));
-    addModel(Tables::TareasProveedores, new TareasProveedoresModel(this));
     addModel(Tables::Rubros, new RubrosModel(this));
     addModel(Tables::CostosUnitarios, new CostoMaterialesModel(this));
+    addModel(Tables::RubrosProveedores, new RubrosProveedoresModel(this));
 }
 
 void MaterialsLibrary::internalSaveTables(const QString &filename)
@@ -28,9 +28,9 @@ void MaterialsLibrary::internalSaveTables(const QString &filename)
     model(Tables::ComponentesMateriales)->save(filename);
     model(Tables::Tareas)->save(filename);
     model(Tables::Proveedores)->save(filename);
-    model(Tables::TareasProveedores)->save(filename);
     model(Tables::Rubros)->save(filename);
     model(Tables::CostosUnitarios)->save(filename);
+    model(Tables::RubrosProveedores)->save(filename);
 }
 
 void MaterialsLibrary::internalLoadTables(const QString &filename)
@@ -40,9 +40,9 @@ void MaterialsLibrary::internalLoadTables(const QString &filename)
     model(Tables::ComponentesMateriales)->load(filename);
     model(Tables::Tareas)->load(filename);
     model(Tables::Proveedores)->load(filename);
-    model(Tables::TareasProveedores)->load(filename);
     model(Tables::Rubros)->load(filename);
     model(Tables::CostosUnitarios)->load(filename);
+    model(Tables::RubrosProveedores)->load(filename);
 }
 
 void MaterialsLibrary::updateFromVersion(const QString &filename, const QString &versionInfo)

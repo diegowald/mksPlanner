@@ -4,11 +4,11 @@
 #include <QObject>
 #include "models/modelbase.h"
 
-class TareasProveedoresModel : public ModelBase
+class RubrosProveedoresModel : public ModelBase
 {
     Q_OBJECT
 public:
-    explicit TareasProveedoresModel(QObject *parent = 0);
+    explicit RubrosProveedoresModel(QObject *parent = 0);
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;

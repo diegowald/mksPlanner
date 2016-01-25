@@ -111,7 +111,7 @@ int CostoMaterial::idMaterial() const
 
 EntityBasePtr CostoMaterial::material() const
 {
-    return GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItem(_idMaterial);
+    return GlobalContainer::instance().library()->model(Tables::Materiales)->getItem(_idMaterial);
 }
 
 

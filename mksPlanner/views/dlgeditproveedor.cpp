@@ -5,7 +5,7 @@
 #include "globalcontainer.h"
 #include "persistance/materialslibrary.h"
 #include "views/tablewindow.h"
-#include "models/tareasproveedoresmodel.h"
+#include "models/rubrosproveedoresmodel.h"
 #include <QListView>
 
 
@@ -27,16 +27,18 @@ dlgEditProveedor::dlgEditProveedor(ProveedoresModel *model, int row, QWidget *pa
     _mapper->setCurrentIndex(row);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-/*    TableWindow *t = new TableWindow("", this);
+
+    TableWindow *t = new TableWindow("", this);
     EntityBasePtr entity = _model->getItemByRowid(row);
-    dynamic_cast<TareasProveedoresModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::TareasProveedores))->setIdProveedor(entity->id());
-    t->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::TareasProveedores));
-*/
-    ui->tblRubros->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Rubros));
+    dynamic_cast<RubrosProveedoresModel*>(GlobalContainer::instance().library()->model(Tables::RubrosProveedores))->setIdProveedor(entity->id());
+    t->setModel(GlobalContainer::instance().library()->model(Tables::RubrosProveedores));
+
+    ui->frmRubros->layout()->addWidget(t->window());
+
+    /*ui->tblRubros->setModel(GlobalContainer::instance().library()->model(Tables::Rubros));
 
     ui->tblRubros->setSelectionMode(QAbstractItemView::MultiSelection);
-    ui->tblRubros->setSelectionBehavior(QAbstractItemView::SelectRows);
-    //ui->frame->layout()->addWidget(t->window());
+    ui->tblRubros->setSelectionBehavior(QAbstractItemView::SelectRows);*/
 }
 
 dlgEditProveedor::~dlgEditProveedor()
@@ -46,10 +48,6 @@ dlgEditProveedor::~dlgEditProveedor()
 
 void dlgEditProveedor::on_buttonBox_accepted()
 {
-    QModelIndexList lst = ui->tblRubros->selectionModel()->selectedRows(0);
-    foreach (QModelIndex mi, lst) {
-        qDebug() << mi.row();
-    }
     _mapper->submit();
     close();
 }

@@ -45,10 +45,10 @@ QSqlQuery* CostoMaterialCompuesto::getQuery(QSqlDatabase &/*database*/)
 
 double CostoMaterialCompuesto::costo() const
 {
-    ComponentesMaterialesModel* modelComponentes = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
+    ComponentesMaterialesModel* modelComponentes = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales));
     QList<int> idComponentes = modelComponentes->idComponentes(_idMaterial);
 
-    CostoMaterialesModel* modelCostos = dynamic_cast<CostoMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::CostosUnitarios));
+    CostoMaterialesModel* modelCostos = dynamic_cast<CostoMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
 
     double costoAcumulado = 0.;
     foreach (int id, idComponentes)
@@ -69,10 +69,10 @@ double CostoMaterialCompuesto::costo() const
 
 QDate CostoMaterialCompuesto::desde() const
 {
-    ComponentesMaterialesModel* modelComponentes = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
+    ComponentesMaterialesModel* modelComponentes = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales));
     QList<int> idComponentes = modelComponentes->idComponentes(_idMaterial);
 
-    CostoMaterialesModel* modelCostos = dynamic_cast<CostoMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::CostosUnitarios));
+    CostoMaterialesModel* modelCostos = dynamic_cast<CostoMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
 
     QDate fechaCostoMasViejo = QDate::currentDate();
     foreach (int id, idComponentes)

@@ -57,7 +57,10 @@ bool ModelBase::insertRows(int row, int count, const QModelIndex &parent)
     bool success;
 
     beginInsertRows(parent, row, row + count - 1);
-    EntityBasePtr entity = createEntity();
+    for (int i = 0; i < count; ++i)
+    {
+        EntityBasePtr entity = createEntity();
+    }
     success = true;
     endInsertRows();
 

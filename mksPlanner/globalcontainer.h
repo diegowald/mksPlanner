@@ -15,8 +15,8 @@ public:
     static void initialize();
     static void finalize();
 
-    void setMaterialLibrary(MaterialsLibrary *materialLibrary);
-    MaterialsLibrary *materialLibrary() const;
+    void setLibrary(MaterialsLibrary *library);
+    MaterialsLibrary *library() const;
 
     int createProject();
     int loadProject(const QString &filename);
@@ -35,7 +35,7 @@ public slots:
 private:
     static GlobalContainer *_instance;
 
-    MaterialsLibrary *_materialLibrary;
+    MaterialsLibrary *_library;
     QMap<QString, int> _counter;
     QList<ProjectLibrary *> _projectLibraries;
 };

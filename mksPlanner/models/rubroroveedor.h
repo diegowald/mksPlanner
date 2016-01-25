@@ -3,12 +3,12 @@
 
 #include "models/entitybase.h"
 
-class TaskProveedor : public EntityBase
+class RubroProveedor : public EntityBase
 {
     Q_OBJECT
 public:
-    explicit TaskProveedor(int id, int idProveedor, int idTask);
-    explicit TaskProveedor(int id);
+    explicit RubroProveedor(int id, int idProveedor, int idRubro);
+    explicit RubroProveedor(int id);
 
     virtual bool internalSetData(const int column, const QVariant &value, int role);
 
@@ -17,20 +17,20 @@ public:
 
     int idProveedor() const;
     EntityBasePtr proveedor() const;
-    int idTask() const;
-    EntityBasePtr task() const;
+    int idRubro() const;
+    EntityBasePtr rubro() const;
 
     void setIdProveedor(int id);
-    void setIdTask(int id);
+    void setIdRubro(int id);
 signals:
 
 public slots:
 
 private:
     int _idProveedor;
-    int _idTask;
+    int _idRubro;
 };
 
-typedef QSharedPointer<TaskProveedor> TaskProveedorPtr;
+typedef QSharedPointer<RubroProveedor> RubroProveedorPtr;
 
 #endif // TASKPROVEEDOR_H

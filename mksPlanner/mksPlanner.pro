@@ -37,9 +37,6 @@ SOURCES += main.cpp\
     models/proveedoresmodel.cpp \
     models/proveedor.cpp \
     views/dlgeditproveedor.cpp \
-    models/tareasproveedoresmodel.cpp \
-    models/taskproveedor.cpp \
-    views/dlgtaskproveedoredit.cpp \
     views/calculadoramaterialeswindow.cpp \
     models/validmaterialfiltermodel.cpp \
     views/dlgeditproject.cpp \
@@ -55,7 +52,10 @@ SOURCES += main.cpp\
     models/costomaterialesmodel.cpp \
     models/costomaterial.cpp \
     models/costomaterialesdelegate.cpp \
-    models/costomaterialcompuesto.cpp
+    models/costomaterialcompuesto.cpp \
+    models/rubrosproveedoresmodel.cpp \
+    models/rubroroveedor.cpp \
+    views/dlgeditrubroproveedor.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -79,9 +79,6 @@ HEADERS  += mainwindow.h \
     models/proveedoresmodel.h \
     models/proveedor.h \
     views/dlgeditproveedor.h \
-    models/tareasproveedoresmodel.h \
-    models/taskproveedor.h \
-    views/dlgtaskproveedoredit.h \
     views/calculadoramaterialeswindow.h \
     models/validmaterialfiltermodel.h \
     views/dlgeditproject.h \
@@ -97,7 +94,10 @@ HEADERS  += mainwindow.h \
     models/costomaterialesmodel.h \
     models/costomaterial.h \
     models/costomaterialesdelegate.h \
-    models/costomaterialcompuesto.h
+    models/costomaterialcompuesto.h \
+    models/rubrosproveedoresmodel.h \
+    models/rubroroveedor.h \
+    views/dlgeditrubroproveedor.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
@@ -105,11 +105,11 @@ FORMS    += mainwindow.ui \
     views/dlgmaterialeditor.ui \
     views/dlgcomponentematerial.ui \
     views/dlgeditproveedor.ui \
-    views/dlgtaskproveedoredit.ui \
     views/calculadoramaterialeswindow.ui \
     views/dlgeditproject.ui \
     views/projectwindow.ui \
-    views/dlgeditrubro.ui
+    views/dlgeditrubro.ui \
+    views/dlgeditrubroproveedor.ui
 
 CONFIG += mobility
 MOBILITY = 

@@ -31,5 +31,15 @@ MaterialesUpdater::MaterialesUpdater(QObject *parent) : Updater(parent)
                       "    `desde`	TEXT "
                       " ); ");
 
+    addCommand(1, "DROP TABLE `tareasProveedores`;");
+
+    addCommand(1, "CREATE TABLE `rubrosProveedores` ( "
+                  "    `id`	INTEGER NOT NULL UNIQUE, "
+                  "    `idProveedor`	INTEGER NOT NULL, "
+                  "    `idRubro`	INTEGER NOT NULL, "
+                  "    PRIMARY KEY(id) "
+                  "); ");
+
+
     addCommand(1, "INSERT into version (versionInfo) VALUES (1)");
 }

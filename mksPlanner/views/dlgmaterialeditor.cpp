@@ -15,9 +15,9 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
 {
     ui->setupUi(this);
 
-    ui->cboUnit->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Unidades));
+    ui->cboUnit->setModel(GlobalContainer::instance().library()->model(Tables::Unidades));
 
-    ui->cboRubro->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Rubros));
+    ui->cboRubro->setModel(GlobalContainer::instance().library()->model(Tables::Rubros));
 
     //falta hacer que se vea el nombre de la unidad y que se seleccione el id
     ui->cboUnit->setModelColumn(1);
@@ -59,8 +59,8 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
 
     TableWindow *t = new TableWindow("", this);
     entity = _model->getItemByRowid(row);
-    dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales))->setIdMaterialPadre(entity->id());
-    t->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
+    dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales))->setIdMaterialPadre(entity->id());
+    t->setModel(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales));
     t->hideColumn(1);
     t->hideColumn(2);
     ui->frame->layout()->addWidget(t->window());
@@ -77,7 +77,7 @@ void dlgMaterialEditor::on_buttonBox_accepted()
     qDebug() << ui->cboUnit->currentIndex();
     qDebug() << ui->cboUnit->currentText();
 
-    EntityBasePtr entity = GlobalContainer::instance().materialLibrary()->model(Tables::Unidades)->getItemByRowid(ui->cboUnit->currentIndex());
+    EntityBasePtr entity = GlobalContainer::instance().library()->model(Tables::Unidades)->getItemByRowid(ui->cboUnit->currentIndex());
     if (!entity.isNull())
     {
         UnitPtr unit = qSharedPointerDynamicCast<Unit>(entity);
@@ -86,7 +86,7 @@ void dlgMaterialEditor::on_buttonBox_accepted()
         material->setUnit(unit->id());
     }
 
-    entity = GlobalContainer::instance().materialLibrary()->model(Tables::Rubros)->getItemByRowid(ui->cboRubro->currentIndex());
+    entity = GlobalContainer::instance().library()->model(Tables::Rubros)->getItemByRowid(ui->cboRubro->currentIndex());
     if (!entity.isNull())
     {
         RubroPtr rubro = qSharedPointerDynamicCast<Rubro>(entity);

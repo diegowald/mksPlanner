@@ -43,19 +43,10 @@ void TableWindow::on_actionCreate_triggered()
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
 
 
-    if (!_model->insertRow(rowCount /*index.row() + 1*/, index.parent()))
+    if (!_model->insertRow(rowCount, index.parent()))
         return;
 
-    _model->editEntity(rowCount/*index.row() + 1*/);
-/*    updateActions();
-
-    for (int column = 0; column < model->columnCount(index.parent()); ++column) {
-        QModelIndex child = model->index(index.row()+1, column, index.parent());
-        model->setData(child, QVariant("[No data]"), Qt::EditRole);
-    }
-
-    QModelIndex index;
-    _model->insertRow(0, index);*/
+    _model->editEntity(rowCount);
 }
 
 void TableWindow::on_actionEdit_triggered()

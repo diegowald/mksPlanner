@@ -1,54 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>dlgTaskProveedorEdit</class>
- <widget class="QDialog" name="dlgTaskProveedorEdit">
+ <class>DlgEditRubroProveedor</class>
+ <widget class="QDialog" name="DlgEditRubroProveedor">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>266</width>
-    <height>61</height>
+    <width>364</width>
+    <height>79</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Editar Tarea del proveedor</string>
+   <string>Asignar Rubro a proveedor</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>2</number>
-   </property>
-   <property name="leftMargin">
-    <number>2</number>
-   </property>
-   <property name="topMargin">
-    <number>2</number>
-   </property>
-   <property name="rightMargin">
-    <number>2</number>
-   </property>
-   <property name="bottomMargin">
-    <number>2</number>
-   </property>
    <item>
     <layout class="QFormLayout" name="formLayout">
-     <property name="horizontalSpacing">
-      <number>2</number>
-     </property>
-     <property name="verticalSpacing">
-      <number>2</number>
-     </property>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Tarea</string>
+        <string>Rubro</string>
        </property>
        <property name="buddy">
-        <cstring>cboTarea</cstring>
+        <cstring>cboRubro</cstring>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QComboBox" name="cboTarea"/>
+      <widget class="QComboBox" name="cboRubro"/>
      </item>
     </layout>
    </item>
@@ -69,12 +48,12 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>dlgTaskProveedorEdit</receiver>
+   <receiver>DlgEditRubroProveedor</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -85,12 +64,12 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>dlgTaskProveedorEdit</receiver>
+   <receiver>DlgEditRubroProveedor</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

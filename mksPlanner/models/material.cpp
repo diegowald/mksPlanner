@@ -152,7 +152,7 @@ int Material::idUnit() const
 
 EntityBasePtr Material::unit() const
 {
-    return GlobalContainer::instance().materialLibrary()->model(Tables::Unidades)->getItem(_idUnit);
+    return GlobalContainer::instance().library()->model(Tables::Unidades)->getItem(_idUnit);
 }
 
 int Material::idRubro() const
@@ -162,12 +162,12 @@ int Material::idRubro() const
 
 EntityBasePtr Material::rubro() const
 {
-    return GlobalContainer::instance().materialLibrary()->model(Tables::Rubros)->getItem(_idRubro);
+    return GlobalContainer::instance().library()->model(Tables::Rubros)->getItem(_idRubro);
 }
 
 QSet<int> Material::materialsComposedBy()
 {
-    ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
+    ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales));
     return model->compuestosPor(id());
 }
 
@@ -198,7 +198,7 @@ bool Material::isTask() const
 
 bool Material::isCompuesto() const
 {
-    ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().materialLibrary()->model(Tables::ComponentesMateriales));
+    ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales));
     return model->idComponentes(id()).count() > 0;
 }
 

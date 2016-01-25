@@ -4,7 +4,7 @@ GlobalContainer *GlobalContainer::_instance;
 
 GlobalContainer::GlobalContainer(QObject *parent) : QObject(parent)
 {
-    _materialLibrary = NULL;
+    _library = NULL;
 }
 
 void GlobalContainer::initialize()
@@ -22,18 +22,18 @@ GlobalContainer &GlobalContainer::instance()
     return *_instance;
 }
 
-void GlobalContainer::setMaterialLibrary(MaterialsLibrary *materialLibrary)
+void GlobalContainer::setLibrary(MaterialsLibrary *library)
 {
-    if (_materialLibrary != NULL)
+    if (_library != NULL)
     {
-        _materialLibrary->deleteLater();
+        _library->deleteLater();
     }
-    _materialLibrary = materialLibrary;
+    _library = library;
 }
 
-MaterialsLibrary *GlobalContainer::materialLibrary() const
+MaterialsLibrary *GlobalContainer::library() const
 {
-    return _materialLibrary;
+    return _library;
 }
 
 ProjectLibrary *GlobalContainer::projectLibrary(int id) const

@@ -11,10 +11,10 @@ enum class Tables {
     ComponentesMateriales,
     Tareas,
     Proveedores,
-    TareasProveedores,
     Rubros,
     Proyectos,
-    CostosUnitarios
+    CostosUnitarios,
+    RubrosProveedores
 };
 
 class LibraryBase : public QObject

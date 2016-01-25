@@ -58,7 +58,7 @@ void MainWindow::on_actionUnidades_triggered()
     if (!showSubWindow("Unidades de medida"))
     {
         TableWindow *frm = new TableWindow("Unidades de medida");
-        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Unidades));
+        frm->setModel(GlobalContainer::instance().library()->model(Tables::Unidades));
         createSubWindow("Unidades de medida", frm);
     }
 }
@@ -66,7 +66,7 @@ void MainWindow::on_actionUnidades_triggered()
 void MainWindow::loadMaterialLibrary()
 {
     MaterialsLibrary* materialsLibrary = new MaterialsLibrary();
-    GlobalContainer::instance().setMaterialLibrary(materialsLibrary);
+    GlobalContainer::instance().setLibrary(materialsLibrary);
     materialsLibrary->load("./materiales.db");
 }
 
@@ -83,7 +83,7 @@ void MainWindow::loadProject(const QString &fileName)
 
 void MainWindow::on_actionSave_Material_Library_triggered()
 {
-    GlobalContainer::instance().materialLibrary()->save("./materiales.db");
+    GlobalContainer::instance().library()->save("./materiales.db");
 }
 
 void MainWindow::on_actionVer_Biblioteca_triggered()
@@ -91,7 +91,7 @@ void MainWindow::on_actionVer_Biblioteca_triggered()
     if (!showSubWindow("Biblioteca de Materiales"))
     {
         TableWindow* frm = new TableWindow("Biblioteca de materiales");
-        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Materiales));
+        frm->setModel(GlobalContainer::instance().library()->model(Tables::Materiales));
         createSubWindow("Biblioteca de Materiales", frm);
     }
 }
@@ -100,7 +100,7 @@ void MainWindow::on_actionTareas_triggered()
     if (!showSubWindow("Tareas"))
     {
         TableWindow *frm = new TableWindow("Tareas");
-        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Tareas));
+        frm->setModel(GlobalContainer::instance().library()->model(Tables::Tareas));
         createSubWindow("Tareas", frm);
     }
 }
@@ -110,7 +110,7 @@ void MainWindow::on_actionListado_triggered()
     if (!showSubWindow("Proveedores"))
     {
         TableWindow *frm = new TableWindow("Proveedores");
-        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Proveedores));
+        frm->setModel(GlobalContainer::instance().library()->model(Tables::Proveedores));
         createSubWindow("Proveedores", frm);
     }
 }
@@ -136,7 +136,7 @@ void MainWindow::on_actionRubros_triggered()
     if (!showSubWindow("Rubros"))
     {
         TableWindow *frm = new TableWindow("Rubros");
-        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::Rubros));
+        frm->setModel(GlobalContainer::instance().library()->model(Tables::Rubros));
         createSubWindow("Rubros", frm);
     }
 }
@@ -146,7 +146,7 @@ void MainWindow::on_actionCostos_triggered()
     if (!showSubWindow("Costos"))
     {
         TableWindow *frm = new TableWindow("Costos");
-        frm->setModel(GlobalContainer::instance().materialLibrary()->model(Tables::CostosUnitarios));
+        frm->setModel(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
         createSubWindow("Costos", frm);
     }
 }

@@ -22,7 +22,7 @@ int CostoMaterialesModel::columnCount(const QModelIndex &/*parent*/) const
 
 int CostoMaterialesModel::rowCount(const QModelIndex &parent) const
 {
-    return GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->rowCount(parent);
+    return GlobalContainer::instance().library()->model(Tables::Materiales)->rowCount(parent);
     //return _entityMappingByIdMaterialPadre[_idMterialPadre].count();
 }
 
@@ -167,7 +167,7 @@ EntityBasePtr CostoMaterialesModel::getItemByIdMaterial(int idMaterial)
 
 QVariant CostoMaterialesModel::data(const QModelIndex &index, int role) const
 {
-    EntityBasePtr entityMaterial = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItemByRowid(index.row());
+    EntityBasePtr entityMaterial = GlobalContainer::instance().library()->model(Tables::Materiales)->getItemByRowid(index.row());
     MaterialPtr material = qSharedPointerDynamicCast<Material>(entityMaterial);
 
     QVariant result = QVariant();
@@ -225,7 +225,7 @@ bool CostoMaterialesModel::setData(const QModelIndex &index, const QVariant &val
 {
     if (role == Qt::EditRole)
     {
-        EntityBasePtr entity = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItemByRowid(index.row());
+        EntityBasePtr entity = GlobalContainer::instance().library()->model(Tables::Materiales)->getItemByRowid(index.row());
         int idMaterial = entity->id();
         if (!_mappingMaterialToCosto.contains(idMaterial))
         {
@@ -262,10 +262,10 @@ QStyledItemDelegate *CostoMaterialesModel::delegate()
 
 void CostoMaterialesModel::postProcessData()
 {
-    QSet<int> idMateriales = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->ids();
+    QSet<int> idMateriales = GlobalContainer::instance().library()->model(Tables::Materiales)->ids();
     foreach (int idMaterial, idMateriales)
     {
-        EntityBasePtr entityMaterial = GlobalContainer::instance().materialLibrary()->model(Tables::Materiales)->getItem(idMaterial);
+        EntityBasePtr entityMaterial = GlobalContainer::instance().library()->model(Tables::Materiales)->getItem(idMaterial);
         MaterialPtr material = qSharedPointerDynamicCast<Material>(entityMaterial);
 
         if (!_mappingMaterialToCosto.contains(entityMaterial->id()))
