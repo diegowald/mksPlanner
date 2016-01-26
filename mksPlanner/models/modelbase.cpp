@@ -149,10 +149,10 @@ EntityBasePtr ModelBase::getItem(int id)
 
 EntityBasePtr ModelBase::getItemByRowid(int row)
 {
-    qDebug() << row;
+    /*qDebug() << row;
     qDebug() << _entityMapping.contains(row);
     if (_entityMapping.contains(row))
-        qDebug() << _entityMapping[row];
+        qDebug() << _entityMapping[row];*/
     return getItem(_entityMapping[row]);
 }
 

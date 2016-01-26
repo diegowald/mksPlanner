@@ -47,8 +47,8 @@ int ValidMaterialFilterModel::columnCount(const QModelIndex &parent) const
 EntityBasePtr ValidMaterialFilterModel::getItemByRowid(int row)
 {
     int id = _mapping.at(row);
-    qDebug() << "row: " << row << ", id: " << id;
+    //qDebug() << "row: " << row << ", id: " << id;
     EntityBasePtr entity = _model->getItem(id);
-    qDebug() << "entity: " << entity->toDebugString();
+    //qDebug() << "entity: " << entity->toDebugString();
     return entity;
 }

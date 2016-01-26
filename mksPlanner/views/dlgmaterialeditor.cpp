@@ -26,10 +26,9 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
     _model = model;
     _mapper = new QDataWidgetMapper(this);
     _mapper->setModel(_model);
-    _mapper->addMapping(ui->txtName, 1);
-    _mapper->addMapping(ui->txtDescription, 2);
+    _mapper->addMapping(ui->txtName, 3);
+    _mapper->addMapping(ui->txtDescription, 4);
 
-    //_mapper->addMapping(ui->cboUnit, 3, "currentIndex");no anda
 
     EntityBasePtr entity = model->getItemByRowid(row);
     MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);
@@ -73,9 +72,9 @@ dlgMaterialEditor::~dlgMaterialEditor()
 
 void dlgMaterialEditor::on_buttonBox_accepted()
 {
-    qDebug() << ui->cboUnit->currentData();
+    /*qDebug() << ui->cboUnit->currentData();
     qDebug() << ui->cboUnit->currentIndex();
-    qDebug() << ui->cboUnit->currentText();
+    qDebug() << ui->cboUnit->currentText();*/
 
     EntityBasePtr entity = GlobalContainer::instance().library()->model(Tables::Unidades)->getItemByRowid(ui->cboUnit->currentIndex());
     if (!entity.isNull())

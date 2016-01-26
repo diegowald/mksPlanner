@@ -40,7 +40,7 @@ dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMat
             MaterialPtr material = qSharedPointerDynamicCast<Material>(componente->material());
             if (!material.isNull())
             {
-                qDebug() << ui->cboMaterial->count();
+                //qDebug() << ui->cboMaterial->count();
                 ui->cboMaterial->setCurrentIndex(ui->cboMaterial->findText(material->name()));
                 ui->lblmaterialDecripcion->setText(material->description());
                 UnitPtr unidad = qSharedPointerDynamicCast<Unit>(material->unit());
@@ -71,7 +71,7 @@ void dlgComponenteMaterial::on_buttonBox_accepted()
 
 void dlgComponenteMaterial::on_cboMaterial_currentIndexChanged(int index)
 {
-    qDebug() << ui->cboMaterial->count();
+    //qDebug() << ui->cboMaterial->count();
     QString materialDescription = "";
     QString unidad = "";
     EntityBasePtr entity = _materialsModel->getItemByRowid(ui->cboMaterial->currentIndex());

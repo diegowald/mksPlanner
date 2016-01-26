@@ -39,8 +39,8 @@ void LibraryBase::checkVersion(const QString &filename)
     }
 
     QSqlQuery query(database);
-    qDebug() << query.exec(sql);
-    qDebug() << query.lastError().text();
+    //qDebug() << query.exec(sql);
+    //qDebug() << query.lastError().text();
 
     QString versionInfo = "";
     while (query.next())
@@ -48,7 +48,7 @@ void LibraryBase::checkVersion(const QString &filename)
         versionInfo = query.record().value("versionInfo").toString();
     }
 
-    qDebug() << versionInfo;
+    //qDebug() << versionInfo;
     updateFromVersion(filename, versionInfo);
     database.close();
 }
