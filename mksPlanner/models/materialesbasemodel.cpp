@@ -12,11 +12,12 @@ MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent)
 
 int MaterialesBaseModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    return 7;
+    return 6;
 }
 
 QVariant MaterialesBaseModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    QVariant result = QVariant();
     if (role == Qt::DisplayRole)
     {
         if (orientation == Qt::Horizontal)
@@ -25,44 +26,39 @@ QVariant MaterialesBaseModel::headerData(int section, Qt::Orientation orientatio
             {
             case 0:
             {
-                return QString("id");
+                result = QString("id");
                 break;
             }
             case 1:
             {
-                return QString("Nombre");
+                result = QString("Rubro");
                 break;
             }
             case 2:
             {
-                return QString("Descripción");
+                result = QString("Tarea/Material");
                 break;
             }
             case 3:
             {
-                return QString("Unidad de medida");
+                result = QString("Nombre");
                 break;
             }
             case 4:
             {
-                return QString("Rubro");
+                result = QString("Descripción");
                 break;
             }
             case 5:
             {
-                return QString("Material para usar en planificacion");
-                break;
-            }
-            case 6:
-            {
-                return QString("Es una tarea");
+                result = QString("Unidad de medida");
                 break;
             }
             default:
                 break;
             }
         }
-        return section;
+        return result;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }
@@ -77,28 +73,35 @@ QVariant MaterialesBaseModel::modelData(EntityBasePtr entity, int column, int ro
         result = material->id();
         break;
     case 1:
-        result = material->name();
-        break;
-    case 2:
-        result = material->description();
-        break;
-    case 3:
-        if (!material->unit().isNull())
-        {
-            result = qSharedPointerDynamicCast<Unit>(material->unit())->name();
-        }
-        break;
-    case 4:
         if (!material->rubro().isNull())
         {
             result = qSharedPointerDynamicCast<Rubro>(material->rubro())->name();
         }
         break;
-    case 5:
-        result = material->isUsableMaterial();
+    case 2:
+        if (!material->rubro().isNull())
+        {
+            if (qSharedPointerDynamicCast<Rubro>(material->rubro())->isTask())
+            {
+                result = QString("Tarea");
+            }
+            else
+            {
+                result = QString("Material");
+            }
+        }
         break;
-    case 6:
-        result = material->isTask();
+    case 3:
+        result = material->name();
+        break;
+    case 4:
+        result = material->description();
+        break;
+    case 5:
+        if (!material->unit().isNull())
+        {
+            result = qSharedPointerDynamicCast<Unit>(material->unit())->name();
+        }
         break;
     default:
         break;
@@ -113,19 +116,19 @@ bool MaterialesBaseModel::modelSetData(EntityBasePtr entity, int column, const Q
     switch (column)
     {
     case 1:
-        m->setName(value.toString());
-        result = true;
-        break;
-    case 2:
-        m->setDescription(value.toString());
+        m->setRubro(value.toInt());
         result = true;
         break;
     case 3:
-        m->setUnit(value.toInt());
+        m->setName(value.toString());
         result = true;
         break;
     case 4:
-        m->setRubro(value.toInt());
+        m->setDescription(value.toString());
+        result = true;
+        break;
+    case 5:
+        m->setUnit(value.toInt());
         result = true;
         break;
     default:
