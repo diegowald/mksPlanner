@@ -13,7 +13,7 @@ class ModelBase : public QAbstractTableModel, virtual public PersisterBase
 {
     Q_OBJECT
 public:
-    explicit ModelBase(const QString &counterName, bool implementsDelegate, QObject *parent = 0);
+    explicit ModelBase(const QString &counterName, bool implementsDelegate, const QString &dbName, QObject *parent = 0);
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     virtual QVariant data(const int id, const int column, int role = Qt::DisplayRole) const;

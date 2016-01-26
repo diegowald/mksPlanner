@@ -9,7 +9,7 @@
 #include "models/costomaterialesdelegate.h"
 #include <QSet>
 
-CostoMaterialesModel::CostoMaterialesModel(QObject *parent) : ModelBase("costoMateriales", true, parent)
+CostoMaterialesModel::CostoMaterialesModel(QObject *parent) : ModelBase("costoMateriales", true, "library", parent)
 {
     _crearMaterialCompuesto = false;
 }

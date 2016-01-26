@@ -3,7 +3,8 @@
 #include "views/dlgeditrubroproveedor.h"
 #include "models/rubro.h"
 
-RubrosProveedoresModel::RubrosProveedoresModel(QObject *parent) : ModelBase("tareasProveedores", false, parent)
+RubrosProveedoresModel::RubrosProveedoresModel(QObject *parent)
+    : ModelBase("tareasProveedores", false, "library", parent)
 {
 
 }

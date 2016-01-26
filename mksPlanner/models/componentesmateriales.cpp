@@ -6,7 +6,8 @@
 #include "models/unit.h"
 
 
-ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent) : ModelBase("componentesMateriales", false, parent)
+ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent)
+    : ModelBase("componentesMateriales", false, "library", parent)
 {
 
 }

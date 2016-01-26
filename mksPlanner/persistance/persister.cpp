@@ -6,6 +6,7 @@
 
 PersisterBase::PersisterBase()
 {
+    _dbName = "";
 }
 
 void PersisterBase::load(const QString &filename)
@@ -67,15 +68,22 @@ void PersisterBase::save(const QString &filename)
 
 bool PersisterBase::connectToDatabase()
 {
-    _database = QSqlDatabase::addDatabase("QSQLITE");
+    if (!QSqlDatabase::database(_dbName).isValid())
+    {
+        _database = QSqlDatabase::addDatabase("QSQLITE", _dbName);
+    }
+    else
+    {
+        _database = QSqlDatabase::database(_dbName);
+    }
     _database.setDatabaseName(_filename);
     if (!_database.open()) {
         QMessageBox::critical(0, "Cannot open database",
-            "Unable to establish a database connection.\n"
-                     "This example needs SQLite support. Please read "
-                     "the Qt SQL driver documentation for information how "
-                     "to build it.\n\n"
-                     "Click Cancel to exit.", QMessageBox::Cancel);
+                              "Unable to establish a database connection.\n"
+                              "This example needs SQLite support. Please read "
+                              "the Qt SQL driver documentation for information how "
+                              "to build it.\n\n"
+                              "Click Cancel to exit.", QMessageBox::Cancel);
         return false;
     }
     return true;
@@ -84,4 +92,9 @@ bool PersisterBase::connectToDatabase()
 void PersisterBase::setFileName(const QString &filename)
 {
     _filename = filename;
+}
+
+void PersisterBase::setDBName(const QString &dbName)
+{
+    _dbName = dbName;
 }

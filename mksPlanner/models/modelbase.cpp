@@ -5,12 +5,13 @@
 #include <QAbstractTableModel>
 
 
-ModelBase::ModelBase(const QString &counterName, bool implementsDelegate, QObject *parent) :
+ModelBase::ModelBase(const QString &counterName, bool implementsDelegate, const QString &dbName, QObject *parent) :
     PersisterBase(),
     QAbstractTableModel(parent)
 {
     _counterName = counterName;
     _implementsDelegate = implementsDelegate;
+    setDBName(dbName);
 }
 
 int ModelBase::rowCount(const QModelIndex &/*parent*/) const

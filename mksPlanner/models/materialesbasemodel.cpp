@@ -4,7 +4,8 @@
 #include "models/unit.h"
 #include "models/rubro.h"
 
-MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent) : ModelBase("materiales", false, parent)
+MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent)
+    : ModelBase("materiales", false, "library", parent)
 {
     _filterByTask = filterByTask;
 }

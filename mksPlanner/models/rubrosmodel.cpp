@@ -4,7 +4,7 @@
 #include "views/dlgeditrubro.h"
 
 
-RubrosModel::RubrosModel(QObject *parent) : ModelBase("rubros", false, parent)
+RubrosModel::RubrosModel(QObject *parent) : ModelBase("rubros", false, "library", parent)
 {
 
 }

@@ -14,6 +14,7 @@ public:
     void setFileName(const QString &filename);
     void load(const QString &filename);
     void save(const QString &filename);
+    void setDBName(const QString &dbName);
 
 protected:
     bool connectToDatabase();
@@ -30,6 +31,7 @@ public slots:
 private:
     QString _filename;
     QSqlDatabase _database;
+    QString _dbName;
 };
 
 #endif // PERSISTER_H
