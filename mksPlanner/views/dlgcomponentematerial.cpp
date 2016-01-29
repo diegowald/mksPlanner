@@ -22,7 +22,7 @@ dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMat
     ui->setupUi(this);
 
     ui->cboMaterial->setModel(_materialsModel);
-    ui->cboMaterial->setModelColumn(1);
+    ui->cboMaterial->setModelColumn(3);
     _model = model;
 
     _entity = _model->getItemByRowid(row);
