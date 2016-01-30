@@ -9,9 +9,8 @@ class MaterialesUpdater : public Updater
 public:
     explicit MaterialesUpdater(QObject *parent = 0);
 
-signals:
-
-public slots:
+    void scriptsVersion1();
+    void scriptsVersion2();
 };
 
 #endif // MATERIALESUPDATER_H

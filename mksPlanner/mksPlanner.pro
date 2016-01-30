@@ -6,7 +6,7 @@
 
 QT       += core gui sql
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = mksPlanner
 TEMPLATE = app
@@ -112,8 +112,38 @@ FORMS    += mainwindow.ui \
     views/dlgeditrubroproveedor.ui
 
 CONFIG += mobility
-MOBILITY = 
+MOBILITY =
 
 RESOURCES += \
     mksplanner.qrc
 
+#unix {
+#  !macx: LIBEXT = so
+#  macx: LIBEXT = dylib
+#  CONFIG( static ) {
+#    LIBEXT = a
+#  }
+#  # qmake insists on passing Qt's -L path first, where there could be a different version of our own
+#  # libraries. Therefore we pass our own libraries like object files (without -l!) and with full path.
+#  LIBS += ../mksPlanner/3rdParty/kdchart-2.5.1-source/lib/libkdchart.so  ../mksPlanner/3rdParty/kdchart-2.5.1-source/lib/libtesttools.so
+#}
+## The problem is less important on Windows and also harder to fix, so do it the usual way
+#win32: LIBS += -L$${TOP_BUILD_DIR}/lib -l$$KDCHARTLIB -l$$TESTTOOLSLIB
+
+#INCLUDEPATH += \
+#            ../3rdParty/kdchart-2.5.1-source/include \
+#            ../3rdParty/kdchart-2.5.1-source/include/KDChart \
+#            ../3rdParty/kdchart-2.5.1-source/include/KDGantt \
+#            ../3rdParty/kdchart-2.5.1-source/examples/tools
+#DEPENDPATH += \
+#            ../3rdParty/kdchart-2.5.1-source/include \
+#            ../3rdParty/kdchart-2.5.1-source/examples/tools
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../kdchart-bin/lib/release/ -lkdchart
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../kdchart-bin/lib/debug/ -lkdchart
+else:unix: LIBS += -L$$PWD/../../kdchart-bin/lib/ -lkdchart
+
+INCLUDEPATH += $$PWD/../../kdchart-2.5.1-source/include/KDChart
+INCLUDEPATH += $$PWD/../../kdchart-2.5.1-source/include/KDGantt
+DEPENDPATH += $$PWD/../../kdchart-2.5.1-source/include/KDChart
+DEPENDPATH += $$PWD/../../kdchart-2.5.1-source/include/KDGantt

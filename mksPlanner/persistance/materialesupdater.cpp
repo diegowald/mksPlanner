@@ -2,6 +2,13 @@
 
 MaterialesUpdater::MaterialesUpdater(QObject *parent) : Updater(parent)
 {
+    scriptsVersion1();
+    scriptsVersion2();
+}
+
+
+void MaterialesUpdater::scriptsVersion1()
+{
     addCommand(1, "CREATE TABLE `version` (`versionInfo` INTEGER);");
     addCommand(1, "ALTER TABLE materiales RENAME TO materialesOld;");
     addCommand(1, "CREATE TABLE `materiales` ( "
@@ -42,4 +49,10 @@ MaterialesUpdater::MaterialesUpdater(QObject *parent) : Updater(parent)
 
 
     addCommand(1, "INSERT into version (versionInfo) VALUES (1)");
+}
+
+
+void MaterialesUpdater::scriptsVersion2()
+{
+    addCommand(2, "UPDATE version set versionInfo = 2;");
 }
