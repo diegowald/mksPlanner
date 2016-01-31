@@ -54,5 +54,7 @@ void MaterialesUpdater::scriptsVersion1()
 
 void MaterialesUpdater::scriptsVersion2()
 {
+    addCommand(2, "ALTER TABLE CostosMateriales ADD COLUMN `precio` REAL;");
+
     addCommand(2, "UPDATE version set versionInfo = 2;");
 }

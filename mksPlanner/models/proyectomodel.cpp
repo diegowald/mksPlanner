@@ -10,7 +10,7 @@ ProyectoModel::ProyectoModel(QObject *parent) : ModelBase("prouecto", false, "pr
 
 int ProyectoModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    return 5;
+    return 7;
 }
 
 QVariant ProyectoModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -44,6 +44,16 @@ QVariant ProyectoModel::headerData(int section, Qt::Orientation orientation, int
             case 4:
             {
                 return QString("Telefono");
+                break;
+            }
+            case 5:
+            {
+                return QString("Fecha estimada de Inicio");
+                break;
+            }
+            case 6:
+            {
+                return QString("Fecha estimada de finalización");
                 break;
             }
             default:
@@ -137,8 +147,10 @@ int ProyectoModel::_loadEntity(QSqlRecord record)
     QString direccion = record.value(record.indexOf("direccion")).toString();
     QString email = record.value(record.indexOf("email")).toString();
     QString telefono = record.value(record.indexOf("telefono")).toString();
+    QDate fechaEstimadaInicio = record.value(record.indexOf("fechaEstimadaInicio")).toDate();
+    QDate fechaEstimadaFin = record.value(record.indexOf("fechaEstimadaFinalizacion")).toDate();
 
-    EntityBasePtr entity = ProyectoPtr::create(id, propietario, direccion, email, telefono);
+    EntityBasePtr entity = ProyectoPtr::create(id, propietario, direccion, email, telefono, fechaEstimadaInicio, fechaEstimadaFin);
     addEntity(entity);
     return id;
 }

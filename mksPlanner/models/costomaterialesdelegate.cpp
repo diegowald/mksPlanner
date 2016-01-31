@@ -20,6 +20,12 @@ QWidget *CostoMaterialesDelegate::createEditor(QWidget *parent, const QStyleOpti
     }
     case 3:
     {
+        QLineEdit *edit = new QLineEdit(parent);
+        w = edit;
+        break;
+    }
+    case 4:
+    {
         QDateEdit *edit = new QDateEdit(parent);
         w = edit;
         break;
@@ -44,6 +50,13 @@ void CostoMaterialesDelegate::setEditorData(QWidget *editor, const QModelIndex &
     }
     case 3:
     {
+        double value = index.model()->data(index, Qt::EditRole).toDouble();
+        QLineEdit *edit = static_cast<QLineEdit*>(editor);
+        edit->setText(QString::number(value));
+        break;
+    }
+    case 4:
+    {
         QDate value = index.model()->data(index, Qt::EditRole).toDate();
         QDateEdit *edit = static_cast<QDateEdit*>(editor);
         edit->setDate(value);
@@ -66,6 +79,12 @@ void CostoMaterialesDelegate::setModelData(QWidget *editor, QAbstractItemModel *
         break;
     }
     case 3:
+    {
+        QLineEdit *edit = static_cast<QLineEdit*>(editor);
+        value = edit->text().toDouble();
+        break;
+    }
+    case 4:
     {
         QDateEdit *edit = static_cast<QDateEdit*>(editor);
         value = edit->date();

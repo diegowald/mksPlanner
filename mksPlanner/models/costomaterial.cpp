@@ -10,10 +10,11 @@ CostoMaterial::CostoMaterial(int id) : EntityBase(id, true)
     _desde = QDate::currentDate();
 }
 
-CostoMaterial::CostoMaterial(int id, int idMaterial, double costo, QDate desde) : EntityBase(id)
+CostoMaterial::CostoMaterial(int id, int idMaterial, double costo, double precio, QDate desde) : EntityBase(id)
 {
     _idMaterial = idMaterial;
     _costo = costo;
+    _precio = precio;
     _desde = desde;
 }
 
@@ -51,13 +52,19 @@ CostoMaterial::CostoMaterial(int id, int idMaterial, double costo, QDate desde) 
 void CostoMaterial::setIdMaterial(int id)
 {
     _idMaterial = id;
-    updateStatus(EntityStatus::modified);
+    updateStatus();
 }
 
 void CostoMaterial::setCosto(double value)
 {
     _costo = value;
-    updateStatus(EntityStatus::modified);
+    updateStatus();
+}
+
+void CostoMaterial::setPrecio(double value)
+{
+    _precio = value;
+    updateStatus();
 }
 
 void CostoMaterial::setDesde(QDate &date)
@@ -120,6 +127,11 @@ double CostoMaterial::costo() const
     return _costo;
 }
 
+double CostoMaterial::precio() const
+{
+    return _precio;
+}
+
 QDate CostoMaterial::desde() const
 {
     return _desde;
@@ -127,6 +139,6 @@ QDate CostoMaterial::desde() const
 
 QString CostoMaterial::toDebugString()
 {
-    return QString("id: %1, idMaterial: %2, costo: %3, desde: %4").arg(id())
-            .arg(_idMaterial).arg(costo()).arg(desde().toString());
+    return QString("id: %1, idMaterial: %2, costo: %3, precio: %4, desde: %5").arg(id())
+            .arg(_idMaterial).arg(costo()).arg(_precio).arg(desde().toString());
 }

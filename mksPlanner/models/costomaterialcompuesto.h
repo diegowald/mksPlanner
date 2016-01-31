@@ -18,6 +18,7 @@ public:
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
     virtual double costo() const;
+    virtual double precio() const;
     virtual QDate desde() const;
 };
 

@@ -17,7 +17,7 @@ CostoMaterialesModel::CostoMaterialesModel(QObject *parent) : ModelBase("costoMa
 
 int CostoMaterialesModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    return 4;
+    return 5;
 }
 
 int CostoMaterialesModel::rowCount(const QModelIndex &parent) const
@@ -50,6 +50,11 @@ QVariant CostoMaterialesModel::headerData(int section, Qt::Orientation orientati
                 break;
             }
             case 3:
+            {
+                return QString("Precio");
+                break;
+            }
+            case 4:
             {
                 return QString("Desde");
                 break;
@@ -88,6 +93,11 @@ QVariant CostoMaterialesModel::modelData(EntityBasePtr entity, int column, int r
         }
         case 3:
         {
+            result = cm->precio();
+            break;
+        }
+        case 4:
+        {
             result = cm->desde();
             break;
         }
@@ -108,8 +118,9 @@ int CostoMaterialesModel::_loadEntity(QSqlRecord record)
     int id = record.value(record.indexOf("id")).toInt();
     int idMaterial = record.value("idMaterial").toInt();
     double costo = record.value("costo").toDouble();
+    double precio = record.value("precio").toDouble();
     QDate desde = record.value("desde").toDate();
-    EntityBasePtr entity = CostoMaterialPtr::create(id, idMaterial, costo, desde);
+    EntityBasePtr entity = CostoMaterialPtr::create(id, idMaterial, costo, precio, desde);
     addEntity(entity);
     //classifyEntity(entity);
     _mappingMaterialToCosto[idMaterial] = id;
@@ -175,7 +186,13 @@ QVariant CostoMaterialesModel::data(const QModelIndex &index, int role) const
     {
         if (role == Qt::DisplayRole)
         {
-            result = material->name();
+            QString r = material->name();
+            if (material->isCompuesto())
+            {
+                r += " (compuesto)";
+            }
+            result = r;
+
         }
     }
     else
@@ -207,6 +224,11 @@ QVariant CostoMaterialesModel::data(const QModelIndex &index, int role) const
                         break;
                     }
                     case 3:
+                    {
+                        result = cm->precio();
+                        break;
+                    }
+                    case 4:
                     {
                         result = cm->desde();
                         break;
@@ -306,6 +328,12 @@ bool CostoMaterialesModel::modelSetData(EntityBasePtr entity, int column, const 
             break;
         }
         case 3:
+        {
+            cm->setPrecio(value.toDouble());
+            resultado = true;
+            break;
+        }
+        case 4:
         {
             QDate date = value.toDate();
             cm->setDesde(date);

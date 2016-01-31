@@ -2,13 +2,17 @@
 #include <QVariant>
 
 
-Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion, const QString &email, const QString &telefono)
-    :EntityBase(id)
+Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion, const QString &email, const QString &telefono,
+                   QDate &fechaEstimadaInicio,
+                   QDate &fechaEstimadaFinalizacion)
+    : EntityBase(id)
 {
     _propietario = propietario;
     _direccion = direccion;
     _email = email;
     _telefono = telefono;
+    _fechaEstimadaInicio = fechaEstimadaInicio;
+    _fechaEstimadaFinalizacion = fechaEstimadaFinalizacion;
 }
 
 
@@ -93,29 +97,42 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
 
 QString Proyecto::toDebugString()
 {
-    return QString("id: %1, propietario: %2, direccion: %3, email: %4, telefono: %5")
-            .arg(id()).arg(_propietario).arg(_direccion).arg(_email).arg(_telefono);
+    return QString("id: %1, propietario: %2, direccion: %3, email: %4, telefono: %5, fechaEstimadaInicio: %6, fechaEstimadaFin: %7")
+            .arg(id()).arg(_propietario).arg(_direccion).arg(_email).arg(_telefono)
+            .arg(_fechaEstimadaInicio.toString())
+            .arg(_fechaEstimadaFinalizacion.toString());
+
 }
 
 
-QString Proyecto::propietario()
+QString Proyecto::propietario() const
 {
     return _propietario;
 }
 
-QString Proyecto::direccion()
+QString Proyecto::direccion() const
 {
     return _direccion;
 }
 
-QString Proyecto::email()
+QString Proyecto::email() const
 {
     return _email;
 }
 
-QString Proyecto::telefono()
+QString Proyecto::telefono() const
 {
     return _telefono;
+}
+
+QDate Proyecto::fechaEstimadaInicio() const
+{
+    return _fechaEstimadaInicio;
+}
+
+QDate Proyecto::fechaEstimadaFinalizacion() const
+{
+    return _fechaEstimadaFinalizacion;
 }
 
 void Proyecto::setPropietario(const QString &value)
@@ -139,5 +156,17 @@ void Proyecto::setEMail(const QString &value)
 void Proyecto::setTelefono(const QString &value)
 {
     _telefono = value;
+    updateStatus();
+}
+
+void Proyecto::setFechaEstimadaInicio(QDate &value)
+{
+    _fechaEstimadaInicio = value;
+    updateStatus();
+}
+
+void Proyecto::setFechaEstimadaFinalizacion(QDate &value)
+{
+    _fechaEstimadaFinalizacion = value;
     updateStatus();
 }

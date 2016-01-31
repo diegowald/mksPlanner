@@ -8,7 +8,7 @@
 #include "models/componentematerial.h"
 #include <QSharedPointer>
 
-CostoMaterialCompuesto::CostoMaterialCompuesto(int id, int idMaterial) : CostoMaterial(id, idMaterial, 0., QDate(0, 0, 0))
+CostoMaterialCompuesto::CostoMaterialCompuesto(int id, int idMaterial) : CostoMaterial(id, idMaterial, 0., 0., QDate(0, 0, 0))
 {
     _idMaterial = idMaterial;
 }
@@ -50,7 +50,7 @@ double CostoMaterialCompuesto::costo() const
 
     CostoMaterialesModel* modelCostos = dynamic_cast<CostoMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
 
-    double costoAcumulado = 0.;
+    double costoParcial = 0.;
     foreach (int id, idComponentes)
     {
         ComponenteMaterialPtr componente = qSharedPointerDynamicCast<ComponenteMaterial>(modelComponentes->getItem(id));
@@ -58,13 +58,37 @@ double CostoMaterialCompuesto::costo() const
         CostoMaterialPtr cm = qSharedPointerDynamicCast<CostoMaterial>(modelCostos->getItemByIdMaterial(componente->idMaterial()));
         if (cm.isNull())
         {
-            costoAcumulado = NAN;
+            costoParcial = NAN;
             break;
         }
         double costo = cm->costo();
-        costoAcumulado += factor * costo;
+        costoParcial += factor * costo;
     }
-    return costoAcumulado;
+    return costoParcial;
+}
+
+double CostoMaterialCompuesto::precio() const
+{
+    ComponentesMaterialesModel* modelComponentes = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales));
+    QList<int> idComponentes = modelComponentes->idComponentes(_idMaterial);
+
+    CostoMaterialesModel* modelCostos = dynamic_cast<CostoMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
+
+    double precioParcial = 0.;
+    foreach (int id, idComponentes)
+    {
+        ComponenteMaterialPtr componente = qSharedPointerDynamicCast<ComponenteMaterial>(modelComponentes->getItem(id));
+        double factor = componente->cantidad();
+        CostoMaterialPtr cm = qSharedPointerDynamicCast<CostoMaterial>(modelCostos->getItemByIdMaterial(componente->idMaterial()));
+        if (cm.isNull())
+        {
+            precioParcial = NAN;
+            break;
+        }
+        double precio = cm->precio();
+        precioParcial += factor * precio;
+    }
+    return precioParcial;
 }
 
 QDate CostoMaterialCompuesto::desde() const

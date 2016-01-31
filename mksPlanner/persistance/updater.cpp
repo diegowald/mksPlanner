@@ -32,8 +32,8 @@ void Updater::executeCommand(QSqlDatabase &database, const QString &sqlCommand)
 {
     QSqlQuery query(database);
     //qDebug() << sqlCommand;
-    //qDebug() << query.exec(sqlCommand);
-    //qDebug() << query.lastError().text();
+    /*qDebug() << */query.exec(sqlCommand);
+    qDebug() << query.lastError().text();
 }
 
 void Updater::addCommand(int version, const QString &command)
