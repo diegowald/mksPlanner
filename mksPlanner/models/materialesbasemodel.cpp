@@ -8,6 +8,7 @@ MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent)
     : ModelBase("materiales", false, "library", parent)
 {
     _filterByTask = filterByTask;
+    defineColumnNames();
 }
 
 int MaterialesBaseModel::columnCount(const QModelIndex &/*parent*/) const

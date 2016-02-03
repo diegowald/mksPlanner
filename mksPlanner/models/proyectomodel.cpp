@@ -5,6 +5,7 @@
 
 ProyectoModel::ProyectoModel(int idProyecto, QObject *parent) : ModelBase("prouecto", false, "proyecto", parent)
 {
+    defineColumnNames();
     _idProyecto = idProyecto;
 }
 

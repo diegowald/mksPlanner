@@ -3,6 +3,7 @@
 
 TasksModel::TasksModel(QObject *parent) : MaterialesBaseModel(true, parent)
 {
+    defineColumnNames();
 }
 
 EntityBasePtr TasksModel::internalCreateEntity(int assignedId)

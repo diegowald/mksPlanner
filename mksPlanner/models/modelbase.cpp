@@ -202,3 +202,4 @@ int ModelBase::columnIndex(const QString &name) const
     }
     return -1;
 }
+

@@ -7,6 +7,7 @@
 UnitsModel::UnitsModel(QObject *parent) :
     ModelBase("units", false, "library", parent)
 {
+    defineColumnNames();
 }
 
 int UnitsModel::columnCount(const QModelIndex &/*parent*/) const

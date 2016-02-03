@@ -6,7 +6,7 @@
 
 RubrosModel::RubrosModel(QObject *parent) : ModelBase("rubros", false, "library", parent)
 {
-
+    defineColumnNames();
 }
 
 

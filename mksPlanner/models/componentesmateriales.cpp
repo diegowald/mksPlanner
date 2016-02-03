@@ -9,7 +9,7 @@
 ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent)
     : ModelBase("componentesMateriales", false, "library", parent)
 {
-
+    defineColumnNames();
 }
 
 int ComponentesMaterialesModel::columnCount(const QModelIndex &parent) const

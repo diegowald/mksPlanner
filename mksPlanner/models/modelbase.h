@@ -50,7 +50,7 @@ protected:
 
     virtual QVariant modelData(EntityBasePtr entity, int column, int role = Qt::DisplayRole) const = 0;
     virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role) = 0;
-    virtual void defineColumnNames() = 0;
+    virtual void defineColumnNames() {};
     virtual void setField(int pos, const QString &fieldName);
     QString field(int pos);
 signals:

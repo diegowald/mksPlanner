@@ -11,6 +11,7 @@
 PlanningTaskModel::PlanningTaskModel(int idProyecto, QObject *parent) : ModelBase("planningtasks", false, "proyectos", parent)
 {
     _idProyecto = idProyecto;
+    defineColumnNames();
 }
 
 int PlanningTaskModel::columnCount(const QModelIndex &/*parent*/) const
@@ -380,8 +381,9 @@ void PlanningTaskModel::editEntity(int row)
     dlg.exec();*/
 }
 
-void PlanningTaskModel::createEntity()
+EntityBasePtr PlanningTaskModel::createEntity()
 {
     EntityBasePtr entity = ModelBase::createEntity();
     qSharedPointerDynamicCast<PlanningTask>(entity)->setIdProyecto(_idProyecto);
+    return entity;
 }

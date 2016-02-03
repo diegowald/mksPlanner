@@ -6,7 +6,7 @@
 RubrosProveedoresModel::RubrosProveedoresModel(QObject *parent)
     : ModelBase("tareasProveedores", false, "library", parent)
 {
-
+    defineColumnNames();
 }
 
 int RubrosProveedoresModel::columnCount(const QModelIndex &parent) const

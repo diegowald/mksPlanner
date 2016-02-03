@@ -12,6 +12,7 @@
 CostoMaterialesModel::CostoMaterialesModel(QObject *parent) : ModelBase("costoMateriales", true, "library", parent)
 {
     _crearMaterialCompuesto = false;
+    defineColumnNames();
 }
 
 

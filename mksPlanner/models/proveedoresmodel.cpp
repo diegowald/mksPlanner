@@ -7,7 +7,7 @@
 
 ProveedoresModel::ProveedoresModel(QObject *parent) : ModelBase("proveedores", false, "library", parent)
 {
-
+    defineColumnNames();
 }
 
 int ProveedoresModel::columnCount(const QModelIndex &/*parent*/) const
