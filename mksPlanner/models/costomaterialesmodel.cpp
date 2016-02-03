@@ -16,11 +16,6 @@ CostoMaterialesModel::CostoMaterialesModel(QObject *parent) : ModelBase("costoMa
 }
 
 
-int CostoMaterialesModel::columnCount(const QModelIndex &/*parent*/) const
-{
-    return 5;
-}
-
 int CostoMaterialesModel::rowCount(const QModelIndex &parent) const
 {
     return GlobalContainer::instance().library()->model(Tables::Materiales)->rowCount(parent);

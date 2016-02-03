@@ -9,7 +9,6 @@ class PlanningTaskModel : public ModelBase
     Q_OBJECT
 public:
     explicit PlanningTaskModel(int idProyecto, QObject *parent = 0);
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     virtual void editEntity(int row);
 

@@ -9,11 +9,6 @@ ProyectoModel::ProyectoModel(int idProyecto, QObject *parent) : ModelBase("proue
     _idProyecto = idProyecto;
 }
 
-int ProyectoModel::columnCount(const QModelIndex &/*parent*/) const
-{
-    return 7;
-}
-
 void ProyectoModel::defineColumnNames()
 {
     setField(0, "id");

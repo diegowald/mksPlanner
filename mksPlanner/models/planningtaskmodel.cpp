@@ -14,11 +14,6 @@ PlanningTaskModel::PlanningTaskModel(int idProyecto, QObject *parent) : ModelBas
     defineColumnNames();
 }
 
-int PlanningTaskModel::columnCount(const QModelIndex &/*parent*/) const
-{
-    return 15;
-}
-
 void PlanningTaskModel::defineColumnNames()
 {
     setField(1, "idTareaPadre");

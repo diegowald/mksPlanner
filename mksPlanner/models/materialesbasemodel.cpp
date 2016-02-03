@@ -11,11 +11,6 @@ MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent)
     defineColumnNames();
 }
 
-int MaterialesBaseModel::columnCount(const QModelIndex &/*parent*/) const
-{
-    return 6;
-}
-
 void MaterialesBaseModel::defineColumnNames()
 {
     setField(1, "Rubro");

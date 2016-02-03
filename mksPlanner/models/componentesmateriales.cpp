@@ -12,11 +12,6 @@ ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent)
     defineColumnNames();
 }
 
-int ComponentesMaterialesModel::columnCount(const QModelIndex &parent) const
-{
-    return 6;
-}
-
 int ComponentesMaterialesModel::rowCount(const QModelIndex &/*parent*/) const
 {
     return _entityMappingByIdMaterialPadre[_idMterialPadre].count();

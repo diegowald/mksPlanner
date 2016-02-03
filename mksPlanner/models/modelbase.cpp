@@ -203,3 +203,8 @@ int ModelBase::columnIndex(const QString &name) const
     return -1;
 }
 
+int ModelBase::columnCount(const QModelIndex &parent) const
+{
+    return _fields.count();
+}
+

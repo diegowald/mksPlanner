@@ -10,11 +10,6 @@ UnitsModel::UnitsModel(QObject *parent) :
     defineColumnNames();
 }
 
-int UnitsModel::columnCount(const QModelIndex &/*parent*/) const
-{
-    return 3;
-}
-
 void UnitsModel::defineColumnNames()
 {
     setField(1, "Nombre");

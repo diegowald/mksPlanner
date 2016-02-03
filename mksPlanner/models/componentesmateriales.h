@@ -9,7 +9,6 @@ class ComponentesMaterialesModel : public ModelBase
     Q_OBJECT
 public:
     explicit ComponentesMaterialesModel(QObject *parent = 0);
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;

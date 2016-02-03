@@ -37,6 +37,7 @@ public:
     virtual QStyledItemDelegate* delegate();
 
     virtual int columnIndex(const QString &name) const;
+    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);

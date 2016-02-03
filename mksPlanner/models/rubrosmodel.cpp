@@ -10,11 +10,6 @@ RubrosModel::RubrosModel(QObject *parent) : ModelBase("rubros", false, "library"
 }
 
 
-int RubrosModel::columnCount(const QModelIndex &/*parent*/) const
-{
-    return 4;
-}
-
 void RubrosModel::defineColumnNames()
 {
     setField(0, "id");

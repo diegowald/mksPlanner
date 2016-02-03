@@ -9,11 +9,6 @@ RubrosProveedoresModel::RubrosProveedoresModel(QObject *parent)
     defineColumnNames();
 }
 
-int RubrosProveedoresModel::columnCount(const QModelIndex &parent) const
-{
-    return 4;
-}
-
 int RubrosProveedoresModel::rowCount(const QModelIndex &/*parent*/) const
 {
     return _entityMappingByIdProveedor[_idProveedor].count();

@@ -10,11 +10,6 @@ ProveedoresModel::ProveedoresModel(QObject *parent) : ModelBase("proveedores", f
     defineColumnNames();
 }
 
-int ProveedoresModel::columnCount(const QModelIndex &/*parent*/) const
-{
-    return 6;
-}
-
 void ProveedoresModel::defineColumnNames()
 {
     setField(1, "Nombre");
