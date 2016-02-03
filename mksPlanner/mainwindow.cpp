@@ -7,7 +7,7 @@
 #include "globalcontainer.h"
 #include "persistance/projectlibrary.h"
 #include "views/projectwindow.h"
-
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -122,9 +122,10 @@ void MainWindow::on_actionCalculadora_de_materiales_triggered()
 
 void MainWindow::on_actionNuevo_triggered()
 {
+    QString filename = QFileDialog::getSaveFileName(this, "Crear proyecto", "./", "*.mskPlanner");
     if (!showSubWindow("Proyecto"))
     {
-        int tmpId = GlobalContainer::instance().createProject();
+        int tmpId = GlobalContainer::instance().createProject(filename);
         ProjectWindow *frm = new ProjectWindow("Proyecto");
         frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
         createSubWindow("Proyecto", frm);

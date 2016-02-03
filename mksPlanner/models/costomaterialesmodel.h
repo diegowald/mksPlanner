@@ -33,6 +33,7 @@ protected:
     virtual void postProcessData();
     virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
     virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
+    virtual void defineColumnNames();
 
 private:
     QMap<int, int> _mappingMaterialToCosto;

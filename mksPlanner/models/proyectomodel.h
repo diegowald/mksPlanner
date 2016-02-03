@@ -8,7 +8,7 @@ class ProyectoModel : public ModelBase
 {
     Q_OBJECT
 public:
-    explicit ProyectoModel(QObject *parent = 0);
+    explicit ProyectoModel(int idProyecto, QObject *parent = 0);
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
@@ -20,6 +20,10 @@ protected:
     virtual EntityBasePtr internalCreateEntity(int assignedId);
     virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
     virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
+    virtual void defineColumnNames();
+
+private:
+    int _idProyecto;
 };
 
 #endif // PROYECTOMODEL_H

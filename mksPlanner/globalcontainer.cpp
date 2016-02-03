@@ -52,17 +52,17 @@ void GlobalContainer::setCounter(const QString &counterName, int value)
     _counter[counterName] = value;
 }
 
-int GlobalContainer::createProject()
+int GlobalContainer::createProject(const QString &filename)
 {
     int id = _projectLibraries.count();
-    ProjectLibrary *project = new ProjectLibrary(this);
+    ProjectLibrary *project = new ProjectLibrary(filename, id, this);
     _projectLibraries.append(project);
     return id;
 }
 
 int GlobalContainer::loadProject(const QString &filename)
 {
-    int id = createProject();
+    int id = createProject(filename);
     ProjectLibrary *project = projectLibrary(id);
     project->load(filename);
     return id;

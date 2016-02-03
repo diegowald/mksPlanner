@@ -14,6 +14,12 @@ int UnitsModel::columnCount(const QModelIndex &/*parent*/) const
     return 3;
 }
 
+void UnitsModel::defineColumnNames()
+{
+    setField(1, "Nombre");
+    setField(2, "Descripción");
+}
+
 QVariant UnitsModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)

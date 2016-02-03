@@ -15,6 +15,15 @@ int MaterialesBaseModel::columnCount(const QModelIndex &/*parent*/) const
     return 6;
 }
 
+void MaterialesBaseModel::defineColumnNames()
+{
+    setField(1, "Rubro");
+    setField(2, "Tarea/Material");
+    setField(3, "Nombre");
+    setField(4, "Descripción");
+    setField(5, "Unidad de medida");
+}
+
 QVariant MaterialesBaseModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     QVariant result = QVariant();

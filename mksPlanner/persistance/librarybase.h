@@ -14,7 +14,8 @@ enum class Tables {
     Rubros,
     Proyectos,
     CostosUnitarios,
-    RubrosProveedores
+    RubrosProveedores,
+    PlanningTasks
 };
 
 class LibraryBase : public QObject

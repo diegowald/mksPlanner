@@ -12,6 +12,8 @@ ModelBase::ModelBase(const QString &counterName, bool implementsDelegate, const 
     _counterName = counterName;
     _implementsDelegate = implementsDelegate;
     setDBName(dbName);
+    setField(0, "id");
+    defineColumnNames();
 }
 
 int ModelBase::rowCount(const QModelIndex &/*parent*/) const
@@ -179,4 +181,24 @@ QStyledItemDelegate *ModelBase::delegate()
 
 void ModelBase::postProcessData()
 {
+}
+
+void ModelBase::setField(int pos, const QString &fieldName)
+{
+    _fields[pos] = fieldName;
+}
+
+QString ModelBase::field(int pos)
+{
+    return _fields.contains(pos) ? _fields[pos] : "";
+}
+
+int ModelBase::columnIndex(const QString &name) const
+{
+    foreach (int key, _fields.keys())
+    {
+        if (_fields[key] == name)
+            return key;
+    }
+    return -1;
 }

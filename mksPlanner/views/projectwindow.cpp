@@ -26,12 +26,30 @@ void ProjectWindow::setModel(ModelBase* model)
     _mapper = new QDataWidgetMapper(this);
     _mapper->setModel(model);
 
-    _mapper->addMapping(ui->txtPropietario, 1);
-    _mapper->addMapping(ui->txtDireccion, 2);
-    _mapper->addMapping(ui->txtEmail, 3);
-    _mapper->addMapping(ui->txtTelefono, 4);
+    _mapper->addMapping(ui->txtPropietario, model->columnIndex("Propietario"));
+    _mapper->addMapping(ui->txtDireccion, model->columnIndex("Direccion"));
+    _mapper->addMapping(ui->txtEmail, model->columnIndex("Email"));
+    _mapper->addMapping(ui->txtTelefono, model->columnIndex("Telefono"));
+    _mapper->addMapping(ui->dateEstimacionInicio, model->columnIndex("Fecha estimada de Inicio"));
+    _mapper->addMapping(ui->dateEstimacionFinalizacion, model->columnIndex("Fecha estimada de finalización"));
 
     _mapper->setCurrentIndex(0);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+}
 
+void ProjectWindow::setPlanningModel(ModelBase *model)
+{
+    _planningModel = model;
+    ui->planningView->setModel(_planningModel);
+}
+
+void ProjectWindow::on_tabWidget_currentChanged(int index)
+{
+    switch (index)
+    {
+    case 0:
+        break;
+    default:
+        break;
+    }
 }

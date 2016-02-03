@@ -55,7 +55,10 @@ SOURCES += main.cpp\
     models/costomaterialcompuesto.cpp \
     models/rubrosproveedoresmodel.cpp \
     models/rubroroveedor.cpp \
-    views/dlgeditrubroproveedor.cpp
+    views/dlgeditrubroproveedor.cpp \
+    persistance/projectupdater.cpp \
+    models/planningtask.cpp \
+    models/planningtaskmodel.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -97,7 +100,10 @@ HEADERS  += mainwindow.h \
     models/costomaterialcompuesto.h \
     models/rubrosproveedoresmodel.h \
     models/rubroroveedor.h \
-    views/dlgeditrubroproveedor.h
+    views/dlgeditrubroproveedor.h \
+    persistance/projectupdater.h \
+    models/planningtask.h \
+    models/planningtaskmodel.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

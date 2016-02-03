@@ -19,12 +19,18 @@ public:
     ~ProjectWindow();
 
     void setModel(ModelBase* model);
+    void setPlanningModel(ModelBase *model);
 
+
+private slots:
+    void on_tabWidget_currentChanged(int index);
 
 private:
     Ui::ProjectWindow *ui;
     ModelBase* _model;
     QDataWidgetMapper *_mapper;
+
+    ModelBase* _planningModel;
 };
 
 #endif // PROJECTWINDOW_H

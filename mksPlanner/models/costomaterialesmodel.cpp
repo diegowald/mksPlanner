@@ -26,6 +26,14 @@ int CostoMaterialesModel::rowCount(const QModelIndex &parent) const
     //return _entityMappingByIdMaterialPadre[_idMterialPadre].count();
 }
 
+void CostoMaterialesModel::defineColumnNames()
+{
+    setField(1, "Material");
+    setField(2, "Costo");
+    setField(3, "Precio");
+    setField(4, "Desde");
+}
+
 QVariant CostoMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)

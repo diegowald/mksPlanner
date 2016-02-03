@@ -1,31 +1,29 @@
-#ifndef MATERIALESBASEMODEL_H
-#define MATERIALESBASEMODEL_H
+#ifndef PLANNINGTASKMODEL_H
+#define PLANNINGTASKMODEL_H
 
 #include <QObject>
 #include "models/modelbase.h"
 
-class MaterialesBaseModel : public ModelBase
+class PlanningTaskModel : public ModelBase
 {
     Q_OBJECT
 public:
-    explicit MaterialesBaseModel(bool filterByTask, QObject *parent = 0);
+    explicit PlanningTaskModel(int idProyecto, QObject *parent = 0);
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-
     virtual void editEntity(int row);
 
+    virtual EntityBasePtr createEntity();
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);
+    virtual EntityBasePtr internalCreateEntity(int assignedId);
     virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
     virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
-    void defineColumnNames();
-signals:
-
-public slots:
+    virtual void defineColumnNames();
 
 private:
-    bool _filterByTask;
+    int _idProyecto;
 };
 
-#endif // MATERIALESBASEMODEL_H
+#endif // PLANNINGTASKMODEL_H

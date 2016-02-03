@@ -12,7 +12,6 @@ public:
 
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-
     virtual void editEntity(int row);
 
 protected:
@@ -22,7 +21,7 @@ protected:
 
     virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
     virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
-
+    virtual void defineColumnNames();
 signals:
 
 public slots:

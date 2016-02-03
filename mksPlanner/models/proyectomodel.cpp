@@ -3,14 +3,25 @@
 #include "models/proyecto.h"
 
 
-ProyectoModel::ProyectoModel(QObject *parent) : ModelBase("prouecto", false, "proyecto", parent)
+ProyectoModel::ProyectoModel(int idProyecto, QObject *parent) : ModelBase("prouecto", false, "proyecto", parent)
 {
-
+    _idProyecto = idProyecto;
 }
 
 int ProyectoModel::columnCount(const QModelIndex &/*parent*/) const
 {
     return 7;
+}
+
+void ProyectoModel::defineColumnNames()
+{
+    setField(0, "id");
+    setField(1, "Propietario");
+    setField(2, "Direccion");
+    setField(3, "Email");
+    setField(4, "Telefono");
+    setField(5, "Fecha estimada de Inicio");
+    setField(6, "Fecha estimada de finalización");
 }
 
 QVariant ProyectoModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -93,6 +104,16 @@ QVariant ProyectoModel::modelData(EntityBasePtr entity, int column, int role) co
         return p->telefono();
         break;
     }
+    case 5:
+    {
+        return p->fechaEstimadaInicio();
+        break;
+    }
+    case 6:
+    {
+        return p->fechaEstimadaFinalizacion();
+        break;
+    }
     default:
         return QVariant();
         break;
@@ -125,6 +146,20 @@ bool ProyectoModel::modelSetData(EntityBasePtr entity, int column, const QVarian
     case 4:
     {
         p->setTelefono(value.toString());
+        result = true;
+        break;
+    }
+    case 5:
+    {
+        QDate dt = value.toDate();
+        p->setFechaEstimadaInicio(dt);
+        result = true;
+        break;
+    }
+    case 6:
+    {
+        QDate dt = value.toDate();
+        p->setFechaEstimadaFinalizacion(dt);
         result = true;
         break;
     }

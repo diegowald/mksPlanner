@@ -15,6 +15,15 @@ int ProveedoresModel::columnCount(const QModelIndex &/*parent*/) const
     return 6;
 }
 
+void ProveedoresModel::defineColumnNames()
+{
+    setField(1, "Nombre");
+    setField(2, "Contacto");
+    setField(3, "eMail");
+    setField(4, "Telefono");
+    setField(5, "Dirección");
+}
+
 QVariant ProveedoresModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)

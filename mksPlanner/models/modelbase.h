@@ -28,13 +28,15 @@ public:
     virtual EntityBasePtr getItemByRowid(int row);
     void setModified();
 
-    EntityBasePtr createEntity();
+    virtual EntityBasePtr createEntity();
     void removeEntity(QWidget *parent, int row);
     bool removeRow(int row, const QModelIndex &parent);
 
     virtual QSet<int> ids();
     bool implementsDelegate() const;
     virtual QStyledItemDelegate* delegate();
+
+    virtual int columnIndex(const QString &name) const;
 
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);
@@ -48,6 +50,9 @@ protected:
 
     virtual QVariant modelData(EntityBasePtr entity, int column, int role = Qt::DisplayRole) const = 0;
     virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role) = 0;
+    virtual void defineColumnNames() = 0;
+    virtual void setField(int pos, const QString &fieldName);
+    QString field(int pos);
 signals:
 
 public slots:
@@ -57,6 +62,7 @@ protected:
     QMap<int, EntityBasePtr> _entities;
     QString _counterName;
     bool _implementsDelegate;
+    QMap<int, QString> _fields;
 };
 
 

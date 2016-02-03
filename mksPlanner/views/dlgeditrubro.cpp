@@ -9,9 +9,10 @@ DlgEditRubro::DlgEditRubro(RubrosModel *model, int selectedEntity, QWidget *pare
     ui->setupUi(this);
     _mapper = new QDataWidgetMapper(this);
     _mapper->setModel(_model);
-    _mapper->addMapping(ui->txtNombre, 1);
-    _mapper->addMapping(ui->txtDescripcion, 2);
-    _mapper->addMapping(ui->chkRubroTareas, 3);
+    _mapper->addMapping(ui->txtNombre, model->columnIndex("Nombre"));
+    _mapper->addMapping(ui->txtDescripcion, model->columnIndex("Descripción"));
+    _mapper->addMapping(ui->chkRubroTareas, model->columnIndex("Contiene Tareas"));
+
     _mapper->setCurrentIndex(selectedEntity);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 }

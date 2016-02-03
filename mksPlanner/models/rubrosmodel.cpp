@@ -15,6 +15,14 @@ int RubrosModel::columnCount(const QModelIndex &/*parent*/) const
     return 4;
 }
 
+void RubrosModel::defineColumnNames()
+{
+    setField(0, "id");
+    setField(1, "Nombre");
+    setField(2, "Descripción");
+    setField(3, "Contiene tareas");
+}
+
 QVariant RubrosModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)

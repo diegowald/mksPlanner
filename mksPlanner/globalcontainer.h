@@ -18,7 +18,7 @@ public:
     void setLibrary(MaterialsLibrary *library);
     MaterialsLibrary *library() const;
 
-    int createProject();
+    int createProject(const QString &filename);
     int loadProject(const QString &filename);
     ProjectLibrary *projectLibrary(int id) const;
 

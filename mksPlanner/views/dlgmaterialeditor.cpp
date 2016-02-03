@@ -26,9 +26,8 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
     _model = model;
     _mapper = new QDataWidgetMapper(this);
     _mapper->setModel(_model);
-    _mapper->addMapping(ui->txtName, 3);
-    _mapper->addMapping(ui->txtDescription, 4);
-
+    _mapper->addMapping(ui->txtName, model->columnIndex("Nombre"));
+    _mapper->addMapping(ui->txtDescription, model->columnIndex("Descripción"));
 
     EntityBasePtr entity = model->getItemByRowid(row);
     MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);

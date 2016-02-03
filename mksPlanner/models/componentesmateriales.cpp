@@ -22,6 +22,15 @@ int ComponentesMaterialesModel::rowCount(const QModelIndex &/*parent*/) const
     return _entityMappingByIdMaterialPadre[_idMterialPadre].count();
 }
 
+void ComponentesMaterialesModel::defineColumnNames()
+{
+    setField(1, "idMaterialPadre");
+    setField(2, "idMaterial");
+    setField(3, "Material");
+    setField(4, "Cantidad");
+    setField(5, "Unidad de medida");
+}
+
 QVariant ComponentesMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)

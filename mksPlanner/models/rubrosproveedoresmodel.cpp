@@ -19,6 +19,13 @@ int RubrosProveedoresModel::rowCount(const QModelIndex &/*parent*/) const
     return _entityMappingByIdProveedor[_idProveedor].count();
 }
 
+void RubrosProveedoresModel::defineColumnNames()
+{
+    setField(1, "idProveedor");
+    setField(2, "idRubro");
+    setField(3, "Rubro");
+}
+
 QVariant RubrosProveedoresModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)

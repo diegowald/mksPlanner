@@ -1,10 +1,16 @@
 #include "projectlibrary.h"
 #include "models/proyectomodel.h"
-#include "persistance/materialesupdater.h"
+#include "models/planningtaskmodel.h"
+#include "persistance/projectupdater.h"
 
-ProjectLibrary::ProjectLibrary(QObject *parent) : LibraryBase(parent)
+
+ProjectLibrary::ProjectLibrary(const QString &filename, int idProyecto, QObject *parent) : LibraryBase(parent)
 {
-    addModel(Tables::Proyectos, new ProyectoModel(this));
+    _filename = filename;
+    _idProyecto = idProyecto;
+    updateFromVersion(filename, 0);
+    addModel(Tables::Proyectos, new ProyectoModel(_idProyecto, this));
+    addModel(Tables::PlanningTasks, new PlanningTaskModel(_idProyecto, this));
 }
 
 void ProjectLibrary::internalSaveTables(const QString &filename)
@@ -19,6 +25,6 @@ void ProjectLibrary::internalLoadTables(const QString &filename)
 
 void ProjectLibrary::updateFromVersion(const QString &filename, const QString &versionInfo)
 {
-    MaterialesUpdater updater;
+    ProjectUpdater updater;
     updater.updateFromVersion(filename, versionInfo.toInt());
 }
