@@ -7,15 +7,30 @@ LibraryBase::LibraryBase(QObject *parent) : QObject(parent)
 
 }
 
-void LibraryBase::load(const QString &filename)
+void LibraryBase::setFileName(const QString &filename)
 {
-    checkVersion(filename);
-    internalLoadTables(filename);
+    _filename = filename;
 }
 
-void LibraryBase::save(const QString &filename)
+void LibraryBase::load()
 {
-    internalSaveTables(filename);
+    checkVersion(_filename);
+    internalLoadTables(_filename);
+}
+
+void LibraryBase::save()
+{
+    internalSaveTables(_filename);
+}
+
+bool LibraryBase::isDirty() const
+{
+    foreach(ModelBase *model, _models.values())
+    {
+        if (model->isDirty())
+            return true;
+    }
+    return false;
 }
 
 void LibraryBase::addModel(Tables name, ModelBase* model)
@@ -39,8 +54,8 @@ void LibraryBase::checkVersion(const QString &filename)
     }
 
     QSqlQuery query(database);
-    //qDebug() << query.exec(sql);
-    //qDebug() << query.lastError().text();
+    query.exec(sql);
+    qDebug() << query.lastError().text();
 
     QString versionInfo = "";
     while (query.next())
@@ -52,3 +67,4 @@ void LibraryBase::checkVersion(const QString &filename)
     updateFromVersion(filename, versionInfo);
     database.close();
 }
+

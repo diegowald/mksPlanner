@@ -30,7 +30,7 @@ void CostoMaterialesModel::defineColumnNames()
     setField(4, "Desde");
 }
 
-QVariant CostoMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
+/*QVariant CostoMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
     {
@@ -70,7 +70,7 @@ QVariant CostoMaterialesModel::headerData(int section, Qt::Orientation orientati
         return section;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
-}
+}*/
 
 QVariant CostoMaterialesModel::modelData(EntityBasePtr entity, int column, int role) const
 {
@@ -182,69 +182,73 @@ EntityBasePtr CostoMaterialesModel::getItemByIdMaterial(int idMaterial)
 
 QVariant CostoMaterialesModel::data(const QModelIndex &index, int role) const
 {
-    EntityBasePtr entityMaterial = GlobalContainer::instance().library()->model(Tables::Materiales)->getItemByRowid(index.row());
-    MaterialPtr material = qSharedPointerDynamicCast<Material>(entityMaterial);
-
-    QVariant result = QVariant();
-    if (index.column() == 1)
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        if (role == Qt::DisplayRole)
-        {
-            QString r = material->name();
-            if (material->isCompuesto())
-            {
-                r += " (compuesto)";
-            }
-            result = r;
+        EntityBasePtr entityMaterial = GlobalContainer::instance().library()->model(Tables::Materiales)->getItemByRowid(index.row());
+        MaterialPtr material = qSharedPointerDynamicCast<Material>(entityMaterial);
 
-        }
-    }
-    else
-    {
-        if (_mappingMaterialToCosto.contains(entityMaterial->id()))
+        QVariant result = QVariant();
+        if (index.column() == 1)
         {
-            int idCosto = _mappingMaterialToCosto[entityMaterial->id()];
-            if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
+            if (role == Qt::DisplayRole)
             {
-                EntityBasePtr entity = _entities[idCosto];
-                CostoMaterialPtr cm = qSharedPointerDynamicCast<CostoMaterial>(entity);
-                if (role == Qt::DisplayRole)
+                QString r = material->name();
+                if (material->isCompuesto())
                 {
-                    switch (index.column())
+                    r += " (compuesto)";
+                }
+                result = r;
+
+            }
+        }
+        else
+        {
+            if (_mappingMaterialToCosto.contains(entityMaterial->id()))
+            {
+                int idCosto = _mappingMaterialToCosto[entityMaterial->id()];
+                if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
+                {
+                    EntityBasePtr entity = _entities[idCosto];
+                    CostoMaterialPtr cm = qSharedPointerDynamicCast<CostoMaterial>(entity);
+                    if (role == Qt::DisplayRole)
                     {
-                    case 0:
-                    {
-                        result = cm->id();
-                        break;
-                    }
-                    case 1:
-                    {
-                        result = cm->idMaterial();
-                        break;
-                    }
-                    case 2:
-                    {
-                        result = cm->costo();
-                        break;
-                    }
-                    case 3:
-                    {
-                        result = cm->precio();
-                        break;
-                    }
-                    case 4:
-                    {
-                        result = cm->desde();
-                        break;
-                    }
-                    default:
-                        break;
+                        switch (index.column())
+                        {
+                        case 0:
+                        {
+                            result = cm->id();
+                            break;
+                        }
+                        case 1:
+                        {
+                            result = cm->idMaterial();
+                            break;
+                        }
+                        case 2:
+                        {
+                            result = cm->costo();
+                            break;
+                        }
+                        case 3:
+                        {
+                            result = cm->precio();
+                            break;
+                        }
+                        case 4:
+                        {
+                            result = cm->desde();
+                            break;
+                        }
+                        default:
+                            break;
+                        }
                     }
                 }
             }
         }
+        return result;
     }
-    return result;
+    return QVariant();
 }
 
 bool CostoMaterialesModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -262,7 +266,7 @@ bool CostoMaterialesModel::setData(const QModelIndex &index, const QVariant &val
         }
         entity = _entities[_mappingMaterialToCosto[idMaterial]];
         modelSetData(entity, index.column(), value, role);
-//        entity->setData(index.column(), value, role);
+        //        entity->setData(index.column(), value, role);
     }
     return true;
 }

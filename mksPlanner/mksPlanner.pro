@@ -58,7 +58,9 @@ SOURCES += main.cpp\
     views/dlgeditrubroproveedor.cpp \
     persistance/projectupdater.cpp \
     models/planningtask.cpp \
-    models/planningtaskmodel.cpp
+    models/planningtaskmodel.cpp \
+    views/dlgeditplanningtask.cpp \
+    models/planningtaskmodeladapter.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -103,7 +105,9 @@ HEADERS  += mainwindow.h \
     views/dlgeditrubroproveedor.h \
     persistance/projectupdater.h \
     models/planningtask.h \
-    models/planningtaskmodel.h
+    models/planningtaskmodel.h \
+    views/dlgeditplanningtask.h \
+    models/planningtaskmodeladapter.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
@@ -115,7 +119,8 @@ FORMS    += mainwindow.ui \
     views/dlgeditproject.ui \
     views/projectwindow.ui \
     views/dlgeditrubro.ui \
-    views/dlgeditrubroproveedor.ui
+    views/dlgeditrubroproveedor.ui \
+    views/dlgeditplanningtask.ui
 
 CONFIG += mobility
 MOBILITY =

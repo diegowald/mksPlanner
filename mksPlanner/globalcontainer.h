@@ -25,6 +25,9 @@ public:
     int counter(const QString &counterName);
     void setCounter(const QString &counterName, int value);
 
+    bool unsavedProjects() const;
+    void saveAllProjects();
+
 private:
     explicit GlobalContainer(QObject *parent = 0);
 

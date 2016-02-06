@@ -13,8 +13,8 @@ public:
 
     explicit PlanningTask(int id, int idTareaPadre, const QString &name,
                           int idMaterialTask, int idProveedor,
-                          double cantidad, const QDate &fechaEstimadaInicio,
-                          const QDate &fechaEstimadaFin);
+                          double cantidad, const QDateTime &fechaEstimadaInicio,
+                          const QDateTime &fechaEstimadaFin);
 
     int idTareaPadre() const;
     EntityBasePtr tareaPadre() const;
@@ -24,8 +24,8 @@ public:
     int idProveedor() const;
     EntityBasePtr proveedor() const;
     double cantidad() const;
-    QDate fechaEstimadaInicio() const;
-    QDate fechaEstimadaFin() const;
+    QDateTime fechaEstimadaInicio() const;
+    QDateTime fechaEstimadaFin() const;
     int duracion() const;
     double costo() const;
     double precio() const;
@@ -35,8 +35,8 @@ public:
     void setIdMaterialTask(int value);
     void setIdProveedor(int value);
     void setCantidad(double value);
-    void setFechaEstimadaInicio(QDate &value);
-    void setFechaEstimadaFin(QDate &value);
+    void setFechaEstimadaInicio(QDateTime &value);
+    void setFechaEstimadaFin(QDateTime &value);
 
     void setIdProyecto(int idProyecto);
 
@@ -46,8 +46,8 @@ private:
     int _idMaterialTask;
     int _idProveedor;
     double _cantidad;
-    QDate _fechaEstimadaInicio;
-    QDate _fechaEstimadaFin;
+    QDateTime _fechaEstimadaInicio;
+    QDateTime _fechaEstimadaFin;
 
     int _idProyecto;
 

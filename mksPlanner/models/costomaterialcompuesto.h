@@ -20,6 +20,7 @@ public:
     virtual double costo() const;
     virtual double precio() const;
     virtual QDate desde() const;
+    virtual bool isDirty() const;
 };
 
 typedef QSharedPointer<CostoMaterialCompuesto> CostoMaterialCompuestoPtr;

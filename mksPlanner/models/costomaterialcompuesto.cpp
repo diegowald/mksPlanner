@@ -18,26 +18,6 @@ CostoMaterialCompuesto::CostoMaterialCompuesto(int id): CostoMaterial(id)
     _idMaterial = -1;
 }
 
-/*bool CostoMaterialCompuesto::internalSetData(const int column, const QVariant &value, int role)
-{
-    if (role == Qt::EditRole)
-    {
-        switch (column)
-        {
-        case 1:
-        {
-            _idMaterial = value.toInt();
-            break;
-        }
-        default:
-            break;
-        }
-
-        return true;
-    }
-    return false;
-}*/
-
 QSqlQuery* CostoMaterialCompuesto::getQuery(QSqlDatabase &/*database*/)
 {
     return NULL; // Este es un material compuesto, por lo que el costo siempre se calcula en base a los materiales
@@ -112,4 +92,9 @@ QDate CostoMaterialCompuesto::desde() const
         fechaCostoMasViejo = (fechaCosto < fechaCostoMasViejo) ? fechaCosto : fechaCostoMasViejo;
     }
     return fechaCostoMasViejo;
+}
+
+bool CostoMaterialCompuesto::isDirty() const
+{
+    return false;
 }

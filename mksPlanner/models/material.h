@@ -8,8 +8,8 @@ class Material : public EntityBase
 {
     Q_OBJECT
 public:
-    explicit Material(int id, const QString &name, const QString &description, int idUnit, int idRubro, bool isUsableMaterial, bool isTask);
-    explicit Material(int id, bool isTask);
+    explicit Material(int id, const QString &name, const QString &description, int idUnit, int idRubro);
+    explicit Material(int id);
     //virtual bool internalSetData(const int column, const QVariant &value, int role);
 
     virtual QString toDebugString();
@@ -24,7 +24,7 @@ public:
     int idRubro() const;
     EntityBasePtr rubro() const;
 
-    bool isTask() const;
+    bool isTask() const; // devuelve true si el rubro en el que esta es tarea
 
     void setName(const QString &value);
     void setDescription(const QString &value);
@@ -34,7 +34,6 @@ public:
     QSet<int> materialsComposedBy();
 
     bool isCompuesto() const;
-    bool isUsableMaterial() const;
 
 signals:
 
@@ -45,10 +44,6 @@ private:
     QString _description;
     int _idUnit;
     int _idRubro;
-    bool _isUsableMaterial;
-    // bool isUsableMaterial: true, para poder usarlo como material en tareas, por ejemplo mamposteroa
-    // bool isUsableMaterial: false, es un material para ser usado por otros materiales, como por ejemplo cemento portland
-    bool _isTask; // true, si es tarea.
 };
 
 typedef QSharedPointer<Material> MaterialPtr;

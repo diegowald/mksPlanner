@@ -5,7 +5,7 @@
 #include <QDataWidgetMapper>
 
 #include "models/modelbase.h"
-
+#include "models/planningtaskmodeladapter.h"
 namespace Ui {
 class ProjectWindow;
 }
@@ -25,12 +25,19 @@ public:
 private slots:
     void on_tabWidget_currentChanged(int index);
 
+    void on_actionAddTask_triggered();
+
+    void on_actionEdit_Task_triggered();
+
+    void on_actionRemove_Task_triggered();
+
 private:
     Ui::ProjectWindow *ui;
     ModelBase* _model;
     QDataWidgetMapper *_mapper;
 
-    ModelBase* _planningModel;
+//    ModelBase* _planningModel;
+    PlanningTaskModelAdapter *_planningModel;
 };
 
 #endif // PROJECTWINDOW_H

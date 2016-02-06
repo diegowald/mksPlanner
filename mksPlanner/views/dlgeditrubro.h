@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QDataWidgetMapper>
 #include "models/rubrosmodel.h"
-
+#include "models/entitybase.h"
 
 namespace Ui {
 class DlgEditRubro;
@@ -25,6 +25,7 @@ private:
     Ui::DlgEditRubro *ui;
     RubrosModel *_model;
     QDataWidgetMapper *_mapper;
+    EntityBasePtr _entity;
 };
 
 #endif // DLGEDITRUBRO_H

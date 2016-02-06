@@ -19,36 +19,6 @@ CostoMaterial::CostoMaterial(int id, int idMaterial, double costo, double precio
 }
 
 
-/*bool CostoMaterial::internalSetData(const int column, const QVariant &value, int role)
-{
-    if (role == Qt::EditRole)
-    {
-        switch (column)
-        {
-        case 1:
-        {
-            _idMaterial = value.toInt();
-            break;
-        }
-        case 2:
-        {
-            _costo = value.toDouble();
-            break;
-        }
-        case 3:
-        {
-            _desde = value.toDate();
-            break;
-        }
-        default:
-            break;
-        }
-
-        return true;
-    }
-    return false;
-}*/
-
 void CostoMaterial::setIdMaterial(int id)
 {
     _idMaterial = id;
@@ -81,9 +51,10 @@ QSqlQuery* CostoMaterial::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO costosMateriales (idMaterial, costo, desde) VALUES (:idMaterial, :costo, :desde);");
+        query->prepare("INSERT INTO costosMateriales (idMaterial, costo, precio, desde) VALUES (:idMaterial, :costo, :precio, :desde);");
         query->bindValue(":idMaterial", _idMaterial);
         query->bindValue(":costo", _costo);
+        query->bindValue(":precio", _precio);
         query->bindValue(":desde", _desde);
         break;
     }
@@ -97,9 +68,10 @@ QSqlQuery* CostoMaterial::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE costosMateriales SET idMaterial = :idMaterial, costo = :costo, desde = :desde WHERE id = :id;");
+        query->prepare("UPDATE costosMateriales SET idMaterial = :idMaterial, costo = :costo, precio = :precio, desde = :desde WHERE id = :id;");
         query->bindValue(":idMaterial", _idMaterial);
         query->bindValue(":costo", _costo);
+        query->bindValue(":precio", _precio);
         query->bindValue(":desde", _desde);
         query->bindValue(":id", id());
         break;

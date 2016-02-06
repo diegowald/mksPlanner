@@ -11,8 +11,10 @@ public:
     explicit PlanningTaskModel(int idProyecto, QObject *parent = 0);
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     virtual void editEntity(int row);
+    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     virtual EntityBasePtr createEntity();
+
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);

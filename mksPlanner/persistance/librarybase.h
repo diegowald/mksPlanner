@@ -24,9 +24,11 @@ class LibraryBase : public QObject
 public:
     explicit LibraryBase(QObject *parent = 0);
 
-    void save(const QString &filename);
-    void load(const QString &filename);
+    void setFileName(const QString &filename);
+    void save();
+    void load();
     ModelBase* model(Tables name);
+    bool isDirty() const;
 
 protected:
     virtual void internalSaveTables(const QString &filename) = 0;
@@ -43,6 +45,7 @@ public slots:
 
 private:
     QMap<Tables, ModelBase*> _models;
+    QString _filename;
 };
 
 #endif // LIBRARYBASE_H

@@ -17,6 +17,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void closeEvent(QCloseEvent *evt);
 private:
     bool showSubWindow(const QString &windowName);
     void createSubWindow(const QString &windowName, QWidget *widget);

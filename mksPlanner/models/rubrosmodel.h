@@ -10,7 +10,7 @@ class RubrosModel : public ModelBase
 public:
     explicit RubrosModel(QObject *parent = 0);
 
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    //QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     virtual void editEntity(int row);
 
 protected:

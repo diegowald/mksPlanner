@@ -30,6 +30,11 @@ void EntityBase::deleteEntity()
     updateStatus(EntityStatus::deleted);
 }
 
+bool EntityBase::isDirty() const
+{
+    return _status != EntityStatus::unchanged;
+}
+
 EntityStatus EntityBase::status()
 {
     return _status;

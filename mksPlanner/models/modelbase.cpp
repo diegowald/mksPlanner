@@ -23,7 +23,7 @@ int ModelBase::rowCount(const QModelIndex &/*parent*/) const
 
 QVariant ModelBase::data(const QModelIndex &index, int role) const
 {
-    if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
+    if (index.isValid())
     {
         EntityBasePtr entity = _entities[_entityMapping.at(index.row())];
         return modelData(entity, index.column(), role);
@@ -44,7 +44,11 @@ bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int rol
     if (role == Qt::EditRole)
     {
         EntityBasePtr entity = _entities[_entityMapping.at(index.row())];
-        return modelSetData(entity, index.column(), value, role);
+        bool result = modelSetData(entity, index.column(), value, role);
+        if (result)
+        {
+            emit dataChanged(index, index);
+        }
     }
     return true;
 }
@@ -208,3 +212,29 @@ int ModelBase::columnCount(const QModelIndex &parent) const
     return _fields.count();
 }
 
+QVariant ModelBase::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    QVariant value = QVariant();
+    if (role == Qt::DisplayRole)
+    {
+        if (orientation == Qt::Horizontal)
+        {
+            value = _fields.contains(section) ? _fields[section] : QVariant();
+        }
+    }
+    else
+    {
+        value = QAbstractItemModel::headerData(section, orientation, role);
+    }
+    return value;
+}
+
+bool ModelBase::isDirty() const
+{
+    foreach (EntityBasePtr entity, _entities.values())
+    {
+        if (entity->isDirty())
+            return true;
+    }
+    return false;
+}

@@ -16,11 +16,11 @@ void MaterialesUpdater::scriptsVersion1()
                                              " `name`	TEXT NOT NULL, "
                                              " `description`	TEXT, "
                                              " `idUnit`	INTEGER, "
-                                             " `idRubro` INTEGER, "
+                                             " `RubroID` INTEGER, "
                                              " `isUsableMaterial`	INTEGER, "
                                              " `isTask`	INTEGER "
                                          " ); ");
-    addCommand(1, "INSERT INTO materiales (id, name, description, idUnit, idRubro, isUsableMaterial, isTask) "
+    addCommand(1, "INSERT INTO materiales (id, name, description, idUnit, RubroID, isUsableMaterial, isTask) "
                                             " SELECT id, name, description, idUnit, 0, isUsableMaterial, isTask FROM materialesOld;");
     addCommand(1, "DROP TABLE materialesOld;");
 

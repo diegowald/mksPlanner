@@ -9,7 +9,7 @@ class MaterialesBaseModel : public ModelBase
     Q_OBJECT
 public:
     explicit MaterialesBaseModel(bool filterByTask, QObject *parent = 0);
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    //QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
     virtual void editEntity(int row);
 

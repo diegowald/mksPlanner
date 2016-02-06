@@ -15,6 +15,7 @@ class ModelBase : public QAbstractTableModel, virtual public PersisterBase
 public:
     explicit ModelBase(const QString &counterName, bool implementsDelegate, const QString &dbName, QObject *parent = 0);
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     virtual QVariant data(const int id, const int column, int role = Qt::DisplayRole) const;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
@@ -38,6 +39,8 @@ public:
 
     virtual int columnIndex(const QString &name) const;
     virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
+
+    bool isDirty() const;
 
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);

@@ -8,6 +8,8 @@
 #include "persistance/projectlibrary.h"
 #include "views/projectwindow.h"
 #include <QFileDialog>
+#include <QMessageBox>
+#include <QCloseEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -67,7 +69,8 @@ void MainWindow::loadMaterialLibrary()
 {
     MaterialsLibrary* materialsLibrary = new MaterialsLibrary();
     GlobalContainer::instance().setLibrary(materialsLibrary);
-    materialsLibrary->load("./materiales.db");
+    materialsLibrary->setFileName("./materiales.db");
+    materialsLibrary->load();
 }
 
 void MainWindow::loadProject(const QString &fileName)
@@ -83,7 +86,7 @@ void MainWindow::loadProject(const QString &fileName)
 
 void MainWindow::on_actionSave_Material_Library_triggered()
 {
-    GlobalContainer::instance().library()->save("./materiales.db");
+    GlobalContainer::instance().library()->save();
 }
 
 void MainWindow::on_actionVer_Biblioteca_triggered()
@@ -123,11 +126,16 @@ void MainWindow::on_actionCalculadora_de_materiales_triggered()
 void MainWindow::on_actionNuevo_triggered()
 {
     QString filename = QFileDialog::getSaveFileName(this, "Crear proyecto", "./", "*.mskPlanner");
+    if (!filename.endsWith(".mskPlanner"))
+    {
+        filename += ".mskPlanner";
+    }
     if (!showSubWindow("Proyecto"))
     {
         int tmpId = GlobalContainer::instance().createProject(filename);
         ProjectWindow *frm = new ProjectWindow("Proyecto");
         frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
+        frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
         createSubWindow("Proyecto", frm);
     }
 }
@@ -149,5 +157,42 @@ void MainWindow::on_actionCostos_triggered()
         TableWindow *frm = new TableWindow("Costos");
         frm->setModel(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
         createSubWindow("Costos", frm);
+    }
+}
+
+void MainWindow::closeEvent(QCloseEvent *evt)
+{
+    if (GlobalContainer::instance().library()->isDirty())
+    {
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "mksPlanner",
+                                                                    "Guarda biblioteca?",
+                                                                    QMessageBox::Cancel /*| QMessageBox::No */| QMessageBox::Yes,
+                                                                    QMessageBox::Yes);
+        if (resBtn != QMessageBox::Yes)
+        {
+            evt->ignore();
+        }
+        else
+        {
+            on_actionSave_Material_Library_triggered();
+            evt->accept();
+        }
+    }
+
+    if (GlobalContainer::instance().unsavedProjects())
+    {
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "mksPlanner",
+                                                                    "Guarda proyectos?",
+                                                                    QMessageBox::Cancel /*| QMessageBox::No */| QMessageBox::Yes,
+                                                                    QMessageBox::Yes);
+        if (resBtn != QMessageBox::Yes)
+        {
+            evt->ignore();
+        }
+        else
+        {
+            GlobalContainer::instance().saveAllProjects();
+            evt->accept();
+        }
     }
 }

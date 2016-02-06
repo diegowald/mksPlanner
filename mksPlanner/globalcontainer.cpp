@@ -64,6 +64,26 @@ int GlobalContainer::loadProject(const QString &filename)
 {
     int id = createProject(filename);
     ProjectLibrary *project = projectLibrary(id);
-    project->load(filename);
+    project->setFileName(filename);
+    project->load();
     return id;
+}
+
+bool GlobalContainer::unsavedProjects() const
+{
+    foreach (ProjectLibrary *p, _projectLibraries)
+    {
+        if (p->isDirty())
+            return true;
+    }
+    return false;
+}
+
+void GlobalContainer::saveAllProjects()
+{
+    foreach (ProjectLibrary *p, _projectLibraries)
+    {
+        if (p->isDirty())
+            p->save();
+    }
 }

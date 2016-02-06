@@ -5,25 +5,23 @@
 #include "models/rubro.h"
 #include <QSet>
 #include "models/componentesmateriales.h"
+#include "models/rubro.h"
+#include <QDebug>
 
-Material::Material(int id, const QString &name, const QString &description, int idUnit, int idRubro, bool isUsableMaterial, bool isTask) : EntityBase(id)
+Material::Material(int id, const QString &name, const QString &description, int idUnit, int idRubro) : EntityBase(id)
 {
     _name = name;
     _description = description;
     _idUnit = idUnit;
     _idRubro = idRubro;
-    _isUsableMaterial = isUsableMaterial;
-    _isTask = isTask;
 }
 
-Material::Material(int id, bool isTask):EntityBase(id, true)
+Material::Material(int id):EntityBase(id, true)
 {
     _name = "";
     _description = "";
     _idUnit = -1;
     _idRubro = -1;
-    _isUsableMaterial = false;
-    _isTask = isTask;
 }
 
 /*bool Material::internalSetData(const int column, const QVariant &value, int role)
@@ -99,13 +97,11 @@ QSqlQuery* Material::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO materiales (name, description, idUnit, idRubro, isUsableMaterial, isTask) VALUES (:nombre, :descripcion, :idUnit, :idRubro, :isUsableMaterial, :isTask);");
+        query->prepare("INSERT INTO materiales (name, description, idUnit, RubroID) VALUES (:nombre, :descripcion, :idUnit, :idRubro);");
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
         query->bindValue(":idUnit", _idUnit);
         query->bindValue(":idRubro", _idRubro);
-        query->bindValue(":isUsableMaterial", _isUsableMaterial);
-        query->bindValue(":isTask", _isTask);
         break;
     }
     case EntityStatus::deleted:
@@ -118,14 +114,13 @@ QSqlQuery* Material::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE materiales SET name = :nombre, description = :descripcion, idUnit = :idUnit, idRubro = :idRubro, isUsableMaterial = :isUsableMaterial, isTask = :isTask WHERE id = :id;");
+        query->prepare("UPDATE materiales SET name = :nombre, description = :descripcion, idUnit = :idUnit, RubroID = :idRubro WHERE id = :id;");
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
         query->bindValue(":idUnit", _idUnit);
         query->bindValue(":idRubro", _idRubro);
-        query->bindValue(":isUsableMaterial", _isUsableMaterial);
-        query->bindValue(":isTask", _isTask);
         query->bindValue(":id", id());
+        qDebug() << id();
         break;
     }
     case EntityStatus::unchanged:
@@ -185,14 +180,19 @@ void Material::setRubro(int idRubro)
 
 QString Material::toDebugString()
 {
-    return QString("id: %1, name: %2, description: %3, idUnit: %4, idRubro: %5, isUsableMaterial: %6, isTask: %7")
-            .arg(id()).arg(_name).arg(_description).arg(_idUnit).arg(_idRubro).arg(_isUsableMaterial).arg(_isTask);
+    return QString("id: %1, name: %2, description: %3, idUnit: %4, idRubro: %5")
+            .arg(id()).arg(_name).arg(_description).arg(_idUnit).arg(_idRubro);
 
 }
 
 bool Material::isTask() const
 {
-    return _isTask;
+    if (_idRubro != -1)
+    {
+        RubroPtr rubro = qSharedPointerDynamicCast<Rubro>(GlobalContainer::instance().library()->model(Tables::Rubros)->getItem(_idRubro));
+        return rubro.isNull() ? false : rubro->isTask();
+    }
+    return false;
 }
 
 
@@ -201,13 +201,6 @@ bool Material::isCompuesto() const
     ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales));
     return model->idComponentes(id()).count() > 0;
 }
-
-
-bool Material::isUsableMaterial() const
-{
-    return _isUsableMaterial;
-}
-
 
 void Material::setName(const QString &value)
 {

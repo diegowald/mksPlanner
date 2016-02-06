@@ -18,36 +18,6 @@ ComponenteMaterial::ComponenteMaterial(int id, int idMaterialPadre, int idMateri
     _idMaterialPadre = idMaterialPadre;
 }
 
-/*bool ComponenteMaterial::internalSetData(const int column, const QVariant &value, int role)
-{
-    if (role == Qt::EditRole)
-    {
-        switch (column)
-        {
-        case 1:
-        {
-            _idMaterialPadre = value.toInt();
-            break;
-        }
-        case 2:
-        {
-            _idMaterial = value.toInt();
-            break;
-        }
-        case 4:
-        {
-            _cantidad = value.toDouble();
-            break;
-        }
-        default:
-            break;
-        }
-
-        return true;
-    }
-    return false;
-}*/
-
 void ComponenteMaterial::setIdMaterialPadre(int id)
 {
     _idMaterialPadre = id;

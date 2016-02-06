@@ -5,6 +5,7 @@ Rubro::Rubro(int id) : EntityBase(id, true)
 {
     _name = "";
     _description = "";
+    _isTask = false;
 }
 
 

@@ -18,7 +18,7 @@ void RubrosModel::defineColumnNames()
     setField(3, "Contiene tareas");
 }
 
-QVariant RubrosModel::headerData(int section, Qt::Orientation orientation, int role) const
+/*QVariant RubrosModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
     {
@@ -53,29 +53,33 @@ QVariant RubrosModel::headerData(int section, Qt::Orientation orientation, int r
         return section;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
-}
+}*/
 
 QVariant RubrosModel::modelData(EntityBasePtr entity, int column, int role) const
 {
     RubroPtr r = qSharedPointerDynamicCast<Rubro>(entity);
-    switch (column)
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
-    case 0:
-        return r->id();
-        break;
-    case 1:
-        return r->name();
-        break;
-    case 2:
-        return r->description();
-        break;
-    case 3:
-        return r->isTask();
-        break;
-    default:
-        return QVariant();
-        break;
+        switch (column)
+        {
+        case 0:
+            return r->id();
+            break;
+        case 1:
+            return r->name();
+            break;
+        case 2:
+            return r->description();
+            break;
+        case 3:
+            return r->isTask();
+            break;
+        default:
+            return QVariant();
+            break;
+        }
     }
+    return QVariant();
 }
 
 bool RubrosModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)

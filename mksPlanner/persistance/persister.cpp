@@ -41,6 +41,7 @@ void PersisterBase::save(const QString &filename)
     _database.transaction();
     foreach (QSqlQuery *query, queries)
     {
+        qDebug() << query;
         if (!query->exec())
         {
             qDebug() << query->lastError().text();

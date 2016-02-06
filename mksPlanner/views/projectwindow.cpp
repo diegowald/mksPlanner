@@ -1,5 +1,6 @@
 #include "projectwindow.h"
 #include "ui_projectwindow.h"
+#include <QTreeView>
 
 ProjectWindow::ProjectWindow(const QString &windowTitle, QWidget *parent) :
     QMainWindow(parent),
@@ -23,6 +24,8 @@ void ProjectWindow::setModel(ModelBase* model)
     {
         _mapper->deleteLater();
     }
+
+
     _mapper = new QDataWidgetMapper(this);
     _mapper->setModel(model);
 
@@ -39,8 +42,25 @@ void ProjectWindow::setModel(ModelBase* model)
 
 void ProjectWindow::setPlanningModel(ModelBase *model)
 {
-    _planningModel = model;
+    _planningModel = new PlanningTaskModelAdapter(qobject_cast<PlanningTaskModel*>(model), this);
     ui->planningView->setModel(_planningModel);
+    ui->planningView->setSelectionModel( new QItemSelectionModel(_planningModel));
+
+    // slotToolsNewItem();
+//    ui->planningView->leftView()->setItemDelegateForColumn( 1, new MyItemDelegate( this ) );
+    ui->planningView->leftView()->setHorizontalScrollBarPolicy( Qt::ScrollBarAsNeeded );
+    ui->planningView->graphicsView()->setHorizontalScrollBarPolicy( Qt::ScrollBarAsNeeded );
+
+    KDGantt::DateTimeGrid *grid = new KDGantt::DateTimeGrid();
+    grid->setDayWidth(70);
+    ui->planningView->setGrid(grid);
+
+    QTreeView *tv = qobject_cast<QTreeView*>(ui->planningView->leftView());
+    Q_ASSERT(tv);
+/*    tv->setColumnHidden(0, true);
+    tv->setColumnHidden(1, true);
+    tv->setColumnHidden(2, true);
+    tv->setColumnHidden(3, true);*/
 }
 
 void ProjectWindow::on_tabWidget_currentChanged(int index)
@@ -52,4 +72,29 @@ void ProjectWindow::on_tabWidget_currentChanged(int index)
     default:
         break;
     }
+}
+
+void ProjectWindow::on_actionAddTask_triggered()
+{
+    int rowCount = ui->planningView->model()->rowCount();
+
+    QModelIndex index = ui->planningView->selectionModel()->currentIndex();
+
+
+    if (!_planningModel->insertRow(rowCount, index.parent()))
+        return;
+
+    _planningModel->editEntity(rowCount);
+}
+
+void ProjectWindow::on_actionEdit_Task_triggered()
+{
+    QModelIndex index = ui->planningView->selectionModel()->currentIndex();
+    _planningModel->editEntity(index.row());
+}
+
+void ProjectWindow::on_actionRemove_Task_triggered()
+{
+    QModelIndex index = ui->planningView->selectionModel()->currentIndex();
+    _planningModel->removeEntity(this->window(), index.row());
 }

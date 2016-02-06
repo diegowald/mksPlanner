@@ -20,7 +20,7 @@ void ProyectoModel::defineColumnNames()
     setField(6, "Fecha estimada de finalización");
 }
 
-QVariant ProyectoModel::headerData(int section, Qt::Orientation orientation, int role) const
+/*QVariant ProyectoModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
     {
@@ -70,49 +70,52 @@ QVariant ProyectoModel::headerData(int section, Qt::Orientation orientation, int
         return section;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
-}
+}*/
 
 QVariant ProyectoModel::modelData(EntityBasePtr entity, int column, int role) const
 {
     ProyectoPtr p = qSharedPointerDynamicCast<Proyecto>(entity);
-    switch (column)
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
-    case 0:
-        return p->id();
-        break;
-    case 1:
-    {
-        return p->propietario();
-        break;
-    }
-    case 2:
-    {
-        return p->direccion();
-        break;
-    }
-    case 3:
-    {
-        return p->email();
-        break;
-    }
-    case 4:
-    {
-        return p->telefono();
-        break;
-    }
-    case 5:
-    {
-        return p->fechaEstimadaInicio();
-        break;
-    }
-    case 6:
-    {
-        return p->fechaEstimadaFinalizacion();
-        break;
-    }
-    default:
-        return QVariant();
-        break;
+        switch (column)
+        {
+        case 0:
+            return p->id();
+            break;
+        case 1:
+        {
+            return p->propietario();
+            break;
+        }
+        case 2:
+        {
+            return p->direccion();
+            break;
+        }
+        case 3:
+        {
+            return p->email();
+            break;
+        }
+        case 4:
+        {
+            return p->telefono();
+            break;
+        }
+        case 5:
+        {
+            return p->fechaEstimadaInicio();
+            break;
+        }
+        case 6:
+        {
+            return p->fechaEstimadaFinalizacion();
+            break;
+        }
+        default:
+            return QVariant();
+            break;
+        }
     }
 }
 

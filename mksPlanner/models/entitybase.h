@@ -27,7 +27,7 @@ public:
     virtual QSqlQuery* getQuery(QSqlDatabase &database) = 0;
     virtual QString toDebugString() = 0;
 
-    bool isDirty() const;
+    virtual bool isDirty() const;
 
     int id() const;
 

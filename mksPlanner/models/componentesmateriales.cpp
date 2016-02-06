@@ -26,7 +26,7 @@ void ComponentesMaterialesModel::defineColumnNames()
     setField(5, "Unidad de medida");
 }
 
-QVariant ComponentesMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
+/*QVariant ComponentesMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
     {
@@ -72,14 +72,14 @@ QVariant ComponentesMaterialesModel::headerData(int section, Qt::Orientation ori
         return section;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
-}
+}*/
 
 QVariant ComponentesMaterialesModel::modelData(EntityBasePtr entity, int column, int role) const
 {
     ComponenteMaterialPtr comp = qSharedPointerDynamicCast<ComponenteMaterial>(entity);
 
     QVariant result = QVariant();
-    if (role == Qt::DisplayRole)
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch (column)
         {

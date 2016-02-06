@@ -1,5 +1,8 @@
 #include "dlgeditrubro.h"
 #include "ui_dlgeditrubro.h"
+#include "models/rubro.h"
+
+
 
 DlgEditRubro::DlgEditRubro(RubrosModel *model, int selectedEntity, QWidget *parent) :
     QDialog(parent),
@@ -11,7 +14,10 @@ DlgEditRubro::DlgEditRubro(RubrosModel *model, int selectedEntity, QWidget *pare
     _mapper->setModel(_model);
     _mapper->addMapping(ui->txtNombre, model->columnIndex("Nombre"));
     _mapper->addMapping(ui->txtDescripcion, model->columnIndex("Descripción"));
-    _mapper->addMapping(ui->chkRubroTareas, model->columnIndex("Contiene Tareas"));
+
+    _entity = model->getItemByRowid(selectedEntity);
+    RubroPtr rubro = qSharedPointerDynamicCast<Rubro>(_entity);
+    ui->chkRubroTareas->setChecked(rubro->isTask());
 
     _mapper->setCurrentIndex(selectedEntity);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
@@ -24,6 +30,9 @@ DlgEditRubro::~DlgEditRubro()
 
 void DlgEditRubro::on_buttonBox_accepted()
 {
+    RubroPtr rubro = qSharedPointerDynamicCast<Rubro>(_entity);
+    rubro->setIsTask(ui->chkRubroTareas->isChecked());
+
     _mapper->submit();
     close();
 }

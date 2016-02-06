@@ -1,16 +1,28 @@
 #include "planningtask.h"
 #include "globalcontainer.h"
+#include "models/tasksmodel.h"
+#include "models/costomaterial.h"
+#include "models/costomaterialesmodel.h"
+#include "globalcontainer.h"
+
 
 
 PlanningTask::PlanningTask(int id) : EntityBase(id, true)
 {
     _idProyecto = -1;
+    _idTareaPadre = -1;
+    _name = "";
+    _idMaterialTask = -1;
+    _idProveedor = -1;
+    _cantidad = 0.;
+    _fechaEstimadaInicio = QDateTime::currentDateTime();
+    _fechaEstimadaFin = QDateTime::currentDateTime().addDays(1);
 }
 
 PlanningTask::PlanningTask(int id, int idTareaPadre, const QString &name,
                       int idMaterialTask, int idProveedor,
-                      double cantidad, const QDate &fechaEstimadaInicio,
-                      const QDate &fechaEstimadaFin) : EntityBase(id, false)
+                      double cantidad, const QDateTime &fechaEstimadaInicio,
+                      const QDateTime &fechaEstimadaFin) : EntityBase(id, false)
 {
     _idProyecto = -1;
     _idTareaPadre = idTareaPadre;
@@ -45,7 +57,7 @@ int PlanningTask::idMaterialTask() const
 
 EntityBasePtr PlanningTask::materialTask() const
 {
-    return GlobalContainer::instance().library()->model(Tables::Materiales)->getItem(_idMaterialTask);
+    return GlobalContainer::instance().library()->model(Tables::Tareas)->getItem(_idMaterialTask);
 }
 
 int PlanningTask::idProveedor() const
@@ -63,28 +75,43 @@ double PlanningTask::cantidad() const
     return _cantidad;
 }
 
-QDate PlanningTask::fechaEstimadaInicio() const
+QDateTime PlanningTask::fechaEstimadaInicio() const
 {
     return _fechaEstimadaInicio;
 }
 
-QDate PlanningTask::fechaEstimadaFin() const
+QDateTime PlanningTask::fechaEstimadaFin() const
 {
     return _fechaEstimadaFin;
 }
 
 int PlanningTask::duracion() const
 {
-    return _fechaEstimadaFin.toJulianDay() - _fechaEstimadaInicio.toJulianDay();
+    return _fechaEstimadaFin.date().toJulianDay() -
+            _fechaEstimadaInicio.date().toJulianDay();
 }
 
 double PlanningTask::costo() const
 {
+    if (_idMaterialTask != -1)
+    {
+        CostoMaterialesModel *model = qobject_cast<CostoMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
+        CostoMaterialPtr costo = qSharedPointerDynamicCast<CostoMaterial>(model->getItemByIdMaterial(_idMaterialTask));
+        if (!costo.isNull())
+            return _cantidad * costo->costo();
+    }
     return -1;
 }
 
 double PlanningTask::precio() const
 {
+    if (_idMaterialTask != -1)
+    {
+        CostoMaterialesModel *model = qobject_cast<CostoMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
+        CostoMaterialPtr costo = qSharedPointerDynamicCast<CostoMaterial>(model->getItemByIdMaterial(_idMaterialTask));
+        if (!costo.isNull())
+            return _cantidad * costo->precio();
+    }
     return -1;
 }
 
@@ -118,13 +145,13 @@ void PlanningTask::setCantidad(double value)
     updateStatus();
 }
 
-void PlanningTask::setFechaEstimadaInicio(QDate &value)
+void PlanningTask::setFechaEstimadaInicio(QDateTime &value)
 {
     _fechaEstimadaInicio = value;
     updateStatus();
 }
 
-void PlanningTask::setFechaEstimadaFin(QDate &value)
+void PlanningTask::setFechaEstimadaFin(QDateTime &value)
 {
     _fechaEstimadaFin = value;
     updateStatus();

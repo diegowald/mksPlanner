@@ -16,7 +16,7 @@ void UnitsModel::defineColumnNames()
     setField(2, "Descripción");
 }
 
-QVariant UnitsModel::headerData(int section, Qt::Orientation orientation, int role) const
+/*QVariant UnitsModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
     {
@@ -46,7 +46,7 @@ QVariant UnitsModel::headerData(int section, Qt::Orientation orientation, int ro
         return section;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
-}
+}*/
 
 QVariant UnitsModel::modelData(EntityBasePtr entity, int column, int role) const
 {

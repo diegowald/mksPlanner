@@ -21,7 +21,7 @@ void RubrosProveedoresModel::defineColumnNames()
     setField(3, "Rubro");
 }
 
-QVariant RubrosProveedoresModel::headerData(int section, Qt::Orientation orientation, int role) const
+/*QVariant RubrosProveedoresModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
     {
@@ -56,13 +56,13 @@ QVariant RubrosProveedoresModel::headerData(int section, Qt::Orientation orienta
         return section;
     }
     return QAbstractItemModel::headerData(section, orientation, role);
-}
+}*/
 
 QVariant RubrosProveedoresModel::modelData(EntityBasePtr entity, int column, int role) const
 {
     RubroProveedorPtr rp = qSharedPointerDynamicCast<RubroProveedor>(entity);
     QVariant result;
-    if (role == Qt::DisplayRole)
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch (column)
         {

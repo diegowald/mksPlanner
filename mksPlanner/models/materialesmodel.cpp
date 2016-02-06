@@ -8,6 +8,6 @@ MaterialesModel::MaterialesModel(QObject *parent) : MaterialesBaseModel(false, p
 
 EntityBasePtr MaterialesModel::internalCreateEntity(int assignedId)
 {
-    return MaterialPtr::create(assignedId, false);
+    return MaterialPtr::create(assignedId);
 }
 
