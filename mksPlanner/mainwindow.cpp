@@ -183,16 +183,16 @@ void MainWindow::closeEvent(QCloseEvent *evt)
     {
         QMessageBox::StandardButton resBtn = QMessageBox::question( this, "mksPlanner",
                                                                     "Guarda proyectos?",
-                                                                    QMessageBox::Cancel /*| QMessageBox::No */| QMessageBox::Yes,
+                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
                                                                     QMessageBox::Yes);
-        if (resBtn != QMessageBox::Yes)
+        switch (resBtn)
         {
-            evt->ignore();
-        }
-        else
-        {
+        case QMessageBox::Yes:
             GlobalContainer::instance().saveAllProjects();
+        case QMessageBox::No:
             evt->accept();
+        default:
+            evt->ignore();
         }
     }
 }

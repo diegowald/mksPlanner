@@ -18,6 +18,7 @@ public:
     void setIdProveedor(int idProveedor);
 
     virtual EntityBasePtr getItemByRowid(int row);
+    virtual EntityBasePtr getItemBy(int idRubro, int idProveedor);
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);

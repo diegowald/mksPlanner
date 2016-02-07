@@ -1,6 +1,7 @@
 #include "proveedor.h"
 #include <QVariant>
-
+#include "globalcontainer.h"
+#include "models/rubrosproveedoresmodel.h"
 
 Proveedor::Proveedor(int id) : EntityBase(id, true)
 {
@@ -151,4 +152,11 @@ void Proveedor::setDireccion(const QString &value)
 {
     _direccion = value;
     updateStatus();
+}
+
+bool Proveedor::proveeRubro(int idRubro)
+{
+    RubrosProveedoresModel *model = qobject_cast<RubrosProveedoresModel*>(GlobalContainer::instance().library()->model(Tables::RubrosProveedores));
+    EntityBasePtr entity = model->getItemBy(idRubro, id());
+    return !entity.isNull();
 }

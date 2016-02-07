@@ -68,34 +68,36 @@ void ProveedoresModel::defineColumnNames()
 
 QVariant ProveedoresModel::modelData(EntityBasePtr entity, int column, int role) const
 {
+    QVariant result = QVariant();
     ProveedorPtr prov = qSharedPointerDynamicCast<Proveedor>(entity);
     if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch (column)
         {
         case 0:
-            return prov->id();
+            result = prov->id();
             break;
         case 1:
-            return prov->name();
+            result = prov->name();
             break;
         case 2:
-            return prov->contacto();
+            result = prov->contacto();
             break;
         case 3:
-            return prov->email();
+            result = prov->email();
             break;
         case 4:
-            return prov->telefono();
+            result = prov->telefono();
             break;
         case 5:
-            return prov->direccion();
+            result = prov->direccion();
             break;
         default:
-            return QVariant();
+            result = QVariant();
             break;
         }
     }
+    return result;
 }
 
 bool ProveedoresModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)

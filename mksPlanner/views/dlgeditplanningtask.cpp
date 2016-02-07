@@ -9,9 +9,14 @@ DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, int selectedE
     QDialog(parent),
     ui(new Ui::DlgEditPlanningTask)
 {
+    _proveedorByRubroFilterModel = NULL;
     ui->setupUi(this);
 
     _model = model;
+    _entity = _model->getItemByRowid(selectedEntity);
+    PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(_entity);
+
+
     _mapper = new QDataWidgetMapper(this);
     _mapper->setModel(_model);
 
@@ -21,16 +26,17 @@ DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, int selectedE
     _mapper->setCurrentIndex(selectedEntity);
     _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 
-    ModelBase *m = GlobalContainer::instance().library()->model(Tables::Proveedores);
-    ui->cboProveedor->setModel(m);
-    ui->cboProveedor->setModelColumn(m->columnIndex("Nombre"));
-
-    m = GlobalContainer::instance().library()->model(Tables::Tareas);
-    ui->cboTarea->setModel(m);
+    ModelBase *m = GlobalContainer::instance().library()->model(Tables::Tareas);
+    _materialFilterModel = new MaterialFilterModel(m, true, this);
+    ui->cboTarea->setModel(_materialFilterModel);
     ui->cboTarea->setModelColumn(m->columnIndex("Nombre"));
 
-    _entity = _model->getItemByRowid(selectedEntity);
-    PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(_entity);
+    m = GlobalContainer::instance().library()->model(Tables::Proveedores);
+    _proveedorByRubroFilterModel = new ProveedorByRubroFilterModel(m, idRubroMaterialSeleccionado(), this);
+    ui->cboProveedor->setModel(_proveedorByRubroFilterModel);
+    ui->cboProveedor->setModelColumn(m->columnIndex("Nombre"));
+
+
     if (!p.isNull())
     {
         if (p->idProveedor() != -1)
@@ -46,26 +52,13 @@ DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, int selectedE
         ui->dateFechaEstimadaInicio->setDateTime(p->fechaEstimadaInicio());
         ui->dateFechaEstimadaFinalizacion->setDateTime(p->fechaEstimadaFin());
     }
-    /*
-     *     setField(1, "idTareaPadre");
-    setField(2, "idMaterialTask");
-    setField(3, "idProveedor");
-    setField(4, "tareaPadre");
-    setField(5, "name");
-    setField(6, "Rubro");
-    setField(7, "materialTask");
-    setField(8, "Proveedor");
-    setField(9, "Cantidad");
-    setField(10, "Fecha Estimada Inicio");
-    setField(11, "Fecha Estimada de Finalización");
-    setField(12, "Duración");
-    setField(13, "Costo");
-    setField(14, "Precio");*/
 }
 
 DlgEditPlanningTask::~DlgEditPlanningTask()
 {
     delete ui;
+    _materialFilterModel->deleteLater();
+    _proveedorByRubroFilterModel->deleteLater();
 }
 
 void DlgEditPlanningTask::on_buttonBox_accepted()
@@ -84,4 +77,18 @@ void DlgEditPlanningTask::on_buttonBox_accepted()
 
     _mapper->submit();
     close();
+}
+
+int DlgEditPlanningTask::idRubroMaterialSeleccionado()
+{
+    MaterialPtr mat = qSharedPointerDynamicCast<Material>(GlobalContainer::instance().library()->model(Tables::Tareas)->getItemByRowid(ui->cboTarea->currentIndex()));
+    return mat.isNull() ? -1 : mat->idRubro();
+}
+
+void DlgEditPlanningTask::on_cboTarea_currentIndexChanged(int index)
+{
+    if (_proveedorByRubroFilterModel != NULL)
+    {
+        _proveedorByRubroFilterModel->setIdRubro(idRubroMaterialSeleccionado());
+    }
 }

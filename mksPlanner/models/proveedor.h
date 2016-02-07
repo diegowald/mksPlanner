@@ -31,6 +31,8 @@ public:
     void setEMail(const QString &value);
     void setTelefono(const QString &value);
     void setDireccion(const QString &value);
+
+    bool proveeRubro(int idRubro);
 signals:
 
 public slots:

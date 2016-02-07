@@ -60,7 +60,9 @@ SOURCES += main.cpp\
     models/planningtask.cpp \
     models/planningtaskmodel.cpp \
     views/dlgeditplanningtask.cpp \
-    models/planningtaskmodeladapter.cpp
+    models/planningtaskmodeladapter.cpp \
+    models/materialfiltermodel.cpp \
+    models/proveedorbyrubrofiltermodel.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -107,7 +109,9 @@ HEADERS  += mainwindow.h \
     models/planningtask.h \
     models/planningtaskmodel.h \
     views/dlgeditplanningtask.h \
-    models/planningtaskmodeladapter.h
+    models/planningtaskmodeladapter.h \
+    models/materialfiltermodel.h \
+    models/proveedorbyrubrofiltermodel.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

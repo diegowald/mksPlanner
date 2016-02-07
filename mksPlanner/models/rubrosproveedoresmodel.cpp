@@ -197,3 +197,18 @@ bool RubrosProveedoresModel::setData(const QModelIndex &index, const QVariant &v
     }
     return true;
 }
+
+EntityBasePtr RubrosProveedoresModel::getItemBy(int idRubro, int idProveedor)
+{
+    EntityBasePtr entity;
+    QList<int> rubros = _entityMappingByIdProveedor[idProveedor];
+    foreach (int id, rubros)
+    {
+        entity = _entities[id];
+        RubroProveedorPtr rp = qSharedPointerDynamicCast<RubroProveedor>(entity);
+        if (rp->idRubro() == idRubro)
+            return rp;
+    }
+    entity = EntityBasePtr();
+    return entity;
+}
