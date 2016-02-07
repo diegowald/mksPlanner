@@ -41,10 +41,14 @@ void PersisterBase::save(const QString &filename)
     _database.transaction();
     foreach (QSqlQuery *query, queries)
     {
-        qDebug() << query;
+        qDebug() << query->executedQuery();
+        qDebug() << query->boundValues();
         if (!query->exec())
         {
+            qDebug() << query->lastError().databaseText();
             qDebug() << query->lastError().text();
+            qDebug() << query->lastError().driverText();
+            qDebug() << query->lastError().nativeErrorCode();
             result = false;
             break;
         }
@@ -99,4 +103,9 @@ void PersisterBase::setFileName(const QString &filename)
 void PersisterBase::setDBName(const QString &dbName)
 {
     _dbName = dbName;
+}
+
+QString PersisterBase::filename() const
+{
+    return _filename;
 }

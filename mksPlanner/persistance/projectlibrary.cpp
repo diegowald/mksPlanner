@@ -4,23 +4,30 @@
 #include "persistance/projectupdater.h"
 
 
-ProjectLibrary::ProjectLibrary(const QString &filename, int idProyecto, QObject *parent) : LibraryBase(parent)
+ProjectLibrary::ProjectLibrary(const QString &filename, int idProyecto, bool nuevo,  QObject *parent) : LibraryBase(parent)
 {
-    _filename = filename;
+    setFileName(filename);
     _idProyecto = idProyecto;
     updateFromVersion(filename, 0);
     addModel(Tables::Proyectos, new ProyectoModel(_idProyecto, this));
     addModel(Tables::PlanningTasks, new PlanningTaskModel(_idProyecto, this));
+
+    if (nuevo)
+    {
+        model(Tables::Proyectos)->createEntity();
+    }
 }
 
 void ProjectLibrary::internalSaveTables(const QString &filename)
 {
     model(Tables::Proyectos)->save(filename);
+    model(Tables::PlanningTasks)->save(filename);
 }
 
 void ProjectLibrary::internalLoadTables(const QString &filename)
 {
     model(Tables::Proyectos)->load(filename);
+    model(Tables::PlanningTasks)->load(filename);
 }
 
 void ProjectLibrary::updateFromVersion(const QString &filename, const QString &versionInfo)

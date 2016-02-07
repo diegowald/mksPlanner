@@ -12,6 +12,7 @@ public:
     //QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
     virtual void editEntity(int row);
+    QString filename() const;
 
 protected:
     virtual QString _getSQLRead() const;

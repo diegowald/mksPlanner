@@ -35,10 +35,6 @@ void PlanningTaskModel::defineColumnNames()
 
 QVariant PlanningTaskModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (role > Qt::UserRole)
-    {
-        qDebug() << role;
-    }
     return ModelBase::headerData(section, orientation, role);
 }
 
@@ -292,7 +288,7 @@ int PlanningTaskModel::_loadEntity(QSqlRecord record)
 
     int idTareaPadre = record.value(record.indexOf("idTareaPadre")) .toInt();
     QString name = record.value(record.indexOf("name")).toString();
-    int idMaterialTask = record.value(record.indexOf("idMaterial")).toInt();
+    int idMaterialTask = record.value(record.indexOf("idMaterialTask")).toInt();
     int idProveedor = record.value(record.indexOf("idProveedor")).toInt();
     double cantidad = record.value(record.indexOf("cantidad")).toDouble();
     QDateTime fechaEstimadaInicio = record.value(record.indexOf("fechaEstimadaInicio")).toDateTime();

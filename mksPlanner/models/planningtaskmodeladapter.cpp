@@ -17,7 +17,6 @@ PlanningTaskModelAdapter::~PlanningTaskModelAdapter()
 
 int PlanningTaskModelAdapter::rowCount( const QModelIndex& idx ) const
 {
-    qDebug() << "rowcount " << _model->rowCount(idx);
     if ( idx.isValid() )
         return 0; // static_cast<Node*>( idx.internalPointer() )->childCount();
     else

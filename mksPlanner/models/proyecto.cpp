@@ -18,7 +18,12 @@ Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion,
 
 Proyecto::Proyecto(int id) : EntityBase(id, true)
 {
-
+    _propietario = "";
+    _direccion = "";
+    _email = "";
+    _telefono = "";
+    _fechaEstimadaInicio = QDate::currentDate();
+    _fechaEstimadaFinalizacion = QDate::currentDate().addDays(100);
 }
 
 
@@ -63,28 +68,41 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO proyectos (propietario, direccion, email, telefono) VALUES (:propietario, :direccion, :email, :telefono);");
+        query->prepare("INSERT INTO proyectos (id, propietario, direccion, email, telefono, "
+                       " fechaEstimadaInicio, fechaEstimadaFinalizacion ) "
+                       " VALUES (:id, :propietario, :direccion, :email, :telefono, :fechaEstimadaInicio, :fechaEstimadaFinalizacion);");
+
+        query->bindValue(":id", id());
         query->bindValue(":propietario", _propietario);
         query->bindValue(":direccion", _direccion);
         query->bindValue(":email", _email);
         query->bindValue(":telefono", _telefono);
+        query->bindValue(":fechaEstimadaInicio", _fechaEstimadaInicio);
+        query->bindValue(":fechaEstimadaFinalizacion", _fechaEstimadaFinalizacion);
+
         break;
     }
     case EntityStatus::deleted:
     {
         query = new QSqlQuery(database);
-        query->prepare("DELETE FROM proyectoss WHERE id = :id;");
+        query->prepare("DELETE FROM proyectos WHERE id = :id;");
         query->bindValue(":id", id());
         break;
     }
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE proyectos SET propietario = :propietario, direccion = :direccion, email = :email, telefono = :telefono WHERE id = :id;");
+        query->prepare("UPDATE proyectos SET propietario = :propietario, direccion = :direccion, email = :email, telefono = :telefono "
+                       " fechaEstimadaInicio = :fechaEstimadaInicio "
+                       " fechaEstimadaFinalizacion = :fechaEstimadaFinalizacion "
+                       " WHERE id = :id;");
+
         query->bindValue(":propietario", _propietario);
         query->bindValue(":direccion", _direccion);
         query->bindValue(":email", _email);
         query->bindValue(":telefono", _telefono);
+        query->bindValue(":fechaEstimadaInicio", _fechaEstimadaInicio);
+        query->bindValue(":fechaEstimadaFinalizacion", _fechaEstimadaFinalizacion);
         query->bindValue(":id", id());
         break;
     }

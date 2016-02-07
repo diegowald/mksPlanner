@@ -9,7 +9,7 @@ class ProjectLibrary : public LibraryBase
 {
     Q_OBJECT
 public:
-    explicit ProjectLibrary(const QString &filename, int idProyecto, QObject *parent = 0);
+    explicit ProjectLibrary(const QString &filename, int idProyecto, bool nuevo, QObject *parent = 0);
 
 protected:
     virtual void internalSaveTables(const QString &filename);
@@ -20,7 +20,6 @@ signals:
 
 public slots:
 private:
-    QString _filename;
     int _idProyecto;
 };
 

@@ -38,13 +38,13 @@ private slots:
 
     void on_actionListado_triggered();
 
-    void on_actionCalculadora_de_materiales_triggered();
-
     void on_actionNuevo_triggered();
 
     void on_actionRubros_triggered();
 
     void on_actionCostos_triggered();
+
+    void on_actionAbrir_triggered();
 
 private:
     Ui::MainWindow *ui;

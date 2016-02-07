@@ -200,3 +200,8 @@ void ProyectoModel::editEntity(int row)
     dlgEditProject dlg(this, row);
     dlg.exec();
 }
+
+QString ProyectoModel::filename() const
+{
+    return PersisterBase::filename();
+}

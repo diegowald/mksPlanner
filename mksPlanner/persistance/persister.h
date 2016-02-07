@@ -16,6 +16,8 @@ public:
     void save(const QString &filename);
     void setDBName(const QString &dbName);
 
+    QString filename() const;
+
 protected:
     bool connectToDatabase();
 

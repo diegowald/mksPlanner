@@ -65,7 +65,6 @@
     <addaction name="actionVer_Biblioteca"/>
     <addaction name="actionCostos"/>
     <addaction name="separator"/>
-    <addaction name="actionCalculadora_de_materiales"/>
     <addaction name="separator"/>
     <addaction name="actionTareas"/>
     <addaction name="separator"/>
@@ -143,14 +142,6 @@
    </property>
    <property name="text">
     <string>Listado</string>
-   </property>
-  </action>
-  <action name="actionCalculadora_de_materiales">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Calculadora de materiales</string>
    </property>
   </action>
   <action name="actionRubros">

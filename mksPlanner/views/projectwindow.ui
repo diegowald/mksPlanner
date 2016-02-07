@@ -33,7 +33,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -144,7 +144,7 @@
             <item row="1" column="1">
              <widget class="QLineEdit" name="txtPropietario">
               <property name="readOnly">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -158,7 +158,7 @@
             <item row="2" column="1">
              <widget class="QLineEdit" name="txtDireccion">
               <property name="readOnly">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -172,7 +172,7 @@
             <item row="3" column="1">
              <widget class="QLineEdit" name="txtEmail">
               <property name="readOnly">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -186,7 +186,7 @@
             <item row="4" column="1">
              <widget class="QLineEdit" name="txtTelefono">
               <property name="readOnly">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -273,6 +273,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionGuardar_cambios"/>
+   <addaction name="actionImprimir"/>
    <addaction name="actionAddTask"/>
    <addaction name="actionEdit_Task"/>
    <addaction name="actionRemove_Task"/>
@@ -302,6 +304,24 @@
    </property>
    <property name="text">
     <string>Remove Task</string>
+   </property>
+  </action>
+  <action name="actionGuardar_cambios">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/save</normaloff>:/tableWindow/tools/save</iconset>
+   </property>
+   <property name="text">
+    <string>Guardar cambios</string>
+   </property>
+  </action>
+  <action name="actionImprimir">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/print</normaloff>:/tableWindow/tools/print</iconset>
+   </property>
+   <property name="text">
+    <string>Imprimir</string>
    </property>
   </action>
  </widget>

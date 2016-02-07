@@ -15,7 +15,7 @@ class ProjectWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ProjectWindow(const QString &windowTitle, QWidget *parent = 0);
+    explicit ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent = 0);
     ~ProjectWindow();
 
     void setModel(ModelBase* model);
@@ -31,13 +31,14 @@ private slots:
 
     void on_actionRemove_Task_triggered();
 
+    void on_actionGuardar_cambios_triggered();
+
 private:
     Ui::ProjectWindow *ui;
     ModelBase* _model;
     QDataWidgetMapper *_mapper;
-
-//    ModelBase* _planningModel;
     PlanningTaskModelAdapter *_planningModel;
+    int _idInterno;
 };
 
 #endif // PROJECTWINDOW_H

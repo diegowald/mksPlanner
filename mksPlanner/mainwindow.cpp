@@ -78,7 +78,7 @@ void MainWindow::loadProject(const QString &fileName)
     if (!showSubWindow("Proyecto"))
     {
         int id = GlobalContainer::instance().loadProject(fileName);
-        ProjectWindow *frm = new ProjectWindow("Proyecto");
+        ProjectWindow *frm = new ProjectWindow("Proyecto", id);
         frm->setModel(GlobalContainer::instance().projectLibrary(id)->model(Tables::Proyectos));
         createSubWindow("Proyecto", frm);
     }
@@ -118,17 +118,12 @@ void MainWindow::on_actionListado_triggered()
     }
 }
 
-void MainWindow::on_actionCalculadora_de_materiales_triggered()
-{
-
-}
-
 void MainWindow::on_actionNuevo_triggered()
 {
-    QString filename = QFileDialog::getSaveFileName(this, "Crear proyecto", "./", "*.mskPlanner");
-    if (!filename.endsWith(".mskPlanner"))
+    QString filename = QFileDialog::getSaveFileName(this, "Crear proyecto", "./", "*.mksPlanner");
+    if (!filename.endsWith(".mksPlanner"))
     {
-        filename += ".mskPlanner";
+        filename += ".mksPlanner";
     }
     QFile file(filename);
     if (file.exists())
@@ -136,7 +131,20 @@ void MainWindow::on_actionNuevo_triggered()
     if (!showSubWindow("Proyecto"))
     {
         int tmpId = GlobalContainer::instance().createProject(filename);
-        ProjectWindow *frm = new ProjectWindow("Proyecto");
+        ProjectWindow *frm = new ProjectWindow("Proyecto", tmpId);
+        frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
+        frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
+        createSubWindow("Proyecto", frm);
+    }
+}
+
+void MainWindow::on_actionAbrir_triggered()
+{
+    QString filename = QFileDialog::getOpenFileName(this, "Crear proyecto", "./", "*.mksPlanner");
+    if (!showSubWindow("Proyecto"))
+    {
+        int tmpId = GlobalContainer::instance().loadProject(filename);
+        ProjectWindow *frm = new ProjectWindow("Proyecto", tmpId);
         frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
         frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
         createSubWindow("Proyecto", frm);
@@ -194,6 +202,7 @@ void MainWindow::closeEvent(QCloseEvent *evt)
             GlobalContainer::instance().saveAllProjects();
         case QMessageBox::No:
             evt->accept();
+            break;
         default:
             evt->ignore();
         }

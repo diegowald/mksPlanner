@@ -177,10 +177,11 @@ QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
     {
         query = new QSqlQuery(database);
         query->prepare("INSERT INTO tareasPlanificadas "
-                       " (idTareaPadre, name, idMaterialTask, idProveedor, cantidad, fechaEstimadaInicio, fechaEstimadaFin) "
+                       " (id, idTareaPadre, name, idMaterialTask, idProveedor, cantidad, fechaEstimadaInicio, fechaEstimadaFin) "
                        " VALUES "
-                       " (:idTareaPadre, :name, :idMaterialTask, :idProveedor, :cantidad, :fechaEstimadaInicio, :fechaEstimadaFin);");
+                       " (:id, :idTareaPadre, :name, :idMaterialTask, :idProveedor, :cantidad, :fechaEstimadaInicio, :fechaEstimadaFin);");
 
+        query->bindValue(":id", id());
         query->bindValue(":idTareaPadre", _idTareaPadre);
         query->bindValue(":name", _name);
         query->bindValue(":idMaterialTask", _idMaterialTask);
