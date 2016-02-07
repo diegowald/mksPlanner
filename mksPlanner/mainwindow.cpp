@@ -130,6 +130,9 @@ void MainWindow::on_actionNuevo_triggered()
     {
         filename += ".mskPlanner";
     }
+    QFile file(filename);
+    if (file.exists())
+        file.remove();
     if (!showSubWindow("Proyecto"))
     {
         int tmpId = GlobalContainer::instance().createProject(filename);
