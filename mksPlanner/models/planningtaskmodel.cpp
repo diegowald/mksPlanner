@@ -8,6 +8,8 @@
 #include "views/dlgeditplanningtask.h"
 #include <QDebug>
 #include <KDGantt>
+#include <models/unit.h>
+
 
 PlanningTaskModel::PlanningTaskModel(int idProyecto, QObject *parent) : ModelBase("planningtasks", false, "proyectos", parent)
 {
@@ -26,11 +28,12 @@ void PlanningTaskModel::defineColumnNames()
     setField(7, "materialTask");
     setField(8, "Proveedor");
     setField(9, "Cantidad");
-    setField(10, "Fecha Estimada Inicio");
-    setField(11, "Fecha Estimada de Finalización");
-    setField(12, "Duración");
-    setField(13, "Costo");
-    setField(14, "Precio");
+    setField(10, "Unidad de medida");
+    setField(11, "Fecha Estimada Inicio");
+    setField(12, "Fecha Estimada de Finalización");
+    setField(13, "Duración");
+    setField(14, "Costo");
+    setField(15, "Precio");
 }
 
 QVariant PlanningTaskModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -137,25 +140,46 @@ QVariant PlanningTaskModel::modelData(EntityBasePtr entity, int column, int role
         }
         case 10:
         {
-            return p->fechaEstimadaInicio();
+            if (p->idMaterialTask() != -1)
+            {
+                MaterialPtr m = qSharedPointerDynamicCast<Material>(p->materialTask());
+                if (m->idUnit() != -1)
+                {
+                    UnitPtr unit = qSharedPointerDynamicCast<Unit>(m->unit());
+                    return unit->name();
+                }
+                else
+                {
+                    return QVariant();
+                }
+            }
+            else
+            {
+                return QVariant();
+            }
             break;
         }
         case 11:
         {
-            return p->fechaEstimadaFin();
+            return p->fechaEstimadaInicio();
             break;
         }
         case 12:
         {
-            return p->duracion();
+            return p->fechaEstimadaFin();
             break;
         }
         case 13:
         {
-            return p->costo();
+            return p->duracion();
             break;
         }
         case 14:
+        {
+            return p->costo();
+            break;
+        }
+        case 15:
         {
             return p->precio();
             break;
@@ -246,21 +270,19 @@ bool PlanningTaskModel::modelSetData(EntityBasePtr entity, int column, const QVa
         break;
     }
     case 10:
+        break;
+    case 11:
     {
         QDateTime date = value.toDateTime();
         p->setFechaEstimadaInicio(date);
         result = true;
         break;
     }
-    case 11:
+    case 12:
     {
         QDateTime date = value.toDateTime();
         p->setFechaEstimadaFin(date);
         result = true;
-        break;
-    }
-    case 12:
-    {
         break;
     }
     case 13:
@@ -268,6 +290,10 @@ bool PlanningTaskModel::modelSetData(EntityBasePtr entity, int column, const QVa
         break;
     }
     case 14:
+    {
+        break;
+    }
+    case 15:
     {
         break;
     }
@@ -331,3 +357,8 @@ int PlanningTaskModel::rowCount(const QModelIndex &parent) const
         return ModelBase::rowCount(parent);
 }
 
+
+QList<EntityBasePtr> PlanningTaskModel::tasks() const
+{
+    return entities();
+}

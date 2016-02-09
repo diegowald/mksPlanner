@@ -17,7 +17,7 @@ void PersisterBase::load(const QString &filename)
     QString sql = _getSQLRead();
 
     QSqlQuery query(_database);
-    /*qDebug() << */query.exec(sql);
+    query.exec(sql);
     if (query.lastError().text() != " ")
         qDebug() << query.lastError().text();
 

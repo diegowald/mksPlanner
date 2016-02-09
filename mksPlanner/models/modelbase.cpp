@@ -47,7 +47,9 @@ bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int rol
         bool result = modelSetData(entity, index.column(), value, role);
         if (result)
         {
-            emit dataChanged(index, index);
+            QModelIndex index0 = createIndex(index.row(), 0);
+            QModelIndex index1 = createIndex(index.row(), columnCount() - 1);
+            emit dataChanged(index0, index1);
         }
     }
     return true;
@@ -237,4 +239,9 @@ bool ModelBase::isDirty() const
             return true;
     }
     return false;
+}
+
+QList<EntityBasePtr> ModelBase::entities() const
+{
+    return _entities.values();
 }

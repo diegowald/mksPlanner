@@ -18,6 +18,8 @@ void ProyectoModel::defineColumnNames()
     setField(4, "Telefono");
     setField(5, "Fecha estimada de Inicio");
     setField(6, "Fecha estimada de finalización");
+    setField(7, "Plazo");
+    setField(8, "Costo");
 }
 
 /*QVariant ProyectoModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -112,6 +114,16 @@ QVariant ProyectoModel::modelData(EntityBasePtr entity, int column, int role) co
             return p->fechaEstimadaFinalizacion();
             break;
         }
+        case 7:
+        {
+            return p->plazoEstimado();
+            break;
+        }
+        case 8:
+        {
+            return p->costoEstimado();
+            break;
+        }
         default:
             return QVariant();
             break;
@@ -162,6 +174,10 @@ bool ProyectoModel::modelSetData(EntityBasePtr entity, int column, const QVarian
         result = true;
         break;
     }
+    case 7:
+        break;
+    case 8:
+        break;
     default:
         break;
     }
@@ -185,13 +201,16 @@ int ProyectoModel::_loadEntity(QSqlRecord record)
     QDate fechaEstimadaFin = record.value(record.indexOf("fechaEstimadaFinalizacion")).toDate();
 
     EntityBasePtr entity = ProyectoPtr::create(id, propietario, direccion, email, telefono, fechaEstimadaInicio, fechaEstimadaFin);
+    qSharedPointerDynamicCast<Proyecto>(entity)->setIdProyectoInterno(_idProyecto);
     addEntity(entity);
     return id;
 }
 
 EntityBasePtr ProyectoModel::internalCreateEntity(int assignedId)
 {
-    return ProyectoPtr::create(assignedId);
+    ProyectoPtr p = ProyectoPtr::create(assignedId);
+    p->setIdProyectoInterno(_idProyecto);
+    return p;
 }
 
 

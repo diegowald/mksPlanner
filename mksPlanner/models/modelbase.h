@@ -57,6 +57,8 @@ protected:
     virtual void defineColumnNames() {};
     virtual void setField(int pos, const QString &fieldName);
     QString field(int pos);
+
+    QList<EntityBasePtr> entities() const;
 signals:
 
 public slots:

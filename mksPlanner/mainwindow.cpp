@@ -121,20 +121,23 @@ void MainWindow::on_actionListado_triggered()
 void MainWindow::on_actionNuevo_triggered()
 {
     QString filename = QFileDialog::getSaveFileName(this, "Crear proyecto", "./", "*.mksPlanner");
-    if (!filename.endsWith(".mksPlanner"))
+    if (filename.length() != 0)
     {
-        filename += ".mksPlanner";
-    }
-    QFile file(filename);
-    if (file.exists())
-        file.remove();
-    if (!showSubWindow("Proyecto"))
-    {
-        int tmpId = GlobalContainer::instance().createProject(filename);
-        ProjectWindow *frm = new ProjectWindow("Proyecto", tmpId);
-        frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
-        frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
-        createSubWindow("Proyecto", frm);
+        if (!filename.endsWith(".mksPlanner"))
+        {
+            filename += ".mksPlanner";
+        }
+        QFile file(filename);
+        if (file.exists())
+            file.remove();
+        if (!showSubWindow("Proyecto"))
+        {
+            int tmpId = GlobalContainer::instance().createProject(filename);
+            ProjectWindow *frm = new ProjectWindow("Proyecto", tmpId);
+            frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
+            frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
+            createSubWindow("Proyecto", frm);
+        }
     }
 }
 

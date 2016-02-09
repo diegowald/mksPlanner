@@ -37,7 +37,6 @@ SOURCES += main.cpp\
     models/proveedoresmodel.cpp \
     models/proveedor.cpp \
     views/dlgeditproveedor.cpp \
-    views/calculadoramaterialeswindow.cpp \
     models/validmaterialfiltermodel.cpp \
     views/dlgeditproject.cpp \
     persistance/projectlibrary.cpp \
@@ -86,7 +85,6 @@ HEADERS  += mainwindow.h \
     models/proveedoresmodel.h \
     models/proveedor.h \
     views/dlgeditproveedor.h \
-    views/calculadoramaterialeswindow.h \
     models/validmaterialfiltermodel.h \
     views/dlgeditproject.h \
     persistance/projectlibrary.h \
@@ -119,7 +117,6 @@ FORMS    += mainwindow.ui \
     views/dlgmaterialeditor.ui \
     views/dlgcomponentematerial.ui \
     views/dlgeditproveedor.ui \
-    views/calculadoramaterialeswindow.ui \
     views/dlgeditproject.ui \
     views/projectwindow.ui \
     views/dlgeditrubro.ui \

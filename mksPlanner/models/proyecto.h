@@ -18,6 +18,8 @@ public:
 
     explicit Proyecto(int id);
 
+    void setIdProyectoInterno(int value);
+
     //virtual bool internalSetData(const int column, const QVariant &value, int role);
     virtual QSqlQuery* getQuery(QSqlDatabase &database);
 
@@ -29,6 +31,8 @@ public:
     QString telefono() const;
     QDate fechaEstimadaInicio() const;
     QDate fechaEstimadaFinalizacion() const;
+    int plazoEstimado() const;
+    double costoEstimado() const;
 
     void setPropietario(const QString& value);
     void setDireccion(const QString& value);
@@ -48,6 +52,8 @@ private:
     QString _telefono;
     QDate _fechaEstimadaInicio;
     QDate _fechaEstimadaFinalizacion;
+
+    int _idProyectoInterno;
 };
 
 

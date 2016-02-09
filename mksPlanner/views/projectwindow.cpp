@@ -40,6 +40,9 @@ void ProjectWindow::setModel(ModelBase* model)
     _mapper->addMapping(ui->txtTelefono, model->columnIndex("Telefono"));
     _mapper->addMapping(ui->dateEstimacionInicio, model->columnIndex("Fecha estimada de Inicio"));
     _mapper->addMapping(ui->dateEstimacionFinalizacion, model->columnIndex("Fecha estimada de finalización"));
+    _mapper->addMapping(ui->txtPlazo, model->columnIndex("Plazo"));
+    _mapper->addMapping(ui->txtCosto, model->columnIndex("Costo"));
+
 
     _mapper->setCurrentIndex(0);
     _mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);

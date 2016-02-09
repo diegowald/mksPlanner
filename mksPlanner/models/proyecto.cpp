@@ -1,6 +1,8 @@
 #include "proyecto.h"
 #include <QVariant>
-
+#include "globalcontainer.h"
+#include "models/planningtaskmodel.h"
+#include "models/planningtask.h"
 
 Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion, const QString &email, const QString &telefono,
                    QDate &fechaEstimadaInicio,
@@ -26,6 +28,10 @@ Proyecto::Proyecto(int id) : EntityBase(id, true)
     _fechaEstimadaFinalizacion = QDate::currentDate().addDays(100);
 }
 
+void Proyecto::setIdProyectoInterno(int value)
+{
+    _idProyectoInterno = value;
+}
 
 /*bool Proyecto::internalSetData(const int column, const QVariant &value, int role)
 {
@@ -187,4 +193,21 @@ void Proyecto::setFechaEstimadaFinalizacion(QDate &value)
 {
     _fechaEstimadaFinalizacion = value;
     updateStatus();
+}
+
+int Proyecto::plazoEstimado() const
+{
+    return _fechaEstimadaFinalizacion.toJulianDay() - _fechaEstimadaInicio.toJulianDay();
+}
+
+double Proyecto::costoEstimado() const
+{
+    double costoAcumulado = 0;
+    PlanningTaskModel *ptm = qobject_cast<PlanningTaskModel*>(GlobalContainer::instance().projectLibrary(_idProyectoInterno)->model(Tables::PlanningTasks));
+    foreach (EntityBasePtr entity, ptm->tasks())
+    {
+        PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(entity);
+        costoAcumulado += pt->costo();
+    }
+    return costoAcumulado;
 }

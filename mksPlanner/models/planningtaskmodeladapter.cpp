@@ -4,6 +4,8 @@
 #include "models/material.h"
 #include "models/rubro.h"
 #include "models/proveedor.h"
+#include "models/unit.h"
+
 
 PlanningTaskModelAdapter::PlanningTaskModelAdapter(PlanningTaskModel *model, QObject *parent) :
     QAbstractItemModel(parent)
@@ -26,7 +28,7 @@ int PlanningTaskModelAdapter::rowCount( const QModelIndex& idx ) const
 int PlanningTaskModelAdapter::columnCount( const QModelIndex& idx ) const
 {
     Q_UNUSED(idx);
-    return 12; //_model->columnCount(idx);
+    return 13; //_model->columnCount(idx);
 }
 
 QModelIndex PlanningTaskModelAdapter::index( int row, int col, const QModelIndex& parent) const
@@ -81,10 +83,12 @@ QVariant PlanningTaskModelAdapter::headerData( int section, Qt::Orientation orie
     case 8:
         return tr("Cantidad");
     case 9:
-        return tr("Duración");
+        return tr("Unidad de medida");
     case 10:
-        return tr("Costo");
+        return tr("Duración");
     case 11:
+        return tr("Costo");
+    case 12:
         return tr("Precio");
 
     default:
@@ -213,13 +217,25 @@ QVariant PlanningTaskModelAdapter::data( const QModelIndex& idx, int role) const
     }
     else if (idx.column() == 9 && role == Qt::DisplayRole)
     {
-        return p->duracion();
+        if (p->idMaterialTask() != -1)
+        {
+            MaterialPtr m = qSharedPointerDynamicCast<Material>(p->materialTask());
+            if (m->idUnit() != -1)
+            {
+                UnitPtr unit = qSharedPointerDynamicCast<Unit>(m->unit());
+                return unit->name();
+            }
+        }
     }
     else if (idx.column() == 10 && role == Qt::DisplayRole)
     {
-        return p->costo();
+        return p->duracion();
     }
     else if (idx.column() == 11 && role == Qt::DisplayRole)
+    {
+        return p->costo();
+    }
+    else if (idx.column() == 12 && role == Qt::DisplayRole)
     {
         return p->precio();
     }

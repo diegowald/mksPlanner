@@ -14,7 +14,7 @@ public:
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     virtual EntityBasePtr createEntity();
-
+    QList<EntityBasePtr> tasks() const;
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);
