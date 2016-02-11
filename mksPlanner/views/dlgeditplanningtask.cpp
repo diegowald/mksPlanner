@@ -4,6 +4,9 @@
 #include "models/planningtask.h"
 #include "models/proveedor.h"
 #include "models/material.h"
+#include <QDebug>
+
+
 
 DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, int selectedEntity, QWidget *parent) :
     QDialog(parent),
@@ -81,6 +84,7 @@ void DlgEditPlanningTask::on_buttonBox_accepted()
 
 int DlgEditPlanningTask::idRubroMaterialSeleccionado()
 {
+    qDebug() << ui->cboTarea->currentIndex();
     MaterialPtr mat = qSharedPointerDynamicCast<Material>(GlobalContainer::instance().library()->model(Tables::Tareas)->getItemByRowid(ui->cboTarea->currentIndex()));
     return mat.isNull() ? -1 : mat->idRubro();
 }

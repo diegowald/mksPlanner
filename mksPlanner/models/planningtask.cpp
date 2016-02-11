@@ -16,7 +16,9 @@ PlanningTask::PlanningTask(int id) : EntityBase(id, true)
     _idProveedor = -1;
     _cantidad = 0.;
     _fechaEstimadaInicio = QDateTime::currentDateTime();
+    _fechaEstimadaInicio.setTime(QTime(0, 0, 0));
     _fechaEstimadaFin = QDateTime::currentDateTime().addDays(1);
+    _fechaEstimadaFin.setTime(QTime(23, 59, 59, 999));
 }
 
 PlanningTask::PlanningTask(int id, int idTareaPadre, const QString &name,

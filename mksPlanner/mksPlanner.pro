@@ -151,11 +151,11 @@ RESOURCES += \
 #            ../3rdParty/kdchart-2.5.1-source/include \
 #            ../3rdParty/kdchart-2.5.1-source/examples/tools
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../kdchart-bin/lib/release/ -lkdchart
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../kdchart-bin/lib/debug/ -lkdchart
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdParty/kdchart-bin/lib/ -lkdchart2
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdParty/kdchart-bin/lib/ -lkdchartd2
 else:unix: LIBS += -L$$PWD/../../kdchart-bin/lib/ -lkdchart
 
-INCLUDEPATH += $$PWD/../../kdchart-2.5.1-source/include/KDChart
-INCLUDEPATH += $$PWD/../../kdchart-2.5.1-source/include/KDGantt
-DEPENDPATH += $$PWD/../../kdchart-2.5.1-source/include/KDChart
-DEPENDPATH += $$PWD/../../kdchart-2.5.1-source/include/KDGantt
+INCLUDEPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDChart
+INCLUDEPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDGantt
+DEPENDPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDChart
+DEPENDPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDGantt
