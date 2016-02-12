@@ -3,7 +3,8 @@
 #include "models/proyecto.h"
 
 
-ProyectoModel::ProyectoModel(int idProyecto, QObject *parent) : ModelBase("prouecto", false, "proyecto", parent)
+ProyectoModel::ProyectoModel(int idProyecto, QObject *parent) :
+    ModelBase(Tables::Proyectos, "proyecto", false, "proyecto", parent)
 {
     defineColumnNames();
     _idProyecto = idProyecto;

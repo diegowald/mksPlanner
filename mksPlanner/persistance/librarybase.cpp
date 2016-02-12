@@ -36,6 +36,7 @@ bool LibraryBase::isDirty() const
 void LibraryBase::addModel(Tables name, ModelBase* model)
 {
     _models[name] = model;
+    connect(model, &ModelBase::changed, this, &LibraryBase::on_changed);
 }
 
 ModelBase *LibraryBase::model(Tables name)
@@ -68,3 +69,7 @@ void LibraryBase::checkVersion(const QString &filename)
     database.close();
 }
 
+void LibraryBase::on_changed(Tables table)
+{
+    emit dataChanged(table);
+}

@@ -9,12 +9,17 @@
 #include <QDebug>
 #include <KDGantt>
 #include <models/unit.h>
+#include "globalcontainer.h"
 
-
-PlanningTaskModel::PlanningTaskModel(int idProyecto, QObject *parent) : ModelBase("planningtasks", false, "proyectos", parent)
+PlanningTaskModel::PlanningTaskModel(int idProyecto, QObject *parent)
+    : ModelBase(Tables::PlanningTasks, "planningtasks", false, "proyectos", parent)
 {
     _idProyecto = idProyecto;
     defineColumnNames();
+    addDependency(static_cast<int>(Tables::Materiales));
+    addDependency(static_cast<int>(Tables::Rubros));
+    addDependency(static_cast<int>(Tables::Unidades));
+    addDependency(static_cast<int>(Tables::Proveedores));
 }
 
 void PlanningTaskModel::defineColumnNames()

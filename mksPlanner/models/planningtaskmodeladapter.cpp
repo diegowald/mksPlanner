@@ -358,3 +358,8 @@ void PlanningTaskModelAdapter::removeEntity(QWidget *parent, int row)
 {
     removeEntity(parent, row);
 }
+
+bool PlanningTaskModelAdapter::canCreateEntity() const
+{
+    return _model->canCreateEntity();
+}

@@ -5,7 +5,7 @@
 #include <QAbstractTableModel>
 #include "globalcontainer.h"
 
-ModelBase::ModelBase(const QString &counterName, bool implementsDelegate, const QString &dbName, QObject *parent) :
+ModelBase::ModelBase(Tables tableType, const QString &counterName, bool implementsDelegate, const QString &dbName, QObject *parent) :
     PersisterBase(),
     QAbstractTableModel(parent)
 {
@@ -14,6 +14,8 @@ ModelBase::ModelBase(const QString &counterName, bool implementsDelegate, const 
     setDBName(dbName);
     setField(0, "id");
     defineColumnNames();
+    _tableType = tableType;
+    connect(this, &ModelBase::dataChanged, this, &ModelBase::on_dataChanged);
 }
 
 int ModelBase::rowCount(const QModelIndex &/*parent*/) const
@@ -267,4 +269,14 @@ bool ModelBase::canCreateEntity() const
 void ModelBase::addDependency(int dependencyCode)
 {
     _dependantTables << dependencyCode;
+}
+
+Tables ModelBase::tableType() const
+{
+    return _tableType;
+}
+
+void ModelBase::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+{
+    emit changed(_tableType);
 }

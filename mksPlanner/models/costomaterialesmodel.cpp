@@ -9,10 +9,12 @@
 #include "models/costomaterialesdelegate.h"
 #include <QSet>
 
-CostoMaterialesModel::CostoMaterialesModel(QObject *parent) : ModelBase("costoMateriales", true, "library", parent)
+CostoMaterialesModel::CostoMaterialesModel(QObject *parent)
+    : ModelBase(Tables::CostosUnitarios, "costoMateriales", true, "library", parent)
 {
     _crearMaterialCompuesto = false;
     defineColumnNames();
+    addDependency(static_cast<int>(Tables::Materiales));
 }
 
 

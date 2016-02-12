@@ -32,6 +32,8 @@ private slots:
     void on_actionRemove_Task_triggered();
 
     void on_actionGuardar_cambios_triggered();
+    void on_modelChanged(Tables table);
+    void on_PlanningModelChanged(Tables table);
 
 private:
     Ui::ProjectWindow *ui;

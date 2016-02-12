@@ -2,11 +2,15 @@
 #include "models/rubroroveedor.h"
 #include "views/dlgeditrubroproveedor.h"
 #include "models/rubro.h"
+#include "globalcontainer.h"
+
 
 RubrosProveedoresModel::RubrosProveedoresModel(QObject *parent)
-    : ModelBase("tareasProveedores", false, "library", parent)
+    : ModelBase(Tables::RubrosProveedores, "tareasProveedores", false, "library", parent)
 {
     defineColumnNames();
+    addDependency(static_cast<int>(Tables::Proveedores));
+    addDependency(static_cast<int>(Tables::Rubros));
 }
 
 int RubrosProveedoresModel::rowCount(const QModelIndex &/*parent*/) const

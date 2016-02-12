@@ -5,7 +5,8 @@
 #include "views/dlgeditproveedor.h"
 
 
-ProveedoresModel::ProveedoresModel(QObject *parent) : ModelBase("proveedores", false, "library", parent)
+ProveedoresModel::ProveedoresModel(QObject *parent)
+    : ModelBase(Tables::Proveedores, "proveedores", false, "library", parent)
 {
     defineColumnNames();
 }

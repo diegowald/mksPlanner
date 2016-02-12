@@ -10,11 +10,24 @@
 #include <QStyledItemDelegate>
 #include <QSet>
 
+enum class Tables {
+    Unidades,
+    Materiales,
+    ComponentesMateriales,
+    Tareas,
+    Proveedores,
+    Rubros,
+    Proyectos,
+    CostosUnitarios,
+    RubrosProveedores,
+    PlanningTasks
+};
+
 class ModelBase : public QAbstractTableModel, virtual public PersisterBase
 {
     Q_OBJECT
 public:
-    explicit ModelBase(const QString &counterName, bool implementsDelegate, const QString &dbName, QObject *parent = 0);
+    explicit ModelBase(Tables tableType, const QString &counterName, bool implementsDelegate, const QString &dbName, QObject *parent = 0);
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
@@ -44,6 +57,7 @@ public:
     bool isDirty() const;
     virtual bool canCreateEntity() const;
     virtual void addDependency(int dependencyCode);
+    Tables tableType() const;
 
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);
@@ -64,8 +78,10 @@ protected:
     QList<EntityBasePtr> entities() const;
 
 signals:
+    void changed(Tables table);
 
-public slots:
+private slots:
+    void on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
 
 protected:
     QList<int> _entityMapping;
@@ -74,6 +90,7 @@ protected:
     bool _implementsDelegate;
     QMap<int, QString> _fields;
     QSet<int> _dependantTables;
+    Tables _tableType;
 };
 
 

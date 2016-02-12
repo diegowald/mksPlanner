@@ -5,18 +5,7 @@
 #include <QMap>
 #include "models/modelbase.h"
 
-enum class Tables {
-    Unidades,
-    Materiales,
-    ComponentesMateriales,
-    Tareas,
-    Proveedores,
-    Rubros,
-    Proyectos,
-    CostosUnitarios,
-    RubrosProveedores,
-    PlanningTasks
-};
+
 
 class LibraryBase : public QObject
 {
@@ -37,11 +26,13 @@ protected:
 
     void addModel(Tables name, ModelBase* model);
 
+signals:
+    void dataChanged(Tables table);
+
+private slots:
+    void on_changed(Tables table);
 private:
     void checkVersion(const QString &filename);
-signals:
-
-public slots:
 
 private:
     QMap<Tables, ModelBase*> _models;

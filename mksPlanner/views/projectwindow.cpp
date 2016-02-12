@@ -55,6 +55,7 @@ void ProjectWindow::setModel(ModelBase* model)
     ui->tabWidget->removeTab(2);
 
     ui->lblFilename->setText(qobject_cast<ProyectoModel*>(model)->filename());
+    connect(model, &ModelBase::changed, this, &ProjectWindow::on_modelChanged);
 }
 
 void ProjectWindow::setPlanningModel(ModelBase *model)
@@ -77,6 +78,8 @@ void ProjectWindow::setPlanningModel(ModelBase *model)
     Q_ASSERT(tv);
     tv->setColumnHidden(1, true);
     tv->setColumnHidden(4, true);
+    ui->actionAddTask->setEnabled(model->canCreateEntity());
+    connect(model, &ModelBase::changed, this, &ProjectWindow::on_PlanningModelChanged);
 }
 
 void ProjectWindow::on_tabWidget_currentChanged(int index)
@@ -114,4 +117,14 @@ void ProjectWindow::on_actionRemove_Task_triggered()
 void ProjectWindow::on_actionGuardar_cambios_triggered()
 {
     GlobalContainer::instance().projectLibrary(_idInterno)->save();
+}
+
+void ProjectWindow::on_modelChanged(Tables table)
+{
+
+}
+
+void ProjectWindow::on_PlanningModelChanged(Tables table)
+{
+    ui->actionAddTask->setEnabled(_planningModel->canCreateEntity());
 }

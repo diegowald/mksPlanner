@@ -4,13 +4,15 @@
 #include "models/unit.h"
 #include "models/rubro.h"
 #include <QDebug>
-
+#include "globalcontainer.h"
 
 MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent)
-    : ModelBase("materiales", false, "library", parent)
+    : ModelBase(Tables::Materiales, "materiales", false, "library", parent)
 {
     _filterByTask = filterByTask;
     defineColumnNames();
+    addDependency(static_cast<int>(Tables::Unidades));
+    addDependency(static_cast<int>(Tables::Rubros));
 }
 
 void MaterialesBaseModel::defineColumnNames()

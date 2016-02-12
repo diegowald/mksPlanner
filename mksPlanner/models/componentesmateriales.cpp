@@ -7,7 +7,7 @@
 
 
 ComponentesMaterialesModel::ComponentesMaterialesModel(QObject *parent)
-    : ModelBase("componentesMateriales", false, "library", parent)
+    : ModelBase(Tables::ComponentesMateriales, "componentesMateriales", false, "library", parent)
 {
     defineColumnNames();
 }

@@ -4,7 +4,8 @@
 #include "views/dlgeditrubro.h"
 
 
-RubrosModel::RubrosModel(QObject *parent) : ModelBase("rubros", false, "library", parent)
+RubrosModel::RubrosModel(QObject *parent)
+    : ModelBase(Tables::Rubros, "rubros", false, "library", parent)
 {
     defineColumnNames();
 }

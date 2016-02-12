@@ -1,6 +1,7 @@
 #include "tablewindow.h"
 #include "ui_tablewindow.h"
 #include <QModelIndex>
+#include "globalcontainer.h"
 
 TableWindow::TableWindow(const QString &windowTitle, QWidget *parent) :
     QMainWindow(parent),
@@ -26,6 +27,7 @@ void TableWindow::setModel(ModelBase* model)
     ui->tableView->setModel(_model);
     ui->tableView->setColumnHidden(0, true);
     ui->actionCreate->setEnabled(model->canCreateEntity());
+    connect(model, &ModelBase::changed, this, &TableWindow::on_modelChanged);
 }
 
 void TableWindow::on_tableView_doubleClicked(const QModelIndex &index)
@@ -70,4 +72,9 @@ void TableWindow::hideColumn(int idColumn)
 void TableWindow::setInPlaceEditable(bool value)
 {
     _inPlaceEdit = value;
+}
+
+void TableWindow::on_modelChanged(Tables table)
+{
+    ui->actionCreate->setEnabled(_model->canCreateEntity());
 }

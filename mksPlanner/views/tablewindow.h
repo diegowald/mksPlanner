@@ -30,6 +30,7 @@ private slots:
     void on_actionEdit_triggered();
 
     void on_actionRemove_triggered();
+    void on_modelChanged(Tables table);
 
 private:
     Ui::TableWindow *ui;
