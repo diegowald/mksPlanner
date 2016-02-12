@@ -25,6 +25,7 @@ void TableWindow::setModel(ModelBase* model)
     }
     ui->tableView->setModel(_model);
     ui->tableView->setColumnHidden(0, true);
+    ui->actionCreate->setEnabled(model->canCreateEntity());
 }
 
 void TableWindow::on_tableView_doubleClicked(const QModelIndex &index)

@@ -3,7 +3,7 @@
 #include "globalcontainer.h"
 #include <QMessageBox>
 #include <QAbstractTableModel>
-
+#include "globalcontainer.h"
 
 ModelBase::ModelBase(const QString &counterName, bool implementsDelegate, const QString &dbName, QObject *parent) :
     PersisterBase(),
@@ -125,15 +125,22 @@ void ModelBase::addEntity(EntityBasePtr entity)
 
 EntityBasePtr ModelBase::createEntity()
 {
-    int maxId = GlobalContainer::instance().counter(_counterName);
-    if (maxId == -1)
-        maxId = 0;
-    maxId++;
-    EntityBasePtr entity = internalCreateEntity(maxId);
-    GlobalContainer::instance().setCounter(_counterName, maxId);
-    _entities[entity->id()] = entity;
-    _entityMapping.append(entity->id());
-    return entity;
+    if (canCreateEntity())
+    {
+        int maxId = GlobalContainer::instance().counter(_counterName);
+        if (maxId == -1)
+            maxId = 0;
+        maxId++;
+        EntityBasePtr entity = internalCreateEntity(maxId);
+        GlobalContainer::instance().setCounter(_counterName, maxId);
+        _entities[entity->id()] = entity;
+        _entityMapping.append(entity->id());
+        return entity;
+    }
+    else
+    {
+        return EntityBasePtr();
+    }
 }
 
 void ModelBase::removeEntity(QWidget *parent, int row)
@@ -244,4 +251,20 @@ bool ModelBase::isDirty() const
 QList<EntityBasePtr> ModelBase::entities() const
 {
     return _entities.values();
+}
+
+bool ModelBase::canCreateEntity() const
+{
+    foreach (int dependencyCode, _dependantTables)
+    {
+        Tables table = static_cast<Tables>(dependencyCode);
+        if (GlobalContainer::instance().library()->model(table)->rowCount(QModelIndex()) == 0)
+            return false;
+    }
+    return true;
+}
+
+void ModelBase::addDependency(int dependencyCode)
+{
+    _dependantTables << dependencyCode;
 }

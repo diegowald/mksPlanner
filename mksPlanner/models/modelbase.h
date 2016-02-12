@@ -8,6 +8,7 @@
 #include "models/entitybase.h"
 #include <QMap>
 #include <QStyledItemDelegate>
+#include <QSet>
 
 class ModelBase : public QAbstractTableModel, virtual public PersisterBase
 {
@@ -41,6 +42,8 @@ public:
     virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
     bool isDirty() const;
+    virtual bool canCreateEntity() const;
+    virtual void addDependency(int dependencyCode);
 
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);
@@ -59,6 +62,7 @@ protected:
     QString field(int pos);
 
     QList<EntityBasePtr> entities() const;
+
 signals:
 
 public slots:
@@ -69,6 +73,7 @@ protected:
     QString _counterName;
     bool _implementsDelegate;
     QMap<int, QString> _fields;
+    QSet<int> _dependantTables;
 };
 
 

@@ -159,3 +159,4 @@ INCLUDEPATH += $$PWD/../../kdchart-2.5.1-source/include/KDChart
 INCLUDEPATH += $$PWD/../../kdchart-2.5.1-source/include/KDGantt
 DEPENDPATH += $$PWD/../../kdchart-2.5.1-source/include/KDChart
 DEPENDPATH += $$PWD/../../kdchart-2.5.1-source/include/KDGantt
+

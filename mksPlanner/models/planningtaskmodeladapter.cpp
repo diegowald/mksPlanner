@@ -65,15 +65,15 @@ QVariant PlanningTaskModelAdapter::headerData( int section, Qt::Orientation orie
     switch (section)
     {
     case 0:
-        return tr("Name");
+        return tr("Tarea");
     case 1:
-        return tr("Type");
+        return tr("Tipo");
     case 2:
-        return tr("Start");
+        return tr("Inicio Estimado");
     case 3:
-        return tr("End");
+        return tr("Fin Estimado");
     case 4:
-        return tr("Completion %");
+        return tr("% Realizado");
     case 5:
         return tr("Rubro");
     case 6:

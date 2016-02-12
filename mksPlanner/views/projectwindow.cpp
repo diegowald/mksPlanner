@@ -75,6 +75,8 @@ void ProjectWindow::setPlanningModel(ModelBase *model)
 
     QTreeView *tv = qobject_cast<QTreeView*>(ui->planningView->leftView());
     Q_ASSERT(tv);
+    tv->setColumnHidden(1, true);
+    tv->setColumnHidden(4, true);
 }
 
 void ProjectWindow::on_tabWidget_currentChanged(int index)
