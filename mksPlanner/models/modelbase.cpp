@@ -170,7 +170,10 @@ EntityBasePtr ModelBase::getItemByRowid(int row)
     qDebug() << _entityMapping.contains(row);
     if (_entityMapping.contains(row))
         qDebug() << _entityMapping[row];*/
-    return getItem(_entityMapping[row]);
+    if (row == -1)
+        return EntityBasePtr();
+    else
+        return getItem(_entityMapping[row]);
 }
 
 void ModelBase::setModified()

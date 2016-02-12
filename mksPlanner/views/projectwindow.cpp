@@ -5,7 +5,6 @@
 #include "globalcontainer.h"
 
 
-
 ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ProjectWindow)
