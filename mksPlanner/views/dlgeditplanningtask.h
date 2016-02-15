@@ -31,7 +31,6 @@ private:
 private:
     Ui::DlgEditPlanningTask *ui;
     PlanningTaskModel *_model;
-    QDataWidgetMapper *_mapper;
     EntityBasePtr _entity;
     MaterialFilterModel *_materialFilterModel;
     ProveedorByRubroFilterModel *_proveedorByRubroFilterModel;

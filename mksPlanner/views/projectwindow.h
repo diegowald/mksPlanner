@@ -34,6 +34,7 @@ private slots:
     void on_actionGuardar_cambios_triggered();
     void on_modelChanged(Tables table);
     void on_PlanningModelChanged(Tables table);
+    void on_TreeView_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::ProjectWindow *ui;

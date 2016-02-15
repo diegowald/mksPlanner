@@ -28,7 +28,7 @@ void PlanningTaskModel::defineColumnNames()
     setField(2, "idMaterialTask");
     setField(3, "idProveedor");
     setField(4, "tareaPadre");
-    setField(5, "name");
+    setField(5, "Tarea");
     setField(6, "Rubro");
     setField(7, "materialTask");
     setField(8, "Proveedor");

@@ -77,6 +77,8 @@ void ProjectWindow::setPlanningModel(ModelBase *model)
     Q_ASSERT(tv);
     tv->setColumnHidden(1, true);
     tv->setColumnHidden(4, true);
+
+    connect(tv, &QTreeView::doubleClicked, this, &ProjectWindow::on_TreeView_doubleClicked);
     ui->actionAddTask->setEnabled(model->canCreateEntity());
     connect(model, &ModelBase::changed, this, &ProjectWindow::on_PlanningModelChanged);
 }
@@ -126,4 +128,10 @@ void ProjectWindow::on_modelChanged(Tables table)
 void ProjectWindow::on_PlanningModelChanged(Tables table)
 {
     ui->actionAddTask->setEnabled(_planningModel->canCreateEntity());
+}
+
+void ProjectWindow::on_TreeView_doubleClicked(const QModelIndex &index)
+{
+    if (index.isValid())
+        _planningModel->editEntity(index.row());
 }

@@ -20,14 +20,8 @@ DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, int selectedE
     PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(_entity);
 
 
-    _mapper = new QDataWidgetMapper(this);
-    _mapper->setModel(_model);
-
-    _mapper->addMapping(ui->txtNombre, model->columnIndex("name"));
-    _mapper->addMapping(ui->txtCantidad, model->columnIndex("Cantidad"));
-
-    _mapper->setCurrentIndex(selectedEntity);
-    _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+    ui->txtNombre->setText(p->name());
+    ui->txtCantidad->setText(QString::number(p->cantidad()));
 
     ModelBase *m = GlobalContainer::instance().library()->model(Tables::Tareas);
     _materialFilterModel = new MaterialFilterModel(m, true, this);
@@ -55,6 +49,10 @@ DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, int selectedE
         ui->dateFechaEstimadaInicio->setDateTime(p->fechaEstimadaInicio());
         ui->dateFechaEstimadaFinalizacion->setDateTime(p->fechaEstimadaFin());
     }
+
+    // Por el momento quitamos esto
+    ui->lblTareaPadre->setVisible(false);
+    ui->cboTareaPadre->setVisible(false);
 }
 
 DlgEditPlanningTask::~DlgEditPlanningTask()
@@ -78,7 +76,9 @@ void DlgEditPlanningTask::on_buttonBox_accepted()
     dt = ui->dateFechaEstimadaFinalizacion->dateTime();
     p->setFechaEstimadaFin(dt);
 
-    _mapper->submit();
+    p->setCantidad(ui->txtCantidad->text().toDouble());
+    p->setName(ui->txtNombre->text());
+
     close();
 }
 
