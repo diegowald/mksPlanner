@@ -7,6 +7,9 @@
 #include "models/componentesmateriales.h"
 #include "models/rubro.h"
 #include <QDebug>
+#include "models/componentematerial.h"
+
+
 
 Material::Material(int id, const QString &name, const QString &description, int idUnit, int idRubro) : EntityBase(id)
 {
@@ -212,4 +215,37 @@ void Material::setDescription(const QString &value)
 {
     _description = value;
     updateStatus();
+}
+
+QMap<QString, double> Material::listadoMaterialesCantidades(double cantidadARealizar)
+{
+    QMap<QString, double> result;
+    if (!isCompuesto())
+    {
+        result[_name] = cantidadARealizar;
+    }
+    else
+    {
+        ComponentesMaterialesModel* model = dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales));
+        QList<int> componentes = model->idComponentes(id());
+        foreach (int idComponente, componentes)
+        {
+            EntityBasePtr entity = model->getItem(idComponente);
+            ComponenteMaterialPtr cm = qSharedPointerDynamicCast<ComponenteMaterial>(entity);
+            MaterialPtr m = qSharedPointerDynamicCast<Material>(cm->material());
+            QMap<QString, double> partialResult = m->listadoMaterialesCantidades(cm->cantidad() * cantidadARealizar);
+            foreach (QString material, partialResult.keys())
+            {
+                if (!result.contains(material))
+                {
+                    result[material] = partialResult[material];
+                }
+                else
+                {
+                    result[material] += partialResult[material];
+                }
+            }
+        }
+    }
+    return result;
 }

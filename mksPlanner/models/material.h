@@ -33,6 +33,8 @@ public:
 
     QSet<int> materialsComposedBy();
 
+    QMap<QString, double> listadoMaterialesCantidades(double cantidadARealizar);
+
     bool isCompuesto() const;
 
 signals:

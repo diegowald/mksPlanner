@@ -239,6 +239,11 @@ QVariant PlanningTaskModelAdapter::data( const QModelIndex& idx, int role) const
     {
         return p->precio();
     }
+
+    if (role == Qt::ToolTipRole)
+    {
+        return p->tooltip();
+    }
     return QVariant();
 }
 

@@ -29,6 +29,7 @@ public:
     int duracion() const;
     double costo() const;
     double precio() const;
+    QString tooltip() const;
 
     void setIdTareaPadre(int value);
     void setName(const QString &value);
@@ -40,6 +41,9 @@ public:
 
     void setIdProyecto(int idProyecto);
 
+    QMap<QString, double> listadoMateriales() const;
+private:
+    QString tablaListadoMateriales() const;
 private:
     int _idTareaPadre;
     QString _name;

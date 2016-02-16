@@ -212,6 +212,10 @@ QVariant PlanningTaskModel::modelData(EntityBasePtr entity, int column, int role
             break;
         }
     }
+    else if (role == Qt::ToolTipRole)
+    {
+
+    }
     else
     {
         return QVariant();

@@ -4,7 +4,7 @@
 #include "models/costomaterial.h"
 #include "models/costomaterialesmodel.h"
 #include "globalcontainer.h"
-
+#include "models/material.h"
 
 
 PlanningTask::PlanningTask(int id) : EntityBase(id, true)
@@ -227,4 +227,47 @@ QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
 void PlanningTask::setIdProyecto(int idProyecto)
 {
     _idProyecto = idProyecto;
+}
+
+QString PlanningTask::tooltip() const
+{
+    QString s = "<table>"
+                "<tr>"
+                "<td colspan=\"2\">%1</td>"
+                "<td colspan=\"2\">%2</td>"
+                "</tr>%3</table>";
+    return s.arg(_name)
+            .arg(tr("Materiales"))
+            .arg(tablaListadoMateriales());
+}
+
+QString PlanningTask::tablaListadoMateriales() const
+{
+    QMap<QString, double> listado = listadoMateriales();
+    QString result = "";
+    QString templ = "<tr><td>%1</td><td>%2 %3</td></tr>";
+    foreach (QString material, listado.keys())
+    {
+        result += templ.arg(material)
+                .arg(listado[material]);
+    }
+    return result;
+}
+
+QMap<QString, double> PlanningTask::listadoMateriales() const
+{
+    QMap<QString, double> result;
+    if (_idMaterialTask != -1)
+    {
+        MaterialPtr material = qSharedPointerDynamicCast<Material>(materialTask());
+        QMap<QString, double> processingResult = material->listadoMaterialesCantidades(_cantidad);
+        foreach (QString material, processingResult.keys())
+        {
+            if (!result.contains(material))
+                result[material] = processingResult[material];
+            else
+                result[material] += processingResult[material];
+        }
+    }
+    return result;
 }
