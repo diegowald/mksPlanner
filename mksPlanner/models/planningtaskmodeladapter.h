@@ -29,6 +29,8 @@ public:
     virtual void editEntity(int row);
     void removeEntity(QWidget *parent, int row);
     bool canCreateEntity() const;
+
+    EntityBasePtr itemByRowId(int row);
 signals:
 
 public slots:

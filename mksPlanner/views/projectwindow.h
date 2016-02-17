@@ -37,6 +37,9 @@ private slots:
     void on_TreeView_doubleClicked(const QModelIndex &index);
 
 private:
+    void updateEstimacionMateriales();
+
+private:
     Ui::ProjectWindow *ui;
     ModelBase* _model;
     QDataWidgetMapper *_mapper;

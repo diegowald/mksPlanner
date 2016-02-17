@@ -368,3 +368,8 @@ bool PlanningTaskModelAdapter::canCreateEntity() const
 {
     return _model->canCreateEntity();
 }
+
+EntityBasePtr PlanningTaskModelAdapter::itemByRowId(int row)
+{
+    return _model->getItemByRowid(row);
+}

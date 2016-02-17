@@ -3,7 +3,7 @@
 #include <QTreeView>
 #include "models/proyectomodel.h"
 #include "globalcontainer.h"
-
+#include "models/planningtask.h"
 
 ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent) :
     QMainWindow(parent),
@@ -51,7 +51,6 @@ void ProjectWindow::setModel(ModelBase* model)
     /* temporal es para ocultar los tabs que aun no han sido desarrollados */
     ui->tabWidget->removeTab(4);
     ui->tabWidget->removeTab(3);
-    ui->tabWidget->removeTab(2);
 
     ui->lblFilename->setText(qobject_cast<ProyectoModel*>(model)->filename());
     connect(model, &ModelBase::changed, this, &ProjectWindow::on_modelChanged);
@@ -81,6 +80,7 @@ void ProjectWindow::setPlanningModel(ModelBase *model)
     connect(tv, &QTreeView::doubleClicked, this, &ProjectWindow::on_TreeView_doubleClicked);
     ui->actionAddTask->setEnabled(model->canCreateEntity());
     connect(model, &ModelBase::changed, this, &ProjectWindow::on_PlanningModelChanged);
+    updateEstimacionMateriales();
 }
 
 void ProjectWindow::on_tabWidget_currentChanged(int index)
@@ -128,10 +128,48 @@ void ProjectWindow::on_modelChanged(Tables table)
 void ProjectWindow::on_PlanningModelChanged(Tables table)
 {
     ui->actionAddTask->setEnabled(_planningModel->canCreateEntity());
+    updateEstimacionMateriales();
 }
 
 void ProjectWindow::on_TreeView_doubleClicked(const QModelIndex &index)
 {
     if (index.isValid())
-        _planningModel->editEntity(index.row());
+       _planningModel->editEntity(index.row());
+}
+
+
+void ProjectWindow::updateEstimacionMateriales()
+{
+    ui->tblEstimacionMateriales->setRowCount(0);
+    ui->tblEstimacionMateriales->setColumnCount(3);
+    ui->tblEstimacionMateriales->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
+    ui->tblEstimacionMateriales->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
+    ui->tblEstimacionMateriales->setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Unidad")));
+    QMap<QString, double> results;
+    int rowCount = _planningModel->rowCount(QModelIndex());
+    for (int i = 0; i < rowCount; ++i)
+    {
+        EntityBasePtr entity = _planningModel->itemByRowId(i);
+        PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(entity);
+        QMap<QString, double> partialResult = pt->listadoMateriales();
+        foreach (QString material, partialResult.keys())
+        {
+            if (!results.contains(material))
+            {
+                results[material] = partialResult[material];
+            }
+            else
+            {
+                results[material] += partialResult[material];
+            }
+        }
+    }
+
+    foreach (QString material, results.keys())
+    {
+        int row = ui->tblEstimacionMateriales->rowCount();
+        ui->tblEstimacionMateriales->insertRow(row);
+        ui->tblEstimacionMateriales->setItem(row, 0, new QTableWidgetItem(material));
+        ui->tblEstimacionMateriales->setItem(row, 1, new QTableWidgetItem(QString::number(results[material])));
+    }
 }
