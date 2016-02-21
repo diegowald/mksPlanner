@@ -19,12 +19,13 @@ PlanningTask::PlanningTask(int id) : EntityBase(id, true)
     _fechaEstimadaInicio.setTime(QTime(0, 0, 0));
     _fechaEstimadaFin = QDateTime::currentDateTime().addDays(1);
     _fechaEstimadaFin.setTime(QTime(23, 59, 59, 999));
+    _taskType = KDGantt::TypeTask;
 }
 
 PlanningTask::PlanningTask(int id, int idTareaPadre, const QString &name,
                       int idMaterialTask, int idProveedor,
                       double cantidad, const QDateTime &fechaEstimadaInicio,
-                      const QDateTime &fechaEstimadaFin) : EntityBase(id, false)
+                      const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType) : EntityBase(id, false)
 {
     _idProyecto = -1;
     _idTareaPadre = idTareaPadre;
@@ -34,6 +35,7 @@ PlanningTask::PlanningTask(int id, int idTareaPadre, const QString &name,
     _cantidad = cantidad;
     _fechaEstimadaInicio = fechaEstimadaInicio;
     _fechaEstimadaFin = fechaEstimadaFin;
+    _taskType = taskType;
 }
 
 int PlanningTask::idTareaPadre() const
@@ -179,9 +181,9 @@ QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
     {
         query = new QSqlQuery(database);
         query->prepare("INSERT INTO tareasPlanificadas "
-                       " (id, idTareaPadre, name, idMaterialTask, idProveedor, cantidad, fechaEstimadaInicio, fechaEstimadaFin) "
+                       " (id, idTareaPadre, name, idMaterialTask, idProveedor, cantidad, fechaEstimadaInicio, fechaEstimadaFin, taskType) "
                        " VALUES "
-                       " (:id, :idTareaPadre, :name, :idMaterialTask, :idProveedor, :cantidad, :fechaEstimadaInicio, :fechaEstimadaFin);");
+                       " (:id, :idTareaPadre, :name, :idMaterialTask, :idProveedor, :cantidad, :fechaEstimadaInicio, :fechaEstimadaFin, :taskType);");
 
         query->bindValue(":id", id());
         query->bindValue(":idTareaPadre", _idTareaPadre);
@@ -191,7 +193,7 @@ QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
         query->bindValue(":cantidad", _cantidad);
         query->bindValue(":fechaEstimadaInicio", _fechaEstimadaInicio);
         query->bindValue(":fechaEstimadaFin", _fechaEstimadaFin);
-
+        query->bindValue(":taskType", _taskType);
         break;
     }
     case EntityStatus::deleted:
@@ -204,7 +206,7 @@ QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE tareasPlanificadas SET idTareaPadre = :idTareaPadre, name = :name, idMaterialTask = :idMaterialTask, idProveedor = :idProveedor, cantidad = :cantidad, fechaEstimadaInicio = :fechaEstimadaInicio, fechaEstimadaFin = :fechaEstimadaFin WHERE id = :id;");
+        query->prepare("UPDATE tareasPlanificadas SET idTareaPadre = :idTareaPadre, name = :name, idMaterialTask = :idMaterialTask, idProveedor = :idProveedor, cantidad = :cantidad, fechaEstimadaInicio = :fechaEstimadaInicio, fechaEstimadaFin = :fechaEstimadaFin, taskType = :taskType WHERE id = :id;");
 
         query->bindValue(":idTareaPadre", _idTareaPadre);
         query->bindValue(":name", _name);
@@ -213,6 +215,7 @@ QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
         query->bindValue(":cantidad", _cantidad);
         query->bindValue(":fechaEstimadaInicio", _fechaEstimadaInicio);
         query->bindValue(":fechaEstimadaFin", _fechaEstimadaFin);
+        query->bindValue(":taskType", _taskType);
         query->bindValue(":id", id());
         break;
     }
@@ -270,4 +273,25 @@ QMap<QString, double> PlanningTask::listadoMateriales() const
         }
     }
     return result;
+}
+
+QList<PlanningTaskPtr> PlanningTask::child() const
+{
+    return _child;
+}
+
+void PlanningTask::addSubTask(PlanningTaskPtr task)
+{
+    _child.append(task);
+}
+
+KDGantt::ItemType PlanningTask::taskType() const
+{
+    return _taskType;
+}
+
+void PlanningTask::setTaskType(KDGantt::ItemType value)
+{
+    _taskType = value;
+    updateStatus();
 }

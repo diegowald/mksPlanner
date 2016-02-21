@@ -5,7 +5,7 @@
 #include "models/rubro.h"
 #include "models/proveedor.h"
 #include "models/unit.h"
-
+#include <cassert>
 
 PlanningTaskModelAdapter::PlanningTaskModelAdapter(PlanningTaskModel *model, QObject *parent) :
     QAbstractItemModel(parent)
@@ -19,43 +19,49 @@ PlanningTaskModelAdapter::~PlanningTaskModelAdapter()
 
 int PlanningTaskModelAdapter::rowCount( const QModelIndex& idx ) const
 {
-    if ( idx.isValid() )
-        return 0; // static_cast<Node*>( idx.internalPointer() )->childCount();
-    else
-        return _model->rowCount(idx);
+    return _model->rowCount(idx);
 }
 
 int PlanningTaskModelAdapter::columnCount( const QModelIndex& idx ) const
 {
     Q_UNUSED(idx);
-    return 13; //_model->columnCount(idx);
+    return 13;
 }
 
 QModelIndex PlanningTaskModelAdapter::index( int row, int col, const QModelIndex& parent) const
 {
-    /*Node* p = m_root;
-    if ( parent.isValid() ) {
-        p = static_cast<Node*>( parent.internalPointer() );
+    PlanningTaskModel::Node* p = parent.isValid() ?
+                static_cast<PlanningTaskModel::Node*>(parent.internalPointer())
+              : _model->root();
+
+    if (row < 0 || row >= p->childCount())
+    {
+        return QModelIndex();
     }
-    if ( row < 0 || row >= p->childCount() ) return QModelIndex();
-    else return createIndex( row, col, p->child( row ) );*/
-    return createIndex(row, col);
+    else
+    {
+        return createIndex(row, col, p->child(row));
+    }
 }
 
 
-QModelIndex PlanningTaskModelAdapter::parent( const QModelIndex& idx ) const
+QModelIndex PlanningTaskModelAdapter::parent(const QModelIndex& child ) const
 {
-    /*if ( !idx.isValid() ) return QModelIndex();
+    //return _model->parent(idx);
+    if (!child.isValid())
+        return QModelIndex();
 
-    Node* n = static_cast<Node*>( idx.internalPointer() );
-    assert( n );
-    Node* p = n->parent();
-    if ( p==m_root )return QModelIndex();
+    PlanningTaskModel::Node* n = static_cast<PlanningTaskModel::Node*>(child.internalPointer());
+    assert(n);
 
-    Node* pp = p->parent();
-    assert( pp );
-    return createIndex( pp->childNumber( p ), 0, p );*/
-    return QModelIndex();
+    PlanningTaskModel::Node* p = n->parent();
+
+    if (p == _model->root())
+        return QModelIndex();
+
+    PlanningTaskModel::Node* pp = p->parent();
+    assert(pp);
+    return createIndex(pp->childNumber(p), 0, p);
 }
 
 QVariant PlanningTaskModelAdapter::headerData( int section, Qt::Orientation orientation, int role) const
@@ -101,11 +107,13 @@ QVariant PlanningTaskModelAdapter::data( const QModelIndex& idx, int role) const
     if (!idx.isValid())
         return QVariant();
 
-    //Node* n = static_cast<Node*>( idx.internalPointer() );
+    PlanningTaskModel::Node* n = static_cast<PlanningTaskModel::Node*>(idx.internalPointer());
+
     if (_model->rowCount() == 0)
         return QVariant();
 
-    PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(_model->getItemByRowid(idx.row()));
+    //PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(_model->getItemByRowid(idx.row()));
+    PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(n->entity());
 
     if (idx.column() == 0)
     {
@@ -124,7 +132,8 @@ QVariant PlanningTaskModelAdapter::data( const QModelIndex& idx, int role) const
         {
         case Qt::DisplayRole:
         case Qt::EditRole:
-            return qVariantFromValue<int>(KDGantt::TypeTask);
+            return qVariantFromValue<int>(p->taskType());
+            //return qVariantFromValue<int>(KDGantt::TypeTask);
         }
     }
     else if (idx.column() == 2)
@@ -158,25 +167,6 @@ QVariant PlanningTaskModelAdapter::data( const QModelIndex& idx, int role) const
             return QVariant();
         }
     }
-/*    else if (idx.column() == 5)
-    {
-        switch (role)
-        {
-        case Qt::DisplayRole:
-        case Qt::EditRole:
-            return p->name();
-        case KDGantt::ItemTypeRole:
-            return KDGantt::TypeTask;
-        case KDGantt::StartTimeRole:
-            return p->fechaEstimadaInicio();
-        case KDGantt::EndTimeRole:
-            return p->fechaEstimadaFin();
-        case KDGantt::TaskCompletionRole:
-            return QVariant();
-            break;
-        }
-    }
-    */
     else if (idx.column() == 5 && role == Qt::DisplayRole)
     {
         if (p->idMaterialTask() != -1)
@@ -250,13 +240,14 @@ QVariant PlanningTaskModelAdapter::data( const QModelIndex& idx, int role) const
 
 bool PlanningTaskModelAdapter::setData( const QModelIndex& idx,  const QVariant& value, int role)
 {
-/*    if (!idx.isValid())
-        return false;*/
+    if (!idx.isValid())
+        return false;
 
     qDebug() << "ProjectModel::setData" << idx.column() << role << value;
 
-    //Node* n = static_cast<Node*>( idx.internalPointer() );
-    PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(_model->getItemByRowid(idx.row()));
+    PlanningTaskModel::Node* n = static_cast<PlanningTaskModel::Node*>(idx.internalPointer());
+    //PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(_model->getItemByRowid(idx.row()));
+    PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(n->entity());
 
 
     if (idx.column() == 0)
@@ -330,18 +321,33 @@ bool PlanningTaskModelAdapter::setData( const QModelIndex& idx,  const QVariant&
 
 bool PlanningTaskModelAdapter::insertRows( int row, int count, const QModelIndex& parent)
 {
-    beginInsertRows( parent, row, row+count-1 );
-    _model->insertRows(row, count, parent);
-    /*Node* p = m_root;
-    if ( parent.isValid() ) p = static_cast<Node*>( parent.internalPointer() );
+    beginInsertRows(parent, row, row + count - 1);
+    PlanningTaskModel::Node* p = _model->root();
+    bool canCreate = true;
+    int idTareaPadre = -1;
+    if (parent.isValid())
+    {
+        p = static_cast<PlanningTaskModel::Node*>(parent.internalPointer());
+        if (!p->entity().isNull())
+        {
+            PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(p->entity());
+            canCreate = ((pt->taskType() == KDGantt::TypeSummary) || (pt->taskType() == KDGantt::TypeMulti));
+            idTareaPadre = pt->id();
+        }
+    }
     assert( p );
-
-    for ( int i = 0; i < count; ++i ) {
-        Node* n = new Node;
-        p->insertChild( row+i, n );
-    }*/
+    if (canCreate)
+    {
+        for (int i = 0; i < count; ++i )
+        {
+            EntityBasePtr e = _model->createEntity();
+            PlanningTaskModel::Node* n = new PlanningTaskModel::Node(e);
+            qSharedPointerDynamicCast<PlanningTask>(e)->setIdTareaPadre(idTareaPadre);
+            p->insertChild(row + i, n);
+        }
+    }
     endInsertRows();
-    return true;
+    return canCreate;
 }
 
 Qt::ItemFlags PlanningTaskModelAdapter::flags( const QModelIndex& idx) const
@@ -353,10 +359,19 @@ void PlanningTaskModelAdapter::editEntity(int row)
 {
     _model->editEntity(row);
 
-    QModelIndex idx = createIndex(row, 0);
-    /*setData(idx, QVariant());*/
+    QModelIndex idx = index(row, 0);
     emit dataChanged(idx, idx);
-    //emit dataChanged(idx, idx);
+}
+
+void PlanningTaskModelAdapter::editEntity(QModelIndex index)
+{
+    if (index.isValid())
+    {
+        PlanningTaskModel::Node* n = static_cast<PlanningTaskModel::Node*>(index.internalPointer());
+        //PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(_model->getItemByRowid(idx.row()));
+        PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(n->entity());
+        _model->editEntity(p);
+    }
 }
 
 void PlanningTaskModelAdapter::removeEntity(QWidget *parent, int row)

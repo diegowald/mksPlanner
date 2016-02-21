@@ -16,7 +16,7 @@ class DlgEditPlanningTask : public QDialog
     Q_OBJECT
 
 public:
-    explicit DlgEditPlanningTask(PlanningTaskModel* model, int selectedEntity, QWidget *parent = 0);
+    explicit DlgEditPlanningTask(PlanningTaskModel* model, EntityBasePtr entity, QWidget *parent = 0);
 
     ~DlgEditPlanningTask();
 
@@ -27,6 +27,7 @@ private slots:
 
 private:
     int idRubroMaterialSeleccionado();
+    void fillTaskTypes();
 
 private:
     Ui::DlgEditPlanningTask *ui;

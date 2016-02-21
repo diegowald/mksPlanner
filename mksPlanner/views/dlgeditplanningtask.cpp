@@ -8,15 +8,16 @@
 
 
 
-DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, int selectedEntity, QWidget *parent) :
+DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, EntityBasePtr entity, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DlgEditPlanningTask)
 {
     _proveedorByRubroFilterModel = NULL;
     ui->setupUi(this);
+    fillTaskTypes();
 
     _model = model;
-    _entity = _model->getItemByRowid(selectedEntity);
+    _entity = entity;
     PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(_entity);
 
 
@@ -48,6 +49,7 @@ DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, int selectedE
         }
         ui->dateFechaEstimadaInicio->setDateTime(p->fechaEstimadaInicio());
         ui->dateFechaEstimadaFinalizacion->setDateTime(p->fechaEstimadaFin());
+        ui->cboTaskType->setCurrentIndex(ui->cboTaskType->findData(static_cast<int>(p->taskType())));
     }
 
     // Por el momento quitamos esto
@@ -79,6 +81,8 @@ void DlgEditPlanningTask::on_buttonBox_accepted()
     p->setCantidad(ui->txtCantidad->text().toDouble());
     p->setName(ui->txtNombre->text());
 
+    p->setTaskType(static_cast<KDGantt::ItemType>(ui->cboTaskType->currentData(Qt::UserRole).toInt()));
+
     close();
 }
 
@@ -95,4 +99,12 @@ void DlgEditPlanningTask::on_cboTarea_currentIndexChanged(int index)
     {
         _proveedorByRubroFilterModel->setIdRubro(idRubroMaterialSeleccionado());
     }
+}
+
+void DlgEditPlanningTask::fillTaskTypes()
+{
+    ui->cboTaskType->addItem("Evento", KDGantt::TypeEvent);
+    ui->cboTaskType->addItem("Tarea", KDGantt::TypeTask);
+    ui->cboTaskType->addItem("Resumen", KDGantt::TypeSummary);
+    ui->cboTaskType->addItem("Multiple", KDGantt::TypeMulti);
 }

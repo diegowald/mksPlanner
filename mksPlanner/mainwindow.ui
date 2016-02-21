@@ -66,7 +66,6 @@
     <addaction name="actionCostos"/>
     <addaction name="separator"/>
     <addaction name="separator"/>
-    <addaction name="actionTareas"/>
     <addaction name="separator"/>
     <addaction name="actionSave_Material_Library"/>
    </widget>
@@ -76,38 +75,42 @@
     </property>
     <addaction name="actionListado"/>
    </widget>
-   <widget class="QMenu" name="menuPlanificacion">
-    <property name="title">
-     <string>Planificacion</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuSeguimiento">
-    <property name="title">
-     <string>Seguimiento</string>
-    </property>
-   </widget>
    <addaction name="menuProyecto"/>
    <addaction name="menuMateriales"/>
    <addaction name="menuProveedores"/>
-   <addaction name="menuPlanificacion"/>
-   <addaction name="menuSeguimiento"/>
   </widget>
   <action name="actionNuevo">
+   <property name="icon">
+    <iconset resource="mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/interface-1.png</normaloff>:/tableWindow/tools/interface-1.png</iconset>
+   </property>
    <property name="text">
     <string>Nuevo</string>
    </property>
   </action>
   <action name="actionAbrir">
+   <property name="icon">
+    <iconset resource="mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/folder.png</normaloff>:/tableWindow/tools/folder.png</iconset>
+   </property>
    <property name="text">
     <string>Abrir</string>
    </property>
   </action>
   <action name="actionSalir">
+   <property name="icon">
+    <iconset resource="mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/people-1.png</normaloff>:/tableWindow/tools/people-1.png</iconset>
+   </property>
    <property name="text">
     <string>Salir</string>
    </property>
   </action>
   <action name="actionVer_Biblioteca">
+   <property name="icon">
+    <iconset resource="mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/material-3.png</normaloff>:/tableWindow/tools/material-3.png</iconset>
+   </property>
    <property name="text">
     <string>Tareas y Materiales...</string>
    </property>
@@ -119,32 +122,40 @@
    </property>
   </action>
   <action name="actionUnidades">
+   <property name="icon">
+    <iconset resource="mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/tool-2.png</normaloff>:/tableWindow/tools/tool-2.png</iconset>
+   </property>
    <property name="text">
     <string>Unidades</string>
    </property>
   </action>
   <action name="actionSave_Material_Library">
+   <property name="icon">
+    <iconset resource="mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/save</normaloff>:/tableWindow/tools/save</iconset>
+   </property>
    <property name="text">
     <string>Save Material Library</string>
-   </property>
-  </action>
-  <action name="actionTareas">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Tareas</string>
    </property>
   </action>
   <action name="actionListado">
    <property name="enabled">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/people.png</normaloff>:/tableWindow/tools/people.png</iconset>
+   </property>
    <property name="text">
     <string>Listado</string>
    </property>
   </action>
   <action name="actionRubros">
+   <property name="icon">
+    <iconset resource="mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/people-2.png</normaloff>:/tableWindow/tools/people-2.png</iconset>
+   </property>
    <property name="text">
     <string>Rubros...</string>
    </property>
@@ -153,12 +164,18 @@
    </property>
   </action>
   <action name="actionCostos">
+   <property name="icon">
+    <iconset resource="mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/text.png</normaloff>:/tableWindow/tools/text.png</iconset>
+   </property>
    <property name="text">
     <string>Costos...</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="mksplanner.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -32,6 +32,7 @@ void ProjectUpdater::scriptsVersion1()
                "    `cantidad`	REAL, "
                "    `fechaEstimadaInicio`	TEXT, "
                "    `fechaEstimadaFin`	TEXT, "
+               "    `taskType`	INTEGER, "
                "    PRIMARY KEY(id) "
                "); ");
 

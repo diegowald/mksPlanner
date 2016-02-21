@@ -36,6 +36,8 @@ private slots:
     void on_PlanningModelChanged(Tables table);
     void on_TreeView_doubleClicked(const QModelIndex &index);
 
+    void on_actionActionAddSubTask_triggered();
+
 private:
     void updateEstimacionMateriales();
 

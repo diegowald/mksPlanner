@@ -4,6 +4,10 @@
 #include <QObject>
 #include "models/entitybase.h"
 #include <QDate>
+#include <KDGantt>
+
+class PlanningTask;
+typedef QSharedPointer<PlanningTask> PlanningTaskPtr;
 
 class PlanningTask : public EntityBase
 {
@@ -14,7 +18,7 @@ public:
     explicit PlanningTask(int id, int idTareaPadre, const QString &name,
                           int idMaterialTask, int idProveedor,
                           double cantidad, const QDateTime &fechaEstimadaInicio,
-                          const QDateTime &fechaEstimadaFin);
+                          const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType);
 
     int idTareaPadre() const;
     EntityBasePtr tareaPadre() const;
@@ -30,6 +34,7 @@ public:
     double costo() const;
     double precio() const;
     QString tooltip() const;
+    KDGantt::ItemType taskType() const;
 
     void setIdTareaPadre(int value);
     void setName(const QString &value);
@@ -38,10 +43,16 @@ public:
     void setCantidad(double value);
     void setFechaEstimadaInicio(QDateTime &value);
     void setFechaEstimadaFin(QDateTime &value);
+    void setTaskType(KDGantt::ItemType value);
 
     void setIdProyecto(int idProyecto);
 
     QMap<QString, double> listadoMateriales() const;
+
+    QList<PlanningTaskPtr> child() const;
+    void addSubTask(PlanningTaskPtr task);
+
+
 private:
     QString tablaListadoMateriales() const;
 private:
@@ -52,14 +63,19 @@ private:
     double _cantidad;
     QDateTime _fechaEstimadaInicio;
     QDateTime _fechaEstimadaFin;
+    KDGantt::ItemType _taskType;
 
     int _idProyecto;
+
+    //PlanningTask *_parent;
+    QList<PlanningTaskPtr> _child;
+
 
     // EntityBase interface
 public:
     virtual QSqlQuery *getQuery(QSqlDatabase &database);
     virtual QString toDebugString();
+
 };
 
-typedef QSharedPointer<PlanningTask> PlanningTaskPtr;
 #endif // PLANNINGTASK_H

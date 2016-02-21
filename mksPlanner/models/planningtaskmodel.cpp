@@ -10,6 +10,99 @@
 #include <KDGantt>
 #include <models/unit.h>
 #include "globalcontainer.h"
+#include <cassert>
+#include <QMap>
+/* NODE */
+
+PlanningTaskModel::Node::Node(EntityBasePtr entity, Node *parent)
+{
+    _parent = parent;
+    _entity = entity;
+    _id = (_entity.isNull()) ? -1 : _entity->id();
+    if (_parent)
+    {
+        _parent->addChild(this);
+    }
+}
+
+void PlanningTaskModel::Node::addChild(Node *node)
+{
+    node->setParent(this);
+    _children.append(node);
+}
+
+PlanningTaskModel::Node::~Node()
+{
+    while (!_children.isEmpty())
+        delete _children.front();
+
+    if (_parent) _parent->removeChild(this);
+}
+
+void PlanningTaskModel::Node::insertChild( int i, Node* node)
+{
+    node->setParent(this);
+    _children.insert(i, node);
+}
+
+bool PlanningTaskModel::Node::createChild(EntityBasePtr entity)
+{
+    PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(entity);
+    if (_id == p->idTareaPadre())
+    {
+        Node *n = new Node(entity, this);
+        //addChild(n);
+        return true;
+    }
+    else
+    {
+        foreach (Node *n, _children)
+        {
+            if (n->createChild(entity))
+                return true;
+        }
+    }
+    return false;
+}
+
+void PlanningTaskModel::Node::removeChild( Node* node)
+{
+    node->setParent(0);
+    _children.removeAll(node);
+    _entity->deleteEntity();
+}
+
+PlanningTaskModel::Node* PlanningTaskModel::Node::parent() const
+{
+    return _parent;
+}
+
+void PlanningTaskModel::Node::setParent(Node *parent)
+{
+    _parent = parent;
+}
+
+int PlanningTaskModel::Node::childCount() const
+{
+    return _children.count();
+}
+
+int PlanningTaskModel::Node::childNumber(Node* n) const
+{
+    return _children.indexOf(n);
+}
+
+PlanningTaskModel::Node* PlanningTaskModel::Node::child(int i) const
+{
+    return _children.at(i);
+}
+
+EntityBasePtr PlanningTaskModel::Node::entity() const
+{
+    return _entity;
+}
+
+/* /NODE */
 
 PlanningTaskModel::PlanningTaskModel(int idProyecto, QObject *parent)
     : ModelBase(Tables::PlanningTasks, "planningtasks", false, "proyectos", parent)
@@ -20,6 +113,7 @@ PlanningTaskModel::PlanningTaskModel(int idProyecto, QObject *parent)
     addDependency(static_cast<int>(Tables::Rubros));
     addDependency(static_cast<int>(Tables::Unidades));
     addDependency(static_cast<int>(Tables::Proveedores));
+    _root = new Node(EntityBasePtr(), NULL);
 }
 
 void PlanningTaskModel::defineColumnNames()
@@ -328,10 +422,12 @@ int PlanningTaskModel::_loadEntity(QSqlRecord record)
     double cantidad = record.value(record.indexOf("cantidad")).toDouble();
     QDateTime fechaEstimadaInicio = record.value(record.indexOf("fechaEstimadaInicio")).toDateTime();
     QDateTime fechaEstimadaFin = record.value(record.indexOf("fechaEstimadaFin")).toDateTime();
+    KDGantt::ItemType taskType = static_cast<KDGantt::ItemType>(record.value(record.indexOf("taskType")).toInt());
 
     EntityBasePtr entity = PlanningTaskPtr::create(id, idTareaPadre,
                                                    name, idMaterialTask, idProveedor,
-                                                   cantidad, fechaEstimadaInicio, fechaEstimadaFin);
+                                                   cantidad, fechaEstimadaInicio, fechaEstimadaFin,
+                                                   taskType);
     qSharedPointerDynamicCast<PlanningTask>(entity)->setIdProyecto(_idProyecto);
     addEntity(entity);
     return id;
@@ -347,7 +443,8 @@ EntityBasePtr PlanningTaskModel::internalCreateEntity(int assignedId)
 
 void PlanningTaskModel::editEntity(int row)
 {
-    DlgEditPlanningTask dlg(this, row);
+    EntityBasePtr entity = getItemByRowid(row);
+    DlgEditPlanningTask dlg(this, entity);
     dlg.exec();
 }
 
@@ -361,13 +458,110 @@ EntityBasePtr PlanningTaskModel::createEntity()
 int PlanningTaskModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
-        return 0; //static_cast<Node*>( idx.internalPointer() )->childCount();
+    {
+        return static_cast<Node*>(parent.internalPointer())->childCount();
+    }
     else
-        return ModelBase::rowCount(parent);
+    {
+        return _root->childCount();
+    }
 }
 
+QModelIndex PlanningTaskModel::index(int row, int column, const QModelIndex &parent) const
+{
+    Node* p = parent.isValid() ? static_cast<Node*>(parent.internalPointer()) : _root;
+
+    if (row < 0 || row >= p->childCount())
+    {
+        return QModelIndex();
+    }
+    else
+    {
+        return createIndex(row, column, p->child(row));
+    }
+}
+
+QModelIndex PlanningTaskModel::parent(const QModelIndex &child) const
+{
+    if (!child.isValid())
+        return QModelIndex();
+
+    Node* n = static_cast<Node*>(child.internalPointer());
+    assert(n);
+
+    Node* p = n->parent();
+
+    if (p == _root)
+        return QModelIndex();
+
+    Node* pp = p->parent();
+    assert(pp);
+    return createIndex(pp->childNumber(p), 0, p);
+}
 
 QList<EntityBasePtr> PlanningTaskModel::tasks() const
 {
     return entities();
+}
+
+QVariant PlanningTaskModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid())
+        return QVariant();
+    PlanningTaskModel::Node *n = static_cast<PlanningTaskModel::Node*>(index.internalPointer());
+    assert(n);
+    return modelData(n->entity(), index.column(), role);
+}
+
+bool PlanningTaskModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (!index.isValid())
+        return false;
+    qDebug() << "ProjectModel::setData" << index.column() << role << value;
+
+    Node* n = static_cast<Node*>(index.internalPointer());
+    assert(n);
+
+    bool result = modelSetData(n->entity(), index.column(), value, role);
+    emit dataChanged(index, index);
+    return result;
+}
+
+void PlanningTaskModel::postProcessData()
+{
+    QList<EntityBasePtr> ents = _entities.values();
+    foreach (EntityBasePtr entity, ents)
+    {
+        PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(entity);
+        _root->createChild(p);
+    }
+}
+
+bool PlanningTaskModel::insertRows(int row, int count, const QModelIndex& parent)
+{
+    beginInsertRows( parent, row, row+count-1 );
+    bool res = ModelBase::insertRows(row, count, parent);
+    EntityBasePtr entity = getItemByRowid(row);
+    if (res)
+    {
+        Node* p = _root;
+        if (parent.isValid())
+            p = static_cast<Node*>(parent.internalPointer());
+
+        assert( p );
+
+        for ( int i = 0; i < count; ++i )
+        {
+            Node* n = new Node(entity);
+            p->insertChild(row+i, n);
+        }
+    }
+    endInsertRows();
+    return true;
+}
+
+void PlanningTaskModel::editEntity(EntityBasePtr entity)
+{
+    DlgEditPlanningTask dlg(this, entity);
+    dlg.exec();
 }

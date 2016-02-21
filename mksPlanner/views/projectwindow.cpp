@@ -88,6 +88,7 @@ void ProjectWindow::on_tabWidget_currentChanged(int index)
     ui->actionAddTask->setVisible(index == 1);
     ui->actionEdit_Task->setVisible(index == 1);
     ui->actionRemove_Task->setVisible(index == 1);
+    ui->actionActionAddSubTask->setVisible(index == 1);
 }
 
 void ProjectWindow::on_actionAddTask_triggered()
@@ -103,10 +104,26 @@ void ProjectWindow::on_actionAddTask_triggered()
     _planningModel->editEntity(rowCount);
 }
 
+void ProjectWindow::on_actionActionAddSubTask_triggered()
+{
+    QModelIndex idx = ui->planningView->selectionModel()->currentIndex();
+    if (idx.isValid())
+    {
+        qDebug() << "MainWindow::slotToolsNewItem" << idx;
+        if (!_planningModel->insertRow(1, _planningModel->index(idx.row(), 0, idx.parent())))
+            return;
+
+        //_planningModel->insertRows(0, 1, _planningModel->index(idx.row(), 0, idx.parent()));
+        //_planningModel->editEntity(_planningModel->index(idx.row(), 0, idx.parent()).child(0, 0));
+    }/* else {
+        m_model->insertRows( 0, 1, m_view->rootIndex() );
+    }*/
+}
+
 void ProjectWindow::on_actionEdit_Task_triggered()
 {
     QModelIndex index = ui->planningView->selectionModel()->currentIndex();
-    _planningModel->editEntity(index.row());
+    _planningModel->editEntity(index);
 }
 
 void ProjectWindow::on_actionRemove_Task_triggered()
@@ -134,7 +151,7 @@ void ProjectWindow::on_PlanningModelChanged(Tables table)
 void ProjectWindow::on_TreeView_doubleClicked(const QModelIndex &index)
 {
     if (index.isValid())
-       _planningModel->editEntity(index.row());
+       _planningModel->editEntity(index);
 }
 
 
@@ -173,3 +190,4 @@ void ProjectWindow::updateEstimacionMateriales()
         ui->tblEstimacionMateriales->setItem(row, 1, new QTableWidgetItem(QString::number(results[material])));
     }
 }
+

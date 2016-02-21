@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Editar componente</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../mksplanner.qrc">
+    <normaloff>:/tableWindow/tools/material-3.png</normaloff>:/tableWindow/tools/material-3.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>2</number>
@@ -109,7 +113,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../mksplanner.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

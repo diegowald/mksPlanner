@@ -15,7 +15,7 @@ public:
     /*reimp*/ int columnCount( const QModelIndex& idx ) const;
 
     /*reimp*/ QModelIndex index( int row, int col, const QModelIndex& parent = QModelIndex() ) const;
-    /*reimp*/ QModelIndex parent( const QModelIndex& idx ) const;
+    /*reimp*/ QModelIndex parent(const QModelIndex& child ) const;
 
     /*reimp*/QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     /*reimp*/ QVariant data( const QModelIndex& idx, int role = Qt::DisplayRole ) const;
@@ -27,6 +27,7 @@ public:
     /*reimp*/ Qt::ItemFlags flags(const QModelIndex& idx) const;
 
     virtual void editEntity(int row);
+    virtual void editEntity(QModelIndex index);
     void removeEntity(QWidget *parent, int row);
     bool canCreateEntity() const;
 
