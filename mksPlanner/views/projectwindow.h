@@ -6,6 +6,9 @@
 
 #include "models/modelbase.h"
 #include "models/planningtaskmodeladapter.h"
+#include "models/planningtaskmodelconstraintadapter.h"
+#include "KDGantt"
+
 namespace Ui {
 class ProjectWindow;
 }
@@ -20,7 +23,7 @@ public:
 
     void setModel(ModelBase* model);
     void setPlanningModel(ModelBase *model);
-
+    void setConstraintModel(ModelBase *model);
 
 private slots:
     void on_tabWidget_currentChanged(int index);
@@ -46,6 +49,7 @@ private:
     ModelBase* _model;
     QDataWidgetMapper *_mapper;
     PlanningTaskModelAdapter *_planningModel;
+    PlanningTaskModelConstraintAdapter *_constraintModel;
     int _idInterno;
 };
 

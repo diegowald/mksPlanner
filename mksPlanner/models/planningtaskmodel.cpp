@@ -102,6 +102,8 @@ EntityBasePtr PlanningTaskModel::Node::entity() const
     return _entity;
 }
 
+
+
 /* /NODE */
 
 PlanningTaskModel::PlanningTaskModel(int idProyecto, QObject *parent)
@@ -477,7 +479,7 @@ QModelIndex PlanningTaskModel::index(int row, int column, const QModelIndex &par
     }
     else
     {
-        return createIndex(row, column, p->child(row));
+        return ModelBase::createIndex(row, column, p->child(row));
     }
 }
 
@@ -496,7 +498,7 @@ QModelIndex PlanningTaskModel::parent(const QModelIndex &child) const
 
     Node* pp = p->parent();
     assert(pp);
-    return createIndex(pp->childNumber(p), 0, p);
+    return ModelBase::createIndex(pp->childNumber(p), 0, p);
 }
 
 QList<EntityBasePtr> PlanningTaskModel::tasks() const
@@ -564,4 +566,9 @@ void PlanningTaskModel::editEntity(EntityBasePtr entity)
 {
     DlgEditPlanningTask dlg(this, entity);
     dlg.exec();
+}
+
+int PlanningTaskModel::idProyecto() const
+{
+    return _idProyecto;
 }

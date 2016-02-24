@@ -5,7 +5,8 @@
 #include "models/proveedor.h"
 #include "models/material.h"
 #include <QDebug>
-
+#include "views/tablewindow.h"
+#include "models/planningtaskmodelconstraint.h"
 
 
 DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, EntityBasePtr entity, QWidget *parent) :
@@ -55,6 +56,15 @@ DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, EntityBasePtr
     // Por el momento quitamos esto
     ui->lblTareaPadre->setVisible(false);
     ui->cboTareaPadre->setVisible(false);
+
+    TableWindow *t = new TableWindow("", this);
+    PlanningTaskModelConstraint *mc = dynamic_cast<PlanningTaskModelConstraint*>(GlobalContainer::instance().projectLibrary(_model->idProyecto())->model(Tables::PlanningTasksConstraints));
+    _constraintsFiltered = new PlanningTaskModelConstraintFiltered(_model->idProyecto(), entity->id(), mc);
+    t->setModel(_constraintsFiltered);
+    t->hideColumn(1);
+    //t->hideColumn(2);
+    ui->frame->layout()->addWidget(t->window());
+
 }
 
 DlgEditPlanningTask::~DlgEditPlanningTask()

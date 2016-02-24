@@ -54,6 +54,8 @@ public:
     /*reimp*/ bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex());
     virtual void editEntity(EntityBasePtr entity);
 
+    int idProyecto() const;
+
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);
@@ -63,6 +65,7 @@ protected:
     virtual void defineColumnNames();
 
     virtual void postProcessData();
+
 private:
     int _idProyecto;
     Node* _root;

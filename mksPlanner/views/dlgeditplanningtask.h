@@ -6,6 +6,8 @@
 #include "models/planningtaskmodel.h"
 #include "models/materialfiltermodel.h"
 #include "models/proveedorbyrubrofiltermodel.h"
+#include "models/planningtaskmodelconstraintfiltered.h"
+
 
 namespace Ui {
 class DlgEditPlanningTask;
@@ -35,6 +37,7 @@ private:
     EntityBasePtr _entity;
     MaterialFilterModel *_materialFilterModel;
     ProveedorByRubroFilterModel *_proveedorByRubroFilterModel;
+    PlanningTaskModelConstraintFiltered *_constraintsFiltered;
 };
 
 #endif // DLGEDITPLANNINGTASK_H

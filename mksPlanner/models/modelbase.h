@@ -20,7 +20,8 @@ enum class Tables {
     Proyectos,
     CostosUnitarios,
     RubrosProveedores,
-    PlanningTasks
+    PlanningTasks,
+    PlanningTasksConstraints
 };
 
 class ModelBase : public QAbstractTableModel, virtual public PersisterBase

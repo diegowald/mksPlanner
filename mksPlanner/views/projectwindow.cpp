@@ -83,6 +83,14 @@ void ProjectWindow::setPlanningModel(ModelBase *model)
     updateEstimacionMateriales();
 }
 
+void ProjectWindow::setConstraintModel(ModelBase *model)
+{
+    _constraintModel = new PlanningTaskModelConstraintAdapter(_planningModel, model, this);
+//    KDGantt::Constraint c;
+    //_constraintModel = model;
+    ui->planningView->setConstraintModel(_constraintModel);
+}
+
 void ProjectWindow::on_tabWidget_currentChanged(int index)
 {
     ui->actionAddTask->setVisible(index == 1);

@@ -136,6 +136,7 @@ void MainWindow::on_actionNuevo_triggered()
             ProjectWindow *frm = new ProjectWindow("Proyecto", tmpId);
             frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
             frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
+            frm->setConstraintModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasksConstraints));
             createSubWindow("Proyecto", frm);
         }
     }
@@ -150,6 +151,7 @@ void MainWindow::on_actionAbrir_triggered()
         ProjectWindow *frm = new ProjectWindow("Proyecto", tmpId);
         frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
         frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
+        frm->setConstraintModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasksConstraints));
         createSubWindow("Proyecto", frm);
     }
 }

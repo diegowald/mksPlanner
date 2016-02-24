@@ -15,6 +15,7 @@ public:
     /*reimp*/ int columnCount( const QModelIndex& idx ) const;
 
     /*reimp*/ QModelIndex index( int row, int col, const QModelIndex& parent = QModelIndex() ) const;
+    QModelIndex index(int idTask);
     /*reimp*/ QModelIndex parent(const QModelIndex& child ) const;
 
     /*reimp*/QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
@@ -32,6 +33,10 @@ public:
     bool canCreateEntity() const;
 
     EntityBasePtr itemByRowId(int row);
+
+private:
+    QModelIndex createIndex(int idTask, PlanningTaskModel::Node *node);
+
 signals:
 
 public slots:

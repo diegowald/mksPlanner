@@ -36,5 +36,15 @@ void ProjectUpdater::scriptsVersion1()
                "    PRIMARY KEY(id) "
                "); ");
 
+    addCommand(1,
+               "CREATE TABLE `tareasPlanificadasConstraints` ("
+               "    `id`	INTEGER NOT NULL UNIQUE,"
+               "    `idTask1`	INTEGER,"
+               "    `idTask2`	INTEGER,"
+               "    `type`	INTEGER,"
+               "    `relationType`	INTEGER,"
+               "    PRIMARY KEY(id)"
+               ");");
+
     addCommand(1, "INSERT into version (versionInfo) VALUES (1)");
 }

@@ -61,7 +61,12 @@ SOURCES += main.cpp\
     views/dlgeditplanningtask.cpp \
     models/planningtaskmodeladapter.cpp \
     models/materialfiltermodel.cpp \
-    models/proveedorbyrubrofiltermodel.cpp
+    models/proveedorbyrubrofiltermodel.cpp \
+    models/planningtaskmodelconstraint.cpp \
+    models/planningtaskconstraint.cpp \
+    models/planningtaskmodelconstraintadapter.cpp \
+    models/planningtaskmodelconstraintfiltered.cpp \
+    views/dlgeditplanningtaskconstraint.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -109,7 +114,12 @@ HEADERS  += mainwindow.h \
     views/dlgeditplanningtask.h \
     models/planningtaskmodeladapter.h \
     models/materialfiltermodel.h \
-    models/proveedorbyrubrofiltermodel.h
+    models/proveedorbyrubrofiltermodel.h \
+    models/planningtaskmodelconstraint.h \
+    models/planningtaskconstraint.h \
+    models/planningtaskmodelconstraintadapter.h \
+    models/planningtaskmodelconstraintfiltered.h \
+    views/dlgeditplanningtaskconstraint.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
@@ -121,7 +131,8 @@ FORMS    += mainwindow.ui \
     views/projectwindow.ui \
     views/dlgeditrubro.ui \
     views/dlgeditrubroproveedor.ui \
-    views/dlgeditplanningtask.ui
+    views/dlgeditplanningtask.ui \
+    views/dlgeditplanningtaskconstraint.ui
 
 CONFIG += mobility
 MOBILITY =
@@ -155,13 +166,7 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdParty/kdchart-bin/li
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdParty/kdchart-bin/lib/ -lkdchartd2
 else:unix: LIBS += -L$$PWD/../../kdchart-bin/lib/ -lkdchart
 
-#<<<<<<< HEAD
-#INCLUDEPATH += $$PWD/../../kdchart-2.5.1-source/include/KDChart
-#INCLUDEPATH += $$PWD/../../kdchart-2.5.1-source/include/KDGantt
-#DEPENDPATH += $$PWD/../../kdchart-2.5.1-source/include/KDChart
-#DEPENDPATH += $$PWD/../../kdchart-2.5.1-source/include/KDGantt
 
-#=======
 INCLUDEPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDChart
 INCLUDEPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDGantt
 DEPENDPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDChart

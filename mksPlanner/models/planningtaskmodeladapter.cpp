@@ -28,7 +28,7 @@ int PlanningTaskModelAdapter::columnCount( const QModelIndex& idx ) const
     return 13;
 }
 
-QModelIndex PlanningTaskModelAdapter::index( int row, int col, const QModelIndex& parent) const
+QModelIndex PlanningTaskModelAdapter::index(int row, int col, const QModelIndex& parent) const
 {
     PlanningTaskModel::Node* p = parent.isValid() ?
                 static_cast<PlanningTaskModel::Node*>(parent.internalPointer())
@@ -40,10 +40,44 @@ QModelIndex PlanningTaskModelAdapter::index( int row, int col, const QModelIndex
     }
     else
     {
-        return createIndex(row, col, p->child(row));
+        return QAbstractItemModel::createIndex(row, col, p->child(row));
     }
 }
 
+QModelIndex PlanningTaskModelAdapter::index(int idTask)
+{
+    return createIndex(idTask, _model->root());
+}
+
+
+QModelIndex PlanningTaskModelAdapter::createIndex(int idTask, PlanningTaskModel::Node *node)
+{
+    PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(node->entity());
+    if ((node != _model->root()) && (pt->id() == idTask))
+    {
+        if (node == _model->root())
+        {
+            return QAbstractItemModel::createIndex(0, 0, node);
+        }
+        else
+        {
+            return QAbstractItemModel::createIndex(node->parent()->childNumber(node), 0, this);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < node->childCount(); ++i)
+        {
+            PlanningTaskModel::Node *n = node->child(i);
+            QModelIndex idx = createIndex(idTask, n);
+            if (idx.isValid())
+            {
+                return idx;
+            }
+        }
+    }
+    return QModelIndex();
+}
 
 QModelIndex PlanningTaskModelAdapter::parent(const QModelIndex& child ) const
 {
@@ -61,7 +95,7 @@ QModelIndex PlanningTaskModelAdapter::parent(const QModelIndex& child ) const
 
     PlanningTaskModel::Node* pp = p->parent();
     assert(pp);
-    return createIndex(pp->childNumber(p), 0, p);
+    return QAbstractItemModel::createIndex(pp->childNumber(p), 0, p);
 }
 
 QVariant PlanningTaskModelAdapter::headerData( int section, Qt::Orientation orientation, int role) const
