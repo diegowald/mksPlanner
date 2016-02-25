@@ -82,8 +82,10 @@ bool ModelBase::insertRows(int row, int count, const QModelIndex &parent)
 
 bool ModelBase::removeRow(int row, const QModelIndex &parent)
 {
+    beginRemoveRows(parent, row, row);
     _entities[_entityMapping.at(row)]->deleteEntity();
     _entityMapping.removeAt(row);
+    endRemoveRows();
 }
 
 

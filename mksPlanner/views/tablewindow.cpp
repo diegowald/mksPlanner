@@ -61,6 +61,7 @@ void TableWindow::on_actionEdit_triggered()
 void TableWindow::on_actionRemove_triggered()
 {
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+    //_model->removeRow(index.row(), index.parent());
     _model->removeEntity(this->window(), index.row());
 }
 
