@@ -1,5 +1,7 @@
 #include "dlguniteditor.h"
 #include "ui_dlguniteditor.h"
+#include "models/unit.h"
+
 
 dlgUnitEditor::dlgUnitEditor(UnitsModel *model, int selectedEntity, QWidget *parent) :
     QDialog(parent),
@@ -7,12 +9,11 @@ dlgUnitEditor::dlgUnitEditor(UnitsModel *model, int selectedEntity, QWidget *par
 {
     _model = model;
     ui->setupUi(this);
-    _mapper = new QDataWidgetMapper(this);
-    _mapper->setModel(_model);
-    _mapper->addMapping(ui->txtNombre, model->columnIndex("Nombre"));
-    _mapper->addMapping(ui->txtDescripcion, model->columnIndex("Descripción"));
-    _mapper->setCurrentIndex(selectedEntity);
-    _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+
+    _entity = model->getItemByRowid(selectedEntity);
+    UnitPtr unit = qSharedPointerDynamicCast<Unit>(_entity);
+    ui->txtNombre->setText(unit->name());
+    ui->txtDescripcion->setText(unit->description());
 }
 
 dlgUnitEditor::~dlgUnitEditor()
@@ -22,6 +23,9 @@ dlgUnitEditor::~dlgUnitEditor()
 
 void dlgUnitEditor::on_buttonBox_accepted()
 {
-    _mapper->submit();
+    UnitPtr unit = qSharedPointerDynamicCast<Unit>(_entity);
+    unit->setName(ui->txtNombre->text());
+    unit->setDescripcion(ui->txtDescripcion->text());
+
     close();
 }

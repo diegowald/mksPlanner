@@ -87,7 +87,7 @@ QString Unit::toDebugString()
 
 void Unit::setName(const QString &value)
 {
-    _name = name();
+    _name = value;
     updateStatus();
 }
 

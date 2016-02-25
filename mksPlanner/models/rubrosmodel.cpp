@@ -19,43 +19,6 @@ void RubrosModel::defineColumnNames()
     setField(3, "Contiene tareas");
 }
 
-/*QVariant RubrosModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role == Qt::DisplayRole)
-    {
-        if (orientation == Qt::Horizontal)
-        {
-            switch (section)
-            {
-            case 0:
-            {
-                return QString("id");
-                break;
-            }
-            case 1:
-            {
-                return QString("Nombre");
-                break;
-            }
-            case 2:
-            {
-                return QString("Descripción");
-                break;
-            }
-            case 3:
-            {
-                return QString("Contiene tareas");
-                break;
-            }
-            default:
-                break;
-            }
-        }
-        return section;
-    }
-    return QAbstractItemModel::headerData(section, orientation, role);
-}*/
-
 QVariant RubrosModel::modelData(EntityBasePtr entity, int column, int role) const
 {
     RubroPtr r = qSharedPointerDynamicCast<Rubro>(entity);

@@ -16,38 +16,6 @@ void UnitsModel::defineColumnNames()
     setField(2, "Descripción");
 }
 
-/*QVariant UnitsModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role == Qt::DisplayRole)
-    {
-        if (orientation == Qt::Horizontal)
-        {
-            switch (section)
-            {
-            case 0:
-            {
-                return QString("id");
-                break;
-            }
-            case 1:
-            {
-                return QString("Nombre");
-                break;
-            }
-            case 2:
-            {
-                return QString("Descripción");
-                break;
-            }
-            default:
-                break;
-            }
-        }
-        return section;
-    }
-    return QAbstractItemModel::headerData(section, orientation, role);
-}*/
-
 QVariant UnitsModel::modelData(EntityBasePtr entity, int column, int role) const
 {
     UnitPtr unit = qSharedPointerDynamicCast<Unit>(entity);
@@ -94,7 +62,6 @@ bool UnitsModel::modelSetData(EntityBasePtr entity, int column, const QVariant &
         result = false;
         break;
     }
-
     return result;
 }
 

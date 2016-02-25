@@ -3,7 +3,6 @@
 
 #include <QDialog>
 
-#include <QDataWidgetMapper>
 #include "models/unitsmodel.h"
 
 namespace Ui {
@@ -24,7 +23,7 @@ private slots:
 private:
     Ui::dlgUnitEditor *ui;
     UnitsModel *_model;
-    QDataWidgetMapper *_mapper;
+    EntityBasePtr _entity;
 };
 
 #endif // DLGUNITEDITOR_H

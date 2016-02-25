@@ -43,10 +43,11 @@ QVariant ModelBase::data(const int id, const int column, int role) const
 
 bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    bool result = false;
     if (role == Qt::EditRole)
     {
         EntityBasePtr entity = _entities[_entityMapping.at(index.row())];
-        bool result = modelSetData(entity, index.column(), value, role);
+        result = modelSetData(entity, index.column(), value, role);
         if (result)
         {
             QModelIndex index0 = createIndex(index.row(), 0);
@@ -54,7 +55,7 @@ bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int rol
             emit dataChanged(index0, index1);
         }
     }
-    return true;
+    return result;
 }
 
 Qt::ItemFlags ModelBase::flags(const QModelIndex &index) const
