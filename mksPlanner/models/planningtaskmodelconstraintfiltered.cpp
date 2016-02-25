@@ -7,6 +7,10 @@ PlanningTaskModelConstraintFiltered::PlanningTaskModelConstraintFiltered(int idP
     _idProyecto = idProyecto;
     _idTask = idTask;
     _model = model;
+    setField(1, "idTask1");
+    setField(2, "idTask2");
+    setField(3, "Type");
+    setField(4, "RelationType");
     extractIds();
 }
 
@@ -16,7 +20,7 @@ void PlanningTaskModelConstraintFiltered::extractIds()
     QList<int> idsToProcess = _model->ids().toList();
     foreach (int id, idsToProcess)
     {
-        PlanningTaskConstraintPtr pt = qSharedPointerDynamicCast<PlanningTaskConstraint>(getItem(id));
+        PlanningTaskConstraintPtr pt = qSharedPointerDynamicCast<PlanningTaskConstraint>(_model->getItem(id));
         if (pt->idTask1() == _idTask)
         {
             _ids.append(id);
@@ -31,29 +35,36 @@ int PlanningTaskModelConstraintFiltered::rowCount(const QModelIndex &parent) con
 
 QVariant PlanningTaskModelConstraintFiltered::data(const QModelIndex &index, int role) const
 {
-    int id = _ids.at(index.row());
-    EntityBasePtr entity = _model->getItem(id);
-    PlanningTaskConstraintPtr pt =
-            qSharedPointerDynamicCast<PlanningTaskConstraint>(entity);
+    if (!index.isValid())
+        return QVariant();
     QVariant res;
-    switch (index.column())
+    if (role == Qt::DisplayRole)
     {
-    case 1:
-        res = pt->idTask1();
-        break;
-    case 2:
-        res = pt->idTask2();
-        break;
-    case 3:
-        res = pt->Type();
-        break;
-    case 4:
-        res = pt->RelationType();
-        break;
-    default:
-        res = QVariant();
-        break;
+        int id = _ids.at(index.row());
+        EntityBasePtr entity = _model->getItem(id);
+        PlanningTaskConstraintPtr pt =
+                qSharedPointerDynamicCast<PlanningTaskConstraint>(entity);
+
+        switch (index.column())
+        {
+        case 1:
+            res = pt->idTask1();
+            break;
+        case 2:
+            res = pt->idTask2();
+            break;
+        case 3:
+            res = pt->Type();
+            break;
+        case 4:
+            res = pt->RelationType();
+            break;
+        default:
+            res = QVariant();
+            break;
+        }
     }
+    return res;
 }
 
 int PlanningTaskModelConstraintFiltered::columnCount(const QModelIndex &parent) const
