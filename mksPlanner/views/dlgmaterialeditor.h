@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include "models/materialesbasemodel.h"
-#include <QDataWidgetMapper>
 
 
 namespace Ui {
@@ -24,8 +23,7 @@ private slots:
 private:
     Ui::dlgMaterialEditor *ui;
     MaterialesBaseModel *_model;
-    QDataWidgetMapper *_mapper;
-    int _selectedRow;
+    EntityBasePtr _entity;
 };
 
 #endif // DLGMATERIALEDITOR_H

@@ -4,6 +4,8 @@
 #include "models/proyectomodel.h"
 #include "globalcontainer.h"
 #include "models/planningtask.h"
+#include "models/proyecto.h"
+
 
 ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent) :
     QMainWindow(parent),
@@ -28,7 +30,6 @@ void ProjectWindow::setModel(ModelBase* model)
     {
         _mapper->deleteLater();
     }
-
 
     _mapper = new QDataWidgetMapper(this);
     _mapper->setModel(model);

@@ -2,7 +2,6 @@
 #define DLGEDITPLANNINGTASK_H
 
 #include <QDialog>
-#include <QDataWidgetMapper>
 #include "models/planningtaskmodel.h"
 #include "models/materialfiltermodel.h"
 #include "models/proveedorbyrubrofiltermodel.h"

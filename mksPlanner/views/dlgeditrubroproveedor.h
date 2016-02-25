@@ -27,9 +27,3 @@ private:
 
 #endif // DLGEDITRUBROPROVEEDOR_H
 
-/*
-
-#include <QDialog>
-#include <QDataWidgetMapper>
-#endif // DLGTASKPROVEEDOREDIT_H
-*/

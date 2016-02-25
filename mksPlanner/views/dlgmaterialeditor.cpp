@@ -24,13 +24,14 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
     ui->cboRubro->setModelColumn(1);
 
     _model = model;
-    _mapper = new QDataWidgetMapper(this);
-    _mapper->setModel(_model);
-    _mapper->addMapping(ui->txtName, model->columnIndex("Nombre"));
-    _mapper->addMapping(ui->txtDescription, model->columnIndex("Descripción"));
 
-    EntityBasePtr entity = model->getItemByRowid(row);
-    MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);
+
+    _entity = model->getItemByRowid(row);
+    MaterialPtr material = qSharedPointerDynamicCast<Material>(_entity);
+
+    ui->txtName->setText(material->name());
+    ui->txtDescription->setText(material->description());
+
     if (material->isTask())
     {
         setWindowTitle("Editar Tarea");
@@ -51,13 +52,10 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
         ui->cboRubro->setCurrentIndex(ui->cboRubro->findText(rubro->name()));
     }
 
-    _mapper->setCurrentIndex(row);
-    _mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-    _selectedRow = row;
 
     TableWindow *t = new TableWindow("", this);
-    entity = _model->getItemByRowid(row);
-    dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales))->setIdMaterialPadre(entity->id());
+    _entity = _model->getItemByRowid(row);
+    dynamic_cast<ComponentesMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales))->setIdMaterialPadre(_entity->id());
     t->setModel(GlobalContainer::instance().library()->model(Tables::ComponentesMateriales));
     t->hideColumn(1);
     t->hideColumn(2);
@@ -75,12 +73,11 @@ void dlgMaterialEditor::on_buttonBox_accepted()
     qDebug() << ui->cboUnit->currentIndex();
     qDebug() << ui->cboUnit->currentText();*/
 
+    MaterialPtr material = qSharedPointerDynamicCast<Material>(_entity);
     EntityBasePtr entity = GlobalContainer::instance().library()->model(Tables::Unidades)->getItemByRowid(ui->cboUnit->currentIndex());
     if (!entity.isNull())
     {
         UnitPtr unit = qSharedPointerDynamicCast<Unit>(entity);
-        entity = _model->getItemByRowid(_selectedRow);
-        MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);
         material->setUnit(unit->id());
     }
 
@@ -88,11 +85,11 @@ void dlgMaterialEditor::on_buttonBox_accepted()
     if (!entity.isNull())
     {
         RubroPtr rubro = qSharedPointerDynamicCast<Rubro>(entity);
-        entity = _model->getItemByRowid(_selectedRow);
-        MaterialPtr material = qSharedPointerDynamicCast<Material>(entity);
         material->setRubro(rubro->id());
     }
 
-    _mapper->submit();
+    material->setName(ui->txtName->text());
+    material->setDescription(ui->txtDescription->text());
+
     close();
 }

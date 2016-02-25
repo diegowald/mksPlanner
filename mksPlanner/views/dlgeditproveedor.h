@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include "models/proveedoresmodel.h"
-#include <QDataWidgetMapper>
 
 namespace Ui {
 class dlgEditProveedor;
@@ -23,7 +22,7 @@ private slots:
 private:
     Ui::dlgEditProveedor *ui;
     ProveedoresModel *_model;
-    QDataWidgetMapper *_mapper;
+    EntityBasePtr _entity;
 };
 
 
