@@ -34,9 +34,12 @@ void PlanningTaskModel::Node::addChild(Node *node)
 PlanningTaskModel::Node::~Node()
 {
     while (!_children.isEmpty())
-        delete _children.front();
-
-    if (_parent) _parent->removeChild(this);
+    {
+        PlanningTaskModel::Node *node = _children.front();
+        delete node;
+        _children.pop_front();
+    }
+    //if (_parent) _parent->removeChild(this);
 }
 
 void PlanningTaskModel::Node::insertChild( int i, Node* node)
@@ -67,9 +70,14 @@ bool PlanningTaskModel::Node::createChild(EntityBasePtr entity)
 
 void PlanningTaskModel::Node::removeChild( Node* node)
 {
+/*    _children.removeAt(_children.indexOf(node));
+
     node->setParent(0);
-    _children.removeAll(node);
-    _entity->deleteEntity();
+    node->_children.removeAll(node);*/
+    if (!node->entity().isNull())
+        node->_entity->deleteEntity();
+    _children.removeOne(node);
+    delete node;
 }
 
 PlanningTaskModel::Node* PlanningTaskModel::Node::parent() const

@@ -87,8 +87,11 @@ QModelIndex PlanningTaskModelAdapter::parent(const QModelIndex& child ) const
 
     PlanningTaskModel::Node* n = static_cast<PlanningTaskModel::Node*>(child.internalPointer());
     assert(n);
+    if (n == _model->root())
+        return QModelIndex();
 
     PlanningTaskModel::Node* p = n->parent();
+    assert(p);
 
     if (p == _model->root())
         return QModelIndex();
@@ -384,6 +387,18 @@ bool PlanningTaskModelAdapter::insertRows( int row, int count, const QModelIndex
     return canCreate;
 }
 
+bool PlanningTaskModelAdapter::removeRow(int row, const QModelIndex &parent)
+{
+    beginRemoveRows(parent, row, row);
+    PlanningTaskModel::Node *parentNode = _model->root();
+    if (parent.isValid())
+    {
+        parentNode = static_cast<PlanningTaskModel::Node*>(parent.internalPointer());
+    }
+    parentNode->removeChild(parentNode->child(row));
+    endRemoveRows();
+}
+
 Qt::ItemFlags PlanningTaskModelAdapter::flags( const QModelIndex& idx) const
 {
     return QAbstractItemModel::flags( idx ) | Qt::ItemIsEditable;
@@ -408,9 +423,10 @@ void PlanningTaskModelAdapter::editEntity(QModelIndex index)
     }
 }
 
-void PlanningTaskModelAdapter::removeEntity(QWidget *parent, int row)
+void PlanningTaskModelAdapter::removeEntity(QWidget *parent, QModelIndex &index)
 {
-    removeEntity(parent, row);
+    removeRow(index.row(), index.parent());
+    //_model->removeEntity(parent, index);
 }
 
 bool PlanningTaskModelAdapter::canCreateEntity() const

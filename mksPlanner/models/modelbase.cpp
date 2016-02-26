@@ -148,12 +148,12 @@ EntityBasePtr ModelBase::createEntity()
     }
 }
 
-void ModelBase::removeEntity(QWidget *parent, int row)
+void ModelBase::removeEntity(QWidget *parent, QModelIndex &index)
 {
-    EntityBasePtr entity = getItemByRowid(row);
+    EntityBasePtr entity = getItemByRowid(index.row());
     if (QMessageBox::question(parent, "Confirmar borrar elemento", "Desea borrar el elemento?", QMessageBox::StandardButton::Yes, QMessageBox::No) == QMessageBox::Yes)
     {
-        removeRow(row, QModelIndex());
+        removeRow(index.row(), index.parent());
     }
 }
 

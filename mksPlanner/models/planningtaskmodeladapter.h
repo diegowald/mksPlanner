@@ -24,12 +24,13 @@ public:
                             int role = Qt::DisplayRole );
 
     /*reimp*/ bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
+    bool removeRow(int row, const QModelIndex &parent);
 
     /*reimp*/ Qt::ItemFlags flags(const QModelIndex& idx) const;
 
     virtual void editEntity(int row);
     virtual void editEntity(QModelIndex index);
-    void removeEntity(QWidget *parent, int row);
+    void removeEntity(QWidget *parent, QModelIndex& index);
     bool canCreateEntity() const;
 
     EntityBasePtr itemByRowId(int row);

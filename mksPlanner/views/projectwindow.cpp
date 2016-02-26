@@ -138,7 +138,7 @@ void ProjectWindow::on_actionEdit_Task_triggered()
 void ProjectWindow::on_actionRemove_Task_triggered()
 {
     QModelIndex index = ui->planningView->selectionModel()->currentIndex();
-    _planningModel->removeEntity(this->window(), index.row());
+    _planningModel->removeEntity(window(), index);
 }
 
 void ProjectWindow::on_actionGuardar_cambios_triggered()

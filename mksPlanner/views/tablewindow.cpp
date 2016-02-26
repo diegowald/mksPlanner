@@ -61,8 +61,7 @@ void TableWindow::on_actionEdit_triggered()
 void TableWindow::on_actionRemove_triggered()
 {
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
-    //_model->removeRow(index.row(), index.parent());
-    _model->removeEntity(this->window(), index.row());
+    _model->removeEntity(window(), index);
 }
 
 void TableWindow::hideColumn(int idColumn)
@@ -75,7 +74,7 @@ void TableWindow::setInPlaceEditable(bool value)
     _inPlaceEdit = value;
 }
 
-void TableWindow::on_modelChanged(Tables table)
+void TableWindow::on_modelChanged(Tables /*table*/)
 {
     ui->actionCreate->setEnabled(_model->canCreateEntity());
 }
