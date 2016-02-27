@@ -1,6 +1,8 @@
 #include "planningtaskmodelconstraintfiltered.h"
 #include <QSet>
 #include "models/planningtaskconstraint.h"
+#include "globalcontainer.h"
+#include "models/planningtask.h"
 
 PlanningTaskModelConstraintFiltered::PlanningTaskModelConstraintFiltered(int idProyecto, int idTask, PlanningTaskModelConstraint *model, QObject *parent) : ModelBase(Tables::PlanningTasksConstraints, "", false, "", parent)
 {
@@ -11,6 +13,7 @@ PlanningTaskModelConstraintFiltered::PlanningTaskModelConstraintFiltered(int idP
     setField(2, "idTask2");
     setField(3, "Type");
     setField(4, "RelationType");
+    setField(5, "Restricción");
     extractIds();
 }
 
@@ -59,6 +62,63 @@ QVariant PlanningTaskModelConstraintFiltered::data(const QModelIndex &index, int
         case 4:
             res = pt->RelationType();
             break;
+        case 5:
+        {
+
+            if ((pt->idTask1() != -1) && (pt->idTask2() != -1))
+            {
+                QString s;
+                switch (pt->RelationType())
+                {
+                case 0:
+                    s = "Termina %1 y comienza %2";
+                    break;
+                case 1:
+                    s = "Termina %1 y Termina %2";
+                    break;
+                case 2:
+                    s = "Comienza %1 y Comienza %2";
+                    break;
+                case 3:
+                    s = "Comienza %1 y Termina %2";
+                    break;
+                default:
+                    break;
+                }
+                QString tipo;
+                switch (pt->Type())
+                {
+                case 0:
+                    tipo = "Soft";
+                    break;
+                case 1:
+                    tipo = "Hard";
+                    break;
+                default:
+                    tipo = "";
+                    break;
+                }
+
+                EntityBasePtr et1 = GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::PlanningTasks)->getItem(pt->idTask1());
+                PlanningTaskPtr pt1 = qSharedPointerDynamicCast<PlanningTask>(et1);
+                res = pt1->name();
+                EntityBasePtr et2 = GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::PlanningTasks)->getItem(pt->idTask2());
+                PlanningTaskPtr pt2 = qSharedPointerDynamicCast<PlanningTask>(et2);
+
+                if (!s.isEmpty() && !tipo.isEmpty())
+                    s += " - %3";
+                return s.arg(pt1->name()).arg(pt2->name()).arg(tipo);
+            }
+            break;
+        }
+        case 7:
+        {
+            break;
+        }
+        case 8:
+        {
+            break;
+        }
         default:
             res = QVariant();
             break;
@@ -67,10 +127,6 @@ QVariant PlanningTaskModelConstraintFiltered::data(const QModelIndex &index, int
     return res;
 }
 
-int PlanningTaskModelConstraintFiltered::columnCount(const QModelIndex &parent) const
-{
-    return _model->columnCount();
-}
 
 EntityBasePtr PlanningTaskModelConstraintFiltered::getItemByRowid(int row)
 {
@@ -84,7 +140,7 @@ EntityBasePtr PlanningTaskModelConstraintFiltered::internalCreateEntity(int assi
     QModelIndex index;
 
     /*if (!*/_model->insertRow(rowCount, index.parent());
-        /*return;*/
+    /*return;*/
 
     EntityBasePtr entity = _model->getItemByRowid(rowCount);
     qSharedPointerDynamicCast<PlanningTaskConstraint>(entity)->setIdTask1(_idTask);

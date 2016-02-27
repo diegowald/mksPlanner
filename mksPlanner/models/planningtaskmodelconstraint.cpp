@@ -3,6 +3,7 @@
 #include "views/dlgeditplanningtaskconstraint.h"
 
 
+
 PlanningTaskModelConstraint::PlanningTaskModelConstraint(int idProyecto, QObject *parent) :
     ModelBase(Tables::PlanningTasksConstraints, "tasksConstraints", false, "proyectos", parent)
 
@@ -20,10 +21,10 @@ QString PlanningTaskModelConstraint::_getSQLRead() const
 int PlanningTaskModelConstraint::_loadEntity(QSqlRecord record)
 {
     int id = record.value(record.indexOf("id")).toInt();
-    int idTask1 = record.value(record.indexOf(":idTask1")).toInt();
-    int idTask2 = record.value(record.indexOf(":idTask2")).toInt();
-    int type = record.value(record.indexOf(":type")).toInt();
-    int relationType = record.value(record.indexOf(":relationType")).toInt();
+    int idTask1 = record.value(record.indexOf("idTask1")).toInt();
+    int idTask2 = record.value(record.indexOf("idTask2")).toInt();
+    int type = record.value(record.indexOf("type")).toInt();
+    int relationType = record.value(record.indexOf("relationType")).toInt();
     EntityBasePtr entity = PlanningTaskConstraintPtr::create(id, idTask1, idTask2, type, relationType);
     addEntity(entity);
     return id;
@@ -64,6 +65,7 @@ QVariant PlanningTaskModelConstraint::modelData(EntityBasePtr entity, int column
     case 4:
         res = pt->RelationType();
         break;
+
     default:
         res = QVariant();
         break;

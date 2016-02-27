@@ -17,10 +17,10 @@ DlgEditPlanningTaskConstraint::DlgEditPlanningTaskConstraint(PlanningTaskConstra
     ui->cboTipo->addItem("Soft", 0);
     ui->cboTipo->addItem("Hard", 1);
 
-    ui->cboRelationType->addItem("Termina y comienza", 0);
-    ui->cboRelationType->addItem("Termina y Termina", 1);
-    ui->cboRelationType->addItem("Comienza y Comienza", 2);
-    ui->cboRelationType->addItem("Comienza y Termina", 3);
+    ui->cboRelationType->addItem("Termina T1 y comienza T2", 0);
+    ui->cboRelationType->addItem("Termina T1 y Termina T2", 1);
+    ui->cboRelationType->addItem("Comienza T1 y Comienza T2", 2);
+    ui->cboRelationType->addItem("Comienza T1 y Termina T2", 3);
 
     ui->lblTareaOrigen->clear();
     PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(GlobalContainer::instance().projectLibrary(idProyecto)->model(Tables::PlanningTasks)->getItem(constraint->idTask1()));

@@ -8,6 +8,7 @@ PlanningTaskModelConstraintAdapter::PlanningTaskModelConstraintAdapter(PlanningT
     _planningModel = planningModel;
     _model = constraintModel;
     connect(_model, &ModelBase::dataChanged, this, &PlanningTaskModelConstraintAdapter::on_dataChanged);
+    createConstraints();
 }
 
 void PlanningTaskModelConstraintAdapter::createConstraints()

@@ -62,7 +62,9 @@ DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, EntityBasePtr
     _constraintsFiltered = new PlanningTaskModelConstraintFiltered(_model->idProyecto(), entity->id(), mc);
     t->setModel(_constraintsFiltered);
     t->hideColumn(1);
-    //t->hideColumn(2);
+    t->hideColumn(2);
+    t->hideColumn(3);
+    t->hideColumn(4);
     ui->frame->layout()->addWidget(t->window());
 
 }

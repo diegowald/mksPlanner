@@ -53,14 +53,19 @@ QModelIndex PlanningTaskModelAdapter::index(int idTask)
 QModelIndex PlanningTaskModelAdapter::createIndex(int idTask, PlanningTaskModel::Node *node)
 {
     PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(node->entity());
+    qDebug() << idTask;
+    if (!pt.isNull())
+        qDebug() << pt->id();
     if ((node != _model->root()) && (pt->id() == idTask))
     {
         if (node == _model->root())
         {
+            qDebug() << "1";
             return QAbstractItemModel::createIndex(0, 0, node);
         }
         else
         {
+            qDebug() << "2";
             return QAbstractItemModel::createIndex(node->parent()->childNumber(node), 0, this);
         }
     }
@@ -72,10 +77,12 @@ QModelIndex PlanningTaskModelAdapter::createIndex(int idTask, PlanningTaskModel:
             QModelIndex idx = createIndex(idTask, n);
             if (idx.isValid())
             {
+                qDebug() << "3";
                 return idx;
             }
         }
     }
+    qDebug() << "4";
     return QModelIndex();
 }
 
