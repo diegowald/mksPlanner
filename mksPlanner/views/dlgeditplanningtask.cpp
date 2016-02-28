@@ -82,7 +82,8 @@ void DlgEditPlanningTask::on_buttonBox_accepted()
     ProveedorPtr prov = qSharedPointerDynamicCast<Proveedor>(GlobalContainer::instance().library()->model(Tables::Proveedores)->getItemByRowid(ui->cboProveedor->currentIndex()));
     p->setIdProveedor(prov.isNull() ? -1 : prov->id());
 
-    MaterialPtr mat = qSharedPointerDynamicCast<Material>(GlobalContainer::instance().library()->model(Tables::Tareas)->getItemByRowid(ui->cboTarea->currentIndex()));
+    MaterialPtr mat = qSharedPointerDynamicCast<Material>(_materialFilterModel->getItemByRowid(ui->cboTarea->currentIndex()));
+//                GlobalContainer::instance().library()->model(Tables::Tareas)->getItemByRowid(ui->cboTarea->currentIndex()));
     p->setIdMaterialTask(mat.isNull() ? -1 : mat->id());
 
     QDateTime dt = ui->dateFechaEstimadaInicio->dateTime();

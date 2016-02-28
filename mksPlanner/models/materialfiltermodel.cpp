@@ -7,6 +7,8 @@ MaterialFilterModel::MaterialFilterModel(ModelBase *model, bool filterByTask, QO
 {
     _model = model;
     _filterByTask = filterByTask;
+    connect(model, &ModelBase::rowsInserted, this, &MaterialFilterModel::on_rowsInserted);
+    connect(model, &ModelBase::rowsRemoved, this, &MaterialFilterModel::on_rowsRemoved);
     classify();
 }
 
@@ -56,4 +58,15 @@ EntityBasePtr MaterialFilterModel::getItemByRowid(int row)
     EntityBasePtr entity = _model->getItem(id);
     //qDebug() << "entity: " << entity->toDebugString();
     return entity;
+}
+
+void MaterialFilterModel::on_rowsInserted(const QModelIndex &parent, int first, int last)
+{
+    classify();
+}
+
+
+void MaterialFilterModel::on_rowsRemoved(const QModelIndex &parent, int first, int last)
+{
+    classify();
 }

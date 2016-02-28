@@ -16,7 +16,9 @@ public:
     virtual int columnCount(const QModelIndex &parent) const;
 
     virtual EntityBasePtr getItemByRowid(int row);
-public slots:
+private slots:
+    void on_rowsInserted(const QModelIndex &parent, int first, int last);
+    void on_rowsRemoved(const QModelIndex &parent, int first, int last);
 
 signals:
 
