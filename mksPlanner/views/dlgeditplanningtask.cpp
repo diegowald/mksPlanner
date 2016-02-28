@@ -4,7 +4,6 @@
 #include "models/planningtask.h"
 #include "models/proveedor.h"
 #include "models/material.h"
-#include <QDebug>
 #include "views/tablewindow.h"
 #include "models/planningtaskmodelconstraint.h"
 

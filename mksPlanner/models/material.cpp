@@ -6,7 +6,6 @@
 #include <QSet>
 #include "models/componentesmateriales.h"
 #include "models/rubro.h"
-#include <QDebug>
 #include "models/componentematerial.h"
 
 
@@ -123,7 +122,6 @@ QSqlQuery* Material::getQuery(QSqlDatabase &database)
         query->bindValue(":idUnit", _idUnit);
         query->bindValue(":idRubro", _idRubro);
         query->bindValue(":id", id());
-        qDebug() << id();
         break;
     }
     case EntityStatus::unchanged:

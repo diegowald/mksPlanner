@@ -4,7 +4,6 @@
 #include <QDebug>
 
 
-
 Updater::Updater(QObject *parent) : QObject(parent)
 {
 

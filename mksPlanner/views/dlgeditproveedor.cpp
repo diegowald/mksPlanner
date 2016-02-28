@@ -1,6 +1,5 @@
 #include "dlgeditproveedor.h"
 #include "ui_dlgeditproveedor.h"
-#include <QDebug>
 
 #include "globalcontainer.h"
 #include "persistance/materialslibrary.h"

@@ -3,7 +3,6 @@
 #include "views/dlgmaterialeditor.h"
 #include "models/unit.h"
 #include "models/rubro.h"
-#include <QDebug>
 #include "globalcontainer.h"
 
 MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent)

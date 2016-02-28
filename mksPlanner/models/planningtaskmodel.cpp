@@ -6,7 +6,6 @@
 #include "models/rubro.h"
 #include "models/proveedor.h"
 #include "views/dlgeditplanningtask.h"
-#include <QDebug>
 #include <KDGantt>
 #include <models/unit.h>
 #include "globalcontainer.h"

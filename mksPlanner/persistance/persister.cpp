@@ -1,8 +1,9 @@
 #include "persister.h"
 #include <QSqlQuery>
 #include <QMessageBox>
-#include <QDebug>
 #include <QSqlError>
+#include <QDebug>
+
 
 PersisterBase::PersisterBase()
 {

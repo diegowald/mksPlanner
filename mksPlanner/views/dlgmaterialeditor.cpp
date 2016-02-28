@@ -1,4 +1,3 @@
-#include <QDebug>
 #include "dlgmaterialeditor.h"
 #include "ui_dlgmaterialeditor.h"
 #include "globalcontainer.h"

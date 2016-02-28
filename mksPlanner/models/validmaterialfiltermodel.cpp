@@ -2,7 +2,6 @@
 #include "models/componentematerial.h"
 #include "models/material.h"
 #include <QSet>
-#include <QDebug>
 
 ValidMaterialFilterModel::ValidMaterialFilterModel(int idMaterial, ModelBase *model, QObject *parent) : QAbstractTableModel(parent)
 {

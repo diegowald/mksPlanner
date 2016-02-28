@@ -8,8 +8,6 @@
 #include "models/material.h"
 #include "models/unit.h"
 
-#include <QDebug>
-
 dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMaterialesModel *model, int row, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::dlgComponenteMaterial)

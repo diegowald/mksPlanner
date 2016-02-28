@@ -1,5 +1,4 @@
 #include "modelbase.h"
-#include <QDebug>
 #include "globalcontainer.h"
 #include <QMessageBox>
 #include <QAbstractTableModel>

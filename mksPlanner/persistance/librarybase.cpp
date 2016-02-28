@@ -1,6 +1,6 @@
 #include "librarybase.h"
-#include <QDebug>
 #include <QSqlError>
+#include <QDebug>
 
 LibraryBase::LibraryBase(QObject *parent) : QObject(parent)
 {
