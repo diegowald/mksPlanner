@@ -14,7 +14,6 @@ enum class Tables {
     Unidades,
     Materiales,
     ComponentesMateriales,
-    Tareas,
     Proveedores,
     Rubros,
     Proyectos,

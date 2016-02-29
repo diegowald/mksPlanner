@@ -24,7 +24,7 @@ DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, EntityBasePtr
     ui->txtNombre->setText(p->name());
     ui->txtCantidad->setText(QString::number(p->cantidad()));
 
-    ModelBase *m = GlobalContainer::instance().library()->model(Tables::Tareas);
+    ModelBase *m = GlobalContainer::instance().library()->model(Tables::Materiales);
     _materialFilterModel = new MaterialFilterModel(m, true, this);
     ui->cboTarea->setModel(_materialFilterModel);
     ui->cboTarea->setModelColumn(m->columnIndex("Nombre"));
@@ -82,7 +82,6 @@ void DlgEditPlanningTask::on_buttonBox_accepted()
     p->setIdProveedor(prov.isNull() ? -1 : prov->id());
 
     MaterialPtr mat = qSharedPointerDynamicCast<Material>(_materialFilterModel->getItemByRowid(ui->cboTarea->currentIndex()));
-//                GlobalContainer::instance().library()->model(Tables::Tareas)->getItemByRowid(ui->cboTarea->currentIndex()));
     p->setIdMaterialTask(mat.isNull() ? -1 : mat->id());
 
     QDateTime dt = ui->dateFechaEstimadaInicio->dateTime();
@@ -101,7 +100,7 @@ void DlgEditPlanningTask::on_buttonBox_accepted()
 int DlgEditPlanningTask::idRubroMaterialSeleccionado()
 {
     qDebug() << ui->cboTarea->currentIndex();
-    MaterialPtr mat = qSharedPointerDynamicCast<Material>(GlobalContainer::instance().library()->model(Tables::Tareas)->getItemByRowid(ui->cboTarea->currentIndex()));
+    MaterialPtr mat = qSharedPointerDynamicCast<Material>(GlobalContainer::instance().library()->model(Tables::Materiales)->getItemByRowid(ui->cboTarea->currentIndex()));
     return mat.isNull() ? -1 : mat->idRubro();
 }
 

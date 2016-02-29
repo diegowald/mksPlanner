@@ -34,8 +34,6 @@ private slots:
 
     void on_actionVer_Biblioteca_triggered();
 
-    void on_actionTareas_triggered();
-
     void on_actionListado_triggered();
 
     void on_actionNuevo_triggered();

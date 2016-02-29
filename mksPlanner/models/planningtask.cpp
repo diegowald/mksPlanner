@@ -1,6 +1,5 @@
 #include "planningtask.h"
 #include "globalcontainer.h"
-#include "models/tasksmodel.h"
 #include "models/costomaterial.h"
 #include "models/costomaterialesmodel.h"
 #include "globalcontainer.h"
@@ -61,7 +60,7 @@ int PlanningTask::idMaterialTask() const
 
 EntityBasePtr PlanningTask::materialTask() const
 {
-    return GlobalContainer::instance().library()->model(Tables::Tareas)->getItem(_idMaterialTask);
+    return GlobalContainer::instance().library()->model(Tables::Materiales)->getItem(_idMaterialTask);
 }
 
 int PlanningTask::idProveedor() const

@@ -33,7 +33,6 @@ SOURCES += main.cpp\
     views/dlgcomponentematerial.cpp \
     models/materialesbasemodel.cpp \
     models/materialesmodel.cpp \
-    models/tasksmodel.cpp \
     models/proveedoresmodel.cpp \
     models/proveedor.cpp \
     views/dlgeditproveedor.cpp \
@@ -86,7 +85,6 @@ HEADERS  += mainwindow.h \
     views/dlgcomponentematerial.h \
     models/materialesbasemodel.h \
     models/materialesmodel.h \
-    models/tasksmodel.h \
     models/proveedoresmodel.h \
     models/proveedor.h \
     views/dlgeditproveedor.h \

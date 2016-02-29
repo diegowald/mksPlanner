@@ -98,15 +98,6 @@ void MainWindow::on_actionVer_Biblioteca_triggered()
         createSubWindow("Biblioteca de Materiales", frm);
     }
 }
-void MainWindow::on_actionTareas_triggered()
-{
-    if (!showSubWindow("Tareas"))
-    {
-        TableWindow *frm = new TableWindow("Tareas");
-        frm->setModel(GlobalContainer::instance().library()->model(Tables::Tareas));
-        createSubWindow("Tareas", frm);
-    }
-}
 
 void MainWindow::on_actionListado_triggered()
 {
