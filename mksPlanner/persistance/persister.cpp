@@ -44,6 +44,7 @@ void PersisterBase::save(const QString &filename)
     {
         qDebug() << query->executedQuery();
         qDebug() << query->boundValues();
+        qDebug() << query->boundValues().count();
         if (!query->exec())
         {
             qDebug() << query->lastError().databaseText();

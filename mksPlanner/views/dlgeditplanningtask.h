@@ -26,6 +26,8 @@ private slots:
 
     void on_cboTarea_currentIndexChanged(int index);
 
+    void on_cboTaskType_currentIndexChanged(int index);
+
 private:
     int idRubroMaterialSeleccionado();
     void fillTaskTypes();

@@ -200,8 +200,9 @@ int ProyectoModel::_loadEntity(QSqlRecord record)
     QString telefono = record.value(record.indexOf("telefono")).toString();
     QDate fechaEstimadaInicio = record.value(record.indexOf("fechaEstimadaInicio")).toDate();
     QDate fechaEstimadaFin = record.value(record.indexOf("fechaEstimadaFinalizacion")).toDate();
+    Proyecto::ProjectStatus status = static_cast<Proyecto::ProjectStatus>(record.value(record.indexOf("status")).toInt());
 
-    EntityBasePtr entity = ProyectoPtr::create(id, propietario, direccion, email, telefono, fechaEstimadaInicio, fechaEstimadaFin);
+    EntityBasePtr entity = ProyectoPtr::create(id, propietario, direccion, email, telefono, fechaEstimadaInicio, fechaEstimadaFin, status);
     qSharedPointerDynamicCast<Proyecto>(entity)->setIdProyectoInterno(_idProyecto);
     addEntity(entity);
     return id;

@@ -15,6 +15,10 @@ ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget 
     setWindowTitle(windowTitle);
     _mapper = NULL;
     _idInterno = idInterno;
+    _model = NULL;
+    _planningModel = NULL;
+    _constraintModel = NULL;
+    _executionModel = NULL;
 }
 
 ProjectWindow::~ProjectWindow()
@@ -43,15 +47,14 @@ void ProjectWindow::setModel(ModelBase* model)
     _mapper->addMapping(ui->txtPlazo, model->columnIndex("Plazo"));
     _mapper->addMapping(ui->txtCosto, model->columnIndex("Costo"));
 
-
     _mapper->setCurrentIndex(0);
     _mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
 
+    updateBotonesEstados();
     ui->tabWidget->setCurrentIndex(1);
     ui->tabWidget->setCurrentIndex(0);
     /* temporal es para ocultar los tabs que aun no han sido desarrollados */
     ui->tabWidget->removeTab(4);
-    ui->tabWidget->removeTab(3);
 
     ui->lblFilename->setText(qobject_cast<ProyectoModel*>(model)->filename());
     connect(model, &ModelBase::changed, this, &ProjectWindow::on_modelChanged);
@@ -90,6 +93,36 @@ void ProjectWindow::setConstraintModel(ModelBase *model)
 //    KDGantt::Constraint c;
     //_constraintModel = model;
     ui->planningView->setConstraintModel(_constraintModel);
+}
+
+void ProjectWindow::setExecutionModel(ModelBase *model)
+{
+    _executionModel = new ExecutionTaskModelAdapter(qobject_cast<ExecutionTaskModel*>(model), this);
+    ui->executionView->setModel(_executionModel);
+    ui->executionView->setSelectionModel(new QItemSelectionModel(_executionModel));
+
+    ui->executionView->leftView()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui->executionView->graphicsView()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+    KDGantt::DateTimeGrid *grid = new KDGantt::DateTimeGrid();
+    grid->setDayWidth(35);
+    grid->setWeekStart(Qt::Sunday);
+    grid->setScale(KDGantt::DateTimeGrid::ScaleDay);
+
+    ui->executionView->setGrid(grid);
+
+    QTreeView *tv = qobject_cast<QTreeView*>(ui->executionView->leftView());
+
+    Q_ASSERT(tv);
+    tv->setColumnHidden(1, true);
+
+    connect(tv, &QTreeView::doubleClicked, this, &ProjectWindow::on_TreeViewExecution_doubleClicked);
+}
+
+void ProjectWindow::setExecutionConstraintModel(ModelBase *model)
+{
+    _execConstraintModel = new ExecutionTaskModelConstraintAdapter(_executionModel, model, this);
+    ui->executionView->setConstraintModel(_execConstraintModel);
 }
 
 void ProjectWindow::on_tabWidget_currentChanged(int index)
@@ -163,6 +196,11 @@ void ProjectWindow::on_TreeView_doubleClicked(const QModelIndex &index)
        _planningModel->editEntity(index);
 }
 
+void ProjectWindow::on_TreeViewExecution_doubleClicked(const QModelIndex &index)
+{
+    if (index.isValid())
+       _executionModel->editEntity(index);
+}
 
 void ProjectWindow::updateEstimacionMateriales()
 {
@@ -200,3 +238,70 @@ void ProjectWindow::updateEstimacionMateriales()
     }
 }
 
+
+void ProjectWindow::setIconResource(const QString &resourceName)
+{
+    QPixmap px;
+    px.load(resourceName);
+    QIcon icon(px);
+    setWindowIcon(icon);
+}
+
+
+void ProjectWindow::updateBotonesEstados()
+{
+    EntityBasePtr entity = _model->getItemByRowid(0);
+    ProyectoPtr proyecto = qSharedPointerDynamicCast<Proyecto>(entity);
+
+    ui->btnEjecucion->setVisible(false);
+    ui->btnFin->setVisible(false);
+    ui->btnPausa->setVisible(false);
+
+    switch (proyecto->projectStatus())
+    {
+    case Proyecto::ProjectStatus::Planificacion:
+        ui->lblEstadoActual->setText("Planificación");
+        ui->btnEjecucion->setVisible(true);
+        break;
+    case Proyecto::ProjectStatus::Ejecucion:
+        ui->lblEstadoActual->setText("Ejecución");
+        ui->btnFin->setVisible(true);
+        ui->btnPausa->setVisible(true);
+        break;
+    case Proyecto::ProjectStatus::Pausado:
+        ui->lblEstadoActual->setText("Pausa");
+        ui->btnEjecucion->setVisible(true);
+        break;
+    case Proyecto::ProjectStatus::Finalizado:
+        ui->lblEstadoActual->setText("Finalizado");
+        break;
+    default:
+        ui->lblEstadoActual->setText("");
+        break;
+    }
+}
+
+void ProjectWindow::on_btnEjecucion_released()
+{
+    EntityBasePtr entity = _model->getItemByRowid(0);
+    ProyectoPtr proyecto = qSharedPointerDynamicCast<Proyecto>(entity);
+    proyecto->setProjectStatus(Proyecto::ProjectStatus::Ejecucion);
+    updateBotonesEstados();
+}
+
+
+void ProjectWindow::on_btnPausa_released()
+{
+    EntityBasePtr entity = _model->getItemByRowid(0);
+    ProyectoPtr proyecto = qSharedPointerDynamicCast<Proyecto>(entity);
+    proyecto->setProjectStatus(Proyecto::ProjectStatus::Pausado);
+    updateBotonesEstados();
+}
+
+void ProjectWindow::on_btnFin_released()
+{
+    EntityBasePtr entity = _model->getItemByRowid(0);
+    ProyectoPtr proyecto = qSharedPointerDynamicCast<Proyecto>(entity);
+    proyecto->setProjectStatus(Proyecto::ProjectStatus::Finalizado);
+    updateBotonesEstados();
+}

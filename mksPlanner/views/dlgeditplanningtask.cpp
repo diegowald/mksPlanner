@@ -119,3 +119,25 @@ void DlgEditPlanningTask::fillTaskTypes()
     ui->cboTaskType->addItem("Resumen", KDGantt::TypeSummary);
     ui->cboTaskType->addItem("Multiple", KDGantt::TypeMulti);
 }
+
+void DlgEditPlanningTask::on_cboTaskType_currentIndexChanged(int index)
+{
+    bool enable = true;
+    switch (ui->cboTaskType->currentData(Qt::UserRole).toInt())
+    {
+    case KDGantt::TypeTask:
+        enable = true;
+        break;
+    case KDGantt::TypeEvent:
+    case KDGantt::TypeSummary:
+    case KDGantt::TypeMulti:
+    default:
+        enable = false;
+    }
+    ui->cboProveedor->setEnabled(enable);
+    ui->cboTarea->setEnabled(enable);
+    ui->txtCantidad->setEnabled(enable);
+    ui->dateFechaEstimadaFinalizacion->setEnabled(enable);
+    ui->dateFechaEstimadaInicio->setEnabled(enable);
+    ui->frame->setEnabled(enable);
+}

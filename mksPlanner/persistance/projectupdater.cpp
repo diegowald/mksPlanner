@@ -4,6 +4,7 @@
 ProjectUpdater::ProjectUpdater(QObject *parent) : Updater(parent)
 {
     scriptsVersion1();
+    scriptsVersion2();
 }
 
 void ProjectUpdater::scriptsVersion1()
@@ -47,4 +48,40 @@ void ProjectUpdater::scriptsVersion1()
                ");");
 
     addCommand(1, "INSERT into version (versionInfo) VALUES (1)");
+}
+
+
+void ProjectUpdater::scriptsVersion2()
+{
+    addCommand(2, "ALTER TABLE proyectos ADD COLUMN `status` INTEGER;");
+
+    addCommand(2, "UPDATE proyectos set status = 0;");
+
+    addCommand(2, "CREATE TABLE `tareasEjecucion` ("
+                  "    `id`	INTEGER NOT NULL UNIQUE,"
+                  "    `idTareaPadre`	INTEGER,"
+                  "    `name`	TEXT,"
+                  "    `idMaterialTask`	INTEGER,"
+                  "    `idProveedor`	INTEGER,"
+                  "    `cantidad`	REAL,"
+                  "    `fechaEstimadaInicio`	TEXT,"
+                  "    `fechaEstimadaFin`	TEXT,"
+                  "    `taskType`	INTEGER,"
+                  "    `pctAvance`	REAL,"
+                  "    `fechaRealInicio`	TEXT,"
+                  "    `fechaRealFin`	TEXT,"
+                  "    PRIMARY KEY(id)"
+                  ");");
+
+    addCommand(1,
+               "CREATE TABLE `tareasEjecucionConstraints` ("
+               "    `id`	INTEGER NOT NULL UNIQUE,"
+               "    `idTask1`	INTEGER,"
+               "    `idTask2`	INTEGER,"
+               "    `type`	INTEGER,"
+               "    `relationType`	INTEGER,"
+               "    PRIMARY KEY(id)"
+               ");");
+
+    addCommand(2, "UPDATE version set versionInfo = 2;");
 }

@@ -11,6 +11,7 @@ public:
 
 private:
     void scriptsVersion1();
+    void scriptsVersion2();
 
 };
 

@@ -34,7 +34,7 @@
         <file>squares.png</file>
         <file>construction-1.png</file>
         <file>commerce-1.png</file>
-        <file>buildings.png</file>
+        <file alias="planning">buildings.png</file>
         <file>school.png</file>
         <file>buildings-2.png</file>
         <file>draw.png</file>

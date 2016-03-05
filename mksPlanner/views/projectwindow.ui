@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../mksplanner.qrc">
+    <normaloff>:/tableWindow/tools/business.png</normaloff>:/tableWindow/tools/business.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
@@ -33,7 +37,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="icon">
@@ -227,6 +231,50 @@
          </layout>
         </item>
         <item>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string>Estado</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>Estado Actual:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lblEstadoActual">
+             <property name="text">
+              <string>TextLabel</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnEjecucion">
+             <property name="text">
+              <string>En ejecución</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnPausa">
+             <property name="text">
+              <string>En Pausa</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnFin">
+             <property name="text">
+              <string>Finalizado</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -270,9 +318,18 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_4">
-       <attribute name="title">
-        <string>Seguimiento</string>
+       <attribute name="icon">
+        <iconset resource="../mksplanner.qrc">
+         <normaloff>:/tableWindow/tools/tool-1.png</normaloff>:/tableWindow/tools/tool-1.png</iconset>
        </attribute>
+       <attribute name="title">
+        <string>Ejecución de obra</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="KDGantt::View" name="executionView" native="true"/>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_5">
        <attribute name="title">
@@ -310,6 +367,7 @@
    <addaction name="actionActionAddSubTask"/>
    <addaction name="actionEdit_Task"/>
    <addaction name="actionRemove_Task"/>
+   <addaction name="actionAddExecutionTask"/>
   </widget>
   <action name="actionAddTask">
    <property name="icon">
@@ -363,6 +421,15 @@
    </property>
    <property name="text">
     <string>actionAddSubTask</string>
+   </property>
+  </action>
+  <action name="actionAddExecutionTask">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/add</normaloff>:/tableWindow/tools/add</iconset>
+   </property>
+   <property name="text">
+    <string>AddExecutionTask</string>
    </property>
   </action>
  </widget>

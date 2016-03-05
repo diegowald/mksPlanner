@@ -65,7 +65,13 @@ SOURCES += main.cpp\
     models/planningtaskconstraint.cpp \
     models/planningtaskmodelconstraintadapter.cpp \
     models/planningtaskmodelconstraintfiltered.cpp \
-    views/dlgeditplanningtaskconstraint.cpp
+    views/dlgeditplanningtaskconstraint.cpp \
+    models/executiontask.cpp \
+    models/executiontaskmodel.cpp \
+    models/executiontaskmodeladapter.cpp \
+    models/executiontaskconstraint.cpp \
+    models/executiontaskmodelconstraint.cpp \
+    models/executiontaskmodelconstraintadapter.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -117,7 +123,13 @@ HEADERS  += mainwindow.h \
     models/planningtaskconstraint.h \
     models/planningtaskmodelconstraintadapter.h \
     models/planningtaskmodelconstraintfiltered.h \
-    views/dlgeditplanningtaskconstraint.h
+    views/dlgeditplanningtaskconstraint.h \
+    models/executiontask.h \
+    models/executiontaskmodel.h \
+    models/executiontaskmodeladapter.h \
+    models/executiontaskconstraint.h \
+    models/executiontaskmodelconstraint.h \
+    models/executiontaskmodelconstraintadapter.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

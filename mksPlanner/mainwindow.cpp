@@ -52,6 +52,7 @@ void MainWindow::createSubWindow(const QString &windowName, QWidget *widget)
     QMdiSubWindow *subWindow = ui->mdiArea->addSubWindow(widget);
     subWindow->setObjectName(windowName);
     widget->setAttribute(Qt::WA_DeleteOnClose);
+    subWindow->setWindowIcon(widget->windowIcon());
     subWindow->show();
 }
 
@@ -128,7 +129,10 @@ void MainWindow::on_actionNuevo_triggered()
             frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
             frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
             frm->setConstraintModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasksConstraints));
+            frm->setExecutionModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::ExecutionTasks));
+            frm->setExecutionConstraintModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::ExecutionTasksConstraints));
             createSubWindow("Proyecto", frm);
+            frm->setIconResource(":/tableWindow/tools/planning");
         }
     }
 }
@@ -143,7 +147,10 @@ void MainWindow::on_actionAbrir_triggered()
         frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
         frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
         frm->setConstraintModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasksConstraints));
+        frm->setExecutionModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::ExecutionTasks));
+        frm->setExecutionConstraintModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::ExecutionTasksConstraints));
         createSubWindow("Proyecto", frm);
+        frm->setIconResource(":/tableWindow/tools/planning");
     }
 }
 

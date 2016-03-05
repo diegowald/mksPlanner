@@ -1,12 +1,12 @@
-#include "planningtask.h"
+#include "executiontask.h"
 #include "globalcontainer.h"
 #include "models/costomaterial.h"
 #include "models/costomaterialesmodel.h"
 #include "globalcontainer.h"
 #include "models/material.h"
+#include "models/planningtask.h"
 
-
-PlanningTask::PlanningTask(int id) : EntityBase(id, true)
+ExecutionTask::ExecutionTask(int id) : EntityBase(id, true)
 {
     _idProyecto = -1;
     _idTareaPadre = -1;
@@ -19,12 +19,18 @@ PlanningTask::PlanningTask(int id) : EntityBase(id, true)
     _fechaEstimadaFin = QDateTime::currentDateTime().addDays(1);
     _fechaEstimadaFin.setTime(QTime(23, 59, 59, 999));
     _taskType = KDGantt::TypeTask;
+    _idPlanningTask = -1;
+    _pctCompletado = 0.;
+    _fechaRealInicio = QDateTime::currentDateTime();
+    _fechaRealInicio.setTime(QTime(0, 0, 0));
+    _fechaRealFin = QDateTime::currentDateTime().addDays(1);
+    _fechaRealFin.setTime(QTime(23, 59, 59, 999));
 }
 
-PlanningTask::PlanningTask(int id, int idTareaPadre, const QString &name,
+ExecutionTask::ExecutionTask(int id, int idTareaPadre, const QString &name,
                       int idMaterialTask, int idProveedor,
                       double cantidad, const QDateTime &fechaEstimadaInicio,
-                      const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType) : EntityBase(id, false)
+                      const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType, int idTareaPlanificada, double pctCompletado, const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin) : EntityBase(id, false)
 {
     _idProyecto = -1;
     _idTareaPadre = idTareaPadre;
@@ -35,66 +41,80 @@ PlanningTask::PlanningTask(int id, int idTareaPadre, const QString &name,
     _fechaEstimadaInicio = fechaEstimadaInicio;
     _fechaEstimadaFin = fechaEstimadaFin;
     _taskType = taskType;
+    _idPlanningTask = idTareaPlanificada;
+    _pctCompletado = pctCompletado;
+    _fechaRealInicio = fechaRealInicio;
+    _fechaRealFin = fechaRealFin;
 }
 
-int PlanningTask::idTareaPadre() const
+int ExecutionTask::idPlanningTask() const
+{
+    return _idPlanningTask;
+}
+
+EntityBasePtr ExecutionTask::planningTask() const
+{
+    return GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::PlanningTasks)->getItem(_idPlanningTask);
+}
+
+int ExecutionTask::idTareaPadre() const
 {
     return _idTareaPadre;
 }
 
-EntityBasePtr PlanningTask::tareaPadre() const
+EntityBasePtr ExecutionTask::tareaPadre() const
 {
     return GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::PlanningTasks)->getItem(_idTareaPadre);
 }
 
-QString PlanningTask::name() const
+QString ExecutionTask::name() const
 {
     return _name;
 }
 
 
-int PlanningTask::idMaterialTask() const
+int ExecutionTask::idMaterialTask() const
 {
     return _idMaterialTask;
 }
 
-EntityBasePtr PlanningTask::materialTask() const
+EntityBasePtr ExecutionTask::materialTask() const
 {
     return GlobalContainer::instance().library()->model(Tables::Materiales)->getItem(_idMaterialTask);
 }
 
-int PlanningTask::idProveedor() const
+int ExecutionTask::idProveedor() const
 {
     return _idProveedor;
 }
 
-EntityBasePtr PlanningTask::proveedor() const
+EntityBasePtr ExecutionTask::proveedor() const
 {
     return GlobalContainer::instance().library()->model(Tables::Proveedores)->getItem(_idProveedor);
 }
 
-double PlanningTask::cantidad() const
+double ExecutionTask::cantidad() const
 {
     return _cantidad;
 }
 
-QDateTime PlanningTask::fechaEstimadaInicio() const
+QDateTime ExecutionTask::fechaEstimadaInicio() const
 {
     return _fechaEstimadaInicio;
 }
 
-QDateTime PlanningTask::fechaEstimadaFin() const
+QDateTime ExecutionTask::fechaEstimadaFin() const
 {
     return _fechaEstimadaFin;
 }
 
-int PlanningTask::duracion() const
+int ExecutionTask::duracion() const
 {
     return _fechaEstimadaFin.date().toJulianDay() -
             _fechaEstimadaInicio.date().toJulianDay();
 }
 
-double PlanningTask::costo() const
+double ExecutionTask::costo() const
 {
     if (_idMaterialTask != -1)
     {
@@ -106,7 +126,7 @@ double PlanningTask::costo() const
     return -1;
 }
 
-double PlanningTask::precio() const
+double ExecutionTask::precio() const
 {
     if (_idMaterialTask != -1)
     {
@@ -118,43 +138,43 @@ double PlanningTask::precio() const
     return -1;
 }
 
-void PlanningTask::setIdTareaPadre(int value)
+void ExecutionTask::setIdTareaPadre(int value)
 {
     _idTareaPadre = value;
     updateStatus();
 }
 
-void PlanningTask::setName(const QString &value)
+void ExecutionTask::setName(const QString &value)
 {
     _name = value;
     updateStatus();
 }
 
-void PlanningTask::setIdMaterialTask(int value)
+void ExecutionTask::setIdMaterialTask(int value)
 {
     _idMaterialTask = value;
     updateStatus();
 }
 
-void PlanningTask::setIdProveedor(int value)
+void ExecutionTask::setIdProveedor(int value)
 {
     _idProveedor = value;
     updateStatus();
 }
 
-void PlanningTask::setCantidad(double value)
+void ExecutionTask::setCantidad(double value)
 {
     _cantidad = value;
     updateStatus();
 }
 
-void PlanningTask::setFechaEstimadaInicio(QDateTime &value)
+void ExecutionTask::setFechaEstimadaInicio(QDateTime &value)
 {
     _fechaEstimadaInicio = value;
     updateStatus();
 }
 
-void PlanningTask::setFechaEstimadaFin(QDateTime &value)
+void ExecutionTask::setFechaEstimadaFin(QDateTime &value)
 {
     _fechaEstimadaFin = value;
     updateStatus();
@@ -162,7 +182,7 @@ void PlanningTask::setFechaEstimadaFin(QDateTime &value)
 
 
 
-QString PlanningTask::toDebugString()
+QString ExecutionTask::toDebugString()
 {
     return QString("id: %1, idTareaPadre: %2, name: %3, idMaterialTask: %4, idProveedor: %5, "
                    "cantidad: %6, fechaEstimadaInicio: %7, fechaEstimadaFin: %8)")
@@ -171,7 +191,7 @@ QString PlanningTask::toDebugString()
             .arg(_fechaEstimadaFin.toString());
 }
 
-QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
+QSqlQuery *ExecutionTask::getQuery(QSqlDatabase &database)
 {
     QSqlQuery *query;
     switch (status())
@@ -179,10 +199,10 @@ QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO tareasPlanificadas "
-                       " (id, idTareaPadre, name, idMaterialTask, idProveedor, cantidad, fechaEstimadaInicio, fechaEstimadaFin, taskType) "
+        query->prepare("INSERT INTO tareasEjecucion "
+                       " (id, idTareaPadre, name, idMaterialTask, idProveedor, cantidad, fechaEstimadaInicio, fechaEstimadaFin, taskType, idTareaPlanificada, pctAvance, fechaRealInicio, fechaRealFin) "
                        " VALUES "
-                       " (:id, :idTareaPadre, :name, :idMaterialTask, :idProveedor, :cantidad, :fechaEstimadaInicio, :fechaEstimadaFin, :taskType);");
+                       " (:id, :idTareaPadre, :name, :idMaterialTask, :idProveedor, :cantidad, :fechaEstimadaInicio, :fechaEstimadaFin, :taskType, :idTareaPlanificada, :pctAvance, :fechaRealInicio, :fechaRealFin);");
 
         query->bindValue(":id", id());
         query->bindValue(":idTareaPadre", _idTareaPadre);
@@ -193,19 +213,24 @@ QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
         query->bindValue(":fechaEstimadaInicio", _fechaEstimadaInicio);
         query->bindValue(":fechaEstimadaFin", _fechaEstimadaFin);
         query->bindValue(":taskType", _taskType);
+        query->bindValue(":idTareaPlanificada", _idPlanningTask);
+        query->bindValue(":pctAvance", _pctCompletado);
+        query->bindValue(":fechaRealInicio", _fechaRealInicio);
+        query->bindValue(":fechaRealFin", _fechaRealFin);
+
         break;
     }
     case EntityStatus::deleted:
     {
         query = new QSqlQuery(database);
-        query->prepare("DELETE FROM tareasPlanificadas WHERE id = :id;");
+        query->prepare("DELETE FROM tareasEjecucion WHERE id = :id;");
         query->bindValue(":id", id());
         break;
     }
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE tareasPlanificadas SET idTareaPadre = :idTareaPadre, name = :name, idMaterialTask = :idMaterialTask, idProveedor = :idProveedor, cantidad = :cantidad, fechaEstimadaInicio = :fechaEstimadaInicio, fechaEstimadaFin = :fechaEstimadaFin, taskType = :taskType WHERE id = :id;");
+        query->prepare("UPDATE tareasEjecucion SET idTareaPadre = :idTareaPadre, name = :name, idMaterialTask = :idMaterialTask, idProveedor = :idProveedor, cantidad = :cantidad, fechaEstimadaInicio = :fechaEstimadaInicio, fechaEstimadaFin = :fechaEstimadaFin, taskType = :taskType, idTareaPlanificada = :idTareaPlanificada, pctAvance = :pctAvance, fechaRealInicio = :fechaRealInicio, fechaRealFin = :fechaRealFin WHERE id = :id;");
 
         query->bindValue(":idTareaPadre", _idTareaPadre);
         query->bindValue(":name", _name);
@@ -215,6 +240,11 @@ QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
         query->bindValue(":fechaEstimadaInicio", _fechaEstimadaInicio);
         query->bindValue(":fechaEstimadaFin", _fechaEstimadaFin);
         query->bindValue(":taskType", _taskType);
+        query->bindValue(":idTareaPlanificada", _idPlanningTask);
+        query->bindValue(":pctAvance", _pctCompletado);
+        query->bindValue(":fechaRealInicio", _fechaRealInicio);
+        query->bindValue(":fechaRealFin", _fechaRealFin);
+
         query->bindValue(":id", id());
         break;
     }
@@ -226,12 +256,12 @@ QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
 }
 
 
-void PlanningTask::setIdProyecto(int idProyecto)
+void ExecutionTask::setIdProyecto(int idProyecto)
 {
     _idProyecto = idProyecto;
 }
 
-QString PlanningTask::tooltip() const
+QString ExecutionTask::tooltip() const
 {
     QString s = "<table>"
                 "<tr>"
@@ -243,7 +273,7 @@ QString PlanningTask::tooltip() const
             .arg(tablaListadoMateriales());
 }
 
-QString PlanningTask::tablaListadoMateriales() const
+QString ExecutionTask::tablaListadoMateriales() const
 {
     QMap<QString, double> listado = listadoMateriales();
     QString result = "";
@@ -256,7 +286,7 @@ QString PlanningTask::tablaListadoMateriales() const
     return result;
 }
 
-QMap<QString, double> PlanningTask::listadoMateriales() const
+QMap<QString, double> ExecutionTask::listadoMateriales() const
 {
     QMap<QString, double> result;
     if (_idMaterialTask != -1)
@@ -274,23 +304,60 @@ QMap<QString, double> PlanningTask::listadoMateriales() const
     return result;
 }
 
-QList<PlanningTaskPtr> PlanningTask::child() const
+QList<ExecutionTaskPtr> ExecutionTask::child() const
 {
     return _child;
 }
 
-void PlanningTask::addSubTask(PlanningTaskPtr task)
+void ExecutionTask::addSubTask(ExecutionTaskPtr task)
 {
     _child.append(task);
 }
 
-KDGantt::ItemType PlanningTask::taskType() const
+KDGantt::ItemType ExecutionTask::taskType() const
 {
     return _taskType;
 }
 
-void PlanningTask::setTaskType(KDGantt::ItemType value)
+void ExecutionTask::setTaskType(KDGantt::ItemType value)
 {
     _taskType = value;
+    updateStatus();
+}
+
+void ExecutionTask::setPlanningTask(EntityBasePtr entity, bool copyData)
+{
+    setIdPlanningTask(entity->id());
+    if (copyData)
+    {
+        PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(entity);
+
+        setIdTareaPadre(pt->idTareaPadre()); // esto hay que hacerlo bien
+        setName(pt->name());
+        setIdMaterialTask(pt->idMaterialTask());
+        setIdProveedor(pt->idProveedor());
+        setCantidad(pt->cantidad());
+        QDateTime dt = pt->fechaEstimadaInicio();
+        setFechaEstimadaInicio(dt);
+        dt = pt->fechaEstimadaFin();
+        setFechaEstimadaFin(dt);
+        setTaskType(pt->taskType());
+    }
+}
+
+void ExecutionTask::setIdPlanningTask(int value)
+{
+    _idPlanningTask = value;
+    updateStatus();
+}
+
+double ExecutionTask::pctCompletado() const
+{
+    return _pctCompletado;
+}
+
+void ExecutionTask::setPctCompletado(double value)
+{
+    _pctCompletado = value;
     updateStatus();
 }

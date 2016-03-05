@@ -3,10 +3,15 @@
 #include "globalcontainer.h"
 #include "models/planningtaskmodel.h"
 #include "models/planningtask.h"
+#include "globalcontainer.h"
+#include "models/executiontaskmodel.h"
+#include "models/planningtask.h"
+#include "models/executiontask.h"
+#include "models/executiontaskmodelconstraint.h"
 
 Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion, const QString &email, const QString &telefono,
                    QDate &fechaEstimadaInicio,
-                   QDate &fechaEstimadaFinalizacion)
+                   QDate &fechaEstimadaFinalizacion, ProjectStatus projectStatus)
     : EntityBase(id)
 {
     _propietario = propietario;
@@ -15,6 +20,7 @@ Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion,
     _telefono = telefono;
     _fechaEstimadaInicio = fechaEstimadaInicio;
     _fechaEstimadaFinalizacion = fechaEstimadaFinalizacion;
+    _status = projectStatus;
 }
 
 
@@ -26,45 +32,13 @@ Proyecto::Proyecto(int id) : EntityBase(id, true)
     _telefono = "";
     _fechaEstimadaInicio = QDate::currentDate();
     _fechaEstimadaFinalizacion = QDate::currentDate().addDays(100);
+    _status = ProjectStatus::Planificacion;
 }
 
 void Proyecto::setIdProyectoInterno(int value)
 {
     _idProyectoInterno = value;
 }
-
-/*bool Proyecto::internalSetData(const int column, const QVariant &value, int role)
-{
-    switch (column)
-    {
-    case 0:
-        break;
-    case 1:
-        _propietario = value.toString();
-        return true;
-        break;
-    case 2:
-        _direccion = value.toString();
-        return true;
-        break;
-    case 3:
-    {
-        _email = value.toString();
-        return true;
-        break;
-    }
-    case 4:
-    {
-        _telefono = value.toString();
-        return true;
-        break;
-    }
-    default:
-        break;
-    }
-    return false;
-}*/
-
 
 QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
 {
@@ -75,8 +49,8 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
     {
         query = new QSqlQuery(database);
         query->prepare("INSERT INTO proyectos (id, propietario, direccion, email, telefono, "
-                       " fechaEstimadaInicio, fechaEstimadaFinalizacion ) "
-                       " VALUES (:id, :propietario, :direccion, :email, :telefono, :fechaEstimadaInicio, :fechaEstimadaFinalizacion);");
+                       " fechaEstimadaInicio, fechaEstimadaFinalizacion, status ) "
+                       " VALUES (:id, :propietario, :direccion, :email, :telefono, :fechaEstimadaInicio, :fechaEstimadaFinalizacion, :status);");
 
         query->bindValue(":id", id());
         query->bindValue(":propietario", _propietario);
@@ -85,7 +59,7 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
         query->bindValue(":telefono", _telefono);
         query->bindValue(":fechaEstimadaInicio", _fechaEstimadaInicio);
         query->bindValue(":fechaEstimadaFinalizacion", _fechaEstimadaFinalizacion);
-
+        query->bindValue(":status", static_cast<int>(_status));
         break;
     }
     case EntityStatus::deleted:
@@ -98,9 +72,9 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE proyectos SET propietario = :propietario, direccion = :direccion, email = :email, telefono = :telefono "
-                       " fechaEstimadaInicio = :fechaEstimadaInicio "
-                       " fechaEstimadaFinalizacion = :fechaEstimadaFinalizacion "
+        query->prepare("UPDATE proyectos SET propietario = :propietario, direccion = :direccion, email = :email, telefono = :telefono, "
+                       " fechaEstimadaInicio = :fechaEstimadaInicio, "
+                       " fechaEstimadaFinalizacion = :fechaEstimadaFinalizacion, status = :status "
                        " WHERE id = :id;");
 
         query->bindValue(":propietario", _propietario);
@@ -109,6 +83,8 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
         query->bindValue(":telefono", _telefono);
         query->bindValue(":fechaEstimadaInicio", _fechaEstimadaInicio);
         query->bindValue(":fechaEstimadaFinalizacion", _fechaEstimadaFinalizacion);
+        query->bindValue(":status", static_cast<int>(_status));
+
         query->bindValue(":id", id());
         break;
     }
@@ -210,4 +186,33 @@ double Proyecto::costoEstimado() const
         costoAcumulado += pt->costo();
     }
     return costoAcumulado;
+}
+
+Proyecto::ProjectStatus Proyecto::projectStatus() const
+{
+    return _status;
+}
+
+
+void Proyecto::setProjectStatus(ProjectStatus status)
+{
+    ProjectStatus statusViejo = _status;
+    _status = status;
+    if (statusViejo == ProjectStatus::Planificacion && _status == ProjectStatus::Ejecucion)
+    {
+        crearPlanningEjecucion();
+    }
+    updateStatus();
+}
+
+void Proyecto::crearPlanningEjecucion()
+{
+    ModelBase *model = GlobalContainer::instance().projectLibrary(_idProyectoInterno)->model(Tables::ExecutionTasks);
+    ExecutionTaskModel *execModel = dynamic_cast<ExecutionTaskModel*>(model);
+    execModel->cloneFromPlanning();
+
+
+    model = GlobalContainer::instance().projectLibrary(_idProyectoInterno)->model(Tables::ExecutionTasksConstraints);
+    ExecutionTaskModelConstraint *constraintModel = dynamic_cast<ExecutionTaskModelConstraint*>(model);
+    constraintModel->cloneFromPlanning();
 }

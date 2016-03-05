@@ -10,11 +10,21 @@ class Proyecto : public EntityBase
 {
     Q_OBJECT
 public:
+
+    enum class ProjectStatus
+    {
+        Planificacion,
+        Ejecucion,
+        Finalizado,
+        Pausado
+    };
+
     explicit Proyecto(int id, const QString &propietario,
                       const QString &direccion, const QString &email,
                       const QString &telefono,
                       QDate &fechaEstimadaInicio,
-                      QDate &fechaEstimadaFinalizacion);
+                      QDate &fechaEstimadaFinalizacion,
+                      ProjectStatus projectStatus);
 
     explicit Proyecto(int id);
 
@@ -33,6 +43,7 @@ public:
     QDate fechaEstimadaFinalizacion() const;
     int plazoEstimado() const;
     double costoEstimado() const;
+    ProjectStatus projectStatus() const;
 
     void setPropietario(const QString& value);
     void setDireccion(const QString& value);
@@ -40,6 +51,10 @@ public:
     void setTelefono(const QString& value);
     void setFechaEstimadaInicio(QDate &value);
     void setFechaEstimadaFinalizacion(QDate &value);
+    void setProjectStatus(ProjectStatus status);
+
+private:
+    void crearPlanningEjecucion();
 
 signals:
 
@@ -52,6 +67,7 @@ private:
     QString _telefono;
     QDate _fechaEstimadaInicio;
     QDate _fechaEstimadaFinalizacion;
+    ProjectStatus _status;
 
     int _idProyectoInterno;
 };
