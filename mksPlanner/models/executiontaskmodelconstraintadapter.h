@@ -14,9 +14,8 @@ public:
 
 private slots:
     void on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
-
-private:
     void createConstraints();
+
 private:
     ExecutionTaskModelAdapter *_execModel;
     ModelBase *_model;

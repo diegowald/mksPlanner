@@ -11,6 +11,7 @@ public:
     explicit ExecutionTaskModelConstraint(int idProyecto, QObject *parent = 0);
 
 signals:
+    void refreshed();
 
 public slots:
 

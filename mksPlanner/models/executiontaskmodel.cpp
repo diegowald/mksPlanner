@@ -11,6 +11,8 @@
 #include <cassert>
 #include <QMap>
 #include "models/planningtaskmodel.h"
+#include "models/planningtask.h"
+
 
 /* NODE */
 
@@ -602,8 +604,9 @@ void ExecutionTaskModel::cloneFromPlanning()
 {
     ModelBase *model = GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::PlanningTasks);
     PlanningTaskModel* planModel = dynamic_cast<PlanningTaskModel*>(model);
-    QSet<int> ids = planModel->ids();
+    QList<int> ids = planModel->ids().toList();
     //beginInsertRows(QModelIndex(), 0, ids.count());
+    std::sort(ids.begin(), ids.end());
     foreach (int id, ids)
     {
         EntityBasePtr entity = createEntity();
@@ -612,5 +615,37 @@ void ExecutionTaskModel::cloneFromPlanning()
         execTask->setPlanningTask(entity, true);
     }
     //endInsertRows();
+    calculateParentsBasedOnPlanningParents();
     postProcessData();
+    emit dataChanged(QModelIndex(), QModelIndex());
+}
+
+int ExecutionTaskModel::idFromPlanning(int idPlanningTask)
+{
+    if (idPlanningTask != -1)
+    {
+        foreach (int key, ids())
+        {
+            ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(getItem(key));
+            if (et->idPlanningTask() == idPlanningTask)
+            {
+                return et->id();
+            }
+        }
+    }
+    return -1;
+}
+
+void ExecutionTaskModel::calculateParentsBasedOnPlanningParents()
+{
+    QSet<int> keys = ids();
+    foreach (int key, keys)
+    {
+        ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(getItem(key));
+        PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(et->planningTask());
+        int idPlanningTaskPadre = pt->idTareaPadre();
+        int idExecTaskPadre = idFromPlanning(idPlanningTaskPadre);
+        qDebug() << idPlanningTaskPadre << "->" << idExecTaskPadre;
+        et->setIdTareaPadre(idExecTaskPadre);
+    }
 }

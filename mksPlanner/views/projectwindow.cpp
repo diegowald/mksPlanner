@@ -63,6 +63,7 @@ void ProjectWindow::setModel(ModelBase* model)
 void ProjectWindow::setPlanningModel(ModelBase *model)
 {
     _planningModel = new PlanningTaskModelAdapter(qobject_cast<PlanningTaskModel*>(model), this);
+    _planningModel->setProyecto(_model->getItem(1));
     ui->planningView->setModel(_planningModel);
     ui->planningView->setSelectionModel( new QItemSelectionModel(_planningModel));
 
@@ -98,6 +99,7 @@ void ProjectWindow::setConstraintModel(ModelBase *model)
 void ProjectWindow::setExecutionModel(ModelBase *model)
 {
     _executionModel = new ExecutionTaskModelAdapter(qobject_cast<ExecutionTaskModel*>(model), this);
+    _executionModel->setProyecto(_model->getItem(1));
     ui->executionView->setModel(_executionModel);
     ui->executionView->setSelectionModel(new QItemSelectionModel(_executionModel));
 
@@ -131,6 +133,10 @@ void ProjectWindow::on_tabWidget_currentChanged(int index)
     ui->actionEdit_Task->setVisible(index == 1);
     ui->actionRemove_Task->setVisible(index == 1);
     ui->actionActionAddSubTask->setVisible(index == 1);
+    ui->actionAddExecutionTask->setVisible(index == 3);
+    ui->actionAddExecutionSubTask->setVisible(index == 3);
+    ui->actionEditExecutionTask->setVisible(index == 3);
+    ui->actionDeleteExecutionTask->setVisible(index == 3);
 }
 
 void ProjectWindow::on_actionAddTask_triggered()

@@ -80,6 +80,7 @@ bool ExecutionTaskModelConstraint::modelSetData(EntityBasePtr entity, int column
 
 void ExecutionTaskModelConstraint::postProcessData()
 {
+    emit refreshed();
 }
 
 void ExecutionTaskModelConstraint::defineColumnNames()

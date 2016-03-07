@@ -6,11 +6,14 @@
 #include "models/proveedor.h"
 #include "models/unit.h"
 #include <cassert>
+#include "models/proyecto.h"
+
 
 PlanningTaskModelAdapter::PlanningTaskModelAdapter(PlanningTaskModel *model, QObject *parent) :
     QAbstractItemModel(parent)
 {
     _model = model;
+    _proyecto.clear();
 }
 
 PlanningTaskModelAdapter::~PlanningTaskModelAdapter()
@@ -401,7 +404,14 @@ bool PlanningTaskModelAdapter::removeRow(int row, const QModelIndex &parent)
 
 Qt::ItemFlags PlanningTaskModelAdapter::flags( const QModelIndex& idx) const
 {
-    return QAbstractItemModel::flags( idx ) | Qt::ItemIsEditable;
+    ProyectoPtr p = qSharedPointerDynamicCast<Proyecto>(_proyecto);
+
+    Qt::ItemFlags f = QAbstractItemModel::flags(idx);
+    if (!p.isNull() && p->projectStatus() == Proyecto::ProjectStatus::Planificacion)
+    {
+        f |= Qt::ItemIsEditable;
+    }
+    return f;
 }
 
 void PlanningTaskModelAdapter::editEntity(int row)
@@ -437,4 +447,9 @@ bool PlanningTaskModelAdapter::canCreateEntity() const
 EntityBasePtr PlanningTaskModelAdapter::itemByRowId(int row)
 {
     return _model->getItemByRowid(row);
+}
+
+void PlanningTaskModelAdapter::setProyecto(EntityBasePtr entity)
+{
+    _proyecto = entity;
 }

@@ -368,6 +368,9 @@
    <addaction name="actionEdit_Task"/>
    <addaction name="actionRemove_Task"/>
    <addaction name="actionAddExecutionTask"/>
+   <addaction name="actionAddExecutionSubTask"/>
+   <addaction name="actionEditExecutionTask"/>
+   <addaction name="actionDeleteExecutionTask"/>
   </widget>
   <action name="actionAddTask">
    <property name="icon">
@@ -430,6 +433,33 @@
    </property>
    <property name="text">
     <string>AddExecutionTask</string>
+   </property>
+  </action>
+  <action name="actionEditExecutionTask">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/edit</normaloff>:/tableWindow/tools/edit</iconset>
+   </property>
+   <property name="text">
+    <string>EditExecutionTask</string>
+   </property>
+  </action>
+  <action name="actionDeleteExecutionTask">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/remove</normaloff>:/tableWindow/tools/remove</iconset>
+   </property>
+   <property name="text">
+    <string>DeleteExecutionTask</string>
+   </property>
+  </action>
+  <action name="actionAddExecutionSubTask">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/squares.png</normaloff>:/tableWindow/tools/squares.png</iconset>
+   </property>
+   <property name="text">
+    <string>AddExecutionSubTask</string>
    </property>
   </action>
  </widget>

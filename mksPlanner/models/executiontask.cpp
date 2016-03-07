@@ -5,6 +5,8 @@
 #include "globalcontainer.h"
 #include "models/material.h"
 #include "models/planningtask.h"
+#include "models/executiontaskmodel.h"
+
 
 ExecutionTask::ExecutionTask(int id) : EntityBase(id, true)
 {
@@ -108,6 +110,16 @@ QDateTime ExecutionTask::fechaEstimadaFin() const
     return _fechaEstimadaFin;
 }
 
+QDateTime ExecutionTask::fechaRealInicio() const
+{
+    return _fechaRealInicio;
+}
+
+QDateTime ExecutionTask::fechaRealFin() const
+{
+    return _fechaRealFin;
+}
+
 int ExecutionTask::duracion() const
 {
     return _fechaEstimadaFin.date().toJulianDay() -
@@ -180,7 +192,17 @@ void ExecutionTask::setFechaEstimadaFin(QDateTime &value)
     updateStatus();
 }
 
+void ExecutionTask::setFechaRealInicio(QDateTime &value)
+{
+    _fechaRealInicio = value;
+    updateStatus();
+}
 
+void ExecutionTask::setFechaRealFin(QDateTime &value)
+{
+    _fechaRealFin = value;
+    updateStatus();
+}
 
 QString ExecutionTask::toDebugString()
 {
@@ -332,15 +354,19 @@ void ExecutionTask::setPlanningTask(EntityBasePtr entity, bool copyData)
     {
         PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(entity);
 
-        setIdTareaPadre(pt->idTareaPadre()); // esto hay que hacerlo bien
+        ExecutionTaskModel *m = qobject_cast<ExecutionTaskModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::ExecutionTasks));
+
+        //setIdTareaPadre(m->idFromPlanning(pt->idTareaPadre()));
         setName(pt->name());
         setIdMaterialTask(pt->idMaterialTask());
         setIdProveedor(pt->idProveedor());
         setCantidad(pt->cantidad());
         QDateTime dt = pt->fechaEstimadaInicio();
+        setFechaRealInicio(dt);
         setFechaEstimadaInicio(dt);
         dt = pt->fechaEstimadaFin();
         setFechaEstimadaFin(dt);
+        setFechaRealFin(dt);
         setTaskType(pt->taskType());
     }
 }

@@ -7,7 +7,7 @@
 #include "models/proveedor.h"
 #include "models/unit.h"
 #include <cassert>
-
+#include "models/proyecto.h"
 
 ExecutionTaskModelAdapter::ExecutionTaskModelAdapter(ExecutionTaskModel *model, QObject *parent) :
     QAbstractItemModel(parent)
@@ -27,7 +27,7 @@ int ExecutionTaskModelAdapter::rowCount( const QModelIndex& idx ) const
 int ExecutionTaskModelAdapter::columnCount( const QModelIndex& idx ) const
 {
     Q_UNUSED(idx);
-    return 13;
+    return 15;
 }
 
 QModelIndex ExecutionTaskModelAdapter::index(int row, int col, const QModelIndex& parent) const
@@ -54,7 +54,7 @@ QModelIndex ExecutionTaskModelAdapter::index(int idTask)
 
 QModelIndex ExecutionTaskModelAdapter::createIndex(int idTask, ExecutionTaskModel::Node *node)
 {
-    PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(node->entity());
+    ExecutionTaskPtr pt = qSharedPointerDynamicCast<ExecutionTask>(node->entity());
     if ((node != _model->root()) && (pt->id() == idTask))
     {
         if (node == _model->root())
@@ -114,9 +114,9 @@ QVariant ExecutionTaskModelAdapter::headerData( int section, Qt::Orientation ori
     case 1:
         return tr("Tipo");
     case 2:
-        return tr("Inicio Estimado");
+        return tr("Inicio");
     case 3:
-        return tr("Fin Estimado");
+        return tr("Fin");
     case 4:
         return tr("% Realizado");
     case 5:
@@ -135,7 +135,10 @@ QVariant ExecutionTaskModelAdapter::headerData( int section, Qt::Orientation ori
         return tr("Costo");
     case 12:
         return tr("Precio");
-
+    case 13:
+        return tr("Fecha Inicio Planificada");
+    case 14:
+        return tr("Fecha Finalizacion Planificada");
     default:
         return QVariant();
     }
@@ -180,10 +183,10 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
         switch (role)
         {
         case Qt::DisplayRole:
-            return p->fechaEstimadaInicio().date().toString();
+            return p->fechaRealInicio().date().toString();
         case Qt::EditRole:
         case KDGantt::StartTimeRole:
-            return p->fechaEstimadaInicio();
+            return p->fechaRealInicio();
         }
     }
     else if (idx.column() == 3)
@@ -191,10 +194,10 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
         switch (role)
         {
         case Qt::DisplayRole:
-            return p->fechaEstimadaFin().date().toString();
+            return p->fechaRealFin().date().toString();
         case Qt::EditRole:
         case KDGantt::EndTimeRole:
-            return p->fechaEstimadaFin();
+            return p->fechaRealFin();
         }
     }
     else if (idx.column() == 4)
@@ -203,7 +206,7 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
         {
         case Qt::DisplayRole:
         case Qt::EditRole:
-            return QVariant();
+            return p->pctCompletado();
         }
     }
     else if (idx.column() == 5 && role == Qt::DisplayRole)
@@ -268,6 +271,14 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
     {
         return p->precio();
     }
+    else if (idx.column() == 13 && role == Qt::DisplayRole)
+    {
+        return p->fechaEstimadaInicio().date().toString();
+    }
+    else if (idx.column() == 14 && role == Qt::DisplayRole)
+    {
+        return p->fechaEstimadaFin().date().toString();
+    }
 
     if (role == Qt::ToolTipRole)
     {
@@ -319,7 +330,7 @@ bool ExecutionTaskModelAdapter::setData( const QModelIndex& idx,  const QVariant
         case Qt::EditRole:
         case KDGantt::StartTimeRole:
             QDateTime date = value.toDateTime();
-            p->setFechaEstimadaInicio(date);
+            p->setFechaRealInicio(date);
             break;
         }
     }
@@ -331,7 +342,7 @@ bool ExecutionTaskModelAdapter::setData( const QModelIndex& idx,  const QVariant
         case Qt::EditRole:
         case KDGantt::EndTimeRole:
             QDateTime date = value.toDateTime();
-            p->setFechaEstimadaFin(date);
+            p->setFechaRealFin(date);
             break;
         }
     }
@@ -341,6 +352,7 @@ bool ExecutionTaskModelAdapter::setData( const QModelIndex& idx,  const QVariant
         {
         case Qt::DisplayRole:
         case Qt::EditRole:
+            p->setPctCompletado(value.toDouble());
             //n->setCompletion(value.toInt());
             break;
         }
@@ -403,7 +415,34 @@ bool ExecutionTaskModelAdapter::removeRow(int row, const QModelIndex &parent)
 
 Qt::ItemFlags ExecutionTaskModelAdapter::flags( const QModelIndex& idx) const
 {
-    return QAbstractItemModel::flags( idx ) | Qt::ItemIsEditable;
+    ProyectoPtr p = qSharedPointerDynamicCast<Proyecto>(_proyecto);
+    Qt::ItemFlags f = QAbstractItemModel::flags(idx);
+
+    if (!p.isNull() && p->projectStatus() == Proyecto::ProjectStatus::Ejecucion)
+    {
+        ExecutionTaskModel::Node *node = static_cast<ExecutionTaskModel::Node*>(idx.internalPointer());
+        ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(node->entity());
+        if (et->pctCompletado() == 0.)
+        {
+            f |= Qt::ItemIsEditable;
+        }
+        else
+        {
+            if (et->pctCompletado() < 100.)
+            {
+                switch (idx.column())
+                {
+                case 3:
+                case 4:
+                    f |= Qt::ItemIsEditable;
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+    }
+    return f;
 }
 
 void ExecutionTaskModelAdapter::editEntity(int row)
@@ -439,4 +478,14 @@ bool ExecutionTaskModelAdapter::canCreateEntity() const
 EntityBasePtr ExecutionTaskModelAdapter::itemByRowId(int row)
 {
     return _model->getItemByRowid(row);
+}
+
+int ExecutionTaskModelAdapter::idFromPlanning(int idPlanningTask)
+{
+    return _model->idFromPlanning(idPlanningTask);
+}
+
+void ExecutionTaskModelAdapter::setProyecto(EntityBasePtr proyecto)
+{
+    _proyecto = proyecto;
 }

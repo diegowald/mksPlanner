@@ -37,6 +37,10 @@ public:
 
     EntityBasePtr itemByRowId(int row);
 
+    int idFromPlanning(int idPlanningTask);
+
+    void setProyecto(EntityBasePtr proyecto);
+
 private:
     QModelIndex createIndex(int idTask, ExecutionTaskModel::Node *node);
 
@@ -45,5 +49,6 @@ signals:
 public slots:
 private:
     ExecutionTaskModel *_model;
+    EntityBasePtr _proyecto;
 };
 #endif // EXECUTIONTASKMODELADAPTER_H

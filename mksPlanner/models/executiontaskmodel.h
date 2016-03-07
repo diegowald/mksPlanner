@@ -56,6 +56,8 @@ public:
 
     int idProyecto() const;
 
+    int idFromPlanning(int idPlanningTask);
+
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);
@@ -65,6 +67,7 @@ protected:
     virtual void defineColumnNames();
 
     virtual void postProcessData();
+    void calculateParentsBasedOnPlanningParents();
 
 private:
     int _idProyecto;

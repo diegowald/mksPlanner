@@ -34,6 +34,8 @@ public:
     double cantidad() const;
     QDateTime fechaEstimadaInicio() const;
     QDateTime fechaEstimadaFin() const;
+    QDateTime fechaRealInicio() const;
+    QDateTime fechaRealFin() const;
     int duracion() const;
     double costo() const;
     double precio() const;
@@ -50,6 +52,8 @@ public:
     void setCantidad(double value);
     void setFechaEstimadaInicio(QDateTime &value);
     void setFechaEstimadaFin(QDateTime &value);
+    void setFechaRealInicio(QDateTime &value);
+    void setFechaRealFin(QDateTime &value);
     void setTaskType(KDGantt::ItemType value);
     void setPctCompletado(double value);
 
