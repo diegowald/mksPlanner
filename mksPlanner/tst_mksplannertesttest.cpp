@@ -76,7 +76,6 @@ void MksPlannerTestTest::testUnit()
 
     unit2.deleteEntity();
     QVERIFY2(EntityStatus::deleted == unit2.status(), "unit::status");
-
 }
 
 QTEST_MAIN(MksPlannerTestTest)
