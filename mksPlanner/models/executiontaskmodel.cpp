@@ -12,7 +12,7 @@
 #include <QMap>
 #include "models/planningtaskmodel.h"
 #include "models/planningtask.h"
-
+#include "views/dlgeditexecutiontask.h"
 
 /* NODE */
 
@@ -472,9 +472,9 @@ EntityBasePtr ExecutionTaskModel::internalCreateEntity(int assignedId)
 
 void ExecutionTaskModel::editEntity(int row)
 {
-/*    EntityBasePtr entity = getItemByRowid(row);
-    DlgEditPlanningTask dlg(this, entity);
-    dlg.exec();*/
+    EntityBasePtr entity = getItemByRowid(row);
+    DlgEditExecutionTask dlg(this, entity);
+    dlg.exec();
 }
 
 EntityBasePtr ExecutionTaskModel::createEntity()
@@ -645,7 +645,6 @@ void ExecutionTaskModel::calculateParentsBasedOnPlanningParents()
         PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(et->planningTask());
         int idPlanningTaskPadre = pt->idTareaPadre();
         int idExecTaskPadre = idFromPlanning(idPlanningTaskPadre);
-        qDebug() << idPlanningTaskPadre << "->" << idExecTaskPadre;
         et->setIdTareaPadre(idExecTaskPadre);
     }
 }
