@@ -70,10 +70,11 @@ void ProjectUpdater::scriptsVersion2()
                   "    `pctAvance`	REAL,"
                   "    `fechaRealInicio`	TEXT,"
                   "    `fechaRealFin`	TEXT,"
+                  "    `isSplittedPart` INTEGER, "
                   "    PRIMARY KEY(id)"
                   ");");
 
-    addCommand(1,
+    addCommand(2,
                "CREATE TABLE `tareasEjecucionConstraints` ("
                "    `id`	INTEGER NOT NULL UNIQUE,"
                "    `idTask1`	INTEGER,"

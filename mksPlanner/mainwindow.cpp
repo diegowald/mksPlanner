@@ -140,7 +140,7 @@ void MainWindow::on_actionNuevo_triggered()
 void MainWindow::on_actionAbrir_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this, "Crear proyecto", "./", "*.mksPlanner");
-    if (!showSubWindow("Proyecto"))
+    if (!filename.isEmpty() && !showSubWindow("Proyecto"))
     {
         int tmpId = GlobalContainer::instance().loadProject(filename);
         ProjectWindow *frm = new ProjectWindow("Proyecto", tmpId);

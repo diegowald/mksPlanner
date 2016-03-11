@@ -87,6 +87,12 @@ bool ModelBase::removeRow(int row, const QModelIndex &parent)
     endRemoveRows();
 }
 
+bool ModelBase::removeById(int id)
+{
+    int row = _entityMapping.indexOf(id);
+    removeRow(row, QModelIndex());
+}
+
 
 
 QList<QSqlQuery*> ModelBase::getQueries(QSqlDatabase &database)

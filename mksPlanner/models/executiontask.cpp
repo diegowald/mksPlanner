@@ -27,12 +27,13 @@ ExecutionTask::ExecutionTask(int id) : EntityBase(id, true)
     _fechaRealInicio.setTime(QTime(0, 0, 0));
     _fechaRealFin = QDateTime::currentDateTime().addDays(1);
     _fechaRealFin.setTime(QTime(23, 59, 59, 999));
+    _isSplittedPart = false;
 }
 
 ExecutionTask::ExecutionTask(int id, int idTareaPadre, const QString &name,
                       int idMaterialTask, int idProveedor,
                       double cantidad, const QDateTime &fechaEstimadaInicio,
-                      const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType, int idTareaPlanificada, double pctCompletado, const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin) : EntityBase(id, false)
+                      const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType, int idTareaPlanificada, double pctCompletado, const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin, bool isSplittedPart) : EntityBase(id, false)
 {
     _idProyecto = -1;
     _idTareaPadre = idTareaPadre;
@@ -47,6 +48,7 @@ ExecutionTask::ExecutionTask(int id, int idTareaPadre, const QString &name,
     _pctCompletado = pctCompletado;
     _fechaRealInicio = fechaRealInicio;
     _fechaRealFin = fechaRealFin;
+    _isSplittedPart = isSplittedPart;
 }
 
 int ExecutionTask::idPlanningTask() const
@@ -66,7 +68,7 @@ int ExecutionTask::idTareaPadre() const
 
 EntityBasePtr ExecutionTask::tareaPadre() const
 {
-    return GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::PlanningTasks)->getItem(_idTareaPadre);
+    return GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::ExecutionTasks)->getItem(_idTareaPadre);
 }
 
 QString ExecutionTask::name() const
@@ -222,9 +224,9 @@ QSqlQuery *ExecutionTask::getQuery(QSqlDatabase &database)
     {
         query = new QSqlQuery(database);
         query->prepare("INSERT INTO tareasEjecucion "
-                       " (id, idTareaPadre, name, idMaterialTask, idProveedor, cantidad, fechaEstimadaInicio, fechaEstimadaFin, taskType, idTareaPlanificada, pctAvance, fechaRealInicio, fechaRealFin) "
+                       " (id, idTareaPadre, name, idMaterialTask, idProveedor, cantidad, fechaEstimadaInicio, fechaEstimadaFin, taskType, idTareaPlanificada, pctAvance, fechaRealInicio, fechaRealFin, isSplittedPart) "
                        " VALUES "
-                       " (:id, :idTareaPadre, :name, :idMaterialTask, :idProveedor, :cantidad, :fechaEstimadaInicio, :fechaEstimadaFin, :taskType, :idTareaPlanificada, :pctAvance, :fechaRealInicio, :fechaRealFin);");
+                       " (:id, :idTareaPadre, :name, :idMaterialTask, :idProveedor, :cantidad, :fechaEstimadaInicio, :fechaEstimadaFin, :taskType, :idTareaPlanificada, :pctAvance, :fechaRealInicio, :fechaRealFin, :isSplittedPart);");
 
         query->bindValue(":id", id());
         query->bindValue(":idTareaPadre", _idTareaPadre);
@@ -239,6 +241,7 @@ QSqlQuery *ExecutionTask::getQuery(QSqlDatabase &database)
         query->bindValue(":pctAvance", _pctCompletado);
         query->bindValue(":fechaRealInicio", _fechaRealInicio);
         query->bindValue(":fechaRealFin", _fechaRealFin);
+        query->bindValue(":isSplittedPart", _isSplittedPart);
 
         break;
     }
@@ -252,7 +255,7 @@ QSqlQuery *ExecutionTask::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE tareasEjecucion SET idTareaPadre = :idTareaPadre, name = :name, idMaterialTask = :idMaterialTask, idProveedor = :idProveedor, cantidad = :cantidad, fechaEstimadaInicio = :fechaEstimadaInicio, fechaEstimadaFin = :fechaEstimadaFin, taskType = :taskType, idTareaPlanificada = :idTareaPlanificada, pctAvance = :pctAvance, fechaRealInicio = :fechaRealInicio, fechaRealFin = :fechaRealFin WHERE id = :id;");
+        query->prepare("UPDATE tareasEjecucion SET idTareaPadre = :idTareaPadre, name = :name, idMaterialTask = :idMaterialTask, idProveedor = :idProveedor, cantidad = :cantidad, fechaEstimadaInicio = :fechaEstimadaInicio, fechaEstimadaFin = :fechaEstimadaFin, taskType = :taskType, idTareaPlanificada = :idTareaPlanificada, pctAvance = :pctAvance, fechaRealInicio = :fechaRealInicio, fechaRealFin = :fechaRealFin, isSplittedPart = :isSplittedPart WHERE id = :id;");
 
         query->bindValue(":idTareaPadre", _idTareaPadre);
         query->bindValue(":name", _name);
@@ -266,6 +269,7 @@ QSqlQuery *ExecutionTask::getQuery(QSqlDatabase &database)
         query->bindValue(":pctAvance", _pctCompletado);
         query->bindValue(":fechaRealInicio", _fechaRealInicio);
         query->bindValue(":fechaRealFin", _fechaRealFin);
+        query->bindValue(":isSplittedPart", _isSplittedPart);
 
         query->bindValue(":id", id());
         break;
@@ -385,5 +389,26 @@ double ExecutionTask::pctCompletado() const
 void ExecutionTask::setPctCompletado(double value)
 {
     _pctCompletado = value;
+    updateStatus();
+}
+
+bool ExecutionTask::canBeSplitted() const
+{
+    bool result = false;
+    if (_taskType == KDGantt::TypeTask)
+    {
+        result = (_pctCompletado < 100.0);
+    }
+    return result;
+}
+
+bool ExecutionTask::isSplittedPart() const
+{
+    return _isSplittedPart;
+}
+
+void ExecutionTask::setIsSplittedPart(bool value)
+{
+    _isSplittedPart = value;
     updateStatus();
 }

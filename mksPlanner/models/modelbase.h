@@ -46,8 +46,9 @@ public:
     void setModified();
 
     virtual EntityBasePtr createEntity();
-    void removeEntity(QWidget *parent, QModelIndex &index);
-    bool removeRow(int row, const QModelIndex &parent);
+    virtual void removeEntity(QWidget *parent, QModelIndex &index);
+    virtual bool removeRow(int row, const QModelIndex &parent);
+    virtual bool removeById(int id);
 
     virtual QSet<int> ids();
     bool implementsDelegate() const;

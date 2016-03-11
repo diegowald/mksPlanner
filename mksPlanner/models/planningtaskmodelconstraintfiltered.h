@@ -13,7 +13,7 @@ public:
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
     virtual EntityBasePtr getItemByRowid(int row);
-
+    virtual bool removeRow(int row, const QModelIndex &parent);
 private:
     void extractIds();
 

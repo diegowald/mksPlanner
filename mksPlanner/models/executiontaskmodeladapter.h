@@ -34,6 +34,8 @@ public:
     virtual void editEntity(QModelIndex index);
     void removeEntity(QWidget *parent, QModelIndex& index);
     bool canCreateEntity() const;
+    bool canBeSplitted(QModelIndex &index) const;
+    void splitTask(QModelIndex &index);
 
     EntityBasePtr itemByRowId(int row);
 
@@ -43,6 +45,8 @@ public:
 
 private:
     QModelIndex createIndex(int idTask, ExecutionTaskModel::Node *node);
+    void splitTaskSplitted(ExecutionTaskModel::Node *node);
+    void splitTaskNotSplitted(ExecutionTaskModel::Node *node);
 
 signals:
 

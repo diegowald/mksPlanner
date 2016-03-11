@@ -449,13 +449,14 @@ int ExecutionTaskModel::_loadEntity(QSqlRecord record)
     double pctAvance = record.value(record.indexOf("pctAvance")).toDouble();
     QDateTime fechaRealInicio = record.value(record.indexOf("fecharealInicio")).toDateTime();
     QDateTime fechaRealFin = record.value(record.indexOf("fechaRealFin")).toDateTime();
+    bool isSplittedTask = record.value(record.indexOf("isSplitted")).toBool();
 
 
     EntityBasePtr entity = ExecutionTaskPtr::create(id, idTareaPadre,
                                                     name, idMaterialTask, idProveedor,
                                                     cantidad, fechaEstimadaInicio, fechaEstimadaFin,
                                                     taskType, idTareaPlanificada,
-                                                    pctAvance, fechaRealInicio, fechaRealFin);
+                                                    pctAvance, fechaRealInicio, fechaRealFin, isSplittedTask);
 
     qSharedPointerDynamicCast<ExecutionTask>(entity)->setIdProyecto(_idProyecto);
     addEntity(entity);

@@ -371,6 +371,7 @@
    <addaction name="actionAddExecutionSubTask"/>
    <addaction name="actionEditExecutionTask"/>
    <addaction name="actionDeleteExecutionTask"/>
+   <addaction name="actionInterrumpir_Ejecucion_Tarea"/>
   </widget>
   <action name="actionAddTask">
    <property name="icon">
@@ -460,6 +461,15 @@
    </property>
    <property name="text">
     <string>AddExecutionSubTask</string>
+   </property>
+  </action>
+  <action name="actionInterrumpir_Ejecucion_Tarea">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/people.png</normaloff>:/tableWindow/tools/people.png</iconset>
+   </property>
+   <property name="text">
+    <string>Interrumpir Ejecucion Tarea</string>
    </property>
   </action>
  </widget>

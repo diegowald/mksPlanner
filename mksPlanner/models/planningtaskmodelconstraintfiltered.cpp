@@ -177,3 +177,12 @@ QVariant PlanningTaskModelConstraintFiltered::modelData(EntityBasePtr entity, in
 bool PlanningTaskModelConstraintFiltered::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
 {
 }
+
+bool PlanningTaskModelConstraintFiltered::removeRow(int row, const QModelIndex &parent)
+{
+    beginRemoveRows(parent, row, row);
+    int id = _ids.at(row);
+    _model->removeById(id);
+    _ids.removeAt(row);
+    endRemoveRows();
+}

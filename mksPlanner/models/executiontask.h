@@ -20,7 +20,7 @@ public:
                           double cantidad, const QDateTime &fechaEstimadaInicio,
                           const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType,
                            int idTareaPlanificada, double pctCompletado,
-                           const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin);
+                           const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin, bool isSplittedPart);
 
     int idPlanningTask() const;
     EntityBasePtr planningTask() const;
@@ -64,6 +64,10 @@ public:
 
     QList<ExecutionTaskPtr> child() const;
     void addSubTask(ExecutionTaskPtr task);
+    bool canBeSplitted() const;
+
+    bool isSplittedPart() const;
+    void setIsSplittedPart(bool value);
 
 public:
     virtual QString toDebugString();
@@ -90,6 +94,7 @@ private:
     QDateTime _fechaRealFin;
     double _pctCompletado;
     KDGantt::ItemType _taskType;
+    bool _isSplittedPart;
 
     int _idProyecto;
 

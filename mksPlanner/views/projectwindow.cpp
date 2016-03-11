@@ -56,6 +56,8 @@ void ProjectWindow::setModel(ModelBase* model)
     /* temporal es para ocultar los tabs que aun no han sido desarrollados */
     ui->tabWidget->removeTab(4);
 
+    ui->tabWidget->setTabEnabled(3, false);
+
     ui->lblFilename->setText(qobject_cast<ProyectoModel*>(model)->filename());
     connect(model, &ModelBase::changed, this, &ProjectWindow::on_modelChanged);
 }
@@ -119,6 +121,7 @@ void ProjectWindow::setExecutionModel(ModelBase *model)
     tv->setColumnHidden(1, true);
 
     connect(tv, &QTreeView::doubleClicked, this, &ProjectWindow::on_TreeViewExecution_doubleClicked);
+    connect(tv, &QTreeView::clicked, this, &ProjectWindow::on_TreeViewExecution_clicked);
 }
 
 void ProjectWindow::setExecutionConstraintModel(ModelBase *model)
@@ -137,6 +140,8 @@ void ProjectWindow::on_tabWidget_currentChanged(int index)
     ui->actionAddExecutionSubTask->setVisible(index == 3);
     ui->actionEditExecutionTask->setVisible(index == 3);
     ui->actionDeleteExecutionTask->setVisible(index == 3);
+    ui->actionInterrumpir_Ejecucion_Tarea->setVisible(index == 3);
+    checkSplitAction();
 }
 
 void ProjectWindow::on_actionAddTask_triggered()
@@ -208,6 +213,22 @@ void ProjectWindow::on_TreeViewExecution_doubleClicked(const QModelIndex &index)
        _executionModel->editEntity(index);
 }
 
+void ProjectWindow::on_TreeViewExecution_clicked(const QModelIndex &index)
+{
+    _selectedExecutionIndex = index;
+    checkSplitAction();
+}
+
+void ProjectWindow::checkSplitAction()
+{
+    bool canSplit = false;
+    if (_selectedExecutionIndex.isValid())
+    {
+        canSplit = _executionModel->canBeSplitted(_selectedExecutionIndex);
+    }
+    ui->actionInterrumpir_Ejecucion_Tarea->setEnabled(canSplit);
+}
+
 void ProjectWindow::updateEstimacionMateriales()
 {
     ui->tblEstimacionMateriales->setRowCount(0);
@@ -268,18 +289,22 @@ void ProjectWindow::updateBotonesEstados()
     case Proyecto::ProjectStatus::Planificacion:
         ui->lblEstadoActual->setText("Planificación");
         ui->btnEjecucion->setVisible(true);
+        ui->tabWidget->setTabEnabled(3, false);
         break;
     case Proyecto::ProjectStatus::Ejecucion:
         ui->lblEstadoActual->setText("Ejecución");
         ui->btnFin->setVisible(true);
         ui->btnPausa->setVisible(true);
+        ui->tabWidget->setTabEnabled(3, true);
         break;
     case Proyecto::ProjectStatus::Pausado:
         ui->lblEstadoActual->setText("Pausa");
         ui->btnEjecucion->setVisible(true);
+        ui->tabWidget->setTabEnabled(3, true);
         break;
     case Proyecto::ProjectStatus::Finalizado:
         ui->lblEstadoActual->setText("Finalizado");
+        ui->tabWidget->setTabEnabled(3, true);
         break;
     default:
         ui->lblEstadoActual->setText("");
@@ -310,4 +335,16 @@ void ProjectWindow::on_btnFin_released()
     ProyectoPtr proyecto = qSharedPointerDynamicCast<Proyecto>(entity);
     proyecto->setProjectStatus(Proyecto::ProjectStatus::Finalizado);
     updateBotonesEstados();
+}
+
+void ProjectWindow::on_actionInterrumpir_Ejecucion_Tarea_triggered()
+{
+    if (_selectedExecutionIndex.isValid())
+    {
+        qDebug() << _selectedExecutionIndex.row();
+        if (_executionModel->canBeSplitted(_selectedExecutionIndex))
+        {
+            _executionModel->splitTask(_selectedExecutionIndex);
+        }
+    }
 }

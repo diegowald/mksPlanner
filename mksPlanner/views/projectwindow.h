@@ -44,7 +44,9 @@ private slots:
     void on_modelChanged(Tables table);
     void on_PlanningModelChanged(Tables table);
     void on_TreeView_doubleClicked(const QModelIndex &index);
+
     void on_TreeViewExecution_doubleClicked(const QModelIndex &index);
+    void on_TreeViewExecution_clicked(const QModelIndex &index);
 
     void on_actionActionAddSubTask_triggered();
 
@@ -54,9 +56,12 @@ private slots:
 
     void on_btnFin_released();
 
+    void on_actionInterrumpir_Ejecucion_Tarea_triggered();
+
 private:
     void updateEstimacionMateriales();
     void updateBotonesEstados();
+    void checkSplitAction();
 private:
     Ui::ProjectWindow *ui;
     ModelBase* _model;
@@ -67,6 +72,9 @@ private:
     ExecutionTaskModelConstraintAdapter *_execConstraintModel;
 
     int _idInterno;
+    QModelIndex _selectedExecutionIndex;
+
+
 };
 
 #endif // PROJECTWINDOW_H

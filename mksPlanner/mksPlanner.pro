@@ -73,7 +73,8 @@ SOURCES += main.cpp\
     models/executiontaskmodelconstraint.cpp \
     models/executiontaskmodelconstraintadapter.cpp \
     views/dlgeditexecutiontask.cpp \
-    models/executiontaskmodelconstraintfiltered.cpp
+    models/executiontaskmodelconstraintfiltered.cpp \
+    views/dlgsplitexecutiontask.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -133,7 +134,8 @@ HEADERS  += mainwindow.h \
     models/executiontaskmodelconstraint.h \
     models/executiontaskmodelconstraintadapter.h \
     views/dlgeditexecutiontask.h \
-    models/executiontaskmodelconstraintfiltered.h
+    models/executiontaskmodelconstraintfiltered.h \
+    views/dlgsplitexecutiontask.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
@@ -147,7 +149,8 @@ FORMS    += mainwindow.ui \
     views/dlgeditrubroproveedor.ui \
     views/dlgeditplanningtask.ui \
     views/dlgeditplanningtaskconstraint.ui \
-    views/dlgeditexecutiontask.ui
+    views/dlgeditexecutiontask.ui \
+    views/dlgsplitexecutiontask.ui
 
 CONFIG += mobility
 MOBILITY =
