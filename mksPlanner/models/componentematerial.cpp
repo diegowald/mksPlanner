@@ -3,6 +3,8 @@
 #include "globalcontainer.h"
 #include "models/material.h"
 #include "models/unit.h"
+#include "models/cantidad.h"
+
 
 ComponenteMaterial::ComponenteMaterial(int id) : EntityBase(id, true)
 {
@@ -104,4 +106,18 @@ QString ComponenteMaterial::toDebugString()
 {
     return QString("id: %1, idMaterialPadre: %2, idMaterial: %3, cantidad: %4").arg(id())
             .arg(_idMaterialPadre).arg(_idMaterial).arg(_cantidad);
+}
+
+QString ComponenteMaterial::cantidadToString() const
+{
+    if (_idMaterial != -1)
+    {
+        Cantidad c(_cantidad, qSharedPointerDynamicCast<Unit>(qSharedPointerDynamicCast<Material>(material())->unit()));
+        return c.toString();
+    }
+    else
+    {
+        Cantidad c(_cantidad);
+        return c.toString();
+    }
 }

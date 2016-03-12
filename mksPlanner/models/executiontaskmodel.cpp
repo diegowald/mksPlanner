@@ -138,13 +138,13 @@ void ExecutionTaskModel::defineColumnNames()
     setField(7, "materialTask");
     setField(8, "Proveedor");
     setField(9, "Cantidad");
-    setField(10, "Unidad de medida");
-    setField(11, "Fecha Estimada Inicio");
-    setField(12, "Fecha Estimada de Finalización");
-    setField(13, "Duración");
-    setField(14, "Costo");
-    setField(15, "Precio");
-    setField(16, "Avance");
+//    setField(10, "Unidad de medida");
+    setField(10, "Fecha Estimada Inicio");
+    setField(11, "Fecha Estimada de Finalización");
+    setField(12, "Duración");
+    setField(13, "Costo");
+    setField(14, "Precio");
+    setField(15, "Avance");
 }
 
 QVariant ExecutionTaskModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -246,10 +246,17 @@ QVariant ExecutionTaskModel::modelData(EntityBasePtr entity, int column, int rol
         }
         case 9:
         {
-            return p->cantidad();
+            if (Qt::DisplayRole)
+            {
+                return p->cantidadToString();
+            }
+            else
+            {
+                return p->cantidad();
+            }
             break;
         }
-        case 10:
+        /*case 10:
         {
             if (p->idMaterialTask() != -1)
             {
@@ -269,33 +276,33 @@ QVariant ExecutionTaskModel::modelData(EntityBasePtr entity, int column, int rol
                 return QVariant();
             }
             break;
-        }
-        case 11:
+        }*/
+        case 10:
         {
             return p->fechaEstimadaInicio();
             break;
         }
-        case 12:
+        case 11:
         {
             return p->fechaEstimadaFin();
             break;
         }
-        case 13:
+        case 12:
         {
             return p->duracion();
             break;
         }
-        case 14:
+        case 13:
         {
             return p->costo();
             break;
         }
-        case 15:
+        case 14:
         {
             return p->precio();
             break;
         }
-        case 16:
+        case 15:
         {
             return p->pctCompletado();
             break;

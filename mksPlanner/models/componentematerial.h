@@ -26,6 +26,8 @@ public:
     void setIdMaterialPadre(int id);
     void setIdMaterial(int id);
     void setCantidad(double value);
+
+    QString cantidadToString() const;
 signals:
 
 public slots:

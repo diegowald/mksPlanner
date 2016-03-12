@@ -5,6 +5,9 @@
 #include "models/entitybase.h"
 #include <QDate>
 #include <KDGantt>
+#include "models/cantidad.h"
+
+
 
 class PlanningTask;
 typedef QSharedPointer<PlanningTask> PlanningTaskPtr;
@@ -47,11 +50,12 @@ public:
 
     void setIdProyecto(int idProyecto);
 
-    QMap<QString, double> listadoMateriales() const;
+    QMap<QString, CantidadPtr> listadoMateriales() const;
 
     QList<PlanningTaskPtr> child() const;
     void addSubTask(PlanningTaskPtr task);
 
+    QString cantidadToString() const;
 
 private:
     QString tablaListadoMateriales() const;

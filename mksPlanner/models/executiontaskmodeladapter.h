@@ -49,6 +49,8 @@ private:
     void splitTaskNotSplitted(ExecutionTaskModel::Node *node);
 
 signals:
+private slots:
+    void on_model_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
 
 public slots:
 private:

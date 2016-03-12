@@ -128,8 +128,8 @@ QVariant PlanningTaskModelAdapter::headerData( int section, Qt::Orientation orie
         return tr("Proveedor");
     case 8:
         return tr("Cantidad");
-    case 9:
-        return tr("Unidad de medida");
+/*    case 9:
+        return tr("Unidad de medida");*/
     case 10:
         return tr("Duración");
     case 11:
@@ -241,11 +241,12 @@ QVariant PlanningTaskModelAdapter::data( const QModelIndex& idx, int role) const
         switch (role)
         {
         case Qt::DisplayRole:
+            return p->cantidadToString();
         case Qt::EditRole:
             return p->cantidad();
         }
     }
-    else if (idx.column() == 9 && role == Qt::DisplayRole)
+/*    else if (idx.column() == 9 && role == Qt::DisplayRole)
     {
         if (p->idMaterialTask() != -1)
         {
@@ -256,16 +257,16 @@ QVariant PlanningTaskModelAdapter::data( const QModelIndex& idx, int role) const
                 return unit->name();
             }
         }
-    }
-    else if (idx.column() == 10 && role == Qt::DisplayRole)
+    }*/
+    else if (idx.column() == 9 && role == Qt::DisplayRole)
     {
         return p->duracion();
     }
-    else if (idx.column() == 11 && role == Qt::DisplayRole)
+    else if (idx.column() == 10 && role == Qt::DisplayRole)
     {
         return p->costo();
     }
-    else if (idx.column() == 12 && role == Qt::DisplayRole)
+    else if (idx.column() == 11 && role == Qt::DisplayRole)
     {
         return p->precio();
     }

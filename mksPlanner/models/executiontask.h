@@ -4,6 +4,9 @@
 #include "models/entitybase.h"
 #include <QDate>
 #include <KDGantt>
+#include "models/cantidad.h"
+
+
 
 class ExecutionTask;
 
@@ -60,7 +63,7 @@ public:
 
     void setIdProyecto(int idProyecto);
 
-    QMap<QString, double> listadoMateriales() const;
+    QMap<QString, CantidadPtr> listadoMateriales() const;
 
     QList<ExecutionTaskPtr> child() const;
     void addSubTask(ExecutionTaskPtr task);
@@ -68,6 +71,8 @@ public:
 
     bool isSplittedPart() const;
     void setIsSplittedPart(bool value);
+
+    QString cantidadToString() const;
 
 public:
     virtual QString toDebugString();

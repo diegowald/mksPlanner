@@ -6,7 +6,7 @@
 #include "models/material.h"
 #include "models/planningtask.h"
 #include "models/executiontaskmodel.h"
-
+#include "models/cantidad.h"
 
 ExecutionTask::ExecutionTask(int id) : EntityBase(id, true)
 {
@@ -301,30 +301,33 @@ QString ExecutionTask::tooltip() const
 
 QString ExecutionTask::tablaListadoMateriales() const
 {
-    QMap<QString, double> listado = listadoMateriales();
+    QMap<QString, CantidadPtr> listado = listadoMateriales();
     QString result = "";
-    QString templ = "<tr><td>%1</td><td>%2 %3</td></tr>";
+    QString templ = "<tr><td>%1</td><td>%2</td></tr>";
     foreach (QString material, listado.keys())
     {
         result += templ.arg(material)
-                .arg(listado[material]);
+                .arg(listado[material]->toString());
     }
     return result;
 }
 
-QMap<QString, double> ExecutionTask::listadoMateriales() const
+QMap<QString, CantidadPtr> ExecutionTask::listadoMateriales() const
 {
-    QMap<QString, double> result;
+    QMap<QString, CantidadPtr> result;
     if (_idMaterialTask != -1)
     {
         MaterialPtr material = qSharedPointerDynamicCast<Material>(materialTask());
-        QMap<QString, double> processingResult = material->listadoMaterialesCantidades(_cantidad);
+        QMap<QString, CantidadPtr> processingResult = material->listadoMaterialesCantidades(_cantidad);
         foreach (QString material, processingResult.keys())
         {
             if (!result.contains(material))
                 result[material] = processingResult[material];
             else
-                result[material] += processingResult[material];
+            {
+                CantidadPtr c = result[material];
+                c->setValue(c->value() + processingResult[material]->value());
+            }
         }
     }
     return result;
@@ -411,4 +414,10 @@ void ExecutionTask::setIsSplittedPart(bool value)
 {
     _isSplittedPart = value;
     updateStatus();
+}
+
+QString ExecutionTask::cantidadToString() const
+{
+    Cantidad c(_cantidad, qSharedPointerDynamicCast<Unit>(qSharedPointerDynamicCast<Material>(materialTask())->unit()));
+    return c.toString();
 }

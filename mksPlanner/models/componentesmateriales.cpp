@@ -23,7 +23,7 @@ void ComponentesMaterialesModel::defineColumnNames()
     setField(2, "idMaterial");
     setField(3, "Material");
     setField(4, "Cantidad");
-    setField(5, "Unidad de medida");
+    //setField(5, "Unidad de medida");
 }
 
 /*QVariant ComponentesMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -105,7 +105,14 @@ QVariant ComponentesMaterialesModel::modelData(EntityBasePtr entity, int column,
         }
         case 4:
         {
-            result = comp->cantidad();
+            if (role == Qt::DisplayRole)
+            {
+                result = comp->cantidadToString();
+            }
+            else
+            {
+                result = comp->cantidad();
+            }
             break;
         }
         case 5:

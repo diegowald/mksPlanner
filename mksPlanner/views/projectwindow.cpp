@@ -236,13 +236,13 @@ void ProjectWindow::updateEstimacionMateriales()
     ui->tblEstimacionMateriales->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
     ui->tblEstimacionMateriales->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
     ui->tblEstimacionMateriales->setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Unidad")));
-    QMap<QString, double> results;
+    QMap<QString, CantidadPtr> results;
     int rowCount = _planningModel->rowCount(QModelIndex());
     for (int i = 0; i < rowCount; ++i)
     {
         EntityBasePtr entity = _planningModel->itemByRowId(i);
         PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(entity);
-        QMap<QString, double> partialResult = pt->listadoMateriales();
+        QMap<QString, CantidadPtr> partialResult = pt->listadoMateriales();
         foreach (QString material, partialResult.keys())
         {
             if (!results.contains(material))
@@ -251,7 +251,8 @@ void ProjectWindow::updateEstimacionMateriales()
             }
             else
             {
-                results[material] += partialResult[material];
+                CantidadPtr c = results[material];
+                c->setValue(c->value() + partialResult[material]->value());
             }
         }
     }
@@ -261,7 +262,7 @@ void ProjectWindow::updateEstimacionMateriales()
         int row = ui->tblEstimacionMateriales->rowCount();
         ui->tblEstimacionMateriales->insertRow(row);
         ui->tblEstimacionMateriales->setItem(row, 0, new QTableWidgetItem(material));
-        ui->tblEstimacionMateriales->setItem(row, 1, new QTableWidgetItem(QString::number(results[material])));
+        ui->tblEstimacionMateriales->setItem(row, 1, new QTableWidgetItem(results[material]->toString()));
     }
 }
 

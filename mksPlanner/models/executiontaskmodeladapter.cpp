@@ -15,6 +15,7 @@ ExecutionTaskModelAdapter::ExecutionTaskModelAdapter(ExecutionTaskModel *model, 
     QAbstractItemModel(parent)
 {
     _model = model;
+    connect(_model, &ExecutionTaskModel::dataChanged, this, &ExecutionTaskModelAdapter::on_model_dataChanged);
 }
 
 ExecutionTaskModelAdapter::~ExecutionTaskModelAdapter()
@@ -129,17 +130,17 @@ QVariant ExecutionTaskModelAdapter::headerData( int section, Qt::Orientation ori
         return tr("Proveedor");
     case 8:
         return tr("Cantidad");
+/*    case 9:
+        return tr("Unidad de medida");*/
     case 9:
-        return tr("Unidad de medida");
-    case 10:
         return tr("Duración");
-    case 11:
+    case 10:
         return tr("Costo");
-    case 12:
+    case 11:
         return tr("Precio");
-    case 13:
+    case 12:
         return tr("Fecha Inicio Planificada");
-    case 14:
+    case 13:
         return tr("Fecha Finalizacion Planificada");
     default:
         return QVariant();
@@ -245,11 +246,12 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
         switch (role)
         {
         case Qt::DisplayRole:
+            return p->cantidadToString();
         case Qt::EditRole:
             return p->cantidad();
         }
     }
-    else if (idx.column() == 9 && role == Qt::DisplayRole)
+/*    else if (idx.column() == 9 && role == Qt::DisplayRole)
     {
         if (p->idMaterialTask() != -1)
         {
@@ -260,24 +262,24 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
                 return unit->name();
             }
         }
-    }
-    else if (idx.column() == 10 && role == Qt::DisplayRole)
+    }*/
+    else if (idx.column() == 9 && role == Qt::DisplayRole)
     {
         return p->duracion();
     }
-    else if (idx.column() == 11 && role == Qt::DisplayRole)
+    else if (idx.column() == 10 && role == Qt::DisplayRole)
     {
         return p->costo();
     }
-    else if (idx.column() == 12 && role == Qt::DisplayRole)
+    else if (idx.column() == 11 && role == Qt::DisplayRole)
     {
         return p->precio();
     }
-    else if (idx.column() == 13 && role == Qt::DisplayRole)
+    else if (idx.column() == 12 && role == Qt::DisplayRole)
     {
         return p->fechaEstimadaInicio().date().toString();
     }
-    else if (idx.column() == 14 && role == Qt::DisplayRole)
+    else if (idx.column() == 13 && role == Qt::DisplayRole)
     {
         return p->fechaEstimadaFin().date().toString();
     }
@@ -572,8 +574,6 @@ void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node
         et1->setCantidad(cantidadParcial);
         et1->setPctCompletado(100);
         QDateTime dt2 = tp->fechaRealInicio();
-//        et1->setFechaRealInicio(dt2);
-//        et1->setFechaEstimadaInicio(dt2);
         et1->setFechaEstimadaFin(dt);
         et1->setFechaRealFin(dt);
         et1->setIsSplittedPart(true);
@@ -632,3 +632,7 @@ void ExecutionTaskModelAdapter::setProyecto(EntityBasePtr proyecto)
     _proyecto = proyecto;
 }
 
+void ExecutionTaskModelAdapter::on_model_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+{
+    emit dataChanged(QModelIndex(), QModelIndex());
+}

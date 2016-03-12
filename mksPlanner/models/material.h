@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "models/entitybase.h"
+#include "models/cantidad.h"
+
 
 class Material : public EntityBase
 {
@@ -33,7 +35,7 @@ public:
 
     QSet<int> materialsComposedBy();
 
-    QMap<QString, double> listadoMaterialesCantidades(double cantidadARealizar);
+    QMap<QString, CantidadPtr> listadoMaterialesCantidades(double cantidadARealizar);
 
     bool isCompuesto() const;
 

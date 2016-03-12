@@ -215,12 +215,12 @@ void Material::setDescription(const QString &value)
     updateStatus();
 }
 
-QMap<QString, double> Material::listadoMaterialesCantidades(double cantidadARealizar)
+QMap<QString, CantidadPtr> Material::listadoMaterialesCantidades(double cantidadARealizar)
 {
-    QMap<QString, double> result;
+    QMap<QString, CantidadPtr> result;
     if (!isCompuesto())
     {
-        result[_name] = cantidadARealizar;
+        result[_name] = CantidadPtr::create(cantidadARealizar, qSharedPointerDynamicCast<Unit>(GlobalContainer::instance().library()->model(Tables::Unidades)->getItem(_idUnit)));
     }
     else
     {
@@ -231,7 +231,7 @@ QMap<QString, double> Material::listadoMaterialesCantidades(double cantidadAReal
             EntityBasePtr entity = model->getItem(idComponente);
             ComponenteMaterialPtr cm = qSharedPointerDynamicCast<ComponenteMaterial>(entity);
             MaterialPtr m = qSharedPointerDynamicCast<Material>(cm->material());
-            QMap<QString, double> partialResult = m->listadoMaterialesCantidades(cm->cantidad() * cantidadARealizar);
+            QMap<QString, CantidadPtr> partialResult = m->listadoMaterialesCantidades(cm->cantidad() * cantidadARealizar);
             foreach (QString material, partialResult.keys())
             {
                 if (!result.contains(material))
@@ -240,7 +240,8 @@ QMap<QString, double> Material::listadoMaterialesCantidades(double cantidadAReal
                 }
                 else
                 {
-                    result[material] += partialResult[material];
+                    CantidadPtr c = result[material];
+                    c->setValue(c->value() + partialResult[material]->value());
                 }
             }
         }
