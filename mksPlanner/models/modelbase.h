@@ -9,6 +9,7 @@
 #include <QMap>
 #include <QStyledItemDelegate>
 #include <QSet>
+#include "models/fieldbehaviour.h"
 
 enum class Tables {
     Unidades,
@@ -72,10 +73,12 @@ protected:
 
     virtual void postProcessData();
 
-    virtual QVariant modelData(EntityBasePtr entity, int column, int role = Qt::DisplayRole) const = 0;
-    virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role) = 0;
+    //virtual QVariant modelData(EntityBasePtr entity, int column, int role = Qt::DisplayRole) const = 0;
+    //virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role) = 0;
     virtual void defineColumnNames() {};
-    virtual void setField(int pos, const QString &fieldName);
+    //virtual void setField(int pos, const QString &fieldName);
+    virtual void setField(int pos, const QString &fieldName, std::function<QVariant (EntityBasePtr, int)> getter, std::function<bool (EntityBasePtr, const QVariant&, int)>);
+    virtual void setField(int pos, const QString &fieldName, std::function<QVariant (EntityBasePtr, int)> getter);
     QString field(int pos);
 
     QList<EntityBasePtr> entities() const;
@@ -91,7 +94,9 @@ protected:
     QMap<int, EntityBasePtr> _entities;
     QString _counterName;
     bool _implementsDelegate;
-    QMap<int, QString> _fields;
+    //QMap<int, QString> _fields;
+    QMap<int, FieldBehaviourPtr> _fields2;
+
     QSet<int> _dependantTables;
     Tables _tableType;
 };

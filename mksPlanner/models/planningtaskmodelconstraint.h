@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "models/modelbase.h"
+#include "models/planningtaskconstraint.h"
 
 class PlanningTaskModelConstraint : public ModelBase
 {
@@ -27,6 +28,9 @@ protected:
     virtual EntityBasePtr internalCreateEntity(int assignedId);
     virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
     virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
+
+private:
+    PlanningTaskConstraintPtr cast(EntityBasePtr entity);
 
     // PersisterBase interface
 protected:

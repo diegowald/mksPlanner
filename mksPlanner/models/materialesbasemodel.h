@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "models/modelbase.h"
+#include "models/material.h"
 
 class MaterialesBaseModel : public ModelBase
 {
@@ -23,6 +24,8 @@ signals:
 
 public slots:
 
+private:
+    MaterialPtr cast(EntityBasePtr entity);
 private:
     bool _filterByTask;
 };

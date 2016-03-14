@@ -37,7 +37,7 @@ void ExecutionTaskModelConstraint::editEntity(int row)
     EntityBasePtr entity = getItemByRowid(row);
     ExecutionTaskConstraintPtr pt = qSharedPointerDynamicCast<ExecutionTaskConstraint>(entity);
 
-/*    DlgEditPlanningTaskConstraint dlg(pt, _idProyecto);
+    /*    DlgEditPlanningTaskConstraint dlg(pt, _idProyecto);
     if (dlg.exec() == QDialog::Accepted)
         emit dataChanged(QModelIndex(), QModelIndex());*/
 }
@@ -85,10 +85,119 @@ void ExecutionTaskModelConstraint::postProcessData()
 
 void ExecutionTaskModelConstraint::defineColumnNames()
 {
-    setField(1, "idTask1");
-    setField(2, "idTask2");
-    setField(3, "Type");
-    setField(4, "RelationType");
+    setField(1, "idTask1",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role) {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idTask1();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setIdTask1(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+
+    setField(2, "idTask2",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role) {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idTask2();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setIdTask2(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(3, "Type",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role) {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->Type();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setType(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(4, "RelationType",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->RelationType();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setRelationType(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
 }
 
 void ExecutionTaskModelConstraint::cloneFromPlanning()
@@ -106,4 +215,9 @@ void ExecutionTaskModelConstraint::cloneFromPlanning()
     }
     //endInsertRows();
     postProcessData();
+}
+
+ExecutionTaskConstraintPtr ExecutionTaskModelConstraint::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<ExecutionTaskConstraint>(entity);
 }

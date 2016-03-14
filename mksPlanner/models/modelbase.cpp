@@ -11,7 +11,22 @@ ModelBase::ModelBase(Tables tableType, const QString &counterName, bool implemen
     _counterName = counterName;
     _implementsDelegate = implementsDelegate;
     setDBName(dbName);
-    setField(0, "id");
+    //setField(0, "id");
+    setField(0, "id",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            return entity->id();
+            break;
+        default:
+            return QVariant();
+            break;
+        }
+    }
+    );
     defineColumnNames();
     _tableType = tableType;
     connect(this, &ModelBase::dataChanged, this, &ModelBase::on_dataChanged);
@@ -27,17 +42,21 @@ QVariant ModelBase::data(const QModelIndex &index, int role) const
     if (index.isValid())
     {
         EntityBasePtr entity = _entities[_entityMapping.at(index.row())];
-        return modelData(entity, index.column(), role);
+        if (_fields2.contains(index.column()))
+            return _fields2[index.column()]->get(entity, role);
+        /*else
+            return modelData(entity, index.column(), role);*/
     }
-    else
-    {
-        return QVariant();
-    }
+    return QVariant();
 }
 
 QVariant ModelBase::data(const int id, const int column, int role) const
 {
-    return modelData(_entities[id], column, role);
+    if (_fields2.contains(column))
+        return _fields2[column]->get(_entities[id], role);
+    else
+        return QVariant();
+    //return modelData(_entities[id], column, role);
 }
 
 bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -46,7 +65,8 @@ bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int rol
     if (role == Qt::EditRole)
     {
         EntityBasePtr entity = _entities[_entityMapping.at(index.row())];
-        result = modelSetData(entity, index.column(), value, role);
+        result = _fields2[index.column()]->set(entity, value, role);
+        //result = modelSetData(entity, index.column(), value, role);
         if (result)
         {
             QModelIndex index0 = createIndex(index.row(), 0);
@@ -57,7 +77,7 @@ bool ModelBase::setData(const QModelIndex &index, const QVariant &value, int rol
     return result;
 }
 
-Qt::ItemFlags ModelBase::flags(const QModelIndex &index) const
+Qt::ItemFlags ModelBase::flags(const QModelIndex &) const
 {
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
@@ -84,13 +104,14 @@ bool ModelBase::removeRow(int row, const QModelIndex &parent)
     beginRemoveRows(parent, row, row);
     _entities[_entityMapping.at(row)]->deleteEntity();
     _entityMapping.removeAt(row);
+    return true;
     endRemoveRows();
 }
 
 bool ModelBase::removeById(int id)
 {
     int row = _entityMapping.indexOf(id);
-    removeRow(row, QModelIndex());
+    return removeRow(row, QModelIndex());
 }
 
 
@@ -209,29 +230,45 @@ void ModelBase::postProcessData()
 {
 }
 
-void ModelBase::setField(int pos, const QString &fieldName)
+/*void ModelBase::setField(int pos, const QString &fieldName)
 {
     _fields[pos] = fieldName;
+}*/
+
+void ModelBase::setField(int pos, const QString &fieldName,
+                         std::function<QVariant (EntityBasePtr, int)> getter,
+                         std::function<bool (EntityBasePtr, const QVariant&, int)> setter)
+{
+    FieldBehaviourPtr fb = FieldBehaviourPtr::create(fieldName, getter, setter);
+    _fields2[pos] = fb;
+}
+
+void ModelBase::setField(int pos, const QString &fieldName,
+                         std::function<QVariant (EntityBasePtr, int)> getter)
+{
+    FieldBehaviourPtr fb = FieldBehaviourPtr::create(fieldName, getter);
+    _fields2[pos] = fb;
 }
 
 QString ModelBase::field(int pos)
 {
-    return _fields.contains(pos) ? _fields[pos] : "";
+    //return _fields.contains(pos) ? _fields[pos] : "";
+    return _fields2.contains(pos) ? _fields2[pos]->name() : "";
 }
 
 int ModelBase::columnIndex(const QString &name) const
 {
-    foreach (int key, _fields.keys())
+    foreach (int key, _fields2.keys())
     {
-        if (_fields[key] == name)
+        if (_fields2[key]->name() == name)
             return key;
     }
     return -1;
 }
 
-int ModelBase::columnCount(const QModelIndex &parent) const
+int ModelBase::columnCount(const QModelIndex &) const
 {
-    return _fields.count();
+    return _fields2.count();
 }
 
 QVariant ModelBase::headerData(int section, Qt::Orientation orientation, int role) const
@@ -241,7 +278,7 @@ QVariant ModelBase::headerData(int section, Qt::Orientation orientation, int rol
     {
         if (orientation == Qt::Horizontal)
         {
-            value = _fields.contains(section) ? _fields[section] : QVariant();
+            value = _fields2.contains(section) ? _fields2[section]->name() : QVariant();
         }
     }
     else
@@ -287,7 +324,7 @@ Tables ModelBase::tableType() const
     return _tableType;
 }
 
-void ModelBase::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+void ModelBase::on_dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)
 {
     emit changed(_tableType);
 }

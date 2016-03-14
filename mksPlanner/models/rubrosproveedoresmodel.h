@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "models/modelbase.h"
+#include "models/rubroroveedor.h"
 
 class RubrosProveedoresModel : public ModelBase
 {
@@ -24,11 +25,12 @@ protected:
     virtual int _loadEntity(QSqlRecord record);
     virtual EntityBasePtr internalCreateEntity(int assignedId);
 
-    virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
-    virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
+    //virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
+    //virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
     virtual void defineColumnNames();
 private:
     void classifyEntity(EntityBasePtr entity);
+    RubroProveedorPtr cast(EntityBasePtr entity);
 signals:
 
 public slots:

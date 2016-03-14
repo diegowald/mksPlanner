@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "models/modelbase.h"
+#include "models/componentematerial.h"
+
 
 class ComponentesMaterialesModel : public ModelBase
 {
@@ -34,6 +36,7 @@ protected:
 
 private:
     void classifyEntity(EntityBasePtr entity);
+    ComponenteMaterialPtr cast(EntityBasePtr entity);
 signals:
 
 public slots:

@@ -19,60 +19,112 @@ int ComponentesMaterialesModel::rowCount(const QModelIndex &/*parent*/) const
 
 void ComponentesMaterialesModel::defineColumnNames()
 {
-    setField(1, "idMaterialPadre");
-    setField(2, "idMaterial");
-    setField(3, "Material");
-    setField(4, "Cantidad");
-    //setField(5, "Unidad de medida");
-}
-
-/*QVariant ComponentesMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role == Qt::DisplayRole)
+    setField(1, "idMaterialPadre",
+             [&] (EntityBasePtr entity, int role) -> QVariant
     {
-        if (orientation == Qt::Horizontal)
+        QVariant v;
+        switch (role)
         {
-            switch (section)
-            {
-            case 0:
-            {
-                return QString("id");
-                break;
-            }
-            case 1:
-            {
-                return QString("idMaterialPadre");
-                break;
-            }
-            case 2:
-            {
-                return QString("idMaterial");
-                break;
-            }
-            case 3:
-            {
-                return QString("Material");
-                break;
-            }
-
-            case 4:
-            {
-                return QString("Cantidad");
-                break;
-            }
-            case 5:
-            {
-                return QString("Unidad de medida");
-                break;
-            }
-            default:
-                break;
-            }
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idMaterialPadre();
+            break;
+        default:
+            v = QVariant();
+            break;
         }
-        return section;
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setIdMaterialPadre(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-    return QAbstractItemModel::headerData(section, orientation, role);
-}*/
+    );
+
+    setField(2, "idMaterial",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idMaterial();
+        break;
+        default:
+            v = QVariant();
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setIdMaterial(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+    setField(3, "Material",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = (cast(entity)->idMaterial() != -1) ?
+                        qSharedPointerDynamicCast<Material>(cast(entity)->material())->name() :
+                        "";
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+    setField(4, "Cantidad",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+            v = cast(entity)->cantidadToString();
+            break;
+        case Qt::EditRole:
+            v = cast(entity)->cantidad();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setCantidad(value.toDouble());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+}
 
 QVariant ComponentesMaterialesModel::modelData(EntityBasePtr entity, int column, int role) const
 {
@@ -231,7 +283,7 @@ bool ComponentesMaterialesModel::setData(const QModelIndex &index, const QVarian
     {
         EntityBasePtr entity = _entities[_entityMappingByIdMaterialPadre[_idMterialPadre].at(index.row())];
         return modelSetData(entity, index.column(), value, role);
-//        entity->setData(index.column(), value, role);
+        //        entity->setData(index.column(), value, role);
     }
     return true;
 }
@@ -265,4 +317,9 @@ QSet<int> ComponentesMaterialesModel::compuestosPor(int idMaterial)
 QList<int> ComponentesMaterialesModel::idComponentes(int idMaterialPadre) const
 {
     return _entityMappingByIdMaterialPadre[idMaterialPadre];
+}
+
+ComponenteMaterialPtr ComponentesMaterialesModel::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<ComponenteMaterial>(entity);
 }

@@ -82,8 +82,76 @@ void PlanningTaskModelConstraint::postProcessData()
 
 void PlanningTaskModelConstraint::defineColumnNames()
 {
-    setField(1, "idTask1");
-    setField(2, "idTask2");
-    setField(3, "Type");
-    setField(4, "RelationType");
+    setField(1, "idTask1",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idTask1();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+    setField(2, "idTask2",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idTask2();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(3, "Type",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->Type();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(4, "RelationType",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->RelationType();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+}
+
+PlanningTaskConstraintPtr PlanningTaskModelConstraint::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<PlanningTaskConstraint>(entity);
 }

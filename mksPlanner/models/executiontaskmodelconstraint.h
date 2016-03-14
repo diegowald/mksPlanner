@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "models/modelbase.h"
+#include "models/executiontaskconstraint.h"
 
 class ExecutionTaskModelConstraint : public ModelBase
 {
@@ -38,6 +39,8 @@ protected:
     // ModelBase interface
 protected:
     virtual void defineColumnNames();
+private:
+    ExecutionTaskConstraintPtr cast(EntityBasePtr entity);
 
 private:
     int _idProyecto;

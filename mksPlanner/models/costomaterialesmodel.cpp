@@ -26,53 +26,47 @@ int CostoMaterialesModel::rowCount(const QModelIndex &parent) const
 
 void CostoMaterialesModel::defineColumnNames()
 {
-    setField(1, "Material");
-    setField(2, "Costo");
-    setField(3, "Precio");
-    setField(4, "Desde");
-}
-
-/*QVariant CostoMaterialesModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role == Qt::DisplayRole)
+    setField(1, "Material",
+             [&] (EntityBasePtr entity, int role) -> QVariant
     {
-        if (orientation == Qt::Horizontal)
-        {
-            switch (section)
-            {
-            case 0:
-            {
-                return QString("id");
-                break;
-            }
-            case 1:
-            {
-                return QString("Material");
-                break;
-            }
-            case 2:
-            {
-                return QString("Costo");
-                break;
-            }
-            case 3:
-            {
-                return QString("Precio");
-                break;
-            }
-            case 4:
-            {
-                return QString("Desde");
-                break;
-            }
-            default:
-                break;
-            }
-        }
-        return section;
-    }
-    return QAbstractItemModel::headerData(section, orientation, role);
-}*/
+        return QVariant();
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        return false;
+    });
+
+    setField(2, "Costo",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        return QVariant();
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        return false;
+    });
+
+    setField(3, "Precio",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        return QVariant();
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        return false;
+    });
+
+    setField(4, "Desde",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        return QVariant();
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        return false;
+    });
+
+}
 
 QVariant CostoMaterialesModel::modelData(EntityBasePtr entity, int column, int role) const
 {
@@ -357,4 +351,10 @@ bool CostoMaterialesModel::modelSetData(EntityBasePtr entity, int column, const 
         return true;
     }
     return false;
+}
+
+
+CostoMaterialPtr CostoMaterialesModel::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<CostoMaterial>(entity);
 }

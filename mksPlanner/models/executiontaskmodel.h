@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "models/modelbase.h"
+#include "models/executiontask.h"
 
 class ExecutionTaskModel : public ModelBase
 {
@@ -68,6 +69,9 @@ protected:
 
     virtual void postProcessData();
     void calculateParentsBasedOnPlanningParents();
+
+private:
+    ExecutionTaskPtr cast(EntityBasePtr entity);
 
 private:
     int _idProyecto;

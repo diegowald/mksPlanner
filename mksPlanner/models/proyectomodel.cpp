@@ -12,70 +12,207 @@ ProyectoModel::ProyectoModel(int idProyecto, QObject *parent) :
 
 void ProyectoModel::defineColumnNames()
 {
-    setField(0, "id");
-    setField(1, "Propietario");
-    setField(2, "Direccion");
-    setField(3, "Email");
-    setField(4, "Telefono");
-    setField(5, "Fecha estimada de Inicio");
-    setField(6, "Fecha estimada de finalización");
-    setField(7, "Plazo");
-    setField(8, "Costo");
+    setField(1, "Propietario",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role) {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->propietario();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entitty, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entitty)->setPropietario(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(2, "Direccion",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role) {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->direccion();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entitty, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entitty)->setDireccion(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(3, "Email",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role) {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->email();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setEMail(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    });
+
+    setField(4, "Telefono",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {                 QVariant v;
+                      switch (role) {
+                      case Qt::DisplayRole:
+                      case Qt::EditRole:
+                          v = cast(entity)->telefono();
+                          break;
+                      default:
+                          v = QVariant();
+                          break;
+                      }
+                                    return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setTelefono(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(5, "Fecha estimada de Inicio",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {                 QVariant v;
+                      switch (role) {
+                      case Qt::DisplayRole:
+                      case Qt::EditRole:
+                          v = cast(entity)->fechaEstimadaInicio();
+                          break;
+                      default:
+                          v = QVariant();
+                          break;
+                      }
+                                    return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            QDate dt = value.toDate();
+            cast(entity)->setFechaEstimadaInicio(dt);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(6, "Fecha estimada de finalización",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {                 QVariant v;
+                      switch (role) {
+                      case Qt::DisplayRole:
+                      case Qt::EditRole:
+                          v = cast(entity)->fechaEstimadaFinalizacion();
+                          break;
+                      default:
+                          v = QVariant();
+                          break;
+                      }
+                                    return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            QDate dt = value.toDate();
+            cast(entity)->setFechaEstimadaFinalizacion(dt);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    });
+
+    setField(7, "Plazo",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {                 QVariant v;
+                      switch (role) {
+                      case Qt::DisplayRole:
+                      case Qt::EditRole:
+                          v = cast(entity)->plazoEstimado();
+                          break;
+                      default:
+                          v = QVariant();
+                          break;
+                      }
+                                    return v;
+    });
+
+    setField(8, "Costo",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {                 QVariant v;
+                      switch (role) {
+                      case Qt::DisplayRole:
+                      case Qt::EditRole:
+                          v = cast(entity)->costoEstimado();
+                          break;
+                      default:
+                          v = QVariant();
+                          break;
+                      }
+                                    return v;
+    });
 }
 
-/*QVariant ProyectoModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role == Qt::DisplayRole)
-    {
-        if (orientation == Qt::Horizontal)
-        {
-            switch (section)
-            {
-            case 0:
-            {
-                return QString("id");
-                break;
-            }
-            case 1:
-            {
-                return QString("Propietario");
-                break;
-            }
-            case 2:
-            {
-                return QString("Direccion");
-                break;
-            }
-            case 3:
-            {
-                return QString("Email");
-                break;
-            }
-            case 4:
-            {
-                return QString("Telefono");
-                break;
-            }
-            case 5:
-            {
-                return QString("Fecha estimada de Inicio");
-                break;
-            }
-            case 6:
-            {
-                return QString("Fecha estimada de finalización");
-                break;
-            }
-            default:
-                break;
-            }
-        }
-        return section;
-    }
-    return QAbstractItemModel::headerData(section, orientation, role);
-}*/
-
-QVariant ProyectoModel::modelData(EntityBasePtr entity, int column, int role) const
+/*QVariant ProyectoModel::modelData(EntityBasePtr entity, int column, int role) const
 {
     ProyectoPtr p = qSharedPointerDynamicCast<Proyecto>(entity);
     if (role == Qt::DisplayRole || role == Qt::EditRole)
@@ -183,7 +320,7 @@ bool ProyectoModel::modelSetData(EntityBasePtr entity, int column, const QVarian
         break;
     }
     return result;
-}
+}*/
 
 
 QString ProyectoModel::_getSQLRead() const
@@ -225,4 +362,9 @@ void ProyectoModel::editEntity(int row)
 QString ProyectoModel::filename() const
 {
     return PersisterBase::filename();
+}
+
+ProyectoPtr ProyectoModel::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<Proyecto>(entity);
 }

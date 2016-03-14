@@ -75,7 +75,8 @@ SOURCES += main.cpp\
     views/dlgeditexecutiontask.cpp \
     models/executiontaskmodelconstraintfiltered.cpp \
     views/dlgsplitexecutiontask.cpp \
-    models/cantidad.cpp
+    models/cantidad.cpp \
+    models/fieldbehaviour.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -137,7 +138,8 @@ HEADERS  += mainwindow.h \
     views/dlgeditexecutiontask.h \
     models/executiontaskmodelconstraintfiltered.h \
     views/dlgsplitexecutiontask.h \
-    models/cantidad.h
+    models/cantidad.h \
+    models/fieldbehaviour.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

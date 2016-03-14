@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include "models/modelbase.h"
+#include "models/costomaterial.h"
+
+
 
 class CostoMaterialesModel : public ModelBase
 {
@@ -34,6 +37,8 @@ protected:
     virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
     virtual void defineColumnNames();
 
+private:
+    CostoMaterialPtr cast(EntityBasePtr entity);
 private:
     QMap<int, int> _mappingMaterialToCosto;
     bool _crearMaterialCompuesto; // esta es una propiedad temporal que se utiliza para crear un nuevo elemento

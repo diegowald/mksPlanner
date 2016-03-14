@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "models/modelbase.h"
+#include "models/proyecto.h"
+
 
 class ProyectoModel : public ModelBase
 {
@@ -18,10 +20,12 @@ protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);
     virtual EntityBasePtr internalCreateEntity(int assignedId);
-    virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
-    virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
+    //virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
+    //virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
     virtual void defineColumnNames();
 
+private:
+    ProyectoPtr cast(EntityBasePtr entity);
 private:
     int _idProyecto;
 };

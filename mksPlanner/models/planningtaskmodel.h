@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include "models/modelbase.h"
+#include "models/planningtask.h"
+
+
 
 class PlanningTaskModel : public ModelBase
 {
@@ -65,6 +68,9 @@ protected:
     virtual void defineColumnNames();
 
     virtual void postProcessData();
+
+private:
+    PlanningTaskPtr cast(EntityBasePtr entity);
 
 private:
     int _idProyecto;

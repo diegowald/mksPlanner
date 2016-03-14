@@ -13,61 +13,153 @@ ProveedoresModel::ProveedoresModel(QObject *parent)
 
 void ProveedoresModel::defineColumnNames()
 {
-    setField(1, "Nombre");
-    setField(2, "Contacto");
-    setField(3, "eMail");
-    setField(4, "Telefono");
-    setField(5, "Dirección");
+    setField(1, "Nombre",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch(role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->name();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setName(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(2, "Contacto",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->contacto();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setContacto(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(3, "eMail",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->email();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setEMail(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(4, "Telefono",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->telefono();
+            break;
+        default:
+            v = QVariant();
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setTelefono(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(5, "Dirección",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->direccion();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setDireccion(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
 }
 
-/*QVariant ProveedoresModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role == Qt::DisplayRole)
-    {
-        if (orientation == Qt::Horizontal)
-        {
-            switch (section)
-            {
-            case 0:
-            {
-                return QString("id");
-                break;
-            }
-            case 1:
-            {
-                return QString("Nombre");
-                break;
-            }
-            case 2:
-            {
-                return QString("Contacto");
-                break;
-            }
-            case 3:
-            {
-                return QString("eMail");
-                break;
-            }
-            case 4:
-            {
-                return QString("Telefono");
-                break;
-            }
-            case 5:
-            {
-                return QString("Dirección");
-                break;
-            }
-            default:
-                break;
-            }
-        }
-        return section;
-    }
-    return QAbstractItemModel::headerData(section, orientation, role);
-}*/
-
-QVariant ProveedoresModel::modelData(EntityBasePtr entity, int column, int role) const
+/*QVariant ProveedoresModel::modelData(EntityBasePtr entity, int column, int role) const
 {
     QVariant result = QVariant();
     ProveedorPtr prov = qSharedPointerDynamicCast<Proveedor>(entity);
@@ -134,7 +226,7 @@ bool ProveedoresModel::modelSetData(EntityBasePtr entity, int column, const QVar
         break;
     }
     return result;
-}
+}*/
 
 QString ProveedoresModel::_getSQLRead() const
 {
@@ -167,4 +259,9 @@ void ProveedoresModel::editEntity(int row)
 {
     dlgEditProveedor dlg(this, row);
     dlg.exec();
+}
+
+ProveedorPtr ProveedoresModel::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<Proveedor>(entity);
 }

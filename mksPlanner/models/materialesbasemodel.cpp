@@ -16,60 +16,145 @@ MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent)
 
 void MaterialesBaseModel::defineColumnNames()
 {
-    setField(1, "Rubro");
-    setField(2, "Tarea/Material");
-    setField(3, "Nombre");
-    setField(4, "Descripción");
-    setField(5, "Unidad de medida");
-}
-
-/*QVariant MaterialesBaseModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    QVariant result = QVariant();
-    if (role == Qt::DisplayRole)
+    setField(1, "Rubro",
+             [&] (EntityBasePtr entity, int role) -> QVariant
     {
-        if (orientation == Qt::Horizontal)
+        QVariant v;
+        switch (role)
         {
-            switch (section)
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->rubro().isNull() ? "" : qSharedPointerDynamicCast<Rubro>(cast(entity)->rubro())->name();
+            break;
+        default:
+            v = QVariant();
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setRubro(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+    setField(2, "Tarea/Material",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+            if (!cast(entity)->rubro().isNull())
             {
-            case 0:
-            {
-                result = QString("id");
-                break;
+                RubroPtr r = qSharedPointerDynamicCast<Rubro>(cast(entity)->rubro());
+                v = (r->isTask()) ? QString("Tarea") : QString("Material");
             }
-            case 1:
+            else
             {
-                result = QString("Rubro");
+                v = QVariant();
                 break;
-            }
-            case 2:
-            {
-                result = QString("Tarea/Material");
-                break;
-            }
-            case 3:
-            {
-                result = QString("Nombre");
-                break;
-            }
-            case 4:
-            {
-                result = QString("Descripción");
-                break;
-            }
-            case 5:
-            {
-                result = QString("Unidad de medida");
-                break;
-            }
-            default:
-                break;
+        default:
+                    v = QVariant();
             }
         }
-        return result;
-    }
-    return QAbstractItemModel::headerData(section, orientation, role);
-}*/
+    });
+
+    setField(3, "Nombre",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->name();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setName(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+    setField(4, "Descripción",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            return cast(entity)->description();
+            break;
+        default:
+            return QVariant();
+            break;
+        }
+    },
+    [&] (EntityBasePtr entity, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setDescription(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(5, "Unidad de medida",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch(role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            if (!cast(entity)->unit().isNull())
+            {
+                v = qSharedPointerDynamicCast<Unit>(cast(entity)->unit())->name();
+            }
+            else
+            {
+                v = QVariant();
+            }
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+    },
+    [&] (EntityBasePtr entity, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setUnit(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+}
 
 QVariant MaterialesBaseModel::modelData(EntityBasePtr entity, int column, int role) const
 {
@@ -184,4 +269,9 @@ void MaterialesBaseModel::editEntity(int row)
 {
     dlgMaterialEditor dlg(this, row);
     dlg.exec();
+}
+
+MaterialPtr MaterialesBaseModel::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<Material>(entity);
 }

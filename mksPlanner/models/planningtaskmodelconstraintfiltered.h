@@ -2,6 +2,8 @@
 #define PLANNINGTASKMODELCONSTRAINTFILTERED_H
 
 #include "models/planningtaskmodelconstraint.h"
+#include "models/planningtaskconstraint.h"
+
 
 class PlanningTaskModelConstraintFiltered : public ModelBase
 {
@@ -37,6 +39,9 @@ protected:
     // ModelBase interface
 public:
     virtual void editEntity(int row);
+
+private:
+    PlanningTaskConstraintPtr cast(EntityBasePtr entity);
 
 protected:
     virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;

@@ -2,7 +2,7 @@
 #define UNITSMODEL_H
 
 #include "models/modelbase.h"
-
+#include "models/unit.h"
 
 class UnitsModel : public ModelBase
 {
@@ -18,9 +18,11 @@ protected:
     virtual int _loadEntity(QSqlRecord record);
     virtual EntityBasePtr internalCreateEntity(int assignedId);
 
-    virtual QVariant modelData(EntityBasePtr entity, int column, int role = Qt::DisplayRole) const;
-    virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
+    //virtual QVariant modelData(EntityBasePtr entity, int column, int role = Qt::DisplayRole) const;
+    //virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
     virtual void defineColumnNames();
+
+    UnitPtr cast(EntityBasePtr entity);
 signals:
 
 public slots:

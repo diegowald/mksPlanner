@@ -69,7 +69,7 @@ bool PlanningTaskModel::Node::createChild(EntityBasePtr entity)
 
 void PlanningTaskModel::Node::removeChild( Node* node)
 {
-/*    _children.removeAt(_children.indexOf(node));
+    /*    _children.removeAt(_children.indexOf(node));
 
     node->setParent(0);
     node->_children.removeAll(node);*/
@@ -127,21 +127,397 @@ PlanningTaskModel::PlanningTaskModel(int idProyecto, QObject *parent)
 
 void PlanningTaskModel::defineColumnNames()
 {
-    setField(1, "idTareaPadre");
-    setField(2, "idMaterialTask");
-    setField(3, "idProveedor");
-    setField(4, "tareaPadre");
-    setField(5, "Tarea");
-    setField(6, "Rubro");
-    setField(7, "materialTask");
-    setField(8, "Proveedor");
-    setField(9, "Cantidad");
-    setField(10, "Unidad de medida");
-    setField(11, "Fecha Estimada Inicio");
-    setField(12, "Fecha Estimada de Finalización");
-    setField(13, "Duración");
-    setField(14, "Costo");
-    setField(15, "Precio");
+    setField(1, "idTareaPadre",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idTareaPadre();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setIdTareaPadre(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(2, "idMaterialTask",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idMaterialTask();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setIdMaterialTask(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(3, "idProveedor",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idProveedor();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setIdProveedor(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(4, "tareaPadre",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            if (cast(entity)->idTareaPadre() != -1)
+            {
+                v = qSharedPointerDynamicCast<Material>(cast(entity)->tareaPadre())->name();
+            }
+            else
+            {
+                v = QVariant();
+            }
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(5, "Tarea",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->name();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setName(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(6, "Rubro",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            if (cast(entity)->idMaterialTask() != -1)
+            {
+                MaterialPtr m = qSharedPointerDynamicCast<Material>(cast(entity)->materialTask());
+                if (m->idRubro() != -1)
+                {
+                    RubroPtr r = qSharedPointerDynamicCast<Rubro>(m->rubro());
+                    v = r.isNull() ? QVariant() : r->name();
+                }
+                else
+                {
+                    v = QVariant();
+                }
+            }
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(7, "materialTask",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            if (cast(entity)->idMaterialTask() != -1)
+            {
+                MaterialPtr m = qSharedPointerDynamicCast<Material>(cast(entity)->materialTask());
+                v = m->name();
+            }
+            else
+            {
+                v = QVariant();
+            }
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(8, "Proveedor",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            if (cast(entity)->idProveedor() != -1)
+            {
+                ProveedorPtr prov = qSharedPointerDynamicCast<Proveedor>(cast(entity)->proveedor());
+                v = prov->name();
+            }
+            else
+            {
+                v = QVariant();
+            }
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(9, "Cantidad",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->cantidad();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setCantidad(value.toDouble());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(10, "Unidad de medida",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            if (cast(entity)->idMaterialTask() != -1)
+            {
+                MaterialPtr m = qSharedPointerDynamicCast<Material>(cast(entity)->materialTask());
+                if (m->idUnit() != -1)
+                {
+                    UnitPtr unit = qSharedPointerDynamicCast<Unit>(m->unit());
+                    v = unit->name();
+                }
+                else
+                {
+                    v = QVariant();
+                }
+            }
+            else
+            {
+                v = QVariant();
+            }
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(11, "Fecha Estimada Inicio",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->fechaEstimadaInicio();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            QDateTime dt = value.toDateTime();
+            cast(entity)->setFechaEstimadaInicio(dt);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(12, "Fecha Estimada de Finalización",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->fechaEstimadaFin();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            QDateTime dt = value.toDateTime();
+            cast(entity)->setFechaEstimadaFin(dt);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(13, "Duración",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->duracion();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(14, "Costo",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->costo();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(15, "Precio",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->precio();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
 }
 
 QVariant PlanningTaskModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -578,4 +954,9 @@ void PlanningTaskModel::editEntity(EntityBasePtr entity)
 int PlanningTaskModel::idProyecto() const
 {
     return _idProyecto;
+}
+
+PlanningTaskPtr PlanningTaskModel::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<PlanningTask>(entity);
 }

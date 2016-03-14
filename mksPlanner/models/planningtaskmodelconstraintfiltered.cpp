@@ -9,11 +9,56 @@ PlanningTaskModelConstraintFiltered::PlanningTaskModelConstraintFiltered(int idP
     _idProyecto = idProyecto;
     _idTask = idTask;
     _model = model;
-    setField(1, "idTask1");
-    setField(2, "idTask2");
-    setField(3, "Type");
-    setField(4, "RelationType");
-    setField(5, "Restricción");
+    setField(1, "idTask1",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        return QVariant();
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        return false;
+    });
+
+    setField(2, "idTask2",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        return QVariant();
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        return false;
+    });
+
+    setField(3, "Type",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        return QVariant();
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        return false;
+    });
+
+    setField(4, "RelationType",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        return QVariant();
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        return false;
+    });
+
+    setField(5, "Restricción",
+             [&idProyecto] (EntityBasePtr entity, int role) -> QVariant
+    {
+        return QVariant();
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        return false;
+    });
+
     extractIds();
 }
 
@@ -185,4 +230,9 @@ bool PlanningTaskModelConstraintFiltered::removeRow(int row, const QModelIndex &
     _model->removeById(id);
     _ids.removeAt(row);
     endRemoveRows();
+}
+
+PlanningTaskConstraintPtr PlanningTaskModelConstraintFiltered::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<PlanningTaskConstraint>(entity);
 }

@@ -13,13 +13,95 @@ RubrosModel::RubrosModel(QObject *parent)
 
 void RubrosModel::defineColumnNames()
 {
-    setField(0, "id");
-    setField(1, "Nombre");
-    setField(2, "Descripción");
-    setField(3, "Contiene tareas");
+    setField(1, "Nombre",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->name();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setName(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(2, "Descripción",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->description();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setDescripcion(value.toString());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(3, "Contiene tareas",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->isTask();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(entity)->setIsTask(value.toBool());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
 }
 
-QVariant RubrosModel::modelData(EntityBasePtr entity, int column, int role) const
+/*QVariant RubrosModel::modelData(EntityBasePtr entity, int column, int role) const
 {
     RubroPtr r = qSharedPointerDynamicCast<Rubro>(entity);
     if (role == Qt::DisplayRole || role == Qt::EditRole)
@@ -71,7 +153,7 @@ bool RubrosModel::modelSetData(EntityBasePtr entity, int column, const QVariant 
         break;
     }
     return result;
-}
+}*/
 
 QString RubrosModel::_getSQLRead() const
 {
@@ -100,4 +182,9 @@ void RubrosModel::editEntity(int row)
 {
     DlgEditRubro dlg(this, row);
     dlg.exec();
+}
+
+RubroPtr RubrosModel::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<Rubro>(entity);
 }

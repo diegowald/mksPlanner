@@ -3,6 +3,8 @@
 
 
 #include "models/modelbase.h"
+#include "models/rubro.h"
+
 
 class RubrosModel : public ModelBase
 {
@@ -18,9 +20,12 @@ protected:
     virtual int _loadEntity(QSqlRecord record);
     virtual EntityBasePtr internalCreateEntity(int assignedId);
 
-    virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
-    virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
+    //virtual QVariant modelData(EntityBasePtr entity, int column, int role) const;
+    //virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role);
     virtual void defineColumnNames();
+
+private:
+    RubroPtr cast(EntityBasePtr entity);
 signals:
 
 public slots:

@@ -20,49 +20,88 @@ int RubrosProveedoresModel::rowCount(const QModelIndex &/*parent*/) const
 
 void RubrosProveedoresModel::defineColumnNames()
 {
-    setField(1, "idProveedor");
-    setField(2, "idRubro");
-    setField(3, "Rubro");
+    setField(1, "idProveedor",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idProveedor();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::DisplayRole)
+        {
+            cast(entity)->setIdProveedor(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(2, "idRubro",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(entity)->idRubro();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    {
+        if (role == Qt::DisplayRole)
+        {
+            cast(entity)->setIdRubro(value.toInt());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    });
+
+    setField(3, "Rubro",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            if (cast(entity)->idRubro() != -1)
+                v = qSharedPointerDynamicCast<Rubro>(cast(entity)->rubro())->name();
+            else
+                v = QVariant();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
 }
 
-/*QVariant RubrosProveedoresModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role == Qt::DisplayRole)
-    {
-        if (orientation == Qt::Horizontal)
-        {
-            switch (section)
-            {
-            case 0:
-            {
-                return QString("id");
-                break;
-            }
-            case 1:
-            {
-                return QString("idProveedor");
-                break;
-            }
-            case 2:
-            {
-                return QString("idRubro");
-                break;
-            }
-            case 3:
-            {
-                return QString("Rubro");
-                break;
-            }
-            default:
-                break;
-            }
-        }
-        return section;
-    }
-    return QAbstractItemModel::headerData(section, orientation, role);
-}*/
 
-QVariant RubrosProveedoresModel::modelData(EntityBasePtr entity, int column, int role) const
+/*QVariant RubrosProveedoresModel::modelData(EntityBasePtr entity, int column, int role) const
 {
     RubroProveedorPtr rp = qSharedPointerDynamicCast<RubroProveedor>(entity);
     QVariant result;
@@ -125,7 +164,7 @@ bool RubrosProveedoresModel::modelSetData(EntityBasePtr entity, int column, cons
         }
     }
     return result;
-}
+}*/
 
 
 QString RubrosProveedoresModel::_getSQLRead() const
@@ -188,7 +227,8 @@ EntityBasePtr RubrosProveedoresModel::getItemByRowid(int row)
 QVariant RubrosProveedoresModel::data(const QModelIndex &index, int role) const
 {
     EntityBasePtr entity = _entities[_entityMappingByIdProveedor[_idProveedor].at(index.row())];
-    return modelData(entity, index.column(), role);
+    return _fields2[index.column()]->get(entity, role);
+//    return modelData(entity, index.column(), role);
 }
 
 bool RubrosProveedoresModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -196,10 +236,11 @@ bool RubrosProveedoresModel::setData(const QModelIndex &index, const QVariant &v
     if (role == Qt::EditRole)
     {
         EntityBasePtr entity = _entities[_entityMappingByIdProveedor[_idProveedor].at(index.row())];
-        modelSetData(entity, index.column(), value, role);
+        return _fields2[index.column()]->set(entity, value, role);
+//        modelSetData(entity, index.column(), value, role);
         //entity->setData(index.column(), value, role);
     }
-    return true;
+    return false;
 }
 
 EntityBasePtr RubrosProveedoresModel::getItemBy(int idRubro, int idProveedor)
@@ -215,4 +256,9 @@ EntityBasePtr RubrosProveedoresModel::getItemBy(int idRubro, int idProveedor)
     }
     entity = EntityBasePtr();
     return entity;
+}
+
+RubroProveedorPtr RubrosProveedoresModel::cast(EntityBasePtr entity)
+{
+    return qSharedPointerDynamicCast<RubroProveedor>(entity);
 }
