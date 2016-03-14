@@ -361,8 +361,7 @@ void ExecutionTask::setPlanningTask(EntityBasePtr entity, bool copyData)
     {
         PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(entity);
 
-        ExecutionTaskModel *m = qobject_cast<ExecutionTaskModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::ExecutionTasks));
-
+        //ExecutionTaskModel *m = qobject_cast<ExecutionTaskModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::ExecutionTasks));
         //setIdTareaPadre(m->idFromPlanning(pt->idTareaPadre()));
         setName(pt->name());
         setIdMaterialTask(pt->idMaterialTask());

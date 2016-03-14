@@ -27,41 +27,41 @@ int CostoMaterialesModel::rowCount(const QModelIndex &parent) const
 void CostoMaterialesModel::defineColumnNames()
 {
     setField(1, "Material",
-             [&] (EntityBasePtr entity, int role) -> QVariant
+             [&] (EntityBasePtr, int) -> QVariant
     {
         return QVariant();
     },
-    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    [&] (EntityBasePtr, const QVariant&, int) -> bool
     {
         return false;
     });
 
     setField(2, "Costo",
-             [&] (EntityBasePtr entity, int role) -> QVariant
+             [&] (EntityBasePtr, int) -> QVariant
     {
         return QVariant();
     },
-    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    [&] (EntityBasePtr, const QVariant&, int) -> bool
     {
         return false;
     });
 
     setField(3, "Precio",
-             [&] (EntityBasePtr entity, int role) -> QVariant
+             [&] (EntityBasePtr, int) -> QVariant
     {
         return QVariant();
     },
-    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    [&] (EntityBasePtr, const QVariant&, int) -> bool
     {
         return false;
     });
 
     setField(4, "Desde",
-             [&] (EntityBasePtr entity, int role) -> QVariant
+             [&] (EntityBasePtr, int) -> QVariant
     {
         return QVariant();
     },
-    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    [&] (EntityBasePtr, const QVariant&, int) -> bool
     {
         return false;
     });
@@ -147,7 +147,7 @@ EntityBasePtr CostoMaterialesModel::internalCreateEntity(int assignedId)
 }
 
 
-void CostoMaterialesModel::editEntity(int /*row*/)
+void CostoMaterialesModel::editEntity(int)
 {
 }
 
@@ -347,10 +347,8 @@ bool CostoMaterialesModel::modelSetData(EntityBasePtr entity, int column, const 
         default:
             break;
         }
-
-        return true;
     }
-    return false;
+    return resultado;
 }
 
 

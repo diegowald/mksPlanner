@@ -26,7 +26,7 @@ void ValidMaterialFilterModel::classify()
     _mapping = materiales.toList();
 }
 
-int ValidMaterialFilterModel::rowCount(const QModelIndex &parent) const
+int ValidMaterialFilterModel::rowCount(const QModelIndex &) const
 {
     return _mapping.count();
 }
@@ -37,7 +37,7 @@ QVariant ValidMaterialFilterModel::data(const QModelIndex &index, int role) cons
     return _model->data(id, index.column(), role);
 }
 
-int ValidMaterialFilterModel::columnCount(const QModelIndex &parent) const
+int ValidMaterialFilterModel::columnCount(const QModelIndex &) const
 {
     return _model->columnCount();
 }

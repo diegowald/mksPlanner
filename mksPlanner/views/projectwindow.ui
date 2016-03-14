@@ -37,7 +37,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="icon">
@@ -332,9 +332,18 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_5">
+       <attribute name="icon">
+        <iconset resource="../mksplanner.qrc">
+         <normaloff>:/tableWindow/tools/text.png</normaloff>:/tableWindow/tools/text.png</iconset>
+       </attribute>
        <attribute name="title">
         <string>Certificaciones</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QTableView" name="tableView"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -372,6 +381,9 @@
    <addaction name="actionEditExecutionTask"/>
    <addaction name="actionDeleteExecutionTask"/>
    <addaction name="actionInterrumpir_Ejecucion_Tarea"/>
+   <addaction name="actionNueva_Certificacion"/>
+   <addaction name="actionEditar_Certificacion"/>
+   <addaction name="actionBorrar_Ceritificacion"/>
   </widget>
   <action name="actionAddTask">
    <property name="icon">
@@ -426,6 +438,9 @@
    <property name="text">
     <string>actionAddSubTask</string>
    </property>
+   <property name="toolTip">
+    <string>Agregar sub tarea</string>
+   </property>
   </action>
   <action name="actionAddExecutionTask">
    <property name="icon">
@@ -434,6 +449,9 @@
    </property>
    <property name="text">
     <string>AddExecutionTask</string>
+   </property>
+   <property name="toolTip">
+    <string>Agregar Tarea</string>
    </property>
   </action>
   <action name="actionEditExecutionTask">
@@ -470,6 +488,33 @@
    </property>
    <property name="text">
     <string>Interrumpir Ejecucion Tarea</string>
+   </property>
+  </action>
+  <action name="actionNueva_Certificacion">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/add</normaloff>:/tableWindow/tools/add</iconset>
+   </property>
+   <property name="text">
+    <string>Nueva Certificacion</string>
+   </property>
+  </action>
+  <action name="actionEditar_Certificacion">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/edit</normaloff>:/tableWindow/tools/edit</iconset>
+   </property>
+   <property name="text">
+    <string>Editar Certificacion</string>
+   </property>
+  </action>
+  <action name="actionBorrar_Ceritificacion">
+   <property name="icon">
+    <iconset resource="../mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/remove</normaloff>:/tableWindow/tools/remove</iconset>
+   </property>
+   <property name="text">
+    <string>Borrar Ceritificacion</string>
    </property>
   </action>
  </widget>

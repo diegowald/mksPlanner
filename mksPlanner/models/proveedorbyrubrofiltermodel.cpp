@@ -21,7 +21,7 @@ void ProveedorByRubroFilterModel::classify()
     }
 }
 
-int ProveedorByRubroFilterModel::rowCount(const QModelIndex &parent) const
+int ProveedorByRubroFilterModel::rowCount(const QModelIndex &) const
 {
     return _mapping.count();
 }
@@ -32,7 +32,7 @@ QVariant ProveedorByRubroFilterModel::data(const QModelIndex &index, int role) c
     return _model->data(id, index.column(), role);
 }
 
-int ProveedorByRubroFilterModel::columnCount(const QModelIndex &parent) const
+int ProveedorByRubroFilterModel::columnCount(const QModelIndex &) const
 {
     return _model->columnCount();
 }

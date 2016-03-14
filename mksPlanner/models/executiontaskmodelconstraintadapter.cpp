@@ -30,7 +30,7 @@ void ExecutionTaskModelConstraintAdapter::createConstraints()
     }
 }
 
-void ExecutionTaskModelConstraintAdapter::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+void ExecutionTaskModelConstraintAdapter::on_dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)
 {
     clear();
     createConstraints();

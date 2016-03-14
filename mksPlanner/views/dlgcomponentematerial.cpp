@@ -67,7 +67,7 @@ void dlgComponenteMaterial::on_buttonBox_accepted()
     close();
 }
 
-void dlgComponenteMaterial::on_cboMaterial_currentIndexChanged(int index)
+void dlgComponenteMaterial::on_cboMaterial_currentIndexChanged(int)
 {
     //qDebug() << ui->cboMaterial->count();
     QString materialDescription = "";

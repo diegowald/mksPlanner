@@ -18,7 +18,7 @@ CostoMaterialCompuesto::CostoMaterialCompuesto(int id): CostoMaterial(id)
     _idMaterial = -1;
 }
 
-QSqlQuery* CostoMaterialCompuesto::getQuery(QSqlDatabase &/*database*/)
+QSqlQuery* CostoMaterialCompuesto::getQuery(QSqlDatabase &)
 {
     return NULL; // Este es un material compuesto, por lo que el costo siempre se calcula en base a los materiales
 }

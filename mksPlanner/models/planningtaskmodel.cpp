@@ -53,6 +53,7 @@ bool PlanningTaskModel::Node::createChild(EntityBasePtr entity)
     if (_id == p->idTareaPadre())
     {
         Node *n = new Node(entity, this);
+        (void)n;
         //addChild(n);
         return true;
     }
@@ -691,17 +692,10 @@ QVariant PlanningTaskModel::modelData(EntityBasePtr entity, int column, int role
             break;
         }
     }
-    else if (role == Qt::ToolTipRole)
-    {
-
-    }
-    else
-    {
-        return QVariant();
-    }
+    return QVariant();
 }
 
-bool PlanningTaskModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+bool PlanningTaskModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int)
 {
     PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(entity);
     bool result = false;

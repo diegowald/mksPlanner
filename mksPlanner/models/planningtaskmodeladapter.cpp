@@ -401,6 +401,7 @@ bool PlanningTaskModelAdapter::removeRow(int row, const QModelIndex &parent)
     }
     parentNode->removeChild(parentNode->child(row));
     endRemoveRows();
+    return true;
 }
 
 Qt::ItemFlags PlanningTaskModelAdapter::flags( const QModelIndex& idx) const
@@ -434,7 +435,7 @@ void PlanningTaskModelAdapter::editEntity(QModelIndex index)
     }
 }
 
-void PlanningTaskModelAdapter::removeEntity(QWidget *parent, QModelIndex &index)
+void PlanningTaskModelAdapter::removeEntity(QWidget *, QModelIndex &index)
 {
     removeRow(index.row(), index.parent());
     //_model->removeEntity(parent, index);

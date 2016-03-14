@@ -10,51 +10,51 @@ PlanningTaskModelConstraintFiltered::PlanningTaskModelConstraintFiltered(int idP
     _idTask = idTask;
     _model = model;
     setField(1, "idTask1",
-             [&] (EntityBasePtr entity, int role) -> QVariant
+             [&] (EntityBasePtr, int) -> QVariant
     {
         return QVariant();
     },
-    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    [&] (EntityBasePtr, const QVariant&, int) -> bool
     {
         return false;
     });
 
     setField(2, "idTask2",
-             [&] (EntityBasePtr entity, int role) -> QVariant
+             [&] (EntityBasePtr, int) -> QVariant
     {
         return QVariant();
     },
-    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    [&] (EntityBasePtr, const QVariant&, int) -> bool
     {
         return false;
     });
 
     setField(3, "Type",
-             [&] (EntityBasePtr entity, int role) -> QVariant
+             [&] (EntityBasePtr, int) -> QVariant
     {
         return QVariant();
     },
-    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    [&] (EntityBasePtr, const QVariant&, int) -> bool
     {
         return false;
     });
 
     setField(4, "RelationType",
-             [&] (EntityBasePtr entity, int role) -> QVariant
+             [&] (EntityBasePtr, int) -> QVariant
     {
         return QVariant();
     },
-    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    [&] (EntityBasePtr, const QVariant&, int) -> bool
     {
         return false;
     });
 
     setField(5, "Restricción",
-             [&idProyecto] (EntityBasePtr entity, int role) -> QVariant
+             [&idProyecto] (EntityBasePtr, int) -> QVariant
     {
         return QVariant();
     },
-    [&] (EntityBasePtr entity, const QVariant& value, int role) -> bool
+    [&] (EntityBasePtr, const QVariant&, int) -> bool
     {
         return false;
     });
@@ -76,7 +76,7 @@ void PlanningTaskModelConstraintFiltered::extractIds()
     }
 }
 
-int PlanningTaskModelConstraintFiltered::rowCount(const QModelIndex &parent) const
+int PlanningTaskModelConstraintFiltered::rowCount(const QModelIndex &) const
 {
     return _ids.count();
 }
@@ -179,7 +179,7 @@ EntityBasePtr PlanningTaskModelConstraintFiltered::getItemByRowid(int row)
     return _model->getItem(id);
 }
 
-EntityBasePtr PlanningTaskModelConstraintFiltered::internalCreateEntity(int assignedId)
+EntityBasePtr PlanningTaskModelConstraintFiltered::internalCreateEntity(int)
 {
     int rowCount = _model->rowCount();
     QModelIndex index;
@@ -204,23 +204,26 @@ QVariant PlanningTaskModelConstraintFiltered::data(const QModelIndex &index, int
 
 QString PlanningTaskModelConstraintFiltered::_getSQLRead() const
 {
+    return "";
 }
 
-int PlanningTaskModelConstraintFiltered::_loadEntity(QSqlRecord record)
+int PlanningTaskModelConstraintFiltered::_loadEntity(QSqlRecord)
+{
+    return -1;
+}
+
+void PlanningTaskModelConstraintFiltered::editEntity(int)
 {
 }
 
-void PlanningTaskModelConstraintFiltered::editEntity(int row)
-{
-}
-
-QVariant PlanningTaskModelConstraintFiltered::modelData(EntityBasePtr entity, int column, int role) const
+QVariant PlanningTaskModelConstraintFiltered::modelData(EntityBasePtr, int, int) const
 {
     return QVariant();
 }
 
-bool PlanningTaskModelConstraintFiltered::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+bool PlanningTaskModelConstraintFiltered::modelSetData(EntityBasePtr, int, const QVariant &, int)
 {
+    return true;
 }
 
 bool PlanningTaskModelConstraintFiltered::removeRow(int row, const QModelIndex &parent)
@@ -230,6 +233,7 @@ bool PlanningTaskModelConstraintFiltered::removeRow(int row, const QModelIndex &
     _model->removeById(id);
     _ids.removeAt(row);
     endRemoveRows();
+    return true;
 }
 
 PlanningTaskConstraintPtr PlanningTaskModelConstraintFiltered::cast(EntityBasePtr entity)

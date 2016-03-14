@@ -63,6 +63,7 @@ void MaterialesBaseModel::defineColumnNames()
                     v = QVariant();
             }
         }
+        return v;
     });
 
     setField(3, "Nombre",
@@ -141,6 +142,7 @@ void MaterialesBaseModel::defineColumnNames()
             v = QVariant();
             break;
         }
+        return v;
     },
     [&] (EntityBasePtr entity, const QVariant &value, int role) -> bool
     {

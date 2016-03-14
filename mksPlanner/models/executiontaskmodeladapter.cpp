@@ -130,8 +130,6 @@ QVariant ExecutionTaskModelAdapter::headerData( int section, Qt::Orientation ori
         return tr("Proveedor");
     case 8:
         return tr("Cantidad");
-/*    case 9:
-        return tr("Unidad de medida");*/
     case 9:
         return tr("Duración");
     case 10:
@@ -251,18 +249,6 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
             return p->cantidad();
         }
     }
-/*    else if (idx.column() == 9 && role == Qt::DisplayRole)
-    {
-        if (p->idMaterialTask() != -1)
-        {
-            MaterialPtr m = qSharedPointerDynamicCast<Material>(p->materialTask());
-            if (m->idUnit() != -1)
-            {
-                UnitPtr unit = qSharedPointerDynamicCast<Unit>(m->unit());
-                return unit->name();
-            }
-        }
-    }*/
     else if (idx.column() == 9 && role == Qt::DisplayRole)
     {
         return p->duracion();
@@ -415,6 +401,7 @@ bool ExecutionTaskModelAdapter::removeRow(int row, const QModelIndex &parent)
     }
     parentNode->removeChild(parentNode->child(row));
     endRemoveRows();
+    return true;
 }
 
 Qt::ItemFlags ExecutionTaskModelAdapter::flags( const QModelIndex& idx) const
@@ -468,7 +455,7 @@ void ExecutionTaskModelAdapter::editEntity(QModelIndex index)
     }
 }
 
-void ExecutionTaskModelAdapter::removeEntity(QWidget *parent, QModelIndex &index)
+void ExecutionTaskModelAdapter::removeEntity(QWidget *, QModelIndex &index)
 {
     removeRow(index.row(), index.parent());
     //_model->removeEntity(parent, index);
@@ -632,7 +619,7 @@ void ExecutionTaskModelAdapter::setProyecto(EntityBasePtr proyecto)
     _proyecto = proyecto;
 }
 
-void ExecutionTaskModelAdapter::on_model_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+void ExecutionTaskModelAdapter::on_model_dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)
 {
     emit dataChanged(QModelIndex(), QModelIndex());
 }

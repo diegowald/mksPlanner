@@ -5,7 +5,7 @@
 #include "models/rubroroveedor.h"
 #include "models/rubro.h"
 
-DlgEditRubroProveedor::DlgEditRubroProveedor(int idProveedor, RubrosProveedoresModel *model, int selectedEntity, QWidget *parent) :
+DlgEditRubroProveedor::DlgEditRubroProveedor(int, RubrosProveedoresModel *model, int selectedEntity, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DlgEditRubroProveedor)
 {

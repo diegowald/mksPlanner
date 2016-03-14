@@ -53,8 +53,6 @@ void ProjectWindow::setModel(ModelBase* model)
     updateBotonesEstados();
     ui->tabWidget->setCurrentIndex(1);
     ui->tabWidget->setCurrentIndex(0);
-    /* temporal es para ocultar los tabs que aun no han sido desarrollados */
-    ui->tabWidget->removeTab(4);
 
     ui->tabWidget->setTabEnabled(3, false);
 
@@ -141,6 +139,10 @@ void ProjectWindow::on_tabWidget_currentChanged(int index)
     ui->actionEditExecutionTask->setVisible(index == 3);
     ui->actionDeleteExecutionTask->setVisible(index == 3);
     ui->actionInterrumpir_Ejecucion_Tarea->setVisible(index == 3);
+    ui->actionNueva_Certificacion->setVisible(index == 4);
+    ui->actionEditar_Certificacion->setVisible(index == 4);
+    ui->actionBorrar_Ceritificacion->setVisible(index == 4);
+
     checkSplitAction();
 }
 
@@ -168,9 +170,7 @@ void ProjectWindow::on_actionActionAddSubTask_triggered()
 
         //_planningModel->insertRows(0, 1, _planningModel->index(idx.row(), 0, idx.parent()));
         //_planningModel->editEntity(_planningModel->index(idx.row(), 0, idx.parent()).child(0, 0));
-    }/* else {
-        m_model->insertRows( 0, 1, m_view->rootIndex() );
-    }*/
+    }
 }
 
 void ProjectWindow::on_actionEdit_Task_triggered()
@@ -190,12 +190,12 @@ void ProjectWindow::on_actionGuardar_cambios_triggered()
     GlobalContainer::instance().projectLibrary(_idInterno)->save();
 }
 
-void ProjectWindow::on_modelChanged(Tables table)
+void ProjectWindow::on_modelChanged(Tables)
 {
 
 }
 
-void ProjectWindow::on_PlanningModelChanged(Tables table)
+void ProjectWindow::on_PlanningModelChanged(Tables)
 {
     ui->actionAddTask->setEnabled(_planningModel->canCreateEntity());
     updateEstimacionMateriales();
@@ -291,21 +291,25 @@ void ProjectWindow::updateBotonesEstados()
         ui->lblEstadoActual->setText("Planificación");
         ui->btnEjecucion->setVisible(true);
         ui->tabWidget->setTabEnabled(3, false);
+        ui->tabWidget->setTabEnabled(4, false);
         break;
     case Proyecto::ProjectStatus::Ejecucion:
         ui->lblEstadoActual->setText("Ejecución");
         ui->btnFin->setVisible(true);
         ui->btnPausa->setVisible(true);
         ui->tabWidget->setTabEnabled(3, true);
+        ui->tabWidget->setTabEnabled(4, true);
         break;
     case Proyecto::ProjectStatus::Pausado:
         ui->lblEstadoActual->setText("Pausa");
         ui->btnEjecucion->setVisible(true);
         ui->tabWidget->setTabEnabled(3, true);
+        ui->tabWidget->setTabEnabled(4, true);
         break;
     case Proyecto::ProjectStatus::Finalizado:
         ui->lblEstadoActual->setText("Finalizado");
         ui->tabWidget->setTabEnabled(3, true);
+        ui->tabWidget->setTabEnabled(4, true);
         break;
     default:
         ui->lblEstadoActual->setText("");

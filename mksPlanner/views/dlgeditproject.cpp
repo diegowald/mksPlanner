@@ -1,7 +1,7 @@
 #include "dlgeditproject.h"
 #include "ui_dlgeditproject.h"
 
-dlgEditProject::dlgEditProject(ProyectoModel *model, int row, QWidget *parent) :
+dlgEditProject::dlgEditProject(ProyectoModel *, int, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::dlgEditProject)
 {

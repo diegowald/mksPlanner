@@ -104,7 +104,7 @@ int DlgEditPlanningTask::idRubroMaterialSeleccionado()
     return mat.isNull() ? -1 : mat->idRubro();
 }
 
-void DlgEditPlanningTask::on_cboTarea_currentIndexChanged(int index)
+void DlgEditPlanningTask::on_cboTarea_currentIndexChanged(int)
 {
     if (_proveedorByRubroFilterModel != NULL)
     {
@@ -120,7 +120,7 @@ void DlgEditPlanningTask::fillTaskTypes()
     ui->cboTaskType->addItem("Multiple", KDGantt::TypeMulti);
 }
 
-void DlgEditPlanningTask::on_cboTaskType_currentIndexChanged(int index)
+void DlgEditPlanningTask::on_cboTaskType_currentIndexChanged(int)
 {
     bool enable = true;
     switch (ui->cboTaskType->currentData(Qt::UserRole).toInt())

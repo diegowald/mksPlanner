@@ -34,7 +34,7 @@ void MaterialFilterModel::classify()
     }
 }
 
-int MaterialFilterModel::rowCount(const QModelIndex &parent) const
+int MaterialFilterModel::rowCount(const QModelIndex &) const
 {
     return _mapping.count();
 }
@@ -45,7 +45,7 @@ QVariant MaterialFilterModel::data(const QModelIndex &index, int role) const
     return _model->data(id, index.column(), role);
 }
 
-int MaterialFilterModel::columnCount(const QModelIndex &parent) const
+int MaterialFilterModel::columnCount(const QModelIndex &) const
 {
     return _model->columnCount();
 }
@@ -60,13 +60,13 @@ EntityBasePtr MaterialFilterModel::getItemByRowid(int row)
     return entity;
 }
 
-void MaterialFilterModel::on_rowsInserted(const QModelIndex &parent, int first, int last)
+void MaterialFilterModel::on_rowsInserted(const QModelIndex &, int, int)
 {
     classify();
 }
 
 
-void MaterialFilterModel::on_rowsRemoved(const QModelIndex &parent, int first, int last)
+void MaterialFilterModel::on_rowsRemoved(const QModelIndex &, int, int)
 {
     classify();
 }

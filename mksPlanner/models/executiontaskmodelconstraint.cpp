@@ -49,7 +49,7 @@ EntityBasePtr ExecutionTaskModelConstraint::internalCreateEntity(int assignedId)
     return pt;
 }
 
-QVariant ExecutionTaskModelConstraint::modelData(EntityBasePtr entity, int column, int role) const
+QVariant ExecutionTaskModelConstraint::modelData(EntityBasePtr entity, int column, int) const
 {
     ExecutionTaskConstraintPtr pt = qSharedPointerDynamicCast<ExecutionTaskConstraint>(entity);
     QVariant res;
@@ -72,10 +72,12 @@ QVariant ExecutionTaskModelConstraint::modelData(EntityBasePtr entity, int colum
         res = QVariant();
         break;
     }
+    return res;
 }
 
-bool ExecutionTaskModelConstraint::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+bool ExecutionTaskModelConstraint::modelSetData(EntityBasePtr, int, const QVariant &, int)
 {
+    return true;
 }
 
 void ExecutionTaskModelConstraint::postProcessData()

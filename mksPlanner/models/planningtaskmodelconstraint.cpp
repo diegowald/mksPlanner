@@ -47,7 +47,7 @@ EntityBasePtr PlanningTaskModelConstraint::internalCreateEntity(int assignedId)
     return pt;
 }
 
-QVariant PlanningTaskModelConstraint::modelData(EntityBasePtr entity, int column, int role) const
+QVariant PlanningTaskModelConstraint::modelData(EntityBasePtr entity, int column, int) const
 {
     PlanningTaskConstraintPtr pt = qSharedPointerDynamicCast<PlanningTaskConstraint>(entity);
     QVariant res;
@@ -70,10 +70,12 @@ QVariant PlanningTaskModelConstraint::modelData(EntityBasePtr entity, int column
         res = QVariant();
         break;
     }
+    return res;
 }
 
-bool PlanningTaskModelConstraint::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+bool PlanningTaskModelConstraint::modelSetData(EntityBasePtr, int, const QVariant &, int)
 {
+    return true;
 }
 
 void PlanningTaskModelConstraint::postProcessData()

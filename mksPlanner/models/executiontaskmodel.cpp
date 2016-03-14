@@ -56,6 +56,7 @@ bool ExecutionTaskModel::Node::createChild(EntityBasePtr entity)
     if (_id == p->idTareaPadre())
     {
         Node *n = new Node(entity, this);
+        (void)n;
         //addChild(n);
         return true;
     }
@@ -72,10 +73,6 @@ bool ExecutionTaskModel::Node::createChild(EntityBasePtr entity)
 
 void ExecutionTaskModel::Node::removeChild( Node* node)
 {
-    /*    _children.removeAt(_children.indexOf(node));
-
-    node->setParent(0);
-    node->_children.removeAll(node);*/
     if (!node->entity().isNull())
         node->_entity->deleteEntity();
     _children.removeOne(node);
@@ -607,27 +604,6 @@ QVariant ExecutionTaskModel::modelData(EntityBasePtr entity, int column, int rol
             }
             break;
         }
-            /*case 10:
-        {
-            if (p->idMaterialTask() != -1)
-            {
-                MaterialPtr m = qSharedPointerDynamicCast<Material>(p->materialTask());
-                if (m->idUnit() != -1)
-                {
-                    UnitPtr unit = qSharedPointerDynamicCast<Unit>(m->unit());
-                    return unit->name();
-                }
-                else
-                {
-                    return QVariant();
-                }
-            }
-            else
-            {
-                return QVariant();
-            }
-            break;
-        }*/
         case 10:
         {
             return p->fechaEstimadaInicio();
@@ -681,17 +657,10 @@ QVariant ExecutionTaskModel::modelData(EntityBasePtr entity, int column, int rol
             break;
         }
     }
-    else if (role == Qt::ToolTipRole)
-    {
-        return QVariant();
-    }
-    else
-    {
-        return QVariant();
-    }
+    return QVariant();
 }
 
-bool ExecutionTaskModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
+bool ExecutionTaskModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int)
 {
     ExecutionTaskPtr p = qSharedPointerDynamicCast<ExecutionTask>(entity);
     bool result = false;
@@ -948,7 +917,7 @@ bool ExecutionTaskModel::insertRows(int row, int count, const QModelIndex& paren
     return true;
 }
 
-void ExecutionTaskModel::editEntity(EntityBasePtr entity)
+void ExecutionTaskModel::editEntity(EntityBasePtr)
 {
     /*DlgEditPlanningTask dlg(this, entity);
     dlg.exec();*/

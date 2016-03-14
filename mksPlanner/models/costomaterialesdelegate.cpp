@@ -7,7 +7,7 @@ CostoMaterialesDelegate::CostoMaterialesDelegate(QObject *parent) : QStyledItemD
 
 }
 
-QWidget *CostoMaterialesDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget *CostoMaterialesDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &index) const
 {
     QWidget *w = NULL;
     switch (index.column())
@@ -96,7 +96,7 @@ void CostoMaterialesDelegate::setModelData(QWidget *editor, QAbstractItemModel *
     model->setData(index, value, Qt::EditRole);
 }
 
-void CostoMaterialesDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void CostoMaterialesDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &) const
 {
     editor->setGeometry(option.rect);
 }

@@ -26,7 +26,7 @@ void PlanningTaskModelConstraintAdapter::createConstraints()
     }
 }
 
-void PlanningTaskModelConstraintAdapter::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+void PlanningTaskModelConstraintAdapter::on_dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)
 {
     clear();
     createConstraints();
