@@ -173,7 +173,7 @@ QString PlanningTask::toDebugString()
 
 QSqlQuery *PlanningTask::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:
@@ -300,6 +300,14 @@ void PlanningTask::setTaskType(KDGantt::ItemType value)
 
 QString PlanningTask::cantidadToString() const
 {
-    Cantidad c(_cantidad, qSharedPointerDynamicCast<Unit>(qSharedPointerDynamicCast<Material>(materialTask())->unit()));
+    if (!materialTask().isNull())
+    {
+        if (!qSharedPointerDynamicCast<Material>(materialTask())->unit().isNull())
+        {
+            Cantidad c(_cantidad, qSharedPointerDynamicCast<Unit>(qSharedPointerDynamicCast<Material>(materialTask())->unit()));
+            return c.toString();
+        }
+    }
+    Cantidad c(_cantidad);
     return c.toString();
 }
