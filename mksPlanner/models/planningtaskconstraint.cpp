@@ -71,7 +71,7 @@ QString PlanningTaskConstraint::toDebugString()
 
 QSqlQuery* PlanningTaskConstraint::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:

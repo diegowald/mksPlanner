@@ -36,7 +36,7 @@ Unit::Unit(int id) : EntityBase(id, true)
 
 QSqlQuery* Unit::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:

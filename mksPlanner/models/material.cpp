@@ -93,7 +93,7 @@ Material::Material(int id):EntityBase(id, true)
 
 QSqlQuery* Material::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:

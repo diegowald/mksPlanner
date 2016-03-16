@@ -45,7 +45,7 @@ void CostoMaterial::setDesde(QDate &date)
 
 QSqlQuery* CostoMaterial::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:

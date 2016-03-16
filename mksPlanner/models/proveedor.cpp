@@ -52,7 +52,7 @@ Proveedor::Proveedor(int id, const QString &name, const QString &contacto,
 
 QSqlQuery* Proveedor::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:

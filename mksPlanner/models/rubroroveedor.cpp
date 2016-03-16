@@ -55,7 +55,7 @@ void RubroProveedor::setIdRubro(int id)
 
 QSqlQuery* RubroProveedor::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:

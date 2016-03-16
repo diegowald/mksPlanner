@@ -42,7 +42,7 @@ void Proyecto::setIdProyectoInterno(int value)
 
 QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:

@@ -47,7 +47,7 @@ QString Rubro::toDebugString()
 
 QSqlQuery* Rubro::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:

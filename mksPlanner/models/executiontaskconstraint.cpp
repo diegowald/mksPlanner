@@ -75,7 +75,7 @@ QString ExecutionTaskConstraint::toDebugString()
 
 QSqlQuery* ExecutionTaskConstraint::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:

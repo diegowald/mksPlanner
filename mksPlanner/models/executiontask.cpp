@@ -217,7 +217,7 @@ QString ExecutionTask::toDebugString()
 
 QSqlQuery *ExecutionTask::getQuery(QSqlDatabase &database)
 {
-    QSqlQuery *query;
+    QSqlQuery *query = NULL;
     switch (status())
     {
     case EntityStatus::added:
