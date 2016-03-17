@@ -7,7 +7,7 @@ class ValidMaterialFilterModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    explicit ValidMaterialFilterModel(int idMaterial, ModelBase *model, QObject *parent = 0);
+    explicit ValidMaterialFilterModel(int idMaterial, IModel *model, QObject *parent = 0);
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     virtual int columnCount(const QModelIndex &parent) const;
@@ -23,7 +23,7 @@ private:
     void classify();
 
     QList<int> _mapping;
-    ModelBase *_model;
+    IModel *_model;
     int _idMaterial;
 };
 

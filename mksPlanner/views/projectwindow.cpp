@@ -27,7 +27,7 @@ ProjectWindow::~ProjectWindow()
 }
 
 
-void ProjectWindow::setModel(ModelBase* model)
+void ProjectWindow::setModel(ModelBase *model)
 {
     _model = model;
     if (_mapper != NULL)

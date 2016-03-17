@@ -17,7 +17,7 @@ TableWindow::~TableWindow()
     delete ui;
 }
 
-void TableWindow::setModel(ModelBase* model)
+void TableWindow::setModel(ModelBase *model)
 {
     _model = model;
     if (_model->implementsDelegate())

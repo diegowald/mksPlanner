@@ -17,7 +17,7 @@ public:
     explicit TableWindow(const QString &windowTitle, QWidget *parent = 0);
     ~TableWindow();
 
-    void setModel(ModelBase* model);
+    void setModel(ModelBase *model);
     void hideColumn(int idColumn);
 
     void setInPlaceEditable(bool value);

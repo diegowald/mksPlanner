@@ -24,7 +24,7 @@ protected:
     virtual void internalLoadTables(const QString &filename) = 0;
     virtual void updateFromVersion(const QString &filename, const QString &versionInfo) = 0;
 
-    void addModel(Tables name, ModelBase* model);
+    void addModel(Tables name, ModelBase *model);
 
 signals:
     void dataChanged(Tables table);

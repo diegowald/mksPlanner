@@ -33,7 +33,7 @@ bool LibraryBase::isDirty() const
     return false;
 }
 
-void LibraryBase::addModel(Tables name, ModelBase* model)
+void LibraryBase::addModel(Tables name, ModelBase *model)
 {
     _models[name] = model;
     connect(model, &ModelBase::changed, this, &LibraryBase::on_changed);

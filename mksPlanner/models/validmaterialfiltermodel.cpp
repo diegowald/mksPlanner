@@ -3,7 +3,7 @@
 #include "models/material.h"
 #include <QSet>
 
-ValidMaterialFilterModel::ValidMaterialFilterModel(int idMaterial, ModelBase *model, QObject *parent) : QAbstractTableModel(parent)
+ValidMaterialFilterModel::ValidMaterialFilterModel(int idMaterial, IModel *model, QObject *parent) : QAbstractTableModel(parent)
 {
     _model = model;
     _idMaterial = idMaterial;

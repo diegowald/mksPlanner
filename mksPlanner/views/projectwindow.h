@@ -23,7 +23,7 @@ public:
     explicit ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent = 0);
     ~ProjectWindow();
 
-    void setModel(ModelBase* model);
+    void setModel(ModelBase *model);
     void setPlanningModel(ModelBase *model);
     void setConstraintModel(ModelBase *model);
     void setIconResource(const QString &resourceName);

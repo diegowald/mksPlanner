@@ -76,7 +76,8 @@ protected:
 
     //virtual QVariant modelData(EntityBasePtr entity, int column, int role = Qt::DisplayRole) const = 0;
     //virtual bool modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role) = 0;
-    virtual void defineColumnNames() {};
+    virtual void defineColumnNames() {}
+
     //virtual void setField(int pos, const QString &fieldName);
     virtual void setField(int pos, const QString &fieldName, std::function<QVariant (EntityBasePtr, int)> getter, std::function<bool (EntityBasePtr, const QVariant&, int)>);
     virtual void setField(int pos, const QString &fieldName, std::function<QVariant (EntityBasePtr, int)> getter);
@@ -84,11 +85,11 @@ protected:
 
     QList<EntityBasePtr> entities() const;
 
-signals:
-    void changed(Tables table);
-
 private slots:
     void on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
+
+signals:
+    void changed(Tables table);
 
 protected:
     QList<int> _entityMapping;
