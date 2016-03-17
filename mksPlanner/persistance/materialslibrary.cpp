@@ -7,11 +7,13 @@
 #include "models/rubrosmodel.h"
 #include "persistance/materialesupdater.h"
 #include "models/costomaterialesmodel.h"
+#include "models/tareasmodel.h"
 
 MaterialsLibrary::MaterialsLibrary(QObject *parent) : LibraryBase(parent)
 {
     addModel(Tables::Unidades, new UnitsModel(this));
     addModel(Tables::Materiales, new MaterialesModel(this));
+    addModel(Tables::Tareas, new TareasModel(this));
     addModel(Tables::ComponentesMateriales, new ComponentesMaterialesModel(this));
     addModel(Tables::Proveedores, new ProveedoresModel(this));
     addModel(Tables::Rubros, new RubrosModel(this));
@@ -23,6 +25,7 @@ void MaterialsLibrary::internalSaveTables(const QString &filename)
 {
     model(Tables::Unidades)->save(filename);
     model(Tables::Materiales)->save(filename);
+    model(Tables::Tareas)->save(filename);
     model(Tables::ComponentesMateriales)->save(filename);
     model(Tables::Proveedores)->save(filename);
     model(Tables::Rubros)->save(filename);
@@ -34,6 +37,7 @@ void MaterialsLibrary::internalLoadTables(const QString &filename)
 {
     model(Tables::Unidades)->load(filename);
     model(Tables::Materiales)->load(filename);
+    model(Tables::Tareas)->load(filename);
     model(Tables::ComponentesMateriales)->load(filename);
     model(Tables::Proveedores)->load(filename);
     model(Tables::Rubros)->load(filename);

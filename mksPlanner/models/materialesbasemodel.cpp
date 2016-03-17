@@ -5,10 +5,10 @@
 #include "models/rubro.h"
 #include "globalcontainer.h"
 
-MaterialesBaseModel::MaterialesBaseModel(bool filterByTask, QObject *parent)
+MaterialesBaseModel::MaterialesBaseModel(FilterCriteria filterCriteria, QObject *parent)
     : ModelBase(Tables::Materiales, "materiales", false, "library", parent)
 {
-    _filterByTask = filterByTask;
+    _filterCriteria = filterCriteria;
     defineColumnNames();
     addDependency(static_cast<int>(Tables::Unidades));
     addDependency(static_cast<int>(Tables::Rubros));

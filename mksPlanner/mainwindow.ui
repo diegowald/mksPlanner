@@ -44,7 +44,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuProyecto">
@@ -62,7 +62,8 @@
     </property>
     <addaction name="actionUnidades"/>
     <addaction name="actionRubros"/>
-    <addaction name="actionVer_Biblioteca"/>
+    <addaction name="actionVer_BibliotecaMateriales"/>
+    <addaction name="actionVerBibliotecaTareas"/>
     <addaction name="actionCostos"/>
     <addaction name="separator"/>
     <addaction name="separator"/>
@@ -106,13 +107,13 @@
     <string>Salir</string>
    </property>
   </action>
-  <action name="actionVer_Biblioteca">
+  <action name="actionVer_BibliotecaMateriales">
    <property name="icon">
     <iconset resource="mksplanner.qrc">
      <normaloff>:/tableWindow/tools/material-3.png</normaloff>:/tableWindow/tools/material-3.png</iconset>
    </property>
    <property name="text">
-    <string>Tareas y Materiales...</string>
+    <string>Materiales...</string>
    </property>
    <property name="iconText">
     <string>Materiales...</string>
@@ -170,6 +171,18 @@
    </property>
    <property name="text">
     <string>Costos...</string>
+   </property>
+  </action>
+  <action name="actionVerBibliotecaTareas">
+   <property name="icon">
+    <iconset resource="mksplanner.qrc">
+     <normaloff>:/tableWindow/tools/tool-1.png</normaloff>:/tableWindow/tools/tool-1.png</iconset>
+   </property>
+   <property name="text">
+    <string>Tareas...</string>
+   </property>
+   <property name="toolTip">
+    <string>Ver Tareas</string>
    </property>
   </action>
  </widget>

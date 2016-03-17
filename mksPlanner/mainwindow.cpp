@@ -90,15 +90,26 @@ void MainWindow::on_actionSave_Material_Library_triggered()
     GlobalContainer::instance().library()->save();
 }
 
-void MainWindow::on_actionVer_Biblioteca_triggered()
+void MainWindow::on_actionVer_BibliotecaMateriales_triggered()
 {
     if (!showSubWindow("Biblioteca de Materiales"))
     {
-        TableWindow* frm = new TableWindow("Biblioteca de materiales");
+        TableWindow* frm = new TableWindow("Biblioteca de Materiales");
         frm->setModel(GlobalContainer::instance().library()->model(Tables::Materiales));
         createSubWindow("Biblioteca de Materiales", frm);
     }
 }
+
+void MainWindow::on_actionVerBibliotecaTareas_triggered()
+{
+    if (!showSubWindow("Biblioteca de Tareas"))
+    {
+        TableWindow *frm = new TableWindow("Biblioteca de Tareas");
+        frm->setModel(GlobalContainer::instance().library()->model(Tables::Tareas));
+        createSubWindow("Biblioteca de Tareas", frm);
+    }
+}
+
 
 void MainWindow::on_actionListado_triggered()
 {
@@ -211,3 +222,6 @@ void MainWindow::closeEvent(QCloseEvent *evt)
         }
     }
 }
+
+
+

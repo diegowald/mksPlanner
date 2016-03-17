@@ -32,8 +32,6 @@ private slots:
 
     void on_actionSave_Material_Library_triggered();
 
-    void on_actionVer_Biblioteca_triggered();
-
     void on_actionListado_triggered();
 
     void on_actionNuevo_triggered();
@@ -43,6 +41,10 @@ private slots:
     void on_actionCostos_triggered();
 
     void on_actionAbrir_triggered();
+
+    void on_actionVerBibliotecaTareas_triggered();
+
+    void on_actionVer_BibliotecaMateriales_triggered();
 
 private:
     Ui::MainWindow *ui;

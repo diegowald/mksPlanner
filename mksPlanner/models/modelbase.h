@@ -23,7 +23,8 @@ enum class Tables {
     PlanningTasks,
     PlanningTasksConstraints,
     ExecutionTasks,
-    ExecutionTasksConstraints
+    ExecutionTasksConstraints,
+    Tareas
 };
 
 class ModelBase : public QAbstractTableModel, virtual public PersisterBase

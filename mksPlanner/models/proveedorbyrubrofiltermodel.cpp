@@ -28,8 +28,15 @@ int ProveedorByRubroFilterModel::rowCount(const QModelIndex &) const
 
 QVariant ProveedorByRubroFilterModel::data(const QModelIndex &index, int role) const
 {
-    int id = _mapping.at(index.row());
-    return _model->data(id, index.column(), role);
+    if (index.isValid() && _mapping.count() > 0)
+    {
+        int id = _mapping.at(index.row());
+        return _model->data(id, index.column(), role);
+    }
+    else
+    {
+        return QVariant();
+    }
 }
 
 int ProveedorByRubroFilterModel::columnCount(const QModelIndex &) const

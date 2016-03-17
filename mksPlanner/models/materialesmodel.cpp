@@ -1,7 +1,7 @@
 #include "materialesmodel.h"
 #include "models/material.h"
 
-MaterialesModel::MaterialesModel(QObject *parent) : MaterialesBaseModel(false, parent)
+MaterialesModel::MaterialesModel(QObject *parent) : MaterialesBaseModel(MaterialesBaseModel::FilterCriteria::OnlyMaterials, parent)
 {
 
 }
