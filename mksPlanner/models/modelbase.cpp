@@ -4,9 +4,14 @@
 #include <QAbstractTableModel>
 #include "globalcontainer.h"
 
-ModelBase::ModelBase(Tables tableType, const QString &counterName, bool implementsDelegate, const QString &dbName, QObject *parent) :
+IModel::IModel(QObject *parent) :
     PersisterBase(),
     QAbstractTableModel(parent)
+{
+}
+
+ModelBase::ModelBase(Tables tableType, const QString &counterName, bool implementsDelegate, const QString &dbName, QObject *parent) :
+    IModel(parent)
 {
     _counterName = counterName;
     _implementsDelegate = implementsDelegate;

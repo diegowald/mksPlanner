@@ -1,7 +1,7 @@
 #include "proveedorbyrubrofiltermodel.h"
 #include "models/proveedor.h"
 
-ProveedorByRubroFilterModel::ProveedorByRubroFilterModel(ModelBase* model, int idRubro, QObject *parent) : QAbstractTableModel(parent)
+ProveedorByRubroFilterModel::ProveedorByRubroFilterModel(IModel *model, int idRubro, QObject *parent) : QAbstractTableModel(parent)
 {
     _model = model;
     setIdRubro(idRubro);

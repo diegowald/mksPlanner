@@ -25,7 +25,7 @@ void LibraryBase::save()
 
 bool LibraryBase::isDirty() const
 {
-    foreach(ModelBase *model, _models.values())
+    foreach(IModel *model, _models.values())
     {
         if (model->isDirty())
             return true;
@@ -33,13 +33,13 @@ bool LibraryBase::isDirty() const
     return false;
 }
 
-void LibraryBase::addModel(Tables name, ModelBase *model)
+void LibraryBase::addModel(Tables name, IModel *model)
 {
     _models[name] = model;
-    connect(model, &ModelBase::changed, this, &LibraryBase::on_changed);
+    connect(static_cast<ModelBase*>(model), &ModelBase::changed, this, &LibraryBase::on_changed);
 }
 
-ModelBase *LibraryBase::model(Tables name)
+IModel *LibraryBase::model(Tables name)
 {
     return _models[name];
 }

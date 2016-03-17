@@ -27,7 +27,7 @@ ProjectWindow::~ProjectWindow()
 }
 
 
-void ProjectWindow::setModel(ModelBase *model)
+void ProjectWindow::setModel(IModel *model)
 {
     _model = model;
     if (_mapper != NULL)
@@ -57,10 +57,10 @@ void ProjectWindow::setModel(ModelBase *model)
     ui->tabWidget->setTabEnabled(3, false);
 
     ui->lblFilename->setText(qobject_cast<ProyectoModel*>(model)->filename());
-    connect(model, &ModelBase::changed, this, &ProjectWindow::on_modelChanged);
+    connect(static_cast<ModelBase*>(model), &ModelBase::changed, this, &ProjectWindow::on_modelChanged);
 }
 
-void ProjectWindow::setPlanningModel(ModelBase *model)
+void ProjectWindow::setPlanningModel(IModel *model)
 {
     _planningModel = new PlanningTaskModelAdapter(qobject_cast<PlanningTaskModel*>(model), this);
     _planningModel->setProyecto(_model->getItem(1));
@@ -84,11 +84,11 @@ void ProjectWindow::setPlanningModel(ModelBase *model)
 
     connect(tv, &QTreeView::doubleClicked, this, &ProjectWindow::on_TreeView_doubleClicked);
     ui->actionAddTask->setEnabled(model->canCreateEntity());
-    connect(model, &ModelBase::changed, this, &ProjectWindow::on_PlanningModelChanged);
+    connect(static_cast<ModelBase*>(model), &ModelBase::changed, this, &ProjectWindow::on_PlanningModelChanged);
     updateEstimacionMateriales();
 }
 
-void ProjectWindow::setConstraintModel(ModelBase *model)
+void ProjectWindow::setConstraintModel(IModel *model)
 {
     _constraintModel = new PlanningTaskModelConstraintAdapter(_planningModel, model, this);
 //    KDGantt::Constraint c;
@@ -96,7 +96,7 @@ void ProjectWindow::setConstraintModel(ModelBase *model)
     ui->planningView->setConstraintModel(_constraintModel);
 }
 
-void ProjectWindow::setExecutionModel(ModelBase *model)
+void ProjectWindow::setExecutionModel(IModel *model)
 {
     _executionModel = new ExecutionTaskModelAdapter(qobject_cast<ExecutionTaskModel*>(model), this);
     _executionModel->setProyecto(_model->getItem(1));
@@ -122,7 +122,7 @@ void ProjectWindow::setExecutionModel(ModelBase *model)
     connect(tv, &QTreeView::clicked, this, &ProjectWindow::on_TreeViewExecution_clicked);
 }
 
-void ProjectWindow::setExecutionConstraintModel(ModelBase *model)
+void ProjectWindow::setExecutionConstraintModel(IModel *model)
 {
     _execConstraintModel = new ExecutionTaskModelConstraintAdapter(_executionModel, model, this);
     ui->executionView->setConstraintModel(_execConstraintModel);

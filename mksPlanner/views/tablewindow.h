@@ -17,7 +17,7 @@ public:
     explicit TableWindow(const QString &windowTitle, QWidget *parent = 0);
     ~TableWindow();
 
-    void setModel(ModelBase *model);
+    void setModel(IModel *model);
     void hideColumn(int idColumn);
 
     void setInPlaceEditable(bool value);
@@ -34,7 +34,7 @@ private slots:
 
 private:
     Ui::TableWindow *ui;
-    ModelBase* _model;
+    IModel* _model;
     bool _inPlaceEdit;
 };
 

@@ -2,7 +2,7 @@
 #include <KDGantt>
 #include "models/planningtaskconstraint.h"
 
-PlanningTaskModelConstraintAdapter::PlanningTaskModelConstraintAdapter(PlanningTaskModelAdapter *planningModel, ModelBase *constraintModel, QObject *parent)
+PlanningTaskModelConstraintAdapter::PlanningTaskModelConstraintAdapter(PlanningTaskModelAdapter *planningModel, IModel *constraintModel, QObject *parent)
     : KDGantt::ConstraintModel(parent)
 {
     _planningModel = planningModel;

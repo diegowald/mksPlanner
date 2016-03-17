@@ -204,7 +204,7 @@ void ExecutionTaskModelConstraint::defineColumnNames()
 
 void ExecutionTaskModelConstraint::cloneFromPlanning()
 {
-    ModelBase *model = GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::PlanningTasksConstraints);
+    IModel *model = GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::PlanningTasksConstraints);
     PlanningTaskModelConstraint* planModel = dynamic_cast<PlanningTaskModelConstraint*>(model);
     QSet<int> ids = planModel->ids();
     //beginInsertRows(QModelIndex(), 0, ids.count());

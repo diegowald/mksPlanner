@@ -16,7 +16,7 @@ public:
     void setFileName(const QString &filename);
     void save();
     void load();
-    ModelBase* model(Tables name);
+    IModel* model(Tables name);
     bool isDirty() const;
 
 protected:
@@ -24,7 +24,7 @@ protected:
     virtual void internalLoadTables(const QString &filename) = 0;
     virtual void updateFromVersion(const QString &filename, const QString &versionInfo) = 0;
 
-    void addModel(Tables name, ModelBase *model);
+    void addModel(Tables name, IModel *model);
 
 signals:
     void dataChanged(Tables table);
@@ -35,7 +35,7 @@ private:
     void checkVersion(const QString &filename);
 
 private:
-    QMap<Tables, ModelBase*> _models;
+    QMap<Tables, IModel*> _models;
     QString _filename;
 };
 

@@ -207,7 +207,7 @@ void Proyecto::setProjectStatus(ProjectStatus status)
 
 void Proyecto::crearPlanningEjecucion()
 {
-    ModelBase *model = GlobalContainer::instance().projectLibrary(_idProyectoInterno)->model(Tables::ExecutionTasks);
+    IModel *model = GlobalContainer::instance().projectLibrary(_idProyectoInterno)->model(Tables::ExecutionTasks);
     ExecutionTaskModel *execModel = dynamic_cast<ExecutionTaskModel*>(model);
     execModel->cloneFromPlanning();
 

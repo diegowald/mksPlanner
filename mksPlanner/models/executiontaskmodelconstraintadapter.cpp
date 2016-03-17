@@ -4,7 +4,7 @@
 #include "models/executiontaskmodelconstraint.h"
 
 
-ExecutionTaskModelConstraintAdapter::ExecutionTaskModelConstraintAdapter(ExecutionTaskModelAdapter *execModel, ModelBase *constraintModel, QObject *parent)
+ExecutionTaskModelConstraintAdapter::ExecutionTaskModelConstraintAdapter(ExecutionTaskModelAdapter *execModel, IModel *constraintModel, QObject *parent)
     : KDGantt::ConstraintModel(parent)
 {
     _execModel = execModel;

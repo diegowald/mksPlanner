@@ -3,7 +3,7 @@
 #include "models/material.h"
 #include "globalcontainer.h"
 
-MaterialFilterModel::MaterialFilterModel(ModelBase *model, bool filterByTask, QObject *parent) : QAbstractTableModel(parent)
+MaterialFilterModel::MaterialFilterModel(IModel *model, bool filterByTask, QObject *parent) : QAbstractTableModel(parent)
 {
     _model = model;
     _filterByTask = filterByTask;

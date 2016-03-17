@@ -9,7 +9,7 @@ class MaterialFilterModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    explicit MaterialFilterModel(ModelBase *model, bool filterByTask, QObject *parent = 0);
+    explicit MaterialFilterModel(IModel *model, bool filterByTask, QObject *parent = 0);
 
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
@@ -28,7 +28,7 @@ private:
     void classify();
 
     QList<int> _mapping;
-    ModelBase *_model;
+    IModel *_model;
     bool _filterByTask;
 };
 

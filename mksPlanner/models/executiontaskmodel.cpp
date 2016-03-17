@@ -930,7 +930,7 @@ int ExecutionTaskModel::idProyecto() const
 
 void ExecutionTaskModel::cloneFromPlanning()
 {
-    ModelBase *model = GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::PlanningTasks);
+    IModel *model = GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::PlanningTasks);
     PlanningTaskModel* planModel = dynamic_cast<PlanningTaskModel*>(model);
     QList<int> ids = planModel->ids().toList();
     //beginInsertRows(QModelIndex(), 0, ids.count());

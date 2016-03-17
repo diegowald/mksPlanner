@@ -27,7 +27,31 @@ enum class Tables {
     Tareas
 };
 
-class ModelBase : public QAbstractTableModel, virtual public PersisterBase
+class IModel : public QAbstractTableModel, virtual public PersisterBase
+{
+    Q_OBJECT
+public:
+    explicit IModel(QObject *parent = 0);
+
+    virtual EntityBasePtr getItem(int id) = 0;
+    virtual EntityBasePtr getItemByRowid(int row) = 0;
+    virtual QSet<int> ids() = 0;
+    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const = 0;
+    virtual QVariant data(const int id, const int column, int role = Qt::DisplayRole) const = 0;
+
+    virtual bool isDirty() const = 0;
+    virtual bool implementsDelegate() const = 0;
+    virtual QStyledItemDelegate* delegate() = 0;
+    virtual bool canCreateEntity() const = 0;
+    virtual EntityBasePtr createEntity() = 0;
+    virtual void editEntity(int row) = 0;
+    virtual void removeEntity(QWidget *parent, QModelIndex &index) = 0;
+    virtual int columnIndex(const QString &name) const = 0;
+
+
+};
+
+class ModelBase : public IModel
 {
     Q_OBJECT
 public:
@@ -41,7 +65,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
-    virtual void editEntity(int row) = 0;
+
 
     virtual EntityBasePtr getItem(int id);
     virtual EntityBasePtr getItemByRowid(int row);

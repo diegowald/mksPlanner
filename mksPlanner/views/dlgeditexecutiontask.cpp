@@ -23,7 +23,7 @@ DlgEditExecutionTask::DlgEditExecutionTask(ExecutionTaskModel* model, EntityBase
     ui->txtNombre->setText(p->name());
     ui->txtCantidad->setText(QString::number(p->cantidad()));
 
-    ModelBase *m = GlobalContainer::instance().library()->model(Tables::Materiales);
+    IModel *m = GlobalContainer::instance().library()->model(Tables::Materiales);
     _materialFilterModel = new MaterialFilterModel(m, true, this);
     ui->cboTarea->setModel(_materialFilterModel);
     ui->cboTarea->setModelColumn(m->columnIndex("Nombre"));

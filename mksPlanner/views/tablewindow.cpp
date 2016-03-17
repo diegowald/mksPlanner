@@ -17,7 +17,7 @@ TableWindow::~TableWindow()
     delete ui;
 }
 
-void TableWindow::setModel(ModelBase *model)
+void TableWindow::setModel(IModel *model)
 {
     _model = model;
     if (_model->implementsDelegate())
@@ -27,7 +27,7 @@ void TableWindow::setModel(ModelBase *model)
     ui->tableView->setModel(_model);
     ui->tableView->setColumnHidden(0, true);
     ui->actionCreate->setEnabled(model->canCreateEntity());
-    connect(model, &ModelBase::changed, this, &TableWindow::on_modelChanged);
+    connect(static_cast<ModelBase*>(model), &ModelBase::changed, this, &TableWindow::on_modelChanged);
 }
 
 void TableWindow::on_tableView_doubleClicked(const QModelIndex &index)

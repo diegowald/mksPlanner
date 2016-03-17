@@ -23,13 +23,13 @@ public:
     explicit ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent = 0);
     ~ProjectWindow();
 
-    void setModel(ModelBase *model);
-    void setPlanningModel(ModelBase *model);
-    void setConstraintModel(ModelBase *model);
+    void setModel(IModel *model);
+    void setPlanningModel(IModel *model);
+    void setConstraintModel(IModel *model);
     void setIconResource(const QString &resourceName);
 
-    void setExecutionModel(ModelBase *model);
-    void setExecutionConstraintModel(ModelBase *model);
+    void setExecutionModel(IModel *model);
+    void setExecutionConstraintModel(IModel *model);
 
 private slots:
     void on_tabWidget_currentChanged(int index);
@@ -64,7 +64,7 @@ private:
     void checkSplitAction();
 private:
     Ui::ProjectWindow *ui;
-    ModelBase* _model;
+    IModel* _model;
     QDataWidgetMapper *_mapper;
     PlanningTaskModelAdapter *_planningModel;
     PlanningTaskModelConstraintAdapter *_constraintModel;
