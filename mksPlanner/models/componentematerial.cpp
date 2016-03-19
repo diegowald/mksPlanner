@@ -84,7 +84,7 @@ int ComponenteMaterial::idMaterialPadre() const
 
 EntityBasePtr ComponenteMaterial::materialPadre() const
 {
-    return GlobalContainer::instance().library()->model(Tables::Materiales)->getItem(_idMaterialPadre);
+    return GlobalContainer::instance().library()->model(Tables::MaterialesYTareas)->getItem(_idMaterialPadre);
 }
 
 int ComponenteMaterial::idMaterial() const
@@ -94,7 +94,7 @@ int ComponenteMaterial::idMaterial() const
 
 EntityBasePtr ComponenteMaterial::material() const
 {
-    return GlobalContainer::instance().library()->model(Tables::Materiales)->getItem(_idMaterial);
+    return GlobalContainer::instance().library()->model(Tables::MaterialesYTareas)->getItem(_idMaterial);
 }
 
 double ComponenteMaterial::cantidad() const

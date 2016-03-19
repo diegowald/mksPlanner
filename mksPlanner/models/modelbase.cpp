@@ -210,6 +210,11 @@ EntityBasePtr ModelBase::getItemByRowid(int row)
         return getItem(_entityMapping[row]);
 }
 
+int ModelBase::rowFromId(int id)
+{
+    return _entityMapping.indexOf(id);
+}
+
 void ModelBase::setModified()
 {
     QModelIndex idx;

@@ -13,6 +13,7 @@
 
 enum class Tables {
     Unidades,
+    MaterialesYTareas,
     Materiales,
     ComponentesMateriales,
     Proveedores,
@@ -36,6 +37,7 @@ public:
     virtual EntityBasePtr getItem(int id) = 0;
     virtual EntityBasePtr getItemByRowid(int row) = 0;
     virtual QSet<int> ids() = 0;
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const = 0;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const = 0;
     virtual QVariant data(const int id, const int column, int role = Qt::DisplayRole) const = 0;
 
@@ -48,7 +50,7 @@ public:
     virtual void removeEntity(QWidget *parent, QModelIndex &index) = 0;
     virtual int columnIndex(const QString &name) const = 0;
 
-
+    virtual int rowFromId(int id) = 0;
 };
 
 class ModelBase : public IModel
@@ -88,6 +90,7 @@ public:
     virtual void addDependency(int dependencyCode);
     Tables tableType() const;
 
+    virtual int rowFromId(int id);
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);
     virtual void markAsSaved();

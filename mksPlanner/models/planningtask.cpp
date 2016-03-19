@@ -60,7 +60,7 @@ int PlanningTask::idMaterialTask() const
 
 EntityBasePtr PlanningTask::materialTask() const
 {
-    return GlobalContainer::instance().library()->model(Tables::Materiales)->getItem(_idMaterialTask);
+    return GlobalContainer::instance().library()->model(Tables::Tareas)->getItem(_idMaterialTask);
 }
 
 int PlanningTask::idProveedor() const

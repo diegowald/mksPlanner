@@ -5,10 +5,9 @@
 #include "models/rubro.h"
 #include "globalcontainer.h"
 
-MaterialesBaseModel::MaterialesBaseModel(FilterCriteria filterCriteria, QObject *parent)
-    : ModelBase(Tables::Materiales, "materiales", false, "library", parent)
+MaterialesBaseModel::MaterialesBaseModel(QObject *parent)
+    : ModelBase(Tables::MaterialesYTareas, "materiales", false, "library", parent)
 {
-    _filterCriteria = filterCriteria;
     defineColumnNames();
     addDependency(static_cast<int>(Tables::Unidades));
     addDependency(static_cast<int>(Tables::Rubros));
@@ -276,4 +275,10 @@ void MaterialesBaseModel::editEntity(int row)
 MaterialPtr MaterialesBaseModel::cast(EntityBasePtr entity)
 {
     return qSharedPointerDynamicCast<Material>(entity);
+}
+
+
+EntityBasePtr MaterialesBaseModel::internalCreateEntity(int assignedId)
+{
+    return MaterialPtr::create(assignedId);
 }

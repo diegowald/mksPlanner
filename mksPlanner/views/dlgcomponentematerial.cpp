@@ -14,7 +14,7 @@ dlgComponenteMaterial::dlgComponenteMaterial(int idMaterialPadre, ComponentesMat
 {
     // Aca hay que quitar el filtro
     _materialsModel = new ValidMaterialFilterModel(idMaterialPadre,
-                                                   GlobalContainer::instance().library()->model(Tables::Materiales),
+                                                   GlobalContainer::instance().library()->model(Tables::MaterialesYTareas),
                                                    this);
 
     ui->setupUi(this);

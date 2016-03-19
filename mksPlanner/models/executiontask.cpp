@@ -84,7 +84,7 @@ int ExecutionTask::idMaterialTask() const
 
 EntityBasePtr ExecutionTask::materialTask() const
 {
-    return GlobalContainer::instance().library()->model(Tables::Materiales)->getItem(_idMaterialTask);
+    return GlobalContainer::instance().library()->model(Tables::Tareas)->getItem(_idMaterialTask);
 }
 
 int ExecutionTask::idProveedor() const

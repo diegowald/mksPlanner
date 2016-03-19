@@ -116,7 +116,7 @@ ExecutionTaskModel::ExecutionTaskModel(int idProyecto, QObject *parent)
 {
     _idProyecto = idProyecto;
     defineColumnNames();
-    addDependency(static_cast<int>(Tables::Materiales));
+    addDependency(static_cast<int>(Tables::Tareas));
     addDependency(static_cast<int>(Tables::Rubros));
     addDependency(static_cast<int>(Tables::Unidades));
     addDependency(static_cast<int>(Tables::Proveedores));
