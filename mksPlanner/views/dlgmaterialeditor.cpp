@@ -7,8 +7,9 @@
 #include "models/unit.h"
 #include "models/material.h"
 #include "models/rubro.h"
+#include "models/modelfilter.h"
 
-dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidget *parent) :
+dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, bool isTask, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::dlgMaterialEditor)
 {
@@ -16,7 +17,15 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidge
 
     ui->cboUnit->setModel(GlobalContainer::instance().library()->model(Tables::Unidades));
 
-    ui->cboRubro->setModel(GlobalContainer::instance().library()->model(Tables::Rubros));
+    _isTask = isTask;
+    _rubroFilter = new ModelFilter(GlobalContainer::instance().library()->model(Tables::Rubros),
+                                   [&] (EntityBasePtr e) -> bool
+        {
+            RubroPtr r = qSharedPointerDynamicCast<Rubro>(e);
+            return isTask ? r->isTask() : !r->isTask();
+        }, this);
+    //ui->cboRubro->setModel(GlobalContainer::instance().library()->model(Tables::Rubros));
+    ui->cboRubro->setModel(_rubroFilter);
 
     //falta hacer que se vea el nombre de la unidad y que se seleccione el id
     ui->cboUnit->setModelColumn(1);

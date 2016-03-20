@@ -14,7 +14,7 @@ class dlgMaterialEditor : public QDialog
     Q_OBJECT
 
 public:
-    explicit dlgMaterialEditor(MaterialesBaseModel *model, int row, QWidget *parent = 0);
+    explicit dlgMaterialEditor(MaterialesBaseModel *model, int row, bool isTask, QWidget *parent = 0);
     ~dlgMaterialEditor();
 
 private slots:
@@ -24,6 +24,8 @@ private:
     Ui::dlgMaterialEditor *ui;
     MaterialesBaseModel *_model;
     EntityBasePtr _entity;
+    IModel* _rubroFilter;
+    bool _isTask;
 };
 
 #endif // DLGMATERIALEDITOR_H

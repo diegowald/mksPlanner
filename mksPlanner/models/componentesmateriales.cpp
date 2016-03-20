@@ -152,7 +152,8 @@ QVariant ComponentesMaterialesModel::modelData(EntityBasePtr entity, int column,
         }
         case 3:
         {
-            result = comp->idMaterial() != -1 ? qSharedPointerDynamicCast<Material>(comp->material())->name() : "";
+            MaterialPtr m = qSharedPointerDynamicCast<Material>(comp->material());
+            result = (!m.isNull()) ? qSharedPointerDynamicCast<Material>(comp->material())->name() : "";
             break;
         }
         case 4:

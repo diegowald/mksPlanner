@@ -41,6 +41,8 @@ public:
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const = 0;
     virtual QVariant data(const int id, const int column, int role = Qt::DisplayRole) const = 0;
 
+    virtual bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) = 0;
+
     virtual bool isDirty() const = 0;
     virtual bool implementsDelegate() const = 0;
     virtual QStyledItemDelegate* delegate() = 0;

@@ -110,9 +110,10 @@ QString ComponenteMaterial::toDebugString()
 
 QString ComponenteMaterial::cantidadToString() const
 {
-    if (_idMaterial != -1)
+    MaterialPtr m = qSharedPointerDynamicCast<Material>(material());
+    if (!m.isNull())
     {
-        Cantidad c(_cantidad, qSharedPointerDynamicCast<Unit>(qSharedPointerDynamicCast<Material>(material())->unit()));
+        Cantidad c(_cantidad, qSharedPointerDynamicCast<Unit>(m->unit()));
         return c.toString();
     }
     else

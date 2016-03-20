@@ -1,5 +1,6 @@
 #include "materialesmodel.h"
 #include "models/material.h"
+#include "views/dlgmaterialeditor.h"
 
 MaterialesModel::MaterialesModel(IModel *materiales, QObject *parent) : IModel(parent)
 {
@@ -114,7 +115,9 @@ EntityBasePtr MaterialesModel::createEntity()
 void MaterialesModel::editEntity(int row)
 {
     int id = _mapping.at(row);
-    return _model->editEntity(_model->rowFromId(id));
+
+    dlgMaterialEditor dlg(dynamic_cast<MaterialesBaseModel*>(_model), _model->rowFromId(id), false);
+    dlg.exec();
 }
 
 void MaterialesModel::removeEntity(QWidget *parent, QModelIndex &index)
@@ -130,6 +133,22 @@ int MaterialesModel::columnIndex(const QString &name) const
 int MaterialesModel::rowFromId(int id)
 {
     return _mapping.indexOf(id);
+}
+
+bool MaterialesModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    bool success;
+
+    beginInsertRows(parent, row, row + count - 1);
+    for (int i = 0; i < count; ++i)
+    {
+        EntityBasePtr entity = createEntity();
+        _mapping.append(entity->id());
+    }
+    success = true;
+    endInsertRows();
+
+    return success;
 }
 
 void MaterialesModel::classify()

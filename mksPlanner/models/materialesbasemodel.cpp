@@ -268,7 +268,7 @@ bool UnitsModel::removeRow(int row, const QModelIndex &parent)
 
 void MaterialesBaseModel::editEntity(int row)
 {
-    dlgMaterialEditor dlg(this, row);
+    dlgMaterialEditor dlg(this, row, false);
     dlg.exec();
 }
 
