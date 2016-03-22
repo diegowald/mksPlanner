@@ -429,3 +429,8 @@ QString ExecutionTask::cantidadToString() const
     return c.toString();
 }
 
+
+double ExecutionTask::rendimientoReal() const
+{
+    return 1;
+}

@@ -5,6 +5,7 @@
 #include "globalcontainer.h"
 #include "models/material.h"
 #include "models/cantidad.h"
+#include <limits>
 
 PlanningTask::PlanningTask(int id) : EntityBase(id, true)
 {
@@ -310,4 +311,10 @@ QString PlanningTask::cantidadToString() const
     }
     Cantidad c(_cantidad);
     return c.toString();
+}
+
+double PlanningTask::rendimientoPlanificado() const
+{
+    qint64 days = _fechaEstimadaInicio.daysTo(_fechaEstimadaFin);
+    return (days != 0) ? _cantidad / (double)days : std::numeric_limits<double>::max();
 }

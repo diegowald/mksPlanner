@@ -45,6 +45,7 @@ public:
     QString tooltip() const;
     KDGantt::ItemType taskType() const;
     double pctCompletado() const;
+    double rendimientoReal() const;
 
     void setIdPlanningTask(int value);
     void setPlanningTask(EntityBasePtr entity, bool copyData);

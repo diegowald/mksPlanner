@@ -917,10 +917,10 @@ bool ExecutionTaskModel::insertRows(int row, int count, const QModelIndex& paren
     return true;
 }
 
-void ExecutionTaskModel::editEntity(EntityBasePtr)
+void ExecutionTaskModel::editEntity(EntityBasePtr entity)
 {
-    /*DlgEditPlanningTask dlg(this, entity);
-    dlg.exec();*/
+    DlgEditExecutionTask dlg(this, entity);
+    dlg.exec();
 }
 
 int ExecutionTaskModel::idProyecto() const

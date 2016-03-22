@@ -48,7 +48,11 @@ DlgEditExecutionTask::DlgEditExecutionTask(ExecutionTaskModel* model, EntityBase
         }
         ui->dateFechaEstimadaInicio->setDateTime(p->fechaEstimadaInicio());
         ui->dateFechaEstimadaFinalizacion->setDateTime(p->fechaEstimadaFin());
+        ui->dateFechaEstimadaInicio->setReadOnly(true);
+        ui->dateFechaEstimadaFinalizacion->setReadOnly(true);
         ui->cboTaskType->setCurrentIndex(ui->cboTaskType->findData(static_cast<int>(p->taskType())));
+        ui->dateFechaRealInicio->setDateTime(p->fechaRealInicio());
+        ui->dateFecharealFinalizacion->setDateTime(p->fechaRealFin());
     }
 
     TableWindow *t = new TableWindow("", this);

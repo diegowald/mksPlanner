@@ -38,6 +38,7 @@ public:
     double precio() const;
     QString tooltip() const;
     KDGantt::ItemType taskType() const;
+    double rendimientoPlanificado() const;
 
     void setIdTareaPadre(int value);
     void setName(const QString &value);
