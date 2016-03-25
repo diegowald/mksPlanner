@@ -69,17 +69,17 @@ void ModelFilter::postProcessData()
     classify();
 }
 
-EntityBasePtr ModelFilter::getItem(int id)
+EntityBasePtr ModelFilter::getItem(int id) const
 {
     return _model->getItem(id);
 }
 
-EntityBasePtr ModelFilter::getItemByRowid(int row)
+EntityBasePtr ModelFilter::getItemByRowid(int row) const
 {
     return _model->getItem(_mapping.at(row));
 }
 
-QSet<int> ModelFilter::ids()
+QSet<int> ModelFilter::ids() const
 {
     return QSet<int>::fromList(_mapping);
 }
@@ -154,4 +154,12 @@ bool ModelFilter::insertRows(int row, int count, const QModelIndex &parent)
     endInsertRows();
 
     return success;
+}
+
+
+void ModelFilter::refreshData()
+{
+    classify();
+    emit dataChanged(createIndex(0, 0), createIndex(rowCount(QModelIndex()), columnCount(QModelIndex())));
+    emit layoutChanged();
 }

@@ -62,17 +62,17 @@ void MaterialesModel::postProcessData()
     classify();
 }
 
-EntityBasePtr MaterialesModel::getItem(int id)
+EntityBasePtr MaterialesModel::getItem(int id) const
 {
     return _model->getItem(id);
 }
 
-EntityBasePtr MaterialesModel::getItemByRowid(int row)
+EntityBasePtr MaterialesModel::getItemByRowid(int row) const
 {
     return _model->getItem(_mapping.at(row));
 }
 
-QSet<int> MaterialesModel::ids()
+QSet<int> MaterialesModel::ids() const
 {
     return QSet<int>::fromList(_mapping);
 }
@@ -165,3 +165,9 @@ void MaterialesModel::classify()
     }
 }
 
+
+
+void MaterialesModel::refreshData()
+{
+    classify();
+}

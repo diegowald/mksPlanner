@@ -35,9 +35,9 @@ protected:
 
     // IModel interface
 public:
-    virtual EntityBasePtr getItem(int id) override;
-    virtual EntityBasePtr getItemByRowid(int row) override;
-    virtual QSet<int> ids() override;
+    virtual EntityBasePtr getItem(int id) const override;
+    virtual EntityBasePtr getItemByRowid(int row) const override;
+    virtual QSet<int> ids() const override;
     virtual QVariant data(const int id, const int column, int role) const override;
     virtual bool isDirty() const override;
     virtual bool implementsDelegate() const override;
@@ -49,6 +49,7 @@ public:
     virtual int columnIndex(const QString &name) const override;
     virtual int rowFromId(int id) override;
     virtual bool insertRows(int row, int count, const QModelIndex &parent);
+    virtual void refreshData() override;
 
 private:
     void classify();

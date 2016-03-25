@@ -188,7 +188,7 @@ void ModelBase::removeEntity(QWidget *parent, QModelIndex &index)
     }
 }
 
-EntityBasePtr ModelBase::getItem(int id)
+EntityBasePtr ModelBase::getItem(int id) const
 {
     if (_entities.contains(id))
     {
@@ -198,7 +198,7 @@ EntityBasePtr ModelBase::getItem(int id)
         return EntityBasePtr();
 }
 
-EntityBasePtr ModelBase::getItemByRowid(int row)
+EntityBasePtr ModelBase::getItemByRowid(int row) const
 {
     /*qDebug() << row;
     qDebug() << _entityMapping.contains(row);
@@ -221,7 +221,7 @@ void ModelBase::setModified()
     emit dataChanged(idx, idx);
 }
 
-QSet<int> ModelBase::ids()
+QSet<int> ModelBase::ids() const
 {
     return QSet<int>::fromList(_entities.keys());
 }
@@ -335,6 +335,11 @@ Tables ModelBase::tableType() const
 }
 
 void ModelBase::on_dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)
+{
+    emit changed(_tableType);
+}
+
+void ModelBase::refreshData()
 {
     emit changed(_tableType);
 }

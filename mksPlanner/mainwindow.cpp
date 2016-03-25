@@ -80,7 +80,7 @@ void MainWindow::loadProject(const QString &fileName)
     {
         int id = GlobalContainer::instance().loadProject(fileName);
         ProjectWindow *frm = new ProjectWindow("Proyecto", id);
-        frm->setModel(GlobalContainer::instance().projectLibrary(id)->model(Tables::Proyectos));
+        frm->setProjectLibrary(GlobalContainer::instance().projectLibrary(id));
         createSubWindow("Proyecto", frm);
     }
 }
@@ -137,11 +137,7 @@ void MainWindow::on_actionNuevo_triggered()
         {
             int tmpId = GlobalContainer::instance().createProject(filename);
             ProjectWindow *frm = new ProjectWindow("Proyecto", tmpId);
-            frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
-            frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
-            frm->setConstraintModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasksConstraints));
-            frm->setExecutionModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::ExecutionTasks));
-            frm->setExecutionConstraintModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::ExecutionTasksConstraints));
+            frm->setProjectLibrary(GlobalContainer::instance().projectLibrary(tmpId));
             createSubWindow("Proyecto", frm);
             frm->setIconResource(":/tableWindow/tools/planning");
         }
@@ -155,11 +151,7 @@ void MainWindow::on_actionAbrir_triggered()
     {
         int tmpId = GlobalContainer::instance().loadProject(filename);
         ProjectWindow *frm = new ProjectWindow("Proyecto", tmpId);
-        frm->setModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::Proyectos));
-        frm->setPlanningModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasks));
-        frm->setConstraintModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::PlanningTasksConstraints));
-        frm->setExecutionModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::ExecutionTasks));
-        frm->setExecutionConstraintModel(GlobalContainer::instance().projectLibrary(tmpId)->model(Tables::ExecutionTasksConstraints));
+        frm->setProjectLibrary(GlobalContainer::instance().projectLibrary(tmpId));
         createSubWindow("Proyecto", frm);
         frm->setIconResource(":/tableWindow/tools/planning");
     }

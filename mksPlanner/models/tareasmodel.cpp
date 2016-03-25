@@ -63,17 +63,17 @@ void TareasModel::postProcessData()
     classify();
 }
 
-EntityBasePtr TareasModel::getItem(int id)
+EntityBasePtr TareasModel::getItem(int id) const
 {
     return _model->getItem(id);
 }
 
-EntityBasePtr TareasModel::getItemByRowid(int row)
+EntityBasePtr TareasModel::getItemByRowid(int row) const
 {
     return _model->getItem(_mapping.at(row));
 }
 
-QSet<int> TareasModel::ids()
+QSet<int> TareasModel::ids() const
 {
     return QSet<int>::fromList(_mapping);
 }
@@ -167,3 +167,9 @@ void TareasModel::classify()
     }
 }
 
+
+
+void TareasModel::refreshData()
+{
+    classify();
+}

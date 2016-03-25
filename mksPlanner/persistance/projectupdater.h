@@ -12,6 +12,7 @@ public:
 private:
     void scriptsVersion1();
     void scriptsVersion2();
+    void scriptsVersion3();
 
 };
 

@@ -23,7 +23,8 @@ public:
                           double cantidad, const QDateTime &fechaEstimadaInicio,
                           const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType,
                            int idTareaPlanificada, double pctCompletado,
-                           const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin, bool isSplittedPart);
+                           const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin, bool isSplittedPart,
+                           int idCertificacion);
 
     int idPlanningTask() const;
     EntityBasePtr planningTask() const;
@@ -46,6 +47,8 @@ public:
     KDGantt::ItemType taskType() const;
     double pctCompletado() const;
     double rendimientoReal() const;
+    bool canStart() const;
+    int idCertificacion() const;
 
     void setIdPlanningTask(int value);
     void setPlanningTask(EntityBasePtr entity, bool copyData);
@@ -60,6 +63,10 @@ public:
     void setFechaRealFin(QDateTime &value);
     void setTaskType(KDGantt::ItemType value);
     void setPctCompletado(double value);
+
+    void setIdCertificacion(int idCertificacion);
+
+
 
 
     void setIdProyecto(int idProyecto);
@@ -101,9 +108,9 @@ private:
     double _pctCompletado;
     KDGantt::ItemType _taskType;
     bool _isSplittedPart;
+    int _idCertificacion;
 
     int _idProyecto;
-
     //PlanningTask *_parent;
     QList<ExecutionTaskPtr> _child;
 };

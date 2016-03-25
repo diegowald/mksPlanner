@@ -25,7 +25,9 @@ enum class Tables {
     PlanningTasksConstraints,
     ExecutionTasks,
     ExecutionTasksConstraints,
-    Tareas
+    Tareas,
+    Certificaciones,
+    Certificados
 };
 
 class IModel : public QAbstractTableModel, virtual public PersisterBase
@@ -34,9 +36,9 @@ class IModel : public QAbstractTableModel, virtual public PersisterBase
 public:
     explicit IModel(QObject *parent = 0);
 
-    virtual EntityBasePtr getItem(int id) = 0;
-    virtual EntityBasePtr getItemByRowid(int row) = 0;
-    virtual QSet<int> ids() = 0;
+    virtual EntityBasePtr getItem(int id) const = 0;
+    virtual EntityBasePtr getItemByRowid(int row) const = 0;
+    virtual QSet<int> ids() const = 0;
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const = 0;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const = 0;
     virtual QVariant data(const int id, const int column, int role = Qt::DisplayRole) const = 0;
@@ -53,6 +55,7 @@ public:
     virtual int columnIndex(const QString &name) const = 0;
 
     virtual int rowFromId(int id) = 0;
+    virtual void refreshData() = 0;
 };
 
 class ModelBase : public IModel
@@ -71,8 +74,8 @@ public:
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
 
 
-    virtual EntityBasePtr getItem(int id);
-    virtual EntityBasePtr getItemByRowid(int row);
+    virtual EntityBasePtr getItem(int id) const override;
+    virtual EntityBasePtr getItemByRowid(int row) const override;
     void setModified();
 
     virtual EntityBasePtr createEntity();
@@ -80,7 +83,7 @@ public:
     virtual bool removeRow(int row, const QModelIndex &parent);
     virtual bool removeById(int id);
 
-    virtual QSet<int> ids();
+    virtual QSet<int> ids() const;
     bool implementsDelegate() const;
     virtual QStyledItemDelegate* delegate();
 
@@ -93,6 +96,7 @@ public:
     Tables tableType() const;
 
     virtual int rowFromId(int id);
+    virtual void refreshData() override;
 protected:
     virtual QList<QSqlQuery*> getQueries(QSqlDatabase &database);
     virtual void markAsSaved();

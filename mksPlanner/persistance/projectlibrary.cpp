@@ -5,6 +5,8 @@
 #include "models/planningtaskmodelconstraint.h"
 #include "models/executiontaskmodel.h"
 #include "models/executiontaskmodelconstraint.h"
+#include "models/certificacionesmodel.h"
+#include "models/certificadosmodel.h"
 
 ProjectLibrary::ProjectLibrary(const QString &filename, int idProyecto, bool nuevo,  QObject *parent) : LibraryBase(parent)
 {
@@ -16,6 +18,8 @@ ProjectLibrary::ProjectLibrary(const QString &filename, int idProyecto, bool nue
     addModel(Tables::PlanningTasksConstraints, new PlanningTaskModelConstraint(_idProyecto, this));
     addModel(Tables::ExecutionTasks, new ExecutionTaskModel(_idProyecto, this));
     addModel(Tables::ExecutionTasksConstraints, new ExecutionTaskModelConstraint(_idProyecto, this));
+    addModel(Tables::Certificaciones, new CertificacionesModel(_idProyecto, this));
+    addModel(Tables::Certificados, new CertificadosModel(_idProyecto, this));
     if (nuevo)
     {
         model(Tables::Proyectos)->createEntity();
@@ -29,6 +33,8 @@ void ProjectLibrary::internalSaveTables(const QString &filename)
     model(Tables::PlanningTasksConstraints)->save(filename);
     model(Tables::ExecutionTasks)->save(filename);
     model(Tables::ExecutionTasksConstraints)->save(filename);
+    model(Tables::Certificaciones)->save(filename);
+    model(Tables::Certificados)->save(filename);
 }
 
 void ProjectLibrary::internalLoadTables(const QString &filename)
@@ -38,6 +44,8 @@ void ProjectLibrary::internalLoadTables(const QString &filename)
     model(Tables::PlanningTasksConstraints)->load(filename);
     model(Tables::ExecutionTasks)->load(filename);
     model(Tables::ExecutionTasksConstraints)->load(filename);
+    model(Tables::Certificaciones)->load(filename);
+    model(Tables::Certificados)->load(filename);
 }
 
 void ProjectLibrary::updateFromVersion(const QString &filename, const QString &versionInfo)

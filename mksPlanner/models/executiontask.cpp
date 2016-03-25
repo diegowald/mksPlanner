@@ -7,6 +7,7 @@
 #include "models/planningtask.h"
 #include "models/executiontaskmodel.h"
 #include "models/cantidad.h"
+#include "models/certificacionesmodel.h"
 
 ExecutionTask::ExecutionTask(int id) : EntityBase(id, true)
 {
@@ -28,12 +29,13 @@ ExecutionTask::ExecutionTask(int id) : EntityBase(id, true)
     _fechaRealFin = QDateTime::currentDateTime().addDays(1);
     _fechaRealFin.setTime(QTime(23, 59, 59, 999));
     _isSplittedPart = false;
+    _idCertificacion = -1;
 }
 
 ExecutionTask::ExecutionTask(int id, int idTareaPadre, const QString &name,
                       int idMaterialTask, int idProveedor,
                       double cantidad, const QDateTime &fechaEstimadaInicio,
-                      const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType, int idTareaPlanificada, double pctCompletado, const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin, bool isSplittedPart) : EntityBase(id, false)
+                      const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType, int idTareaPlanificada, double pctCompletado, const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin, bool isSplittedPart, int idCertificacion) : EntityBase(id, false)
 {
     _idProyecto = -1;
     _idTareaPadre = idTareaPadre;
@@ -49,6 +51,7 @@ ExecutionTask::ExecutionTask(int id, int idTareaPadre, const QString &name,
     _fechaRealInicio = fechaRealInicio;
     _fechaRealFin = fechaRealFin;
     _isSplittedPart = isSplittedPart;
+    _idCertificacion = idCertificacion;
 }
 
 int ExecutionTask::idPlanningTask() const
@@ -390,6 +393,12 @@ double ExecutionTask::pctCompletado() const
 
 void ExecutionTask::setPctCompletado(double value)
 {
+    if (_pctCompletado == 0.)
+    {
+        CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
+        int id = m->idCertificacionProxima(this->fechaRealInicio());
+        setIdCertificacion(id);
+    }
     _pctCompletado = value;
     updateStatus();
 }
@@ -433,4 +442,21 @@ QString ExecutionTask::cantidadToString() const
 double ExecutionTask::rendimientoReal() const
 {
     return 1;
+}
+
+void ExecutionTask::setIdCertificacion(int idCertificacion)
+{
+    _idCertificacion = idCertificacion;
+}
+
+bool ExecutionTask::canStart() const
+{
+    CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
+    int id = m->idCertificacionProxima(this->fechaRealInicio());
+    return id >= 1;
+}
+
+int ExecutionTask::idCertificacion() const
+{
+    return _idCertificacion;
 }

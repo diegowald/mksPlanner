@@ -27,9 +27,9 @@ protected:
 
     // IModel interface
 public:
-    virtual EntityBasePtr getItem(int id) override;
-    virtual EntityBasePtr getItemByRowid(int row) override;
-    virtual QSet<int> ids() override;
+    virtual EntityBasePtr getItem(int id) const override;
+    virtual EntityBasePtr getItemByRowid(int row) const override;
+    virtual QSet<int> ids() const override;
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     virtual QVariant data(const int id, const int column, int role) const override;
     virtual bool isDirty() const override;
@@ -42,7 +42,7 @@ public:
     virtual int columnIndex(const QString &name) const override;
     virtual int rowFromId(int id);
     virtual bool insertRows(int row, int count, const QModelIndex &parent);
-
+    virtual void refreshData() override;
 
 protected:
     virtual EntityBasePtr internalCreateEntity(int assignedId);

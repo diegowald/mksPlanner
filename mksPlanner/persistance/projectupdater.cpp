@@ -86,3 +86,12 @@ void ProjectUpdater::scriptsVersion2()
 
     addCommand(2, "UPDATE version set versionInfo = 2;");
 }
+
+
+void ProjectUpdater::scriptsVersion3()
+{
+    addCommand(3, "ALTER TABLE tareasEjecucion ADD COLUMN `idCertificacion` INTEGER;");
+
+    addCommand(3, "UPDATE version set versionInfo = 3;");
+
+}

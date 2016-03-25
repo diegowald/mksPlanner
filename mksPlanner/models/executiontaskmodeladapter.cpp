@@ -415,7 +415,17 @@ Qt::ItemFlags ExecutionTaskModelAdapter::flags( const QModelIndex& idx) const
         ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(node->entity());
         if (et->pctCompletado() == 0.)
         {
-            f |= Qt::ItemIsEditable;
+            if (idx.column() == 4)
+            {
+                if (et->canStart())
+                {
+                    f |= Qt::ItemIsEditable;
+                }
+            }
+            else
+            {
+                f |= Qt::ItemIsEditable;
+            }
         }
         else
         {
@@ -622,4 +632,9 @@ void ExecutionTaskModelAdapter::setProyecto(EntityBasePtr proyecto)
 void ExecutionTaskModelAdapter::on_model_dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)
 {
     emit dataChanged(QModelIndex(), QModelIndex());
+}
+
+IModel* ExecutionTaskModelAdapter::innerModel() const
+{
+    return _model;
 }

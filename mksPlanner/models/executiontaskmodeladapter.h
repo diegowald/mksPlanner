@@ -43,6 +43,8 @@ public:
 
     void setProyecto(EntityBasePtr proyecto);
 
+    IModel *innerModel() const;
+
 private:
     QModelIndex createIndex(int idTask, ExecutionTaskModel::Node *node);
     void splitTaskSplitted(ExecutionTaskModel::Node *node);

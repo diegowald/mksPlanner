@@ -78,7 +78,12 @@ SOURCES += main.cpp\
     models/cantidad.cpp \
     models/fieldbehaviour.cpp \
     models/tareasmodel.cpp \
-    models/modelfilter.cpp
+    models/modelfilter.cpp \
+    models/certificacion.cpp \
+    models/certificacionesmodel.cpp \
+    views/dlgEditCertificacion.cpp \
+    models/certificado.cpp \
+    models/certificadosmodel.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -143,7 +148,12 @@ HEADERS  += mainwindow.h \
     models/cantidad.h \
     models/fieldbehaviour.h \
     models/tareasmodel.h \
-    models/modelfilter.h
+    models/modelfilter.h \
+    models/certificacion.h \
+    models/certificacionesmodel.h \
+    views/dlgEditCertificacion.h \
+    models/certificado.h \
+    models/certificadosmodel.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
@@ -158,7 +168,8 @@ FORMS    += mainwindow.ui \
     views/dlgeditplanningtask.ui \
     views/dlgeditplanningtaskconstraint.ui \
     views/dlgeditexecutiontask.ui \
-    views/dlgsplitexecutiontask.ui
+    views/dlgsplitexecutiontask.ui \
+    views/dlgEditCertificacion.ui
 
 CONFIG += mobility
 MOBILITY =
