@@ -114,6 +114,11 @@ EntityBasePtr TareasModel::createEntity()
     return _model->createEntity();
 }
 
+void TareasModel::addEntity(EntityBasePtr entity)
+{
+    _model->addEntity(entity);
+}
+
 void TareasModel::editEntity(int row)
 {
     int id = _mapping.at(row);

@@ -112,6 +112,11 @@ EntityBasePtr MaterialesModel::createEntity()
     return _model->createEntity();
 }
 
+void MaterialesModel::addEntity(EntityBasePtr entity)
+{
+    _model->addEntity(entity);
+}
+
 void MaterialesModel::editEntity(int row)
 {
     int id = _mapping.at(row);

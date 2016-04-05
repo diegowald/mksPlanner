@@ -83,7 +83,9 @@ SOURCES += main.cpp\
     models/certificacionesmodel.cpp \
     views/dlgEditCertificacion.cpp \
     models/certificado.cpp \
-    models/certificadosmodel.cpp
+    models/certificadosmodel.cpp \
+    models/tareascertificado.cpp \
+    models/tareacertificadosmodel.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -153,7 +155,9 @@ HEADERS  += mainwindow.h \
     models/certificacionesmodel.h \
     views/dlgEditCertificacion.h \
     models/certificado.h \
-    models/certificadosmodel.h
+    models/certificadosmodel.h \
+    models/tareascertificado.h \
+    models/tareacertificadosmodel.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

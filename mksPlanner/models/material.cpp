@@ -35,7 +35,8 @@ QSqlQuery* Material::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO materiales (name, description, idUnit, RubroID) VALUES (:nombre, :descripcion, :idUnit, :idRubro);");
+        query->prepare("INSERT INTO materiales (id, name, description, idUnit, RubroID) VALUES (:id, :nombre, :descripcion, :idUnit, :idRubro);");
+        query->bindValue(":id", id());
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
         query->bindValue(":idUnit", _idUnit);

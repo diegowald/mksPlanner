@@ -2,8 +2,9 @@
 #include <QSharedPointer>
 //#include "views/dlgEditCertificacion.h"
 #include <QSet>
-
+#include "globalcontainer.h"
 #include <QDebug>
+#include "models/proveedor.h"
 
 CertificadosModel::CertificadosModel(int idProyecto, QObject *parent) :
     ModelBase(Tables::Certificados, "certificados", false, "proyecto", parent)
@@ -14,7 +15,93 @@ CertificadosModel::CertificadosModel(int idProyecto, QObject *parent) :
 
 void CertificadosModel::defineColumnNames()
 {
-    setField(1, "Nro. Certificado",
+    setField(1, "idCertificacion",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        CertificadoPtr c = cast(e);
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = c->idCertificacion();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr e, const QVariant &v, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(e)->setIdCertificacion(v.toInt());
+            return true;
+        }
+        return false;
+    });
+
+    setField(2, "idProveedor",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(e)->idProveedor();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(3, "Proveedor",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v = QVariant();
+        int idProveedor = cast(e)->idProveedor();
+        if (idProveedor != -1)
+        {
+            switch (role)
+            {
+            case Qt::DisplayRole:
+            {
+                EntityBasePtr ep = GlobalContainer::instance().library()->model(Tables::Proveedores)->getItem(idProveedor);
+                ProveedorPtr p = qSharedPointerDynamicCast<Proveedor>(ep);
+                v = p->name();
+            }
+                break;
+            default:
+                v = QVariant();
+                break;
+            }
+        }
+        return v;
+    });
+    setField(4, "Certificado Para Cliente",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+            v = cast(e)->isClientCertificate() ? "Si" : "No";
+            break;
+        case Qt::EditRole:
+            v = cast(e)->isClientCertificate();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
+    setField(5, "Nro. Certificado",
              [&] (EntityBasePtr e, int role) -> QVariant
     {
         QVariant v;
@@ -28,6 +115,126 @@ void CertificadosModel::defineColumnNames()
         }
         return v;
     });
+
+    setField(6, "Status",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        {
+            switch (cast(e)->statusCertificado())
+            {
+            case Certificado::StatusCertificado::Emitido:
+                v = "Emitido";
+                break;
+            case Certificado::StatusCertificado::Abonado:
+                v = "Abonado";
+                break;
+            default:
+                v = "";
+                break;
+            }
+        }
+            break;
+        case Qt::EditRole:
+            v = static_cast<int>(cast(e)->statusCertificado());
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr e, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(e)->setStatusCertificado(static_cast<Certificado::StatusCertificado>(value.toInt()));
+            return true;
+        }
+        return false;
+    });
+
+    setField(7, "Fecha Emisión",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(e)->fechaEmision();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr e, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(e)->setFechaEmision(value.toDate());
+            return true;
+        }
+        return false;
+    });
+
+    setField(8, "Desde",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(e)->desde();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr e, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(e)->setDesde(value.toDate());
+            return true;
+        }
+        return false;
+    });
+
+    setField(9, "Hasta",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+            v = cast(e)->hasta();
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr e, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            cast(e)->setHasta(value.toDate());
+            return true;
+        }
+        return false;
+    });
+
 }
 
 
@@ -41,7 +248,6 @@ int CertificadosModel::_loadEntity(QSqlRecord record)
     int id = record.value(record.indexOf("id")).toInt();
     int idCertificacion = record.value(record.indexOf("idCertificacion")).toInt();
     int idProveedor = record.value(record.indexOf("idProveedor")).toInt();
-    bool isClient = record.value(record.indexOf("isClient")).toBool();
     Certificado::StatusCertificado statusCertificado =
             static_cast<Certificado::StatusCertificado>(
                 record.value(record.indexOf("statusCertificado")).toInt());
@@ -50,7 +256,7 @@ int CertificadosModel::_loadEntity(QSqlRecord record)
     QDate hasta = record.value(record.indexOf("hasta")).toDate();
 
     EntityBasePtr entity = CertificadoPtr::create(id, idCertificacion, idProveedor,
-                                                  isClient, statusCertificado,
+                                                  statusCertificado,
                                                   fechaEmision, desde, hasta);
     cast(entity)->setIdProyecto(_idProyecto);
     addEntity(entity);
@@ -67,7 +273,7 @@ EntityBasePtr CertificadosModel::internalCreateEntity(int assignedId)
 
 void CertificadosModel::editEntity(int row)
 {
-/*    dlgEditCertificacion dlg(this, row);
+    /*    dlgEditCertificacion dlg(this, row);
     dlg.exec();*/
 }
 

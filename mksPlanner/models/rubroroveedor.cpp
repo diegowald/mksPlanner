@@ -61,7 +61,8 @@ QSqlQuery* RubroProveedor::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO rubrosProveedores (idProveedor, idRubro) VALUES (:idProveedor, :idRubro);");
+        query->prepare("INSERT INTO rubrosProveedores (id, idProveedor, idRubro) VALUES (:id, :idProveedor, :idRubro);");
+        query->bindValue(":id", id());
         query->bindValue(":idProveedor", _idProveedor);
         query->bindValue(":idRubro", _idRubro);
         break;

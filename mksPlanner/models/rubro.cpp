@@ -53,7 +53,8 @@ QSqlQuery* Rubro::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO rubros (nombre, descripcion, isTask) VALUES (:nombre, :descripcion, :isTask);");
+        query->prepare("INSERT INTO rubros (id, nombre, descripcion, isTask) VALUES (:id, :nombre, :descripcion, :isTask);");
+        query->bindValue(":id", id());
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
         query->bindValue(":isTask", _isTask);

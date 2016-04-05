@@ -11,7 +11,7 @@ public:
     explicit CertificacionesModel(int idProyecto, QObject *parent = 0);
 
     virtual void editEntity(int row);
-    int idCertificacionProxima(const QDateTime &fecha) const;
+    int idCertificacionProxima(const QDate &fecha) const;
 
 protected:
     virtual QString _getSQLRead() const;

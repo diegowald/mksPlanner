@@ -34,7 +34,7 @@ void CertificacionesModel::defineColumnNames()
     {
         if (role == Qt::EditRole)
         {
-            cast(entity)->setFechaCertificacion(value.toDateTime());
+            cast(entity)->setFechaCertificacion(value.toDate());
             return true;
         }
         else
@@ -43,6 +43,47 @@ void CertificacionesModel::defineColumnNames()
         }
     }
     );
+
+    setField(2, "Estado",
+             [&] (EntityBasePtr entity, int role) -> QVariant
+    {
+        CertificacionPtr c = cast(entity);
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        {
+            switch (c->certificacionStatus())
+            {
+            case Certificacion::CertificacionStatus::Preparacion:
+                v = "En Preparación";
+                break;
+            case Certificacion::CertificacionStatus::Emitido:
+                v = "Emitido";
+                break;
+            default:
+                v = QVariant();
+                break;
+            }
+        }
+            break;
+        case Qt::EditRole:
+            v = static_cast<int>(c->certificacionStatus());
+            break;
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    },
+    [&] (EntityBasePtr e, const QVariant &value, int role) -> bool
+    {
+        if (role == Qt::EditRole)
+        {
+            CertificacionPtr c = cast(e);
+            c->setCertificacionStatus(static_cast<Certificacion::CertificacionStatus>(value.toInt()));
+        }
+    });
 }
 
 
@@ -54,9 +95,10 @@ QString CertificacionesModel::_getSQLRead() const
 int CertificacionesModel::_loadEntity(QSqlRecord record)
 {
     int id = record.value(record.indexOf("id")).toInt();
-    QDateTime fechaCertificacion = record.value(record.indexOf("fechaCertificacion")).toDateTime();
-
-    EntityBasePtr entity = CertificacionPtr::create(id, fechaCertificacion);
+    QDate fechaCertificacion = record.value(record.indexOf("fechaCertificacion")).toDate();
+    Certificacion::CertificacionStatus certStatus =
+            static_cast<Certificacion::CertificacionStatus>(record.value(record.indexOf("certificacionStatus")).toInt());
+    EntityBasePtr entity =  CertificacionPtr::create(id, fechaCertificacion, certStatus);
     addEntity(entity);
     return id;
 }
@@ -78,7 +120,7 @@ CertificacionPtr CertificacionesModel::cast(EntityBasePtr entity)
     return qSharedPointerDynamicCast<Certificacion>(entity);
 }
 
-int CertificacionesModel::idCertificacionProxima(const QDateTime &fecha) const
+int CertificacionesModel::idCertificacionProxima(const QDate &fecha) const
 {
     CertificacionPtr c;
     foreach (int id, ids())

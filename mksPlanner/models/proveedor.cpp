@@ -58,7 +58,8 @@ QSqlQuery* Proveedor::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO proveedores (name, contacto, email, telefono, direccion) VALUES (:name, :contacto, :email, :telefono, :direccion);");
+        query->prepare("INSERT INTO proveedores (id, name, contacto, email, telefono, direccion) VALUES (:id, :name, :contacto, :email, :telefono, :direccion);");
+        query->bindValue(":id", id());
         query->bindValue(":name", _name);
         query->bindValue(":contacto", _contacto);
         query->bindValue(":email", _email);

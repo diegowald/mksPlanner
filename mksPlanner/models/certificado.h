@@ -13,12 +13,11 @@ public:
 
     enum class StatusCertificado
     {
-        enProceso,
-        entregado,
-        abonado
+        Emitido,
+        Abonado
     };
 
-    explicit Certificado(int id, int idCertificacion, int idProveedor, bool isClient,
+    explicit Certificado(int id, int idCertificacion, int idProveedor,
                          StatusCertificado statusCertificado,
                          const QDate &fechaEmision,
                          const QDate &desde, const QDate &hasta);
@@ -40,7 +39,6 @@ public:
 
     void setIdCertificacion(int value);
     void setIdProveedor(int value);
-    void setIsClientCertificate(bool value);
     void setStatusCertificado(StatusCertificado value);
     void setFechaEmision(const QDate& value);
     void setDesde(const QDate &value);
@@ -54,7 +52,6 @@ public slots:
 private:
     int _idCertificacion;
     int _idProveedor;
-    bool _isClientCertificate;
     StatusCertificado _statusCertificado;
 
     QDate _fechaEmision;

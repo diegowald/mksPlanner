@@ -6,13 +6,12 @@
 #include "models/proveedor.h"
 
 Certificado::Certificado(int id, int idCertificacion, int idProveedor,
-                         bool isClient, StatusCertificado statusCertificado,
+                         StatusCertificado statusCertificado,
                          const QDate &fechaEmision,
                          const QDate &desde, const QDate &hasta) : EntityBase(id)
 {
     _idCertificacion = idCertificacion;
     _idProveedor = idProveedor;
-    _isClientCertificate = isClient;
     _statusCertificado = statusCertificado;
     _fechaEmision = fechaEmision;
     _desde = desde;
@@ -23,7 +22,7 @@ Certificado::Certificado(int id) : EntityBase(id)
 {
     _idCertificacion = -1;
     _idProveedor = -1;
-    _isClientCertificate = true;
+    _statusCertificado = StatusCertificado::Emitido;
 }
 
 QSqlQuery* Certificado::getQuery(QSqlDatabase &database)
@@ -34,13 +33,12 @@ QSqlQuery* Certificado::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO certificados (id, idCertificacion, idProveedor, isClient, "
-                       " statusCertificado, fechaEmision, desde, hasta) VALUES (:id, :idCertificacion, :idProveedor, :isClient, "
+        query->prepare("INSERT INTO certificados (id, idCertificacion, idProveedor, "
+                       " statusCertificado, fechaEmision, desde, hasta) VALUES (:id, :idCertificacion, :idProveedor, "
                        ":statusCertificado, :fechaEmision, :desde, :hasta);");
         query->bindValue(":id", id());
         query->bindValue(":idCertificacion", _idCertificacion);
         query->bindValue(":idProveedor", _idProveedor);
-        query->bindValue(":isClient", _isClientCertificate);
         query->bindValue(":statusCertificado", static_cast<int>(_statusCertificado));
         query->bindValue(":fechaEmision", _fechaEmision);
         query->bindValue(":desde", _desde);
@@ -58,13 +56,12 @@ QSqlQuery* Certificado::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE cerificaciones SET idCertificacion = :idCertificacion, idProveedor = :idProveedor, isClient = :isClient, "
+        query->prepare("UPDATE cerificaciones SET idCertificacion = :idCertificacion, idProveedor = :idProveedor, "
                        " statusCertificado = :statusCertificado, fechaEmision = :fechaEmision, "
                        " desde = :desde, hasta = :hasta "
                        " WHERE id = :id;");
         query->bindValue(":idCertificacion", _idCertificacion);
         query->bindValue(":idProveedor", _idProveedor);
-        query->bindValue(":isClient", _isClientCertificate);
         query->bindValue(":statusCertificado", static_cast<int>(_statusCertificado));
         query->bindValue(":fechaEmision", _fechaEmision);
         query->bindValue(":desde", _desde);
@@ -84,7 +81,7 @@ QString Certificado::toDebugString()
 {
     return QString("id: %1, idCertificacion: %2, idCertificado: %3, isClient: %4")
             .arg(id()).arg(_idCertificacion)
-            .arg(_idProveedor).arg(_isClientCertificate);
+            .arg(_idProveedor).arg(isClientCertificate());
 }
 
 int Certificado::idCertificacion() const
@@ -99,7 +96,7 @@ int Certificado::idProveedor() const
 
 bool Certificado::isClientCertificate() const
 {
-    return _isClientCertificate;
+    return (_idProveedor == 1);
 }
 
 Certificado::StatusCertificado Certificado::statusCertificado() const
@@ -150,12 +147,6 @@ void Certificado::setIdCertificacion(int value)
 void Certificado::setIdProveedor(int value)
 {
     _idProveedor = value;
-    updateStatus();
-}
-
-void Certificado::setIsClientCertificate(bool value)
-{
-    _isClientCertificate = value;
     updateStatus();
 }
 

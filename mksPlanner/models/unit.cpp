@@ -42,7 +42,8 @@ QSqlQuery* Unit::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO units (nombre, descripcion) VALUES (:nombre, :descripcion);");
+        query->prepare("INSERT INTO units (id, nombre, descripcion) VALUES (:id, :nombre, :descripcion);");
+        query->bindValue(":id", id());
         query->bindValue(":nombre", _name);
         query->bindValue(":descripcion", _description);
         break;

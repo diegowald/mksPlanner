@@ -13,6 +13,7 @@
 #include "models/modelfilter.h"
 #include "KDGantt"
 #include "persistance/projectlibrary.h"
+#include "models/certificadosmodel.h"
 
 namespace Ui {
 class ProjectWindow;
@@ -72,14 +73,21 @@ private slots:
 
     void on_actionBorrar_Ceritificacion_triggered();
 
-    void on_tblCertificaciones_clicked(const QModelIndex &index);
+    void on_tblCertificaciones_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void on_tblCertificados_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
     void on_tblCertificados_clicked(const QModelIndex &index);
+
+    void on_btnAbonado_released();
+
+    void on_btnEmitido_released();
 
 private:
     void updateEstimacionMateriales();
     void updateBotonesEstados();
     void checkSplitAction();
+
+    void updateCertificacionView(EntityBasePtr certificacion);
 
 private:
     Ui::ProjectWindow *ui;
@@ -91,9 +99,13 @@ private:
     ExecutionTaskModelAdapter *_executionModel;
     ExecutionTaskModelConstraintAdapter *_execConstraintModel;
     CertificacionesModel *_certificacionesModel;
-    ModelFilter *_tareasCertificacion;
-    ModelFilter *_tareasCertificado;
-    ModelFilter *_proveedoresCertificacion;
+    ModelFilter *_tareasCertificacionEnProceso;
+    ModelFilter *_tareasCertificadoEnProceso;
+    ModelFilter *_certificadosEnProceso;
+
+
+    ModelFilter *_certificadosHechosModel;
+    ModelFilter *_tareasCertificadoHechosModel;
 
     QDataWidgetMapper *_certificadoMapper;
 

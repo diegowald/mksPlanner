@@ -37,6 +37,7 @@ public:
     virtual QStyledItemDelegate *delegate() override;
     virtual bool canCreateEntity() const override;
     virtual EntityBasePtr createEntity() override;
+    virtual void addEntity(EntityBasePtr entity);
     virtual void editEntity(int row) override;
     virtual void removeEntity(QWidget *parent, QModelIndex &index) override;
     virtual int columnIndex(const QString &name) const override;

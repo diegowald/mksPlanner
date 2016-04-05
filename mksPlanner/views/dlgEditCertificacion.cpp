@@ -12,7 +12,7 @@ dlgEditCertificacion::dlgEditCertificacion(CertificacionesModel *model, int sele
 
     _entity = model->getItemByRowid(selectedEntity);
     CertificacionPtr cert = qSharedPointerDynamicCast<Certificacion>(_entity);
-    ui->dateEdit->setDate(cert->fechaCertificacion().date());
+    ui->dateEdit->setDate(cert->fechaCertificacion());
 }
 
 dlgEditCertificacion::~dlgEditCertificacion()
@@ -23,7 +23,7 @@ dlgEditCertificacion::~dlgEditCertificacion()
 void dlgEditCertificacion::on_buttonBox_accepted()
 {
     CertificacionPtr cert = qSharedPointerDynamicCast<Certificacion>(_entity);
-    cert->setFechaCertificacion(ui->dateEdit->dateTime());
+    cert->setFechaCertificacion(ui->dateEdit->date());
 
     close();
 }

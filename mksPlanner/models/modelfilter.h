@@ -44,6 +44,7 @@ public:
     virtual QStyledItemDelegate *delegate() override;
     virtual bool canCreateEntity() const override;
     virtual EntityBasePtr createEntity() override;
+    virtual void addEntity(EntityBasePtr entity) override;
     virtual void editEntity(int row) override;
     virtual void removeEntity(QWidget *parent, QModelIndex &index) override;
     virtual int columnIndex(const QString &name) const override;
@@ -53,6 +54,9 @@ public:
 
 private:
     void classify();
+
+private slots:
+    void on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
 
 private:
     IModel *_model;

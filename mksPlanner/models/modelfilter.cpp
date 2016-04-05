@@ -5,8 +5,13 @@ ModelFilter::ModelFilter(IModel* model, FilterFunctor filter, QObject *parent) :
     _model = model;
     _filter = filter;
     classify();
+    connect(_model, &IModel::dataChanged, this, &ModelFilter::on_dataChanged);
 }
 
+void ModelFilter::on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+{
+    classify();
+}
 
 void ModelFilter::classify()
 {
@@ -118,6 +123,12 @@ bool ModelFilter::canCreateEntity() const
 EntityBasePtr ModelFilter::createEntity()
 {
     return _model->createEntity();
+}
+
+void ModelFilter::addEntity(EntityBasePtr entity)
+{
+    _model->addEntity(entity);
+    classify();
 }
 
 void ModelFilter::editEntity(int row)

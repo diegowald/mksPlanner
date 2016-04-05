@@ -3,14 +3,16 @@
 #include <QVariant>
 
 
-Certificacion::Certificacion(int id, const QDateTime &fechaCertificacion) : EntityBase(id)
+Certificacion::Certificacion(int id, const QDate &fechaCertificacion, CertificacionStatus certificacionStatus) : EntityBase(id)
 {
     _fechaCertificacion = fechaCertificacion;
+    _certificacionStatus = certificacionStatus;
 }
 
 Certificacion::Certificacion(int id) : EntityBase(id)
 {
-    _fechaCertificacion = QDateTime::currentDateTime();
+    _fechaCertificacion = QDate::currentDate();
+    _certificacionStatus = CertificacionStatus::Preparacion;
 }
 
 
@@ -22,9 +24,10 @@ QSqlQuery* Certificacion::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO certificaciones (id, fechaCertificacion) VALUES (:id, :fechaCertificacion);");
+        query->prepare("INSERT INTO certificaciones (id, fechaCertificacion, certificacionStatus) VALUES (:id, :fechaCertificacion, :certificacionStatus);");
         query->bindValue(":id", id());
         query->bindValue(":fechaCertificacion", _fechaCertificacion);
+        query->bindValue(":certificacionStatus", static_cast<int>(_certificacionStatus));
         break;
     }
     case EntityStatus::deleted:
@@ -37,8 +40,9 @@ QSqlQuery* Certificacion::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE cerificaciones SET fechaCertificacion = :fechaCertificacion WHERE id = :id;");
+        query->prepare("UPDATE cerificaciones SET fechaCertificacion = :fechaCertificacion, certificacionStatus = :certificacionStatus WHERE id = :id;");
         query->bindValue(":fechaCertificacion", _fechaCertificacion);
+        query->bindValue(":certificacionStatus", static_cast<int>(_certificacionStatus));
         query->bindValue(":id", id());
         break;
     }
@@ -54,14 +58,25 @@ QString Certificacion::toDebugString()
     return QString("id: %1, fecha: %2").arg(id()).arg(_fechaCertificacion.toString());
 }
 
-QDateTime Certificacion::fechaCertificacion() const
+QDate Certificacion::fechaCertificacion() const
 {
     return _fechaCertificacion;
 }
 
 
-void Certificacion::setFechaCertificacion(const QDateTime &value)
+void Certificacion::setFechaCertificacion(const QDate &value)
 {
     _fechaCertificacion = value;
+    updateStatus();
+}
+
+Certificacion::CertificacionStatus Certificacion::certificacionStatus() const
+{
+    return _certificacionStatus;
+}
+
+void Certificacion::setCertificacionStatus(CertificacionStatus value)
+{
+    _certificacionStatus = value;
     updateStatus();
 }

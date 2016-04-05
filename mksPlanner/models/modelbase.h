@@ -27,7 +27,8 @@ enum class Tables {
     ExecutionTasksConstraints,
     Tareas,
     Certificaciones,
-    Certificados
+    Certificados,
+    TareaCertificados
 };
 
 class IModel : public QAbstractTableModel, virtual public PersisterBase
@@ -50,6 +51,7 @@ public:
     virtual QStyledItemDelegate* delegate() = 0;
     virtual bool canCreateEntity() const = 0;
     virtual EntityBasePtr createEntity() = 0;
+    virtual void addEntity(EntityBasePtr entity) = 0;
     virtual void editEntity(int row) = 0;
     virtual void removeEntity(QWidget *parent, QModelIndex &index) = 0;
     virtual int columnIndex(const QString &name) const = 0;
@@ -79,6 +81,7 @@ public:
     void setModified();
 
     virtual EntityBasePtr createEntity();
+    virtual void addEntity(EntityBasePtr entity);
     virtual void removeEntity(QWidget *parent, QModelIndex &index);
     virtual bool removeRow(int row, const QModelIndex &parent);
     virtual bool removeById(int id);
@@ -103,7 +106,6 @@ protected:
 
     virtual EntityBasePtr internalCreateEntity(int assignedId) = 0;
 
-    void addEntity(EntityBasePtr entity);
 
     virtual void postProcessData();
 

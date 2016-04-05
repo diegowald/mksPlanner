@@ -51,7 +51,8 @@ QSqlQuery* CostoMaterial::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO costosMateriales (idMaterial, costo, precio, desde) VALUES (:idMaterial, :costo, :precio, :desde);");
+        query->prepare("INSERT INTO costosMateriales (id, idMaterial, costo, precio, desde) VALUES (:id, :idMaterial, :costo, :precio, :desde);");
+        query->bindValue(":id", id());
         query->bindValue(":idMaterial", _idMaterial);
         query->bindValue(":costo", _costo);
         query->bindValue(":precio", _precio);

@@ -396,7 +396,7 @@ void ExecutionTask::setPctCompletado(double value)
     if (_pctCompletado == 0.)
     {
         CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
-        int id = m->idCertificacionProxima(this->fechaRealInicio());
+        int id = m->idCertificacionProxima(fechaRealInicio().date());
         setIdCertificacion(id);
     }
     _pctCompletado = value;
@@ -452,7 +452,7 @@ void ExecutionTask::setIdCertificacion(int idCertificacion)
 bool ExecutionTask::canStart() const
 {
     CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
-    int id = m->idCertificacionProxima(this->fechaRealInicio());
+    int id = m->idCertificacionProxima(fechaRealInicio().date());
     return id >= 1;
 }
 
