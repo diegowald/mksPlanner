@@ -185,25 +185,25 @@ void ExecutionTask::setCantidad(double value)
     updateStatus();
 }
 
-void ExecutionTask::setFechaEstimadaInicio(QDateTime &value)
+void ExecutionTask::setFechaEstimadaInicio(const QDateTime &value)
 {
     _fechaEstimadaInicio = value;
     updateStatus();
 }
 
-void ExecutionTask::setFechaEstimadaFin(QDateTime &value)
+void ExecutionTask::setFechaEstimadaFin(const QDateTime &value)
 {
     _fechaEstimadaFin = value;
     updateStatus();
 }
 
-void ExecutionTask::setFechaRealInicio(QDateTime &value)
+void ExecutionTask::setFechaRealInicio(const QDateTime &value)
 {
     _fechaRealInicio = value;
     updateStatus();
 }
 
-void ExecutionTask::setFechaRealFin(QDateTime &value)
+void ExecutionTask::setFechaRealFin(const QDateTime &value)
 {
     _fechaRealFin = value;
     updateStatus();
@@ -459,4 +459,25 @@ bool ExecutionTask::canStart() const
 int ExecutionTask::idCertificacion() const
 {
     return _idCertificacion;
+}
+
+void ExecutionTask::copyDataFrom(ExecutionTaskPtr from)
+{
+    _idPlanningTask = from->_idPlanningTask;
+    _idTareaPadre = from ->_idTareaPadre;
+    _name = from->_name;
+    _idMaterialTask = from->_idMaterialTask;
+    _idProveedor = from->_idProveedor;
+    _cantidad = from->_cantidad;
+    _fechaEstimadaInicio = from->_fechaEstimadaInicio;
+    _fechaEstimadaFin = from->_fechaEstimadaFin;
+    _fechaRealInicio = from->_fechaRealInicio;
+    _fechaRealFin = from->_fechaRealFin;
+    _pctCompletado = from->_pctCompletado;
+    _taskType = from->_taskType;
+    _isSplittedPart = from->_isSplittedPart;
+    _idCertificacion = from->_idCertificacion;
+
+    _idProyecto = from->_idProyecto;
+    //PlanningTask *_parent;
 }

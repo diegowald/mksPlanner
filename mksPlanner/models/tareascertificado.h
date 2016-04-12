@@ -19,6 +19,7 @@ public:
     int idProveedor() const;
     int idTareaEjecucion() const;
     QString proveedor() const;
+    EntityBasePtr tareaEjecucion() const;
 
     void setIdCertificacion(int value);
     void setIdProveedor(int value);

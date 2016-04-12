@@ -66,7 +66,7 @@ QModelIndex ExecutionTaskModelAdapter::createIndex(int idTask, ExecutionTaskMode
         }
         else
         {
-            return QAbstractItemModel::createIndex(node->parent()->childNumber(node), 0, this);
+            return QAbstractItemModel::createIndex(node->parent()->childNumber(node), 0, node);
         }
     }
     else
@@ -488,55 +488,75 @@ bool ExecutionTaskModelAdapter::canBeSplitted(QModelIndex &index) const
     return result;
 }
 
-void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *node)
+void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *node, bool useDialog, const QDate &date)
 {
-    DlgSplitExecutionTask dlg;
-
     ExecutionTaskPtr tp = qSharedPointerDynamicCast<ExecutionTask>(node->entity());
 
-    dlg.setPct(tp->pctCompletado());
-    dlg.setExecutionTask(tp);
-    dlg.setCantidadTotal(tp->cantidad());
-    dlg.setCantidadRealizada(0.);
-
-    QDateTime dt = QDateTime::currentDateTime();
-    dlg.setDateTime(dt);
-    if (dlg.exec() == QDialog::Accepted)
+    QDate dt = date;
+    double pct;
+    bool performSplit = false;
+    if (useDialog)
     {
-        dt = dlg.dateTime();
+        DlgSplitExecutionTask dlg;
+        dlg.setPct(tp->pctCompletado());
+        dlg.setExecutionTask(tp);
+        dlg.setCantidadTotal(tp->cantidad());
+        dlg.setCantidadRealizada(0.);
+
+        dlg.setDate(dt);
+        if (dlg.exec() == QDialog::Accepted)
+        {
+            performSplit = true;
+
+            dt = dlg.date();
+            pct = dlg.pct();
+        }
+    }
+    else
+    {
+        performSplit = true;
+    }
+
+    if (performSplit)
+    {
         EntityBasePtr e1 = _model->createEntity();
         ExecutionTaskModel::Node *n1 = new ExecutionTaskModel::Node(e1);
         ExecutionTaskPtr et1 = qSharedPointerDynamicCast<ExecutionTask>(e1);
+        et1->copyDataFrom(tp);
+        et1->setIdCertificacion(tp->idCertificacion());
         et1->setIdTareaPadre(tp->id());
         et1->setPctCompletado(100);
-        et1->setCantidad(dlg.pct() * tp->cantidad() / 100.0);
-        QDateTime dt2 = tp->fechaRealInicio();
+        et1->setCantidad(pct * tp->cantidad() / 100.0);
+        QDateTime dt2 = QDateTime(tp->fechaRealInicio().date(), QTime(12, 0, 0, 0));
         et1->setFechaRealInicio(dt2);
         et1->setFechaEstimadaInicio(dt2);
-        et1->setFechaEstimadaFin(dt);
-        et1->setFechaRealFin(dt);
+        et1->setFechaEstimadaFin(QDateTime(dt, QTime(12, 0, 0, 0)));
+        et1->setFechaRealFin(QDateTime(dt, QTime(12, 0, 0, 0)));
         et1->setIsSplittedPart(true);
         node->addChild(n1);
 
         EntityBasePtr e2 = _model->createEntity();
         ExecutionTaskModel::Node *n2 = new ExecutionTaskModel::Node(e2);
         ExecutionTaskPtr et2 = qSharedPointerDynamicCast<ExecutionTask>(e2);
+        et2->copyDataFrom(tp);
         et2->setIdTareaPadre(tp->id());
-        et2->setFechaRealInicio(dt);
-        et2->setFechaEstimadaInicio(dt);
+        et2->setFechaRealInicio(QDateTime(dt, QTime(12, 0, 0, 0)));
+        et2->setFechaEstimadaInicio(QDateTime(dt, QTime(12, 0, 0, 0)));
 
-        dt = tp->fechaRealFin();
-        et2->setFechaRealFin(dt);
-        et2->setFechaEstimadaFin(dt);
+        QDateTime dt3 = tp->fechaRealFin();
+        et2->setFechaRealFin(dt3);
+        et2->setFechaEstimadaFin(dt3);
         et2->setIsSplittedPart(true);
         et2->setCantidad(tp->cantidad() - et1->cantidad());
+        et2->setIdCertificacion(-1);
         node->addChild(n2);
 
         tp->setTaskType(KDGantt::TypeMulti);
+        tp->setIdCertificacion(-1);
     }
 }
 
-void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node)
+void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node, bool useDialog, const QDate &date)
 {
     DlgSplitExecutionTask dlg;
 
@@ -556,35 +576,36 @@ void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node
         }
     }
 
-    QDateTime dt = QDateTime::currentDateTime();
-    dlg.setDateTime(dt);
+    QDate dt = QDate::currentDate();
+    dlg.setDate(dt);
     dlg.setCantidadTotal(cantTotal);
     dlg.setCantidadRealizada(cantRealizada);
     double pctAcumulado = 100.0 * cantRealizada / cantTotal;
     dlg.setPct(pctAcumulado);
     if (dlg.exec() == QDialog::Accepted)
     {
-        dt = dlg.dateTime();
+        dt = dlg.date();
         EntityBasePtr e1 = node->child(node->childCount() - 1)->entity();
         double cantidadParcial = dlg.pct() * cantTotal - cantRealizada;
         ExecutionTaskPtr et1 = qSharedPointerDynamicCast<ExecutionTask>(e1);
         et1->setCantidad(cantidadParcial);
         et1->setPctCompletado(100);
         QDateTime dt2 = tp->fechaRealInicio();
-        et1->setFechaEstimadaFin(dt);
-        et1->setFechaRealFin(dt);
+        et1->setFechaEstimadaFin(QDateTime(dt, QTime(12, 0, 0, 0)));
+        et1->setFechaRealFin(QDateTime(dt, QTime(12, 0, 0, 0)));
         et1->setIsSplittedPart(true);
 
         EntityBasePtr e2 = _model->createEntity();
         ExecutionTaskModel::Node *n2 = new ExecutionTaskModel::Node(e2);
         ExecutionTaskPtr et2 = qSharedPointerDynamicCast<ExecutionTask>(e2);
         et2->setIdTareaPadre(tp->id());
-        et2->setFechaRealInicio(dt);
-        et2->setFechaEstimadaInicio(dt);
+        et2->setFechaRealInicio(QDateTime(dt, QTime(12, 0, 0, 0)));
+        et2->setFechaEstimadaInicio(QDateTime(dt, QTime(12, 0, 0, 0)));
+        et2->setIdCertificacion(-1);
 
-        dt = tp->fechaRealFin();
-        et2->setFechaRealFin(dt);
-        et2->setFechaEstimadaFin(dt);
+        QDateTime dt3 = tp->fechaRealFin();
+        et2->setFechaRealFin(dt3);
+        et2->setFechaEstimadaFin(dt3);
         et2->setIsSplittedPart(true);
         et2->setCantidad(cantTotal * 1 - dlg.pct() / 100.0);
         node->addChild(n2);
@@ -597,21 +618,40 @@ void ExecutionTaskModelAdapter::splitTask(QModelIndex &index)
 {
     if (canBeSplitted(index))
     {
-        DlgSplitExecutionTask dlg;
+        //DlgSplitExecutionTask dlg;
 
         ExecutionTaskModel::Node* n = static_cast<ExecutionTaskModel::Node*>(index.internalPointer());
         ExecutionTaskPtr tp = qSharedPointerDynamicCast<ExecutionTask>(n->entity());
         if (tp->isSplittedPart())
         {
             n = n->parent();
-            splitTaskSplitted(n);
+            splitTaskSplitted(n, true, QDate::currentDate());
         }
         else
         {
-            splitTaskNotSplitted(n);
+            splitTaskNotSplitted(n, true, QDate::currentDate());
         }
     }
     emit dataChanged(index, index);
+}
+
+void ExecutionTaskModelAdapter::splitTask(EntityBasePtr execTask, const QDate &fecha)
+{
+    ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(execTask);
+    if (et->canBeSplitted())
+    {
+        QModelIndex idx = index(et->id());
+        ExecutionTaskModel::Node* n = static_cast<ExecutionTaskModel::Node*>(idx.internalPointer());
+        if (et->isSplittedPart())
+        {
+            n = n->parent();
+            splitTaskSplitted(n, false, fecha);
+        }
+        else
+        {
+            splitTaskNotSplitted(n, false, fecha);
+        }
+    }
 }
 
 EntityBasePtr ExecutionTaskModelAdapter::itemByRowId(int row)

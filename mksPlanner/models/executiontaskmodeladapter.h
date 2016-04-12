@@ -36,6 +36,8 @@ public:
     bool canCreateEntity() const;
     bool canBeSplitted(QModelIndex &index) const;
     void splitTask(QModelIndex &index);
+    void splitTask(EntityBasePtr execTask, const QDate& fecha);
+
 
     EntityBasePtr itemByRowId(int row);
 
@@ -47,8 +49,8 @@ public:
 
 private:
     QModelIndex createIndex(int idTask, ExecutionTaskModel::Node *node);
-    void splitTaskSplitted(ExecutionTaskModel::Node *node);
-    void splitTaskNotSplitted(ExecutionTaskModel::Node *node);
+    void splitTaskSplitted(ExecutionTaskModel::Node *node, bool useDialog, const QDate &date);
+    void splitTaskNotSplitted(ExecutionTaskModel::Node *node, bool useDialog, const QDate &date);
 
 signals:
 private slots:

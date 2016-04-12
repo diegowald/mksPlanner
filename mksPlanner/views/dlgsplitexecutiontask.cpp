@@ -20,9 +20,9 @@ DlgSplitExecutionTask::~DlgSplitExecutionTask()
     delete ui;
 }
 
-QDateTime DlgSplitExecutionTask::dateTime() const
+QDate DlgSplitExecutionTask::date() const
 {
-    return ui->dateFechaSplit->dateTime();
+    return ui->dateFechaSplit->date();
 }
 
 double DlgSplitExecutionTask::pct() const
@@ -30,9 +30,9 @@ double DlgSplitExecutionTask::pct() const
     return ui->pctRealizdo->value();
 }
 
-void DlgSplitExecutionTask::setDateTime(QDateTime &value)
+void DlgSplitExecutionTask::setDate(QDate &value)
 {
-    ui->dateFechaSplit->setDateTime(value);
+    ui->dateFechaSplit->setDate(value);
 }
 
 void DlgSplitExecutionTask::setPct(double value)

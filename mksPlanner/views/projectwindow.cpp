@@ -22,6 +22,22 @@ ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget 
     _planningModel = NULL;
     _constraintModel = NULL;
     _executionModel = NULL;
+
+    _execConstraintModel = NULL;
+    _certificacionesModel = NULL;
+    _tareasCertificacionEnProceso = NULL;
+    _tareasCertificadoEnProceso = NULL;
+    _certificadosEnProceso = NULL;
+
+    _certificadosHechosModel = NULL;
+    _tareasCertificadoHechosModel = NULL;
+
+    _certificadoMapper = NULL;
+
+    _idInterno = -1;
+
+    _idCertificacionSeleccionada = -1;
+    _idProveedorSeleccionado = -1;
 }
 
 ProjectWindow::~ProjectWindow()
@@ -159,8 +175,8 @@ void ProjectWindow::setCertificacionesModel(IModel *model)
                                                   [&] (EntityBasePtr e) -> bool
     {
             ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(e);
-            return ex->idCertificacion() == _idCertificacionSeleccionada
-            && ex->idProveedor() == _idProveedorSeleccionado;
+            return (ex->idCertificacion() == _idCertificacionSeleccionada)
+            && ((ex->idProveedor() == _idProveedorSeleccionado) || (_idProveedorSeleccionado == -2));
 });
 
     _certificadosEnProceso = new ModelFilter(GlobalContainer::instance().library()->model(Tables::Proveedores),
@@ -473,17 +489,11 @@ void ProjectWindow::on_tblCertificados_selectionChanged(const QItemSelection &se
         _tareasCertificadoHechosModel->refreshData();
 //        _certificadosEnProceso->refreshData();
 //        _tareasCertificadoEnProceso->refreshData();
+        ui->btnVerCertificadoClienteEnProceso->setChecked(false);
     }
-}
-
-void ProjectWindow::on_tblCertificados_clicked(const QModelIndex &index)
-{
-    if (index.isValid())
+    else
     {
-        EntityBasePtr e = _certificadosEnProceso->getItemByRowid(index.row());
-        _idProveedorSeleccionado = e->id();
-        _certificadosEnProceso->refreshData();
-        _tareasCertificadoEnProceso->refreshData();
+        ui->btnVerCertificadoClienteEnProceso->setChecked(true);
     }
 }
 
@@ -500,6 +510,16 @@ void ProjectWindow::updateCertificacionView(EntityBasePtr certificacion)
         {
             ui->tblTareasCertificado->setModel(_tareasCertificadoEnProceso);
             ui->tblCertificados->setModel(_certificadosEnProceso);
+
+            ui->tblCertificados->hideColumn(0);
+
+            ui->tblTareasCertificado->hideColumn(0);
+            ui->tblTareasCertificado->hideColumn(1);
+            ui->tblTareasCertificado->hideColumn(2);
+            ui->tblTareasCertificado->hideColumn(3);
+
+            ui->btnVerCertificadoClienteEnProceso->setVisible(true);
+
             connect(ui->tblCertificados->selectionModel(), &QItemSelectionModel::selectionChanged,
                     this, &ProjectWindow::on_tblCertificados_selectionChanged);
 
@@ -529,6 +549,15 @@ void ProjectWindow::updateCertificacionView(EntityBasePtr certificacion)
             connect(ui->tblCertificados->selectionModel(), &QItemSelectionModel::selectionChanged,
                     this, &ProjectWindow::on_tblCertificados_selectionChanged);
 
+            ui->tblCertificados->hideColumn(0);
+            ui->tblCertificados->hideColumn(1);
+            ui->tblCertificados->hideColumn(2);
+
+            ui->tblTareasCertificado->hideColumn(0);
+            ui->tblTareasCertificado->hideColumn(1);
+            ui->tblTareasCertificado->hideColumn(2);
+            ui->tblTareasCertificado->hideColumn(4);
+
             ui->btnEmitido->setVisible(false);
             ui->btnAbonado->setVisible(true);
             ui->lblEstadoCertificacion->setText("Emitido");
@@ -557,10 +586,66 @@ void ProjectWindow::updateCertificacionView(EntityBasePtr certificacion)
         default:
             break;
         }
+        recalcularTotalesCertificado(certificacion);
     }
     else
     {
         ui->frmDetalleCertificado->setEnabled(false);
+    }
+
+}
+
+void ProjectWindow::recalcularTotalesCertificado(EntityBasePtr certificacion)
+{
+    double costoTotal = 0.;
+    double precioTotal = 0.;
+    if (!certificacion.isNull())
+    {
+        ui->frmDetalleCertificado->setEnabled(true);
+        _idCertificacionSeleccionada = certificacion->id();
+        CertificacionPtr c = qSharedPointerDynamicCast<Certificacion>(certificacion);
+        switch (c->certificacionStatus())
+        {
+        case Certificacion::CertificacionStatus::Preparacion:
+        {
+            QSet<int> ids = _tareasCertificacionEnProceso->ids();
+            foreach (int id, ids.values())
+            {
+                EntityBasePtr e = _tareasCertificacionEnProceso->getItem(id);
+                ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(e);
+                costoTotal += et->costo();
+                precioTotal += et->precio();
+            }
+            break;
+        }
+        case Certificacion::CertificacionStatus::Emitido:
+        {
+            QSet<int> ids = _tareasCertificadoHechosModel->ids();
+            foreach (int id, ids.values())
+            {
+                EntityBasePtr e = _tareasCertificadoHechosModel->getItem(id);
+                TareaCertificadoPtr tc = qSharedPointerDynamicCast<TareaCertificado>(e);
+                ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(tc->tareaEjecucion());
+                costoTotal += et->costo();
+                precioTotal += et->precio();
+            }
+            break;
+        }
+        default:
+            break;
+        }
+        ui->txtCostoTotal->setText(QString::number(costoTotal));
+        ui->txtPrecioTotal->setText(QString::number(precioTotal));
+        if (_idProveedorSeleccionado == -2)
+        {
+            ui->txtCostoTotal->setVisible(true);
+            ui->txtPrecioTotal->setVisible(false);
+        }
+        else
+        {
+            ui->txtCostoTotal->setVisible(false);
+            ui->txtPrecioTotal->setVisible(true);
+        }
     }
 }
 
@@ -569,12 +654,27 @@ void ProjectWindow::on_btnAbonado_released()
 
 }
 
+void ProjectWindow::certiicarTareasEnEjecucion(EntityBasePtr certificaion)
+{
+    QSet<int> ids = _tareasCertificacionEnProceso->ids();
+    foreach (int id, ids.values())
+    {
+        ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(_tareasCertificacionEnProceso->getItem(id));
+
+        CertificacionPtr c = qSharedPointerDynamicCast<Certificacion>(certificaion);
+        _executionModel->splitTask(et, c->fechaCertificacion());
+    }
+    _tareasCertificacionEnProceso->refreshData();
+}
+
 void ProjectWindow::on_btnEmitido_released()
 {
     CertificacionPtr cert = qSharedPointerDynamicCast<Certificacion>(_certificacionesModel->getItem(_idCertificacionSeleccionada));
     cert->setCertificacionStatus(Certificacion::CertificacionStatus::Emitido);
 
     _tareasCertificacionEnProceso->refreshData();
+    certiicarTareasEnEjecucion(cert);
+
     QSet<int> ids = _tareasCertificacionEnProceso->ids();
     foreach (int id, ids.values())
     {
@@ -604,3 +704,16 @@ void ProjectWindow::on_btnEmitido_released()
     emit _certificadosHechosModel->layoutChanged();
 }
 
+
+void ProjectWindow::on_btnVerCertificadoClienteEnProceso_toggled(bool checked)
+{
+    if (checked)
+    {
+        ui->tblCertificados->selectionModel()->clearSelection();
+        _idProveedorSeleccionado = -2;
+        _tareasCertificacionEnProceso->refreshData();
+        _tareasCertificadoEnProceso->refreshData();
+        _tareasCertificadoHechosModel->refreshData();
+
+    }
+}

@@ -5,6 +5,9 @@
 #include "globalcontainer.h"
 #include <QDebug>
 #include "models/proveedor.h"
+#include "models/executiontask.h"
+#include "models/material.h"
+
 
 TareaCertificadosModel::TareaCertificadosModel(int idProyecto, QObject *parent) :
     ModelBase(Tables::TareaCertificados, "tareaCertificados", false, "proyecto", parent)
@@ -98,6 +101,102 @@ void TareaCertificadosModel::defineColumnNames()
         }
         return v;
     });
+    setField(5, "Tarea",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        {
+            ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
+            v = ex->name();
+            break;
+        }
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+    setField(6, "Tarea2",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+       QVariant v;
+       switch (role)
+       {
+       case Qt::DisplayRole:
+       case Qt::EditRole:
+       {
+           ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
+           MaterialPtr m = qSharedPointerDynamicCast<Material>(ex->materialTask());
+           v = m->name();
+           break;
+       }
+       default:
+           v = QVariant();
+           break;
+       }
+       return v;
+    });
+    setField(7, "Cantidad",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        {
+            ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
+            v = ex->cantidadToString();
+            break;
+        }
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+    setField(8, "Costo",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        {
+            ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
+            v = ex->costo();
+            break;
+        }
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+    setField(9, "Precio",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        {
+            ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
+            v = ex->precio();
+            break;
+        }
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
 }
 
 
@@ -114,7 +213,7 @@ int TareaCertificadosModel::_loadEntity(QSqlRecord record)
     int idTareaEjecucion = record.value(record.indexOf("idTareaEjecucion")).toInt();
 
     EntityBasePtr entity = TareaCertificadoPtr::create(id, idCertificacion, idProveedor,
-                                                  idTareaEjecucion);
+                                                       idTareaEjecucion);
     cast(entity)->setIdProyecto(_idProyecto);
     addEntity(entity);
     return id;

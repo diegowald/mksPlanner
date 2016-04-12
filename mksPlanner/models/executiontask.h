@@ -49,6 +49,7 @@ public:
     double rendimientoReal() const;
     bool canStart() const;
     int idCertificacion() const;
+    void copyDataFrom(ExecutionTaskPtr from);
 
     void setIdPlanningTask(int value);
     void setPlanningTask(EntityBasePtr entity, bool copyData);
@@ -57,10 +58,10 @@ public:
     void setIdMaterialTask(int value);
     void setIdProveedor(int value);
     void setCantidad(double value);
-    void setFechaEstimadaInicio(QDateTime &value);
-    void setFechaEstimadaFin(QDateTime &value);
-    void setFechaRealInicio(QDateTime &value);
-    void setFechaRealFin(QDateTime &value);
+    void setFechaEstimadaInicio(const QDateTime &value);
+    void setFechaEstimadaFin(const QDateTime &value);
+    void setFechaRealInicio(const QDateTime &value);
+    void setFechaRealFin(const QDateTime &value);
     void setTaskType(KDGantt::ItemType value);
     void setPctCompletado(double value);
 

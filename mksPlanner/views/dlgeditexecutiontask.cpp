@@ -53,6 +53,9 @@ DlgEditExecutionTask::DlgEditExecutionTask(ExecutionTaskModel* model, EntityBase
         ui->cboTaskType->setCurrentIndex(ui->cboTaskType->findData(static_cast<int>(p->taskType())));
         ui->dateFechaRealInicio->setDateTime(p->fechaRealInicio());
         ui->dateFecharealFinalizacion->setDateTime(p->fechaRealFin());
+        ui->spinPct->setMinimum(0.);
+        ui->spinPct->setMaximum(100.0);
+        ui->spinPct->setValue(p->pctCompletado());
     }
 
     TableWindow *t = new TableWindow("", this);
@@ -92,6 +95,7 @@ void DlgEditExecutionTask::on_buttonBox_accepted()
     p->setName(ui->txtNombre->text());
 
     p->setTaskType(static_cast<KDGantt::ItemType>(ui->cboTaskType->currentData(Qt::UserRole).toInt()));
+    p->setPctCompletado(ui->spinPct->value());
 
     close();
 }

@@ -76,11 +76,12 @@ private slots:
     void on_tblCertificaciones_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void on_tblCertificados_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
-    void on_tblCertificados_clicked(const QModelIndex &index);
 
     void on_btnAbonado_released();
 
     void on_btnEmitido_released();
+
+    void on_btnVerCertificadoClienteEnProceso_toggled(bool checked);
 
 private:
     void updateEstimacionMateriales();
@@ -88,6 +89,8 @@ private:
     void checkSplitAction();
 
     void updateCertificacionView(EntityBasePtr certificacion);
+    void recalcularTotalesCertificado(EntityBasePtr certificacion);
+    void certiicarTareasEnEjecucion(EntityBasePtr certificaion);
 
 private:
     Ui::ProjectWindow *ui;

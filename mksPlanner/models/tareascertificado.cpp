@@ -113,3 +113,9 @@ void TareaCertificado::setIdProyecto(int idProyecto)
 {
     _idProyecto = idProyecto;
 }
+
+EntityBasePtr TareaCertificado::tareaEjecucion() const
+{
+    EntityBasePtr entity = GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::ExecutionTasks)->getItem(_idTareaEjecucion);
+    return entity;
+}

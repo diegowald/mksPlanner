@@ -15,10 +15,10 @@ public:
     explicit DlgSplitExecutionTask(QWidget *parent = 0);
     ~DlgSplitExecutionTask();
 
-    QDateTime dateTime() const;
+    QDate date() const;
     double pct() const;
 
-    void setDateTime(QDateTime &value);
+    void setDate(QDate &value);
     void setPct(double value);
     void setExecutionTask(EntityBasePtr entity);
     void setCantidadTotal(double value);
