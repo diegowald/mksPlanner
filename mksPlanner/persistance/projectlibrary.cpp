@@ -13,7 +13,8 @@ ProjectLibrary::ProjectLibrary(const QString &filename, int idProyecto, bool nue
 {
     setFileName(filename);
     _idProyecto = idProyecto;
-    updateFromVersion(filename, 0);
+    if (nuevo)
+        updateFromVersion(filename, 0);
     addModel(Tables::Proyectos, new ProyectoModel(_idProyecto, this));
     addModel(Tables::PlanningTasks, new PlanningTaskModel(_idProyecto, this));
     addModel(Tables::PlanningTasksConstraints, new PlanningTaskModelConstraint(_idProyecto, this));

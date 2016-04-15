@@ -5,6 +5,7 @@ ProjectUpdater::ProjectUpdater(QObject *parent) : Updater(parent)
 {
     scriptsVersion1();
     scriptsVersion2();
+    scriptsVersion3();
 }
 
 void ProjectUpdater::scriptsVersion1()
@@ -91,6 +92,31 @@ void ProjectUpdater::scriptsVersion2()
 void ProjectUpdater::scriptsVersion3()
 {
     addCommand(3, "ALTER TABLE tareasEjecucion ADD COLUMN `idCertificacion` INTEGER;");
+
+    addCommand(3, " CREATE TABLE `certificaciones` ( "
+                  " `id`	INTEGER NOT NULL UNIQUE, "
+                  " `fechaCertificacion`	TEXT NOT NULL, "
+                  " PRIMARY KEY(id) "
+                  ");");
+
+    addCommand(3, "CREATE TABLE `tareasCertificados` ( "
+                  " `id`	INTEGER NOT NULL UNIQUE, "
+                  " `idCertificacion`	INTEGER NOT NULL, "
+                  " `idProveedor`	INTEGER NOT NULL, "
+                  " `idTareaEjecucion`	INTEGER NOT NULL, "
+                  " PRIMARY KEY(id) "
+                  " );");
+
+    addCommand(3, "CREATE TABLE `certificados` ( "
+                  " `id`	INTEGER NOT NULL UNIQUE, "
+                  " `idCertificacion`	INTEGER NOT NULL, "
+                  " `idProveedor`	INTEGER NOT NULL, "
+                  " `statusCertificado`	INTEGER, "
+                  " `fechaEmision`	INTEGER, "
+                  " `desde`	TEXT, "
+                  " `hasta`	TEXT, "
+                  " PRIMARY KEY(id) "
+                  " ); ");
 
     addCommand(3, "UPDATE version set versionInfo = 3;");
 

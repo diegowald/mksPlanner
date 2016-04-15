@@ -540,15 +540,21 @@ void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *n
         ExecutionTaskPtr et2 = qSharedPointerDynamicCast<ExecutionTask>(e2);
         et2->copyDataFrom(tp);
         et2->setIdTareaPadre(tp->id());
+
         et2->setFechaRealInicio(QDateTime(dt, QTime(12, 0, 0, 0)));
         et2->setFechaEstimadaInicio(QDateTime(dt, QTime(12, 0, 0, 0)));
 
         QDateTime dt3 = tp->fechaRealFin();
+        if (dt3.date() <= dt)
+        {
+            dt3.setDate(dt.addDays(1));
+        }
         et2->setFechaRealFin(dt3);
         et2->setFechaEstimadaFin(dt3);
         et2->setIsSplittedPart(true);
         et2->setCantidad(tp->cantidad() - et1->cantidad());
         et2->setIdCertificacion(-1);
+        et2->setPctCompletado(0.);
         node->addChild(n2);
 
         tp->setTaskType(KDGantt::TypeMulti);

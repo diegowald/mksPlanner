@@ -91,6 +91,9 @@ void DlgEditExecutionTask::on_buttonBox_accepted()
     dt = ui->dateFechaEstimadaFinalizacion->dateTime();
     p->setFechaEstimadaFin(dt);
 
+    p->setFechaRealInicio(ui->dateFechaRealInicio->dateTime());
+    p->setFechaRealFin(ui->dateFecharealFinalizacion->dateTime());
+
     p->setCantidad(ui->txtCantidad->text().toDouble());
     p->setName(ui->txtNombre->text());
 
