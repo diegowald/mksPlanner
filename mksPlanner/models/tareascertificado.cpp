@@ -12,7 +12,7 @@ TareaCertificado::TareaCertificado(int id, int idCertificacion,
     _idTareaEjecucion = idTareaEjecucion;
 }
 
-TareaCertificado::TareaCertificado(int id) : EntityBase(id)
+TareaCertificado::TareaCertificado(int id) : EntityBase(id, true)
 {
     _idCertificacion = -1;
     _idProveedor = -1;
@@ -28,7 +28,7 @@ QSqlQuery* TareaCertificado::getQuery(QSqlDatabase &database)
     {
         query = new QSqlQuery(database);
         query->prepare("INSERT INTO tareasCertificados (id, idCertificacion, idProveedor, idTareaEjecucion) "
-                       " VALUES (:id, :idCertificacion, :idProveedor, :iTareaEjecucion);");
+                       " VALUES (:id, :idCertificacion, :idProveedor, :idTareaEjecucion);");
         query->bindValue(":id", id());
         query->bindValue(":idCertificacion", _idCertificacion);
         query->bindValue(":idProveedor", _idProveedor);
@@ -39,14 +39,14 @@ QSqlQuery* TareaCertificado::getQuery(QSqlDatabase &database)
     case EntityStatus::deleted:
     {
         query = new QSqlQuery(database);
-        query->prepare("DELETE FROM certificaciones WHERE id = :id;");
+        query->prepare("DELETE FROM tareasCertificado WHERE id = :id;");
         query->bindValue(":id", id());
         break;
     }
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE cerificaciones SET idCertificacion = :idCertificacion, idProveedor = :idProveedor, idTareaEjecucion = :idTareaEjecucion "
+        query->prepare("UPDATE tareasCertificados SET idCertificacion = :idCertificacion, idProveedor = :idProveedor, idTareaEjecucion = :idTareaEjecucion "
                        " WHERE id = :id;");
         query->bindValue(":idCertificacion", _idCertificacion);
         query->bindValue(":idProveedor", _idProveedor);

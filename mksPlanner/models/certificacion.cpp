@@ -9,7 +9,7 @@ Certificacion::Certificacion(int id, const QDate &fechaCertificacion, Certificac
     _certificacionStatus = certificacionStatus;
 }
 
-Certificacion::Certificacion(int id) : EntityBase(id)
+Certificacion::Certificacion(int id) : EntityBase(id, true)
 {
     _fechaCertificacion = QDate::currentDate();
     _certificacionStatus = CertificacionStatus::Preparacion;
@@ -40,7 +40,7 @@ QSqlQuery* Certificacion::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE cerificaciones SET fechaCertificacion = :fechaCertificacion, certificacionStatus = :certificacionStatus WHERE id = :id;");
+        query->prepare("UPDATE certificaciones SET fechaCertificacion = :fechaCertificacion, certificacionStatus = :certificacionStatus WHERE id = :id;");
         query->bindValue(":fechaCertificacion", _fechaCertificacion);
         query->bindValue(":certificacionStatus", static_cast<int>(_certificacionStatus));
         query->bindValue(":id", id());

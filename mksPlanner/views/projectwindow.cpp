@@ -9,6 +9,8 @@
 #include "models/tareacertificadosmodel.h"
 #include "models/tareascertificado.h"
 #include <QSet>
+#include "views/dlgeditfechapagocertificado.h"
+
 
 ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent) :
     QMainWindow(parent),
@@ -34,7 +36,7 @@ ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget 
 
     _certificadoMapper = NULL;
 
-    _idInterno = -1;
+    //_idInterno = -1;
 
     _idCertificacionSeleccionada = -1;
     _idProveedorSeleccionado = -1;
@@ -54,6 +56,7 @@ void ProjectWindow::setProjectLibrary(ProjectLibrary *library)
     setExecutionModel(_projectLibrary->model(Tables::ExecutionTasks));
     setExecutionConstraintModel(_projectLibrary->model(Tables::ExecutionTasksConstraints));
     setCertificacionesModel(_projectLibrary->model(Tables::Certificaciones));
+    updateBotonesEstados();
 }
 
 void ProjectWindow::setModel(IModel *model)
@@ -268,7 +271,7 @@ void ProjectWindow::on_actionRemove_Task_triggered()
 
 void ProjectWindow::on_actionGuardar_cambios_triggered()
 {
-    GlobalContainer::instance().projectLibrary(_idInterno)->save();
+    _projectLibrary->save();
 }
 
 void ProjectWindow::on_modelChanged(Tables)
@@ -651,7 +654,14 @@ void ProjectWindow::recalcularTotalesCertificado(EntityBasePtr certificacion)
 
 void ProjectWindow::on_btnAbonado_released()
 {
-
+    dlgEditFechaPagoCertificado dlg(this);
+    if (dlg.exec() == QDialog::Accepted)
+    {
+        /*EntityBasePtr e = _certificadosHechosModel->getItem()
+        CertificadoPtr cert = _certificadosHechosModel->getItem()
+ /*       _idCertificacionSeleccionada
+                _idProveedorSeleccionado*/
+    }
 }
 
 void ProjectWindow::certiicarTareasEnEjecucion(EntityBasePtr certificaion)
@@ -714,6 +724,43 @@ void ProjectWindow::on_btnVerCertificadoClienteEnProceso_toggled(bool checked)
         _tareasCertificacionEnProceso->refreshData();
         _tareasCertificadoEnProceso->refreshData();
         _tareasCertificadoHechosModel->refreshData();
-
     }
+}
+
+void ProjectWindow::on_actionAddExecutionSubTask_triggered()
+{
+    QModelIndex idx = ui->planningView->selectionModel()->currentIndex();
+    if (idx.isValid())
+    {
+        qDebug() << "MainWindow::slotToolsNewItem" << idx;
+        if (!_planningModel->insertRow(1, _planningModel->index(idx.row(), 0, idx.parent())))
+            return;
+    }
+}
+
+void ProjectWindow::on_actionAddExecutionTask_triggered()
+{
+    int rowCount = ui->executionView->model()->rowCount();
+
+    QModelIndex index = ui->executionView->selectionModel()->currentIndex();
+
+
+    if (!_executionModel->insertRow(rowCount, index.parent()))
+        return;
+
+    _executionModel->editEntity(rowCount);
+}
+
+void ProjectWindow::on_actionEditExecutionTask_triggered()
+{
+    QModelIndex index = ui->executionView->selectionModel()->currentIndex();
+    _executionModel->editEntity(index);
+    _certificacionesModel->refreshData();
+    _tareasCertificacionEnProceso->refreshData();
+}
+
+void ProjectWindow::on_actionDeleteExecutionTask_triggered()
+{
+    QModelIndex index = ui->executionView->selectionModel()->currentIndex();
+    _executionModel->removeEntity(window(), index);
 }

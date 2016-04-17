@@ -6,6 +6,7 @@ ProjectUpdater::ProjectUpdater(QObject *parent) : Updater(parent)
     scriptsVersion1();
     scriptsVersion2();
     scriptsVersion3();
+    scriptsVersion4();
 }
 
 void ProjectUpdater::scriptsVersion1()
@@ -96,6 +97,7 @@ void ProjectUpdater::scriptsVersion3()
     addCommand(3, " CREATE TABLE `certificaciones` ( "
                   " `id`	INTEGER NOT NULL UNIQUE, "
                   " `fechaCertificacion`	TEXT NOT NULL, "
+                  " `certificacionStatus`	INTEGER, "
                   " PRIMARY KEY(id) "
                   ");");
 
@@ -115,9 +117,18 @@ void ProjectUpdater::scriptsVersion3()
                   " `fechaEmision`	INTEGER, "
                   " `desde`	TEXT, "
                   " `hasta`	TEXT, "
+                  " `fechaPago`	TEXT, "
                   " PRIMARY KEY(id) "
                   " ); ");
 
     addCommand(3, "UPDATE version set versionInfo = 3;");
+}
 
+void ProjectUpdater::scriptsVersion4()
+{
+    addCommand(4, "ALTER TABLE tareasEjecucion ADD COLUMN `isSplittedPart` INTEGER;");
+    addCommand(4, "ALTER TABLE tareasEjecucion ADD COLUMN `idTareaPlanificada` INTEGER;");
+
+
+    addCommand(4, "UPDATE version set versionInfo = 4;");
 }

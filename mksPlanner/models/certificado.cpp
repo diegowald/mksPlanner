@@ -18,7 +18,7 @@ Certificado::Certificado(int id, int idCertificacion, int idProveedor,
     _hasta = hasta;
 }
 
-Certificado::Certificado(int id) : EntityBase(id)
+Certificado::Certificado(int id) : EntityBase(id, true)
 {
     _idCertificacion = -1;
     _idProveedor = -1;
@@ -49,14 +49,14 @@ QSqlQuery* Certificado::getQuery(QSqlDatabase &database)
     case EntityStatus::deleted:
     {
         query = new QSqlQuery(database);
-        query->prepare("DELETE FROM certificaciones WHERE id = :id;");
+        query->prepare("DELETE FROM certificados WHERE id = :id;");
         query->bindValue(":id", id());
         break;
     }
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE cerificaciones SET idCertificacion = :idCertificacion, idProveedor = :idProveedor, "
+        query->prepare("UPDATE certificados SET idCertificacion = :idCertificacion, idProveedor = :idProveedor, "
                        " statusCertificado = :statusCertificado, fechaEmision = :fechaEmision, "
                        " desde = :desde, hasta = :hasta "
                        " WHERE id = :id;");

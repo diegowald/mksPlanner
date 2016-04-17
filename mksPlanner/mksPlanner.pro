@@ -85,7 +85,8 @@ SOURCES += main.cpp\
     models/certificado.cpp \
     models/certificadosmodel.cpp \
     models/tareascertificado.cpp \
-    models/tareacertificadosmodel.cpp
+    models/tareacertificadosmodel.cpp \
+    views/dlgeditfechapagocertificado.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -157,7 +158,8 @@ HEADERS  += mainwindow.h \
     models/certificado.h \
     models/certificadosmodel.h \
     models/tareascertificado.h \
-    models/tareacertificadosmodel.h
+    models/tareacertificadosmodel.h \
+    views/dlgeditfechapagocertificado.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
@@ -173,7 +175,8 @@ FORMS    += mainwindow.ui \
     views/dlgeditplanningtaskconstraint.ui \
     views/dlgeditexecutiontask.ui \
     views/dlgsplitexecutiontask.ui \
-    views/dlgEditCertificacion.ui
+    views/dlgEditCertificacion.ui \
+    views/dlgeditfechapagocertificado.ui
 
 CONFIG += mobility
 MOBILITY =

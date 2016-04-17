@@ -83,6 +83,14 @@ private slots:
 
     void on_btnVerCertificadoClienteEnProceso_toggled(bool checked);
 
+    void on_actionAddExecutionSubTask_triggered();
+
+    void on_actionAddExecutionTask_triggered();
+
+    void on_actionEditExecutionTask_triggered();
+
+    void on_actionDeleteExecutionTask_triggered();
+
 private:
     void updateEstimacionMateriales();
     void updateBotonesEstados();
