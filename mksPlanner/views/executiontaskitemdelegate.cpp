@@ -5,8 +5,9 @@
 #include "models/executiontask.h"
 #include "models/executiontaskmodel.h"
 
-ExecutionTaskItemDelegate::ExecutionTaskItemDelegate(QObject *parent) : ItemDelegate(parent)
+ExecutionTaskItemDelegate::ExecutionTaskItemDelegate(ExecutionTaskModelAdapter *model, QObject *parent) : ItemDelegate(parent)
 {
+    _model = model;
 }
 
 void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt::StyleOptionGanttItem &opt, const QModelIndex &idx)
@@ -17,8 +18,11 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
         return;
     }
 
-    ExecutionTaskModel *m = static_cast<ExecutionTaskModel*>(idx.model());
-    ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(m->getItemByRowid(idx.row()));
+    ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(_model->innerModel()->getItemByRowid(idx.row()));
+
+
+    KDGantt::ItemType type = static_cast<KDGantt::ItemType>(
+                idx.model()->data(idx, KDGantt::ItemTypeRole).toInt());
 
     QBrush brush = defaultBrush(type);
     if (ex->idPlanningTask() == -1)
@@ -29,10 +33,6 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
         taskgrad.setColorAt(1., Qt::darkRed);
         brush = taskgrad;
     }
-
-    KDGantt::ItemType type = static_cast<KDGantt::ItemType>(
-                idx.model()->data(idx, KDGantt::ItemTypeRole).toInt());
-
     QString txt = idx.model()->data(idx, Qt::DisplayRole).toString();
     QRectF itemRect = opt.itemRect;
     QRectF boundingRect = opt.boundingRect;

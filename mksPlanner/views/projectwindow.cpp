@@ -40,7 +40,7 @@ ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget 
 
     _idCertificacionSeleccionada = -1;
     _idProveedorSeleccionado = -1;
-    ui->executionView->setItemDelegate(new ExecutionTaskItemDelegate(this));
+    ui->executionView->setItemDelegate(new ExecutionTaskItemDelegate(_executionModel, this));
 }
 
 ProjectWindow::~ProjectWindow()
@@ -151,6 +151,7 @@ void ProjectWindow::setExecutionModel(IModel *model)
 
     connect(tv, &QTreeView::doubleClicked, this, &ProjectWindow::on_TreeViewExecution_doubleClicked);
     connect(tv, &QTreeView::clicked, this, &ProjectWindow::on_TreeViewExecution_clicked);
+    ui->executionView->setItemDelegate(new ExecutionTaskItemDelegate(_executionModel, this));
 }
 
 void ProjectWindow::setExecutionConstraintModel(IModel *model)
