@@ -128,7 +128,7 @@ void ProjectUpdater::scriptsVersion4()
 {
     addCommand(4, "ALTER TABLE tareasEjecucion ADD COLUMN `isSplittedPart` INTEGER;");
     addCommand(4, "ALTER TABLE tareasEjecucion ADD COLUMN `idTareaPlanificada` INTEGER;");
-
+    addCommand(4, "ALTER TABLE certificados ADD COLUMN `fechaPago` TEXT;");
 
     addCommand(4, "UPDATE version set versionInfo = 4;");
 }

@@ -6,6 +6,7 @@
 #include <QDebug>
 #include "models/proveedor.h"
 
+
 CertificadosModel::CertificadosModel(int idProyecto, QObject *parent) :
     ModelBase(Tables::Certificados, "certificados", false, "proyecto", parent)
 {
@@ -254,10 +255,11 @@ int CertificadosModel::_loadEntity(QSqlRecord record)
     QDate fechaEmision = record.value(record.indexOf("fechaEmision")).toDate();
     QDate desde = record.value(record.indexOf("desde")).toDate();
     QDate hasta = record.value(record.indexOf("hasta")).toDate();
+    QDate fechaPago = record.value(record.indexOf("fechaPago")).toDate();
 
     EntityBasePtr entity = CertificadoPtr::create(id, idCertificacion, idProveedor,
                                                   statusCertificado,
-                                                  fechaEmision, desde, hasta);
+                                                  fechaEmision, desde, hasta, fechaPago);
     cast(entity)->setIdProyecto(_idProyecto);
     addEntity(entity);
     return id;
@@ -280,4 +282,17 @@ void CertificadosModel::editEntity(int row)
 CertificadoPtr CertificadosModel::cast(EntityBasePtr entity)
 {
     return qSharedPointerDynamicCast<Certificado>(entity);
+}
+
+EntityBasePtr CertificadosModel::getItemByCertificacionIdProveedorId(int idCertificacion, int idProveedor)
+{
+    foreach (int id, ids().values())
+    {
+        CertificadoPtr c = cast(getItem(id));
+        if (c->idCertificacion() == idCertificacion && c->idProveedor() == idProveedor)
+        {
+            return c;
+        }
+    }
+    return EntityBasePtr();
 }

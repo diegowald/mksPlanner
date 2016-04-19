@@ -12,6 +12,7 @@ public:
 
     virtual void editEntity(int row);
     int idCertificacionProxima(const QDate &fecha) const;
+    CertificacionPtr cast(EntityBasePtr entity);
 
 protected:
     virtual QString _getSQLRead() const;
@@ -20,7 +21,6 @@ protected:
 
     virtual void defineColumnNames();
 
-    CertificacionPtr cast(EntityBasePtr entity);
 
 
 

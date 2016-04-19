@@ -10,7 +10,7 @@
 #include "models/tareascertificado.h"
 #include <QSet>
 #include "views/dlgeditfechapagocertificado.h"
-
+#include "views/executiontaskitemdelegate.h"
 
 ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent) :
     QMainWindow(parent),
@@ -40,6 +40,7 @@ ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget 
 
     _idCertificacionSeleccionada = -1;
     _idProveedorSeleccionado = -1;
+    ui->executionView->setItemDelegate(new ExecutionTaskItemDelegate(this));
 }
 
 ProjectWindow::~ProjectWindow()
@@ -575,6 +576,8 @@ void ProjectWindow::updateCertificacionView(EntityBasePtr certificacion)
             _certificadoMapper->addMapping(ui->dateDesde, _certificadosHechosModel->columnIndex("Desde"));
             _certificadoMapper->addMapping(ui->dateHasta, _certificadosHechosModel->columnIndex("Hasta"));
 
+            _certificadosHechosModel->refreshData();
+            _tareasCertificadoHechosModel->refreshData();
             ui->nroCertificado->setEnabled(false);
             ui->txtCliente->setEnabled(true);
             ui->txtProveedor->setReadOnly(true);
@@ -657,10 +660,13 @@ void ProjectWindow::on_btnAbonado_released()
     dlgEditFechaPagoCertificado dlg(this);
     if (dlg.exec() == QDialog::Accepted)
     {
-        /*EntityBasePtr e = _certificadosHechosModel->getItem()
-        CertificadoPtr cert = _certificadosHechosModel->getItem()
- /*       _idCertificacionSeleccionada
-                _idProveedorSeleccionado*/
+        CertificadosModel *certModel = static_cast<CertificadosModel*>(_projectLibrary->model(Tables::Certificados));
+        EntityBasePtr e =
+                certModel->getItemByCertificacionIdProveedorId(
+                    _idCertificacionSeleccionada,
+                    _idProveedorSeleccionado);
+        CertificadoPtr c = certModel->cast(e);
+        c->setFechaPago(dlg.fechaPago());
     }
 }
 

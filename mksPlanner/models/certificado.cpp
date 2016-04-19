@@ -8,7 +8,7 @@
 Certificado::Certificado(int id, int idCertificacion, int idProveedor,
                          StatusCertificado statusCertificado,
                          const QDate &fechaEmision,
-                         const QDate &desde, const QDate &hasta) : EntityBase(id)
+                         const QDate &desde, const QDate &hasta, const QDate &fechaPago) : EntityBase(id)
 {
     _idCertificacion = idCertificacion;
     _idProveedor = idProveedor;
@@ -16,6 +16,7 @@ Certificado::Certificado(int id, int idCertificacion, int idProveedor,
     _fechaEmision = fechaEmision;
     _desde = desde;
     _hasta = hasta;
+    _fechaPago = fechaPago;
 }
 
 Certificado::Certificado(int id) : EntityBase(id, true)
@@ -119,6 +120,11 @@ QDate Certificado::hasta() const
     return _hasta;
 }
 
+QDate Certificado::fechaPago() const
+{
+    return _fechaPago;
+}
+
 QString Certificado::cliente() const
 {
     EntityBasePtr entity = GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Proyectos)->getItem(0);
@@ -177,4 +183,10 @@ void Certificado::setHasta(const QDate &value)
 void Certificado::setIdProyecto(int idProyecto)
 {
     _idProyecto = idProyecto;
+}
+
+void Certificado::setFechaPago(const QDate &value)
+{
+    _fechaPago = value;
+    updateStatus();
 }

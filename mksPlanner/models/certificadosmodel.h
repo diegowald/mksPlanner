@@ -11,15 +11,16 @@ public:
     explicit CertificadosModel(int idProyecto, QObject *parent = 0);
 
     virtual void editEntity(int row);
+    EntityBasePtr getItemByCertificacionIdProveedorId(int idCertificacion, int idProveedor);
+    CertificadoPtr cast(EntityBasePtr entity);
 
-    protected:
+protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);
     virtual EntityBasePtr internalCreateEntity(int assignedId);
 
     virtual void defineColumnNames();
 
-    CertificadoPtr cast(EntityBasePtr entity);
 
 signals:
 

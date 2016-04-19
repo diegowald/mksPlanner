@@ -20,7 +20,7 @@ public:
     explicit Certificado(int id, int idCertificacion, int idProveedor,
                          StatusCertificado statusCertificado,
                          const QDate &fechaEmision,
-                         const QDate &desde, const QDate &hasta);
+                         const QDate &desde, const QDate &hasta, const QDate &fechaPago);
     explicit Certificado(int id);
 
     virtual QString toDebugString();
@@ -33,6 +33,7 @@ public:
     QDate fechaEmision() const;
     QDate desde() const;
     QDate hasta() const;
+    QDate fechaPago() const;
     QString cliente() const;
     QString proveedor() const;
     QString nroCertificado() const;
@@ -43,6 +44,7 @@ public:
     void setFechaEmision(const QDate& value);
     void setDesde(const QDate &value);
     void setHasta(const QDate &value);
+    void setFechaPago(const QDate &value);
 
     void setIdProyecto(int idProyecto);
 signals:
@@ -57,6 +59,7 @@ private:
     QDate _fechaEmision;
     QDate _desde;
     QDate _hasta;
+    QDate _fechaPago;
 
     int _idProyecto;
 

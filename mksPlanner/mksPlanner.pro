@@ -86,7 +86,8 @@ SOURCES += main.cpp\
     models/certificadosmodel.cpp \
     models/tareascertificado.cpp \
     models/tareacertificadosmodel.cpp \
-    views/dlgeditfechapagocertificado.cpp
+    views/dlgeditfechapagocertificado.cpp \
+    views/executiontaskitemdelegate.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -159,7 +160,8 @@ HEADERS  += mainwindow.h \
     models/certificadosmodel.h \
     models/tareascertificado.h \
     models/tareacertificadosmodel.h \
-    views/dlgeditfechapagocertificado.h
+    views/dlgeditfechapagocertificado.h \
+    views/executiontaskitemdelegate.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \
