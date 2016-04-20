@@ -142,6 +142,7 @@ void ProjectWindow::setExecutionModel(IModel *model)
     grid->setWeekStart(Qt::Sunday);
     grid->setScale(KDGantt::DateTimeGrid::ScaleDay);
 
+
     ui->executionView->setGrid(grid);
 
     QTreeView *tv = qobject_cast<QTreeView*>(ui->executionView->leftView());

@@ -32,25 +32,28 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
         taskgrad.setColorAt(0., Qt::red);
         taskgrad.setColorAt(1., Qt::darkRed);
         brush = taskgrad;
-    }
-    QString txt = idx.model()->data(idx, Qt::DisplayRole).toString();
-    QRectF itemRect = opt.itemRect;
-    QRectF boundingRect = opt.boundingRect;
-    boundingRect.setY(itemRect.y());
-    boundingRect.setHeight(itemRect.height());
+
+        QString txt = idx.model()->data(idx, Qt::DisplayRole).toString();
+        QRectF itemRect = opt.itemRect;
+        QRectF boundingRect = opt.boundingRect;
+        boundingRect.setY(itemRect.y());
+        boundingRect.setHeight(itemRect.height());
 
 
-    if (opt.state & QStyle::State_Selected)
-    {
+
         QLinearGradient selectedGrad(0., 0., 0., QApplication::fontMetrics().height());
-        selectedGrad.setColorAt( 0., Qt::red );
-        selectedGrad.setColorAt( 1., Qt::darkRed );
-        brush = QBrush( selectedGrad );
+        selectedGrad.setColorAt(0., Qt::red);
+        selectedGrad.setColorAt(1., Qt::darkRed);
+        brush = QBrush(selectedGrad);
 
-        if ( itemRect.isValid() ) {
+        painter->setPen(defaultPen(type));
+        painter->setBrush(brush);
+        painter->setBrushOrigin(itemRect.topLeft());
+        if (itemRect.isValid())
+        {
             // TODO
             qreal pw = painter->pen().width()/2.;
-            pw-=1;
+            pw -= 1;
             QRectF r = itemRect;
             r.translate( 0., r.height()/6. );
             r.setHeight( 2.*r.height()/3. );
@@ -59,41 +62,19 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
             painter->translate( 0.5, 0.5 );
             painter->drawRect( r );
             bool ok;
-            qreal completion = idx.model()->data( idx, KDGantt::TaskCompletionRole ).toReal( &ok );
-            if ( ok ) {
+            qreal completion = idx.model()->data(idx, KDGantt::TaskCompletionRole).toReal(&ok);
+            if (ok)
+            {
                 qreal h = r.height();
-                QRectF cr( r.x(), r.y()+h/4.,
-                           r.width()*completion/100., h/2.+1 /*??*/ );
+                QRectF cr(r.x(), r.y() + h / 4.,
+                          r.width() * completion / 100., h / 2. + 1 /*??*/ );
                 QColor compcolor( painter->pen().color() );
                 compcolor.setAlpha( 150 );
                 painter->fillRect( cr, compcolor );
             }
             painter->restore();
-        }
-
-    }
-    painter->setPen(defaultPen(type));
-    painter->setBrush(brush);
-    painter->setBrushOrigin( itemRect.topLeft() );
-    switch(type)
-    {
-    case KDGantt::TypeTask:
-        if (itemRect.isValid())
-        {
-            QRectF r = itemRect;
-            r.translate(0., r.height() / 3.);
-            r.setHeight(2. * r.height() / 9.);
-            painter->translate(0.5, 0.5);
-            painter->drawRect(r);
-
-            QRectF leftRect = itemRect;
-            leftRect.setWidth( 5 );
-            painter->drawRect( leftRect );
-            QRectF rightRect = itemRect;
-            rightRect.setWidth( 5 );
-            rightRect.translate( r.width() - 5, 0 );
-            painter->drawRect( rightRect );
             Qt::Alignment ta;
+            bool display = true;
             switch(opt.displayPosition)
             {
             case KDGantt::StyleOptionGanttItem::Left:
@@ -105,12 +86,18 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
             case KDGantt::StyleOptionGanttItem::Center:
                 ta = Qt::AlignCenter;
                 break;
+            case KDGantt::StyleOptionGanttItem::Hidden:
+                display = false;
+                break;
             }
-            painter->drawText(boundingRect, ta, txt);
+            if (display)
+                painter->drawText(boundingRect, ta, txt);
+
         }
-        break;
-    default:
+
+    }
+    else
+    {
         KDGantt::ItemDelegate::paintGanttItem(painter, opt, idx);
-        break;
     }
 }
