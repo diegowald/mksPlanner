@@ -448,7 +448,13 @@ Qt::ItemFlags ExecutionTaskModelAdapter::flags( const QModelIndex& idx) const
 
 void ExecutionTaskModelAdapter::editEntity(int row)
 {
-    _model->editEntity(row);
+    ExecutionTaskModel::Node* n = _model->root()->child(row);
+
+    //PlanningTaskPtr p = qSharedPointerDynamicCast<PlanningTask>(_model->getItemByRowid(idx.row()));
+    ExecutionTaskPtr p = qSharedPointerDynamicCast<ExecutionTask>(n->entity());
+    _model->editEntity(p);
+
+    //_model->editEntity(row);
 
     QModelIndex idx = index(row, 0);
     emit dataChanged(idx, idx);

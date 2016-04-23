@@ -41,16 +41,17 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
 
 
 
-        QLinearGradient selectedGrad(0., 0., 0., QApplication::fontMetrics().height());
-        selectedGrad.setColorAt(0., Qt::red);
-        selectedGrad.setColorAt(1., Qt::darkRed);
-        brush = QBrush(selectedGrad);
 
-        painter->setPen(defaultPen(type));
-        painter->setBrush(brush);
-        painter->setBrushOrigin(itemRect.topLeft());
         if (itemRect.isValid())
         {
+            QLinearGradient selectedGrad(0., 0., 0., QApplication::fontMetrics().height());
+            selectedGrad.setColorAt(0., Qt::red);
+            selectedGrad.setColorAt(1., Qt::darkRed);
+            brush = QBrush(selectedGrad);
+            painter->save();
+            painter->setPen(defaultPen(type));
+            painter->setBrush(brush);
+            painter->setBrushOrigin(itemRect.topLeft());
             // TODO
             qreal pw = painter->pen().width()/2.;
             pw -= 1;
@@ -93,6 +94,7 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
             if (display)
                 painter->drawText(boundingRect, ta, txt);
 
+            painter->restore();
         }
 
     }

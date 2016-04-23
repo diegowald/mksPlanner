@@ -750,12 +750,12 @@ void ProjectWindow::on_actionAddExecutionTask_triggered()
 {
     int rowCount = ui->executionView->model()->rowCount();
 
-    QModelIndex index = ui->executionView->selectionModel()->currentIndex();
+    QModelIndex index = ui->executionView->rootIndex();
 
-
-    if (!_executionModel->insertRow(rowCount, index.parent()))
+    if (!_executionModel->insertRow(rowCount, index))
         return;
 
+    //rowCount++;
     _executionModel->editEntity(rowCount);
 }
 
