@@ -395,14 +395,17 @@ double ExecutionTask::pctCompletado() const
 
 void ExecutionTask::setPctCompletado(double value)
 {
-    if (_pctCompletado == 0.)
+    if (value != _pctCompletado)
     {
-        CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
-        int id = m->idCertificacionProxima(fechaRealInicio().date());
-        setIdCertificacion(id);
+        if (_pctCompletado == 0.)
+        {
+            CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
+            int id = m->idCertificacionProxima(fechaRealInicio().date());
+            setIdCertificacion(id);
+        }
+        _pctCompletado = value;
+        updateStatus();
     }
-    _pctCompletado = value;
-    updateStatus();
 }
 
 bool ExecutionTask::canBeSplitted() const
@@ -449,6 +452,7 @@ double ExecutionTask::rendimientoReal() const
 void ExecutionTask::setIdCertificacion(int idCertificacion)
 {
     _idCertificacion = idCertificacion;
+    updateStatus();
 }
 
 bool ExecutionTask::canStart() const

@@ -699,6 +699,8 @@ void ProjectWindow::on_btnEmitido_released()
         ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(_tareasCertificacionEnProceso->getItem(id));
         TareaCertificadoPtr tc = qSharedPointerDynamicCast<TareaCertificado>(
                     _tareasCertificadoHechosModel->createEntity());
+        qDebug() << et->idCertificacion();
+        qDebug() << et->name();
         tc->setIdCertificacion(_idCertificacionSeleccionada);
         tc->setIdProveedor(et->idProveedor());
         tc->setIdTareaEjecucion(et->id());
