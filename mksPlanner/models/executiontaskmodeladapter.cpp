@@ -570,12 +570,15 @@ void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *n
 
 void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node, bool useDialog, const QDate &date)
 {
-    DlgSplitExecutionTask dlg;
 
     ExecutionTaskPtr tp = qSharedPointerDynamicCast<ExecutionTask>(node->entity());
 
-    dlg.setPct(tp->pctCompletado());
-    dlg.setExecutionTask(tp);
+    bool performSplit = false;
+
+    double pct;
+    QDate fechaSplit;
+    QDate dt = QDate::currentDate();
+
     double cantTotal = 0.;
     double cantRealizada = 0.;
     for (int i = 0; i < node->childCount(); ++i)
@@ -588,17 +591,37 @@ void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node
         }
     }
 
-    QDate dt = QDate::currentDate();
-    dlg.setDate(dt);
-    dlg.setCantidadTotal(cantTotal);
-    dlg.setCantidadRealizada(cantRealizada);
-    double pctAcumulado = 100.0 * cantRealizada / cantTotal;
-    dlg.setPct(pctAcumulado);
-    if (dlg.exec() == QDialog::Accepted)
+    if (useDialog)
     {
-        dt = dlg.date();
+        DlgSplitExecutionTask dlg;
+        dlg.setPct(tp->pctCompletado());
+        dlg.setExecutionTask(tp);
+
+        dlg.setDate(dt);
+        dlg.setCantidadTotal(cantTotal);
+        dlg.setCantidadRealizada(cantRealizada);
+        double pctAcumulado = 100.0 * cantRealizada / cantTotal;
+        dlg.setPct(pctAcumulado);
+        if (dlg.exec() == QDialog::Accepted)
+        {
+            performSplit = true;
+            dt = dlg.date();
+            pct = dlg.pct();
+        }
+    }
+    else
+    {
+        performSplit = true;
+        dt = date;
         EntityBasePtr e1 = node->child(node->childCount() - 1)->entity();
-        double cantidadParcial = dlg.pct() * cantTotal - cantRealizada;
+        ExecutionTaskPtr et1 = qSharedPointerDynamicCast<ExecutionTask>(e1);
+        pct = et1->pctCompletado();
+    }
+
+    if (performSplit)
+    {
+        EntityBasePtr e1 = node->child(node->childCount() - 1)->entity();
+        double cantidadParcial = pct * cantTotal - cantRealizada;
         ExecutionTaskPtr et1 = qSharedPointerDynamicCast<ExecutionTask>(e1);
         et1->setCantidad(cantidadParcial);
         et1->setPctCompletado(100);
@@ -616,10 +639,14 @@ void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node
         et2->setIdCertificacion(-1);
 
         QDateTime dt3 = tp->fechaRealFin();
+        if (dt3.date() < dt)
+        {
+            dt3 = QDateTime(dt.addDays(1), QTime(12, 0, 0, 0));
+        }
         et2->setFechaRealFin(dt3);
         et2->setFechaEstimadaFin(dt3);
         et2->setIsSplittedPart(true);
-        et2->setCantidad(cantTotal * 1 - dlg.pct() / 100.0);
+        et2->setCantidad(cantTotal * 1 - pct / 100.0);
         node->addChild(n2);
 
         tp->setTaskType(KDGantt::TypeMulti);
