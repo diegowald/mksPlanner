@@ -14,6 +14,8 @@ public:
     int idCertificacionProxima(const QDate &fecha) const;
     CertificacionPtr cast(EntityBasePtr entity);
 
+    QDate maxDateRealizada();
+
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);

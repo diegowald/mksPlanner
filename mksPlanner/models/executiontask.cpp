@@ -390,11 +390,25 @@ void ExecutionTask::setIdPlanningTask(int value)
 
 double ExecutionTask::pctCompletado() const
 {
-    return _pctCompletado;
+    if (_isSplittedPart)
+    {
+        return calculatePctBasedOnParent();
+    }
+    else
+    {
+        return _pctCompletado;
+    }
+}
+
+double ExecutionTask::calculatePctBasedOnParent() const
+{
+    return 0.;
 }
 
 void ExecutionTask::setPctCompletado(double value)
 {
+    if (_isSplittedPart)
+        1/0.;
     if (value != _pctCompletado)
     {
         if (_pctCompletado == 0.)

@@ -87,7 +87,8 @@ SOURCES += main.cpp\
     models/tareascertificado.cpp \
     models/tareacertificadosmodel.cpp \
     views/dlgeditfechapagocertificado.cpp \
-    views/executiontaskitemdelegate.cpp
+    views/executiontaskitemdelegate.cpp \
+    validators/qcantidadvalidator.cpp
 
 HEADERS  += mainwindow.h \
     models/unitsmodel.h \
@@ -161,7 +162,8 @@ HEADERS  += mainwindow.h \
     models/tareascertificado.h \
     models/tareacertificadosmodel.h \
     views/dlgeditfechapagocertificado.h \
-    views/executiontaskitemdelegate.h
+    views/executiontaskitemdelegate.h \
+    validators/qcantidadvalidator.h
 
 FORMS    += mainwindow.ui \
     views/dlguniteditor.ui \

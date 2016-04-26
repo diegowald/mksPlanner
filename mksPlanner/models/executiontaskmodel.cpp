@@ -981,3 +981,19 @@ ExecutionTaskPtr ExecutionTaskModel::cast(EntityBasePtr entity)
 {
     return qSharedPointerDynamicCast<ExecutionTask>(entity);
 }
+
+
+QSet<int> ExecutionTaskModel::childIds(int idParent)
+{
+    QSet<int> result;
+
+    foreach (int id, ids().values())
+    {
+        ExecutionTaskPtr et = cast(getItem(id));
+        if (et->idTareaPadre() == idParent)
+        {
+            result.insert(id);
+        }
+    }
+    return result;
+}

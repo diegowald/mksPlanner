@@ -717,3 +717,9 @@ IModel* ExecutionTaskModelAdapter::innerModel() const
 {
     return _model;
 }
+
+
+QSet<int> ExecutionTaskModelAdapter::childIds(int idParent)
+{
+    return _model->childIds(idParent);
+}

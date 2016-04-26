@@ -47,6 +47,8 @@ public:
 
     IModel *innerModel() const;
 
+    QSet<int> childIds(int idParent);
+
 private:
     QModelIndex createIndex(int idTask, ExecutionTaskModel::Node *node);
     void splitTaskSplitted(ExecutionTaskModel::Node *node, bool useDialog, const QDate &date);

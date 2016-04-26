@@ -59,12 +59,14 @@ dlgComponenteMaterial::~dlgComponenteMaterial()
 
 void dlgComponenteMaterial::on_buttonBox_accepted()
 {
-    ComponenteMaterialPtr componente = qSharedPointerDynamicCast<ComponenteMaterial>(_entity);
-    MaterialPtr material = qSharedPointerDynamicCast<Material>(_materialsModel->getItemByRowid(ui->cboMaterial->currentIndex()));
-    componente->setIdMaterial(!material.isNull() ? material->id() : -1);
-    componente->setCantidad(ui->txtCantidad->text().toDouble());
-    _model->setModified();
-    close();
+    {
+        ComponenteMaterialPtr componente = qSharedPointerDynamicCast<ComponenteMaterial>(_entity);
+        MaterialPtr material = qSharedPointerDynamicCast<Material>(_materialsModel->getItemByRowid(ui->cboMaterial->currentIndex()));
+        componente->setIdMaterial(!material.isNull() ? material->id() : -1);
+        componente->setCantidad(ui->txtCantidad->text().toDouble());
+        _model->setModified();
+        close();
+    }
 }
 
 void dlgComponenteMaterial::on_cboMaterial_currentIndexChanged(int)

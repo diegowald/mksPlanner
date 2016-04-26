@@ -112,6 +112,7 @@ EntityBasePtr CertificacionesModel::internalCreateEntity(int assignedId)
 void CertificacionesModel::editEntity(int row)
 {
     dlgEditCertificacion dlg(this, row);
+    dlg.setMinDate(maxDateRealizada());
     dlg.exec();
 }
 
@@ -143,4 +144,21 @@ int CertificacionesModel::idCertificacionProxima(const QDate &fecha) const
         }
     }
     return c.isNull() ? -1 : c->id();
+}
+
+QDate CertificacionesModel::maxDateRealizada()
+{
+    QSet<int> ids = this->ids();
+
+    QDate date = QDate::fromJulianDay(0);
+
+    foreach (int id, ids)
+    {
+        CertificacionPtr c = cast(getItem(id));
+        if (date < c->fechaCertificacion())
+        {
+            date = c->fechaCertificacion();
+        }
+    }
+    return date;
 }

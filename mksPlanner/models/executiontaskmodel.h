@@ -59,6 +59,10 @@ public:
 
     int idFromPlanning(int idPlanningTask);
 
+    ExecutionTaskPtr cast(EntityBasePtr entity);
+
+    QSet<int> childIds(int idParent);
+
 protected:
     virtual QString _getSQLRead() const;
     virtual int _loadEntity(QSqlRecord record);
@@ -71,7 +75,6 @@ protected:
     void calculateParentsBasedOnPlanningParents();
 
 private:
-    ExecutionTaskPtr cast(EntityBasePtr entity);
 
 private:
     int _idProyecto;

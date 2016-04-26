@@ -17,6 +17,7 @@ public:
     explicit dlgEditCertificacion(CertificacionesModel *model, int selectedEntity, QWidget *parent = 0);
     ~dlgEditCertificacion();
 
+    void setMinDate(const QDate &minDate);
 private slots:
     void on_buttonBox_accepted();
 

@@ -27,3 +27,8 @@ void dlgEditCertificacion::on_buttonBox_accepted()
 
     close();
 }
+
+void dlgEditCertificacion::setMinDate(const QDate &minDate)
+{
+    ui->dateEdit->setMinimumDate(minDate);
+}

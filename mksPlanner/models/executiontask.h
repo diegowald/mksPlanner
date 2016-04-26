@@ -89,7 +89,7 @@ public:
 
 private:
     QString tablaListadoMateriales() const;
-
+    double calculatePctBasedOnParent() const;
 
 signals:
 
