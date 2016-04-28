@@ -123,13 +123,24 @@ void TareasModel::editEntity(int row)
 {
     int id = _mapping.at(row);
 
-    dlgMaterialEditor dlg(dynamic_cast<MaterialesBaseModel*>(_model), _model->rowFromId(id), false);
+    dlgMaterialEditor dlg(dynamic_cast<MaterialesBaseModel*>(_model), _model->rowFromId(id), true);
     dlg.exec();
 }
 
 void TareasModel::removeEntity(QWidget *parent, QModelIndex &index)
 {
-    _model->removeEntity(parent, index);
+    EntityBasePtr entity = getItemByRowid(index.row());
+    if (QMessageBox::question(parent, "Confirmar borrar elemento", "Desea borrar el elemento?", QMessageBox::StandardButton::Yes, QMessageBox::No) == QMessageBox::Yes)
+    {
+        removeRow(index.row(), index.parent());
+        removeEntity(entity->id());
+    }
+}
+
+void TareasModel::removeEntity(int id)
+{
+    _model->removeEntity(id);
+    _mapping.removeAt(_mapping.indexOf(id));
 }
 
 int TareasModel::columnIndex(const QString &name) const

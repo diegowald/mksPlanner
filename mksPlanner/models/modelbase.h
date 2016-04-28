@@ -54,6 +54,7 @@ public:
     virtual void addEntity(EntityBasePtr entity) = 0;
     virtual void editEntity(int row) = 0;
     virtual void removeEntity(QWidget *parent, QModelIndex &index) = 0;
+    virtual void removeEntity(int id) = 0;
     virtual int columnIndex(const QString &name) const = 0;
 
     virtual int rowFromId(int id) = 0;
@@ -83,6 +84,7 @@ public:
     virtual EntityBasePtr createEntity();
     virtual void addEntity(EntityBasePtr entity);
     virtual void removeEntity(QWidget *parent, QModelIndex &index);
+    virtual void removeEntity(int id);
     virtual bool removeRow(int row, const QModelIndex &parent);
     virtual bool removeById(int id);
 

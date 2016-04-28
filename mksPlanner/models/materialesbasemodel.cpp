@@ -282,3 +282,5 @@ EntityBasePtr MaterialesBaseModel::internalCreateEntity(int assignedId)
 {
     return MaterialPtr::create(assignedId);
 }
+
+

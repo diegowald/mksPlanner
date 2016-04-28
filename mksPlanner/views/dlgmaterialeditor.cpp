@@ -8,6 +8,8 @@
 #include "models/material.h"
 #include "models/rubro.h"
 #include "models/modelfilter.h"
+#include <QDebug>
+
 
 dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, bool isTask, QWidget *parent) :
     QDialog(parent),
@@ -22,7 +24,8 @@ dlgMaterialEditor::dlgMaterialEditor(MaterialesBaseModel *model, int row, bool i
                                    [&] (EntityBasePtr e) -> bool
         {
             RubroPtr r = qSharedPointerDynamicCast<Rubro>(e);
-            return isTask ? r->isTask() : !r->isTask();
+            qDebug() << _isTask << ", " << r->isTask() << ", " << r->name();
+            return _isTask ? r->isTask() : !r->isTask();
         }, this);
     //ui->cboRubro->setModel(GlobalContainer::instance().library()->model(Tables::Rubros));
     ui->cboRubro->setModel(_rubroFilter);

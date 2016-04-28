@@ -188,6 +188,11 @@ void ModelBase::removeEntity(QWidget *parent, QModelIndex &index)
     }
 }
 
+void ModelBase::removeEntity(int id)
+{
+    removeById(id);
+}
+
 EntityBasePtr ModelBase::getItem(int id) const
 {
     if (_entities.contains(id))

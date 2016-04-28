@@ -1,6 +1,9 @@
 #include "materialesmodel.h"
 #include "models/material.h"
 #include "views/dlgmaterialeditor.h"
+#include <QMessageBox>
+
+
 
 MaterialesModel::MaterialesModel(IModel *materiales, QObject *parent) : IModel(parent)
 {
@@ -127,7 +130,30 @@ void MaterialesModel::editEntity(int row)
 
 void MaterialesModel::removeEntity(QWidget *parent, QModelIndex &index)
 {
-    _model->removeEntity(parent, index);
+    EntityBasePtr entity = getItemByRowid(index.row());
+    if (QMessageBox::question(parent, "Confirmar borrar elemento", "Desea borrar el elemento?", QMessageBox::StandardButton::Yes, QMessageBox::No) == QMessageBox::Yes)
+    {
+        removeRow(index.row(), index.parent());
+        removeEntity(entity->id());
+    }
+}
+
+void MaterialesModel::removeEntity(int id)
+{
+    _model->removeEntity(id);
+    _mapping.removeAt(_mapping.indexOf(id));
+}
+
+
+bool MaterialesModel::removeRow(int row, const QModelIndex &parent)
+{
+    beginRemoveRows(parent, row, row);
+    _model->removeEntity(_mapping.at(row));
+    _mapping.removeAt(row);
+    _entities[_entityMapping.at(row)]->deleteEntity();
+    _entityMapping.removeAt(row);
+    return true;
+    endRemoveRows();
 }
 
 int MaterialesModel::columnIndex(const QString &name) const
