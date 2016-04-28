@@ -142,6 +142,11 @@ void ModelFilter::removeEntity(QWidget *parent, QModelIndex &index)
     _model->removeEntity(parent, index);
 }
 
+void ModelFilter::removeEntity(int id)
+{
+    _model->removeEntity(id);
+}
+
 int ModelFilter::columnIndex(const QString &name) const
 {
     return _model->columnIndex(name);

@@ -114,7 +114,9 @@ double ExecutionTask::cantidadRealizada() const
     }
     else
     {
-        return cantidadRealizadaAcumulada();
+        //return cantidadRealizadaAcumulada();
+        return -1.;
+
     }
 }
 

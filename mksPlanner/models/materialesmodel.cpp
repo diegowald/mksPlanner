@@ -140,9 +140,9 @@ void MaterialesModel::removeEntity(QWidget *parent, QModelIndex &index)
 
 void MaterialesModel::removeEntity(int id)
 {
-    _model->removeEntity(id);
+    /*_model->removeEntity(id);
     _mapping.removeAt(_mapping.indexOf(id));
-}
+*/}
 
 
 bool MaterialesModel::removeRow(int row, const QModelIndex &parent)
@@ -150,9 +150,6 @@ bool MaterialesModel::removeRow(int row, const QModelIndex &parent)
     beginRemoveRows(parent, row, row);
     _model->removeEntity(_mapping.at(row));
     _mapping.removeAt(row);
-    _entities[_entityMapping.at(row)]->deleteEntity();
-    _entityMapping.removeAt(row);
-    return true;
     endRemoveRows();
 }
 

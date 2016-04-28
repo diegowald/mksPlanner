@@ -1,7 +1,7 @@
 #include "tareasmodel.h"
 #include "models/material.h"
 #include "views/dlgmaterialeditor.h"
-
+#include <QMessageBox>
 
 TareasModel::TareasModel(IModel *materiales, QObject *parent) : IModel(parent)
 {
@@ -139,8 +139,8 @@ void TareasModel::removeEntity(QWidget *parent, QModelIndex &index)
 
 void TareasModel::removeEntity(int id)
 {
-    _model->removeEntity(id);
-    _mapping.removeAt(_mapping.indexOf(id));
+/*    _model->removeEntity(id);
+    _mapping.removeAt(_mapping.indexOf(id));*/
 }
 
 int TareasModel::columnIndex(const QString &name) const

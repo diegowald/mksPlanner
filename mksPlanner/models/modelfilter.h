@@ -47,6 +47,7 @@ public:
     virtual void addEntity(EntityBasePtr entity) override;
     virtual void editEntity(int row) override;
     virtual void removeEntity(QWidget *parent, QModelIndex &index) override;
+    virtual void removeEntity(int id) override;
     virtual int columnIndex(const QString &name) const override;
     virtual int rowFromId(int id) override;
     virtual bool insertRows(int row, int count, const QModelIndex &parent);
