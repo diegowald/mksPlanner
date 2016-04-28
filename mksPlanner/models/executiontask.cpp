@@ -17,6 +17,7 @@ ExecutionTask::ExecutionTask(int id) : EntityBase(id, true)
     _idMaterialTask = -1;
     _idProveedor = -1;
     _cantidad = 0.;
+    _cantidadRealizada = 0.;
     _fechaEstimadaInicio = QDateTime::currentDateTime();
     _fechaEstimadaInicio.setTime(QTime(0, 0, 0));
     _fechaEstimadaFin = QDateTime::currentDateTime().addDays(1);
@@ -103,6 +104,18 @@ EntityBasePtr ExecutionTask::proveedor() const
 double ExecutionTask::cantidad() const
 {
     return _cantidad;
+}
+
+double ExecutionTask::cantidadRealizada() const
+{
+    if (_isSplittedPart)
+    {
+        return _cantidadRealizada;
+    }
+    else
+    {
+        return cantidadRealizadaAcumulada();
+    }
 }
 
 QDateTime ExecutionTask::fechaEstimadaInicio() const
@@ -457,6 +470,11 @@ QString ExecutionTask::cantidadToString() const
     return c.toString();
 }
 
+QString ExecutionTask::cantidadRealizadaToString() const
+{
+    Cantidad c(cantidadRealizada());
+    return c.toString();
+}
 
 double ExecutionTask::rendimientoReal() const
 {

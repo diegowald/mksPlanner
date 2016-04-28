@@ -36,6 +36,7 @@ public:
     int idProveedor() const;
     EntityBasePtr proveedor() const;
     double cantidad() const;
+    double cantidadRealizada() const;
     QDateTime fechaEstimadaInicio() const;
     QDateTime fechaEstimadaFin() const;
     QDateTime fechaRealInicio() const;
@@ -67,9 +68,6 @@ public:
 
     void setIdCertificacion(int idCertificacion);
 
-
-
-
     void setIdProyecto(int idProyecto);
 
     QMap<QString, CantidadPtr> listadoMateriales() const;
@@ -82,6 +80,7 @@ public:
     void setIsSplittedPart(bool value);
 
     QString cantidadToString() const;
+    QString cantidadRealizadaToString() const;
 
 public:
     virtual QString toDebugString();
@@ -102,6 +101,7 @@ private:
     int _idMaterialTask;
     int _idProveedor;
     double _cantidad;
+    double _cantidadRealizada;
     QDateTime _fechaEstimadaInicio;
     QDateTime _fechaEstimadaFin;
     QDateTime _fechaRealInicio;
