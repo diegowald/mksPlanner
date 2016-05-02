@@ -209,7 +209,7 @@ EntityBasePtr ModelBase::getItemByRowid(int row) const
     qDebug() << _entityMapping.contains(row);
     if (_entityMapping.contains(row))
         qDebug() << _entityMapping[row];*/
-    if (row == -1)
+    if ((row == -1) || (_entityMapping.count() == 0))
         return EntityBasePtr();
     else
         return getItem(_entityMapping[row]);

@@ -19,6 +19,7 @@ public:
 
     virtual void defineColumnNames();
 
+
     TareaCertificadoPtr cast(EntityBasePtr entity);
 
 signals:

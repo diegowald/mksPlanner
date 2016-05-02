@@ -190,3 +190,4 @@ void Certificado::setFechaPago(const QDate &value)
     _fechaPago = value;
     updateStatus();
 }
+

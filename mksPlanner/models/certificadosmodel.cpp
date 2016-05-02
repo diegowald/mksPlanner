@@ -111,8 +111,10 @@ void CertificadosModel::defineColumnNames()
         case Qt::DisplayRole:
         case Qt::EditRole:
             v = cast(e)->nroCertificado();
+            break;
         default:
             v = QVariant();
+            break;
         }
         return v;
     });

@@ -237,3 +237,6 @@ TareaCertificadoPtr TareaCertificadosModel::cast(EntityBasePtr entity)
 {
     return qSharedPointerDynamicCast<TareaCertificado>(entity);
 }
+
+
+
