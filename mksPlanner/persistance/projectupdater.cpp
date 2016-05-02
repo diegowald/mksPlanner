@@ -7,6 +7,7 @@ ProjectUpdater::ProjectUpdater(QObject *parent) : Updater(parent)
     scriptsVersion2();
     scriptsVersion3();
     scriptsVersion4();
+    scriptsVersion5();
 }
 
 void ProjectUpdater::scriptsVersion1()
@@ -131,4 +132,12 @@ void ProjectUpdater::scriptsVersion4()
     addCommand(4, "ALTER TABLE certificados ADD COLUMN `fechaPago` TEXT;");
 
     addCommand(4, "UPDATE version set versionInfo = 4;");
+}
+
+
+void ProjectUpdater::scriptsVersion5()
+{
+    addCommand(4, "ALTER TABLE tareasEjecucion ADD COLUMN `cantidadRealizada` NUMBER;");
+
+    addCommand(4, "UPDATE version set versionInfo = 5;");
 }

@@ -131,14 +131,16 @@ QVariant ExecutionTaskModelAdapter::headerData( int section, Qt::Orientation ori
     case 8:
         return tr("Cantidad");
     case 9:
-        return tr("Duración");
+        return tr("Cantidad Realizada");
     case 10:
-        return tr("Costo");
+        return tr("Duración");
     case 11:
-        return tr("Precio");
+        return tr("Costo");
     case 12:
-        return tr("Fecha Inicio Planificada");
+        return tr("Precio");
     case 13:
+        return tr("Fecha Inicio Planificada");
+    case 14:
         return tr("Fecha Finalizacion Planificada");
     default:
         return QVariant();
@@ -207,7 +209,10 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
         {
         case Qt::DisplayRole:
         case Qt::EditRole:
-            return p->pctCompletado();
+            if (p->isSplittedPart())
+                return p->pctCompletadoInSubTask();
+            else
+                return p->pctCompletado();
         }
     }
     else if (idx.column() == 5 && role == Qt::DisplayRole)
@@ -249,23 +254,33 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
             return p->cantidad();
         }
     }
-    else if (idx.column() == 9 && role == Qt::DisplayRole)
+    else if (idx.column() == 9)
     {
-        return p->duracion();
+        switch (role)
+        {
+        case Qt::DisplayRole:
+            return p->cantidadRealizadaToString();
+        case Qt::EditRole:
+            return p->cantidadRealizada();
+        }
     }
     else if (idx.column() == 10 && role == Qt::DisplayRole)
     {
-        return p->costo();
+        return p->duracion();
     }
     else if (idx.column() == 11 && role == Qt::DisplayRole)
     {
-        return p->precio();
+        return p->costo();
     }
     else if (idx.column() == 12 && role == Qt::DisplayRole)
     {
-        return p->fechaEstimadaInicio().date().toString();
+        return p->precio();
     }
     else if (idx.column() == 13 && role == Qt::DisplayRole)
+    {
+        return p->fechaEstimadaInicio().date().toString();
+    }
+    else if (idx.column() == 14 && role == Qt::DisplayRole)
     {
         return p->fechaEstimadaFin().date().toString();
     }
@@ -529,16 +544,19 @@ void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *n
         ExecutionTaskModel::Node *n1 = new ExecutionTaskModel::Node(e1);
         ExecutionTaskPtr et1 = qSharedPointerDynamicCast<ExecutionTask>(e1);
         et1->copyDataFrom(tp);
+        et1->setPctCompletado(tp->pctCompletado());
         et1->setIdCertificacion(tp->idCertificacion());
         et1->setIdTareaPadre(tp->id());
-        et1->setPctCompletado(100);
-        et1->setCantidad(pct * tp->cantidad() / 100.0);
         QDateTime dt2 = QDateTime(tp->fechaRealInicio().date(), QTime(12, 0, 0, 0));
         et1->setFechaRealInicio(dt2);
         et1->setFechaEstimadaInicio(dt2);
         et1->setFechaEstimadaFin(QDateTime(dt, QTime(12, 0, 0, 0)));
         et1->setFechaRealFin(QDateTime(dt, QTime(12, 0, 0, 0)));
         et1->setIsSplittedPart(true);
+        if (!useDialog)
+        {
+            et1->markAsCompleted();
+        }
         node->addChild(n1);
 
         EntityBasePtr e2 = _model->createEntity();

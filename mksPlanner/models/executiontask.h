@@ -24,7 +24,7 @@ public:
                           const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType,
                            int idTareaPlanificada, double pctCompletado,
                            const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin, bool isSplittedPart,
-                           int idCertificacion);
+                           int idCertificacion, double cantidadRealizada);
 
     int idPlanningTask() const;
     EntityBasePtr planningTask() const;
@@ -47,6 +47,7 @@ public:
     QString tooltip() const;
     KDGantt::ItemType taskType() const;
     double pctCompletado() const;
+    double pctCompletadoInSubTask() const;
     double rendimientoReal() const;
     bool canStart() const;
     int idCertificacion() const;
@@ -65,6 +66,7 @@ public:
     void setFechaRealFin(const QDateTime &value);
     void setTaskType(KDGantt::ItemType value);
     void setPctCompletado(double value);
+    void markAsCompleted();
 
     void setIdCertificacion(int idCertificacion);
 
@@ -106,7 +108,7 @@ private:
     QDateTime _fechaEstimadaFin;
     QDateTime _fechaRealInicio;
     QDateTime _fechaRealFin;
-    double _pctCompletado;
+    //double _pctCompletado;
     KDGantt::ItemType _taskType;
     bool _isSplittedPart;
     int _idCertificacion;

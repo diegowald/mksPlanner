@@ -14,6 +14,7 @@ private:
     void scriptsVersion2();
     void scriptsVersion3();
     void scriptsVersion4();
+    void scriptsVersion5();
 
 };
 

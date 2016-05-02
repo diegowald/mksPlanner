@@ -55,7 +55,14 @@ DlgEditExecutionTask::DlgEditExecutionTask(ExecutionTaskModel* model, EntityBase
         ui->dateFecharealFinalizacion->setDateTime(p->fechaRealFin());
         ui->spinPct->setMinimum(0.);
         ui->spinPct->setMaximum(100.0);
-        ui->spinPct->setValue(p->pctCompletado());
+        if (p->cantidadRealizada() == 0)
+        {
+            ui->spinPct->setValue(0.);
+        }
+        else
+        {
+            ui->spinPct->setValue(p->pctCompletado());
+        }
     }
 
     TableWindow *t = new TableWindow("", this);
