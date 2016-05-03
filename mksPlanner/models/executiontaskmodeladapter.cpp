@@ -597,17 +597,8 @@ void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node
     QDate fechaSplit;
     QDate dt = QDate::currentDate();
 
-    double cantTotal = 0.;
-    double cantRealizada = 0.;
-    for (int i = 0; i < node->childCount(); ++i)
-    {
-        ExecutionTaskPtr t = qSharedPointerDynamicCast<ExecutionTask>(node->child(i)->entity());
-        cantTotal += t->cantidad();
-        if (t->pctCompletado() == 100.0)
-        {
-            cantRealizada += t->cantidad();
-        }
-    }
+    double cantTotal = tp->cantidad();
+    double cantRealizada = tp->cantidadRealizada();
 
     if (useDialog)
     {

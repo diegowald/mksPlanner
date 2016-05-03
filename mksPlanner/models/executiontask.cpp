@@ -373,13 +373,17 @@ QMap<QString, CantidadPtr> ExecutionTask::listadoMateriales() const
 
 QList<ExecutionTaskPtr> ExecutionTask::child() const
 {
-    return _child;
+    IModel *m = GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::ExecutionTasks);
+    ExecutionTaskModel *etm= static_cast<ExecutionTaskModel*>(m);
+    QSet<int> childIds = etm->childIds(id());
+    QList<ExecutionTaskPtr> result;
+    foreach (int id, childIds.values())
+    {
+        result.append(etm->cast(etm->getItem(id)));
+    }
+    return result;
 }
 
-void ExecutionTask::addSubTask(ExecutionTaskPtr task)
-{
-    _child.append(task);
-}
 
 KDGantt::ItemType ExecutionTask::taskType() const
 {

@@ -83,6 +83,7 @@ void ProjectWindow::setModel(IModel *model)
     _mapper->setCurrentIndex(0);
     _mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
 
+
     updateBotonesEstados();
     ui->tabWidget->setCurrentIndex(1);
     ui->tabWidget->setCurrentIndex(0);

@@ -75,7 +75,7 @@ public:
     QMap<QString, CantidadPtr> listadoMateriales() const;
 
     QList<ExecutionTaskPtr> child() const;
-    void addSubTask(ExecutionTaskPtr task);
+
     bool canBeSplitted() const;
 
     bool isSplittedPart() const;
@@ -90,7 +90,6 @@ public:
 
 private:
     QString tablaListadoMateriales() const;
-    double calculatePctBasedOnParent() const;
 
 signals:
 
@@ -115,7 +114,6 @@ private:
 
     int _idProyecto;
     //PlanningTask *_parent;
-    QList<ExecutionTaskPtr> _child;
 };
 
 #endif // EXECUTIONTASK_H
