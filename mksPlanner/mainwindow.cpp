@@ -183,16 +183,21 @@ void MainWindow::closeEvent(QCloseEvent *evt)
     {
         QMessageBox::StandardButton resBtn = QMessageBox::question( this, "mksPlanner",
                                                                     "Guarda biblioteca?",
-                                                                    QMessageBox::Cancel /*| QMessageBox::No */| QMessageBox::Yes,
+                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
                                                                     QMessageBox::Yes);
-        if (resBtn != QMessageBox::Yes)
+        switch(resBtn)
         {
-            evt->ignore();
-        }
-        else
-        {
+        case QMessageBox::Yes:
             on_actionSave_Material_Library_triggered();
             evt->accept();
+            break;
+        case QMessageBox::No:
+            evt->accept();
+            break;
+        case QMessageBox::Cancel:
+        default:
+            evt->ignore();
+            break;
         }
     }
 

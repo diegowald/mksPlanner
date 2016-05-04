@@ -143,6 +143,13 @@ void TareasModel::removeEntity(int id)
     _mapping.removeAt(_mapping.indexOf(id));*/
 }
 
+bool TareasModel::removeRow(int row, const QModelIndex &parent)
+{
+    beginRemoveRows(parent, row, row);
+    _model->removeEntity(_mapping.at(row));
+    _mapping.removeAt(row);
+    endRemoveRows();
+}
 int TareasModel::columnIndex(const QString &name) const
 {
     return _model->columnIndex(name);
