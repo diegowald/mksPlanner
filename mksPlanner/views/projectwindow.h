@@ -98,7 +98,7 @@ private:
 
     void updateCertificacionView(EntityBasePtr certificacion);
     void recalcularTotalesCertificado(EntityBasePtr certificacion);
-    void certiicarTareasEnEjecucion(EntityBasePtr certificaion);
+    void certificarTareasEnEjecucion(EntityBasePtr certificaion);
 
 private:
     Ui::ProjectWindow *ui;

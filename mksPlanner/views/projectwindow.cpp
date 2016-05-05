@@ -673,7 +673,7 @@ void ProjectWindow::on_btnAbonado_released()
     }
 }
 
-void ProjectWindow::certiicarTareasEnEjecucion(EntityBasePtr certificaion)
+void ProjectWindow::certificarTareasEnEjecucion(EntityBasePtr certificaion)
 {
     QSet<int> ids = _tareasCertificacionEnProceso->ids();
     foreach (int id, ids.values())
@@ -692,7 +692,7 @@ void ProjectWindow::on_btnEmitido_released()
     cert->setCertificacionStatus(Certificacion::CertificacionStatus::Emitido);
 
     _tareasCertificacionEnProceso->refreshData();
-    certiicarTareasEnEjecucion(cert);
+    certificarTareasEnEjecucion(cert);
 
     QSet<int> ids = _tareasCertificacionEnProceso->ids();
     foreach (int id, ids.values())

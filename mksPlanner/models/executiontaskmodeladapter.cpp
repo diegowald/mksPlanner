@@ -536,6 +536,8 @@ void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *n
     else
     {
         performSplit = true;
+        pct = tp->pctCompletado();
+        dt = date;
     }
 
     if (performSplit)
@@ -544,7 +546,7 @@ void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *n
         ExecutionTaskModel::Node *n1 = new ExecutionTaskModel::Node(e1);
         ExecutionTaskPtr et1 = qSharedPointerDynamicCast<ExecutionTask>(e1);
         et1->copyDataFrom(tp);
-        et1->setPctCompletado(tp->pctCompletado());
+        et1->setPctCompletado(pct/*tp->pctCompletado()*/);
         et1->setIdCertificacion(tp->idCertificacion());
         et1->setIdTareaPadre(tp->id());
         QDateTime dt2 = QDateTime(tp->fechaRealInicio().date(), QTime(12, 0, 0, 0));
