@@ -635,7 +635,7 @@ void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node
         double cantidadParcial = pct * cantTotal - cantRealizada;
         ExecutionTaskPtr et1 = qSharedPointerDynamicCast<ExecutionTask>(e1);
         et1->setCantidad(cantidadParcial);
-        et1->setPctCompletado(100);
+        et1->setPctCompletado(pct);
         QDateTime dt2 = tp->fechaRealInicio();
         et1->setFechaEstimadaFin(QDateTime(dt, QTime(12, 0, 0, 0)));
         et1->setFechaRealFin(QDateTime(dt, QTime(12, 0, 0, 0)));
