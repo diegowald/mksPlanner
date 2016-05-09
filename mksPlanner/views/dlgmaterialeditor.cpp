@@ -92,7 +92,8 @@ void dlgMaterialEditor::on_buttonBox_accepted()
         material->setUnit(unit->id());
     }
 
-    entity = GlobalContainer::instance().library()->model(Tables::Rubros)->getItemByRowid(ui->cboRubro->currentIndex());
+    //entity = GlobalContainer::instance().library()->model(Tables::Rubros)->getItemByRowid(ui->cboRubro->currentIndex());
+    entity = _rubroFilter->getItemByRowid(ui->cboRubro->currentIndex());
     if (!entity.isNull())
     {
         RubroPtr rubro = qSharedPointerDynamicCast<Rubro>(entity);

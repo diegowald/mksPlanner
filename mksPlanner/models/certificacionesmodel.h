@@ -11,7 +11,7 @@ public:
     explicit CertificacionesModel(int idProyecto, QObject *parent = 0);
 
     virtual void editEntity(int row);
-    int idCertificacionProxima(const QDate &fecha) const;
+    int idCertificacionProxima(const QDate &fecha, bool onlyEnPreparacion) const;
     CertificacionPtr cast(EntityBasePtr entity);
 
     QDate maxDateRealizada();

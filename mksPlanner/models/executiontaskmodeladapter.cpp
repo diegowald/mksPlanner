@@ -424,36 +424,39 @@ Qt::ItemFlags ExecutionTaskModelAdapter::flags( const QModelIndex& idx) const
     ProyectoPtr p = qSharedPointerDynamicCast<Proyecto>(_proyecto);
     Qt::ItemFlags f = QAbstractItemModel::flags(idx);
 
+
+
     if (!p.isNull() && p->projectStatus() == Proyecto::ProjectStatus::Ejecucion)
     {
         ExecutionTaskModel::Node *node = static_cast<ExecutionTaskModel::Node*>(idx.internalPointer());
         ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(node->entity());
-        if (et->pctCompletado() == 0.)
+
+        if (idx.column() == 4)
         {
-            if (idx.column() == 4)
-            {
-                if (et->canStart())
-                {
-                    f |= Qt::ItemIsEditable;
-                }
-            }
-            else
+            if (et->isPctEditable())
             {
                 f |= Qt::ItemIsEditable;
             }
         }
         else
         {
-            if (et->pctCompletado() < 100.)
+            if (et->pctCompletado() == 0.)
             {
-                switch (idx.column())
+                f |= Qt::ItemIsEditable;
+            }
+            else
+            {
+                if (et->pctCompletado() < 100.)
                 {
-                case 3:
-                case 4:
-                    f |= Qt::ItemIsEditable;
-                    break;
-                default:
-                    break;
+                    switch (idx.column())
+                    {
+                    case 3:
+                    case 4:
+                        f |= Qt::ItemIsEditable;
+                        break;
+                    default:
+                        break;
+                    }
                 }
             }
         }
@@ -546,15 +549,16 @@ void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *n
         ExecutionTaskModel::Node *n1 = new ExecutionTaskModel::Node(e1);
         ExecutionTaskPtr et1 = qSharedPointerDynamicCast<ExecutionTask>(e1);
         et1->copyDataFrom(tp);
-        et1->setPctCompletado(pct/*tp->pctCompletado()*/);
-        et1->setIdCertificacion(tp->idCertificacion());
         et1->setIdTareaPadre(tp->id());
+        et1->setIsSplittedPart(true);
+        et1->setCantidadRealizadaEnSubTarea(tp->cantidadRealizada());
+//        et1->setPctCompletado(pct/*tp->pctCompletado()*/);
+        et1->setIdCertificacion(tp->idCertificacion());
         QDateTime dt2 = QDateTime(tp->fechaRealInicio().date(), QTime(12, 0, 0, 0));
         et1->setFechaRealInicio(dt2);
         et1->setFechaEstimadaInicio(dt2);
         et1->setFechaEstimadaFin(QDateTime(dt, QTime(12, 0, 0, 0)));
         et1->setFechaRealFin(QDateTime(dt, QTime(12, 0, 0, 0)));
-        et1->setIsSplittedPart(true);
         if (!useDialog)
         {
             et1->markAsCompleted();
@@ -566,6 +570,7 @@ void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *n
         ExecutionTaskPtr et2 = qSharedPointerDynamicCast<ExecutionTask>(e2);
         et2->copyDataFrom(tp);
         et2->setIdTareaPadre(tp->id());
+        et2->setIsSplittedPart(true);
 
         et2->setFechaRealInicio(QDateTime(dt, QTime(12, 0, 0, 0)));
         et2->setFechaEstimadaInicio(QDateTime(dt, QTime(12, 0, 0, 0)));
@@ -577,10 +582,10 @@ void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *n
         }
         et2->setFechaRealFin(dt3);
         et2->setFechaEstimadaFin(dt3);
-        et2->setIsSplittedPart(true);
         et2->setCantidad(tp->cantidad() - et1->cantidad());
         et2->setIdCertificacion(-1);
-        et2->setPctCompletado(0.);
+        //et2->setPctCompletado(0.);
+        et2->setCantidadRealizadaEnSubTarea(0.);
         node->addChild(n2);
 
         tp->setTaskType(KDGantt::TypeMulti);
@@ -645,6 +650,7 @@ void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node
         ExecutionTaskModel::Node *n2 = new ExecutionTaskModel::Node(e2);
         ExecutionTaskPtr et2 = qSharedPointerDynamicCast<ExecutionTask>(e2);
         et2->setIdTareaPadre(tp->id());
+        et2->setIsSplittedPart(true);
         et2->setFechaRealInicio(QDateTime(dt, QTime(12, 0, 0, 0)));
         et2->setFechaEstimadaInicio(QDateTime(dt, QTime(12, 0, 0, 0)));
         et2->setIdCertificacion(-1);
@@ -656,11 +662,11 @@ void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node
         }
         et2->setFechaRealFin(dt3);
         et2->setFechaEstimadaFin(dt3);
-        et2->setIsSplittedPart(true);
         et2->setCantidad(cantTotal * 1 - pct / 100.0);
         node->addChild(n2);
 
         tp->setTaskType(KDGantt::TypeMulti);
+        tp->setIdCertificacion(-1);
     }
 }
 

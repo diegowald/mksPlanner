@@ -216,6 +216,12 @@ void ExecutionTask::setCantidad(double value)
     updateStatus();
 }
 
+void ExecutionTask::setCantidadRealizadaEnSubTarea(double value)
+{
+    _cantidadRealizada = value;
+    updateStatus();
+}
+
 void ExecutionTask::setFechaEstimadaInicio(const QDateTime &value)
 {
     _fechaEstimadaInicio = value;
@@ -445,21 +451,64 @@ void ExecutionTask::markAsCompleted()
 
 void ExecutionTask::setPctCompletado(double value)
 {
-    if (_isSplittedPart || (child().count() == 0))
+    if (value != pctCompletado())
     {
-        double realizadoNuevo = value / 100. * cantidad();
-        double hecho = cantidadRealizada() - _cantidadRealizada;
-        double hechoEnEstaTarea = realizadoNuevo - hecho;
-        if (hechoEnEstaTarea != _cantidadRealizada)
+        if (!_isSplittedPart)
         {
-            if (_cantidadRealizada == 0.)
+            double realizadoNuevo = value / 100. * cantidad();
+            double hecho = cantidadRealizada() - _cantidadRealizada;
+            double hechoEnEstaTarea = realizadoNuevo - hecho;
+            int idCertificacionNueva = -1;
+            if (hechoEnEstaTarea != _cantidadRealizada)
             {
-                CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
-                int id = m->idCertificacionProxima(fechaRealInicio().date());
-                setIdCertificacion(id);
+                if (_cantidadRealizada == 0.)
+                {
+                    CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
+                    idCertificacionNueva = m->idCertificacionProxima(fechaRealInicio().date(), true);
+                }
             }
-            _cantidadRealizada = hechoEnEstaTarea;
-            updateStatus();
+
+            if (child().count() == 0)
+            {
+                _cantidadRealizada = hechoEnEstaTarea;
+                if (idCertificacionNueva != -1)
+                {
+                    setIdCertificacion(idCertificacionNueva);
+                }
+                updateStatus();
+            }
+            else
+            {
+                // debo buscar la tarea hija que esta en proceso de realizacion y ya tiene asignado
+                // la certificacion en curso, o bien, esta en cero.
+                CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
+                idCertificacionNueva = m->idCertificacionProxima(fechaRealInicio().date(), true);
+
+                ExecutionTaskPtr primerTareaSinCertificacion;
+                ExecutionTaskPtr tareaConCertificacion;
+                primerTareaSinCertificacion.clear();
+                tareaConCertificacion.clear();
+
+                foreach(ExecutionTaskPtr et, child())
+                {
+                    if (et->idCertificacion() == -1)
+                    {
+                        if (primerTareaSinCertificacion.isNull())
+                        {
+                            primerTareaSinCertificacion = et;
+                        }
+                    }
+                    else if (et->idCertificacion() == idCertificacionNueva)
+                    {
+                        tareaConCertificacion = et;
+                    }
+                }
+                ExecutionTaskPtr subTask = (tareaConCertificacion.isNull()) ?
+                            primerTareaSinCertificacion : tareaConCertificacion;
+
+                subTask->setCantidadRealizadaEnSubTarea(hechoEnEstaTarea);
+                subTask->setIdCertificacion(idCertificacionNueva);
+            }
         }
     }
 }
@@ -474,6 +523,25 @@ bool ExecutionTask::canBeSplitted() const
     return result;
 }
 
+bool ExecutionTask::isPctEditable() const
+{
+    bool result = false;
+
+    if (!_isSplittedPart)
+    {
+        CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
+        int id = m->idCertificacionProxima(fechaRealInicio().date(), true);
+
+
+        if (id != -1)
+        {
+            CertificacionPtr c = m->cast(m->getItem(id));
+            if (c->certificacionStatus() == Certificacion::CertificacionStatus::Preparacion)
+                result = true;
+        }
+    }
+    return result;
+}
 bool ExecutionTask::isSplittedPart() const
 {
     return _isSplittedPart;
@@ -527,7 +595,7 @@ void ExecutionTask::setIdCertificacion(int idCertificacion)
 bool ExecutionTask::canStart() const
 {
     CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
-    int id = m->idCertificacionProxima(fechaRealInicio().date());
+    int id = m->idCertificacionProxima(fechaRealInicio().date(), true);
     return id >= 1;
 }
 

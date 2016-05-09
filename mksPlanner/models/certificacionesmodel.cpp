@@ -121,14 +121,19 @@ CertificacionPtr CertificacionesModel::cast(EntityBasePtr entity)
     return qSharedPointerDynamicCast<Certificacion>(entity);
 }
 
-int CertificacionesModel::idCertificacionProxima(const QDate &fecha) const
+int CertificacionesModel::idCertificacionProxima(const QDate &fecha, bool onlyEnPreparacion) const
 {
     CertificacionPtr c;
     foreach (int id, ids())
     {
         EntityBasePtr e = getItem(id);
         CertificacionPtr cert = qSharedPointerDynamicCast<Certificacion>(e);
-        if (fecha < cert->fechaCertificacion())
+
+        bool usarFecha = onlyEnPreparacion ?
+                    (cert->certificacionStatus() == Certificacion::CertificacionStatus::Preparacion) :
+                    true;
+
+        if (usarFecha && (fecha < cert->fechaCertificacion()))
         {
             if (c.isNull())
             {

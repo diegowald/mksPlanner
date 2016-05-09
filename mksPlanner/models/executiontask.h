@@ -60,6 +60,7 @@ public:
     void setIdMaterialTask(int value);
     void setIdProveedor(int value);
     void setCantidad(double value);
+    void setCantidadRealizadaEnSubTarea(double value);
     void setFechaEstimadaInicio(const QDateTime &value);
     void setFechaEstimadaFin(const QDateTime &value);
     void setFechaRealInicio(const QDateTime &value);
@@ -77,6 +78,7 @@ public:
     QList<ExecutionTaskPtr> child() const;
 
     bool canBeSplitted() const;
+    bool isPctEditable() const;
 
     bool isSplittedPart() const;
     void setIsSplittedPart(bool value);
