@@ -551,7 +551,10 @@ void ExecutionTaskModelAdapter::splitTaskNotSplitted(ExecutionTaskModel::Node *n
         et1->copyDataFrom(tp);
         et1->setIdTareaPadre(tp->id());
         et1->setIsSplittedPart(true);
-        et1->setCantidadRealizadaEnSubTarea(tp->cantidadRealizada());
+        double cantRealizadaEnSubTarea = tp->cantidad() * pct / 100.;
+
+        et1->setCantidadRealizadaEnSubTarea(cantRealizadaEnSubTarea);
+
 //        et1->setPctCompletado(pct/*tp->pctCompletado()*/);
         et1->setIdCertificacion(tp->idCertificacion());
         QDateTime dt2 = QDateTime(tp->fechaRealInicio().date(), QTime(12, 0, 0, 0));
@@ -600,7 +603,7 @@ void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node
 
     bool performSplit = false;
 
-    double pct;
+    double pct = 0.0;
     QDate fechaSplit;
     QDate dt = QDate::currentDate();
 
@@ -637,10 +640,16 @@ void ExecutionTaskModelAdapter::splitTaskSplitted(ExecutionTaskModel::Node *node
     if (performSplit)
     {
         EntityBasePtr e1 = node->child(node->childCount() - 1)->entity();
-        double cantidadParcial = pct * cantTotal - cantRealizada;
+        double cantidadCertificada = tp->cantidadCertificada();
+        double cantidadHechaEnSubtarea = cantRealizada - cantidadCertificada;
         ExecutionTaskPtr et1 = qSharedPointerDynamicCast<ExecutionTask>(e1);
-        et1->setCantidad(cantidadParcial);
-        et1->setPctCompletado(pct);
+        et1->setCantidadRealizadaEnSubTarea(cantidadHechaEnSubtarea);
+//        et1->setPctCompletado(pct); Esto hay que corregir
+        if (!useDialog)
+        {
+            et1->markAsCompleted();
+        }
+
         QDateTime dt2 = tp->fechaRealInicio();
         et1->setFechaEstimadaFin(QDateTime(dt, QTime(12, 0, 0, 0)));
         et1->setFechaRealFin(QDateTime(dt, QTime(12, 0, 0, 0)));

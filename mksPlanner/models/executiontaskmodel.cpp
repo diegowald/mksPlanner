@@ -773,7 +773,7 @@ int ExecutionTaskModel::_loadEntity(QSqlRecord record)
     QDateTime fechaEstimadaFin = record.value(record.indexOf("fechaEstimadaFin")).toDateTime();
     KDGantt::ItemType taskType = static_cast<KDGantt::ItemType>(record.value(record.indexOf("taskType")).toInt());
     int idTareaPlanificada = record.value(record.indexOf("idTareaPlanificada")).toInt();
-    double pctAvance = record.value(record.indexOf("pctAvance")).toDouble();
+    //double pctAvance = record.value(record.indexOf("pctAvance")).toDouble();
     QDateTime fechaRealInicio = record.value(record.indexOf("fecharealInicio")).toDateTime();
     QDateTime fechaRealFin = record.value(record.indexOf("fechaRealFin")).toDateTime();
     bool isSplittedTask = record.value(record.indexOf("isSplitted")).toBool();
@@ -784,7 +784,7 @@ int ExecutionTaskModel::_loadEntity(QSqlRecord record)
                                                     name, idMaterialTask, idProveedor,
                                                     cantidad, fechaEstimadaInicio, fechaEstimadaFin,
                                                     taskType, idTareaPlanificada,
-                                                    pctAvance, fechaRealInicio, fechaRealFin, isSplittedTask, idCertificacion,
+                                                    fechaRealInicio, fechaRealFin, isSplittedTask, idCertificacion,
                                                     cantidadRealizada);
 
     qSharedPointerDynamicCast<ExecutionTask>(entity)->setIdProyecto(_idProyecto);

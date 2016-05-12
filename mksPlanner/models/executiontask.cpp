@@ -37,7 +37,7 @@ ExecutionTask::ExecutionTask(int id, int idTareaPadre, const QString &name,
                              int idMaterialTask, int idProveedor,
                              double cantidad, const QDateTime &fechaEstimadaInicio,
                              const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType,
-                             int idTareaPlanificada, double pctCompletado, const QDateTime &fechaRealInicio,
+                             int idTareaPlanificada, const QDateTime &fechaRealInicio,
                              const QDateTime &fechaRealFin, bool isSplittedPart, int idCertificacion,
                              double cantidadRealizada) : EntityBase(id, false)
 {
@@ -134,6 +134,30 @@ double ExecutionTask::cantidadRealizada() const
         }
         return cantR;
     }
+}
+
+double ExecutionTask::cantidadCertificada() const
+{
+    double cantCertificada = 0.;
+    if (!_isSplittedPart)
+    {
+        foreach (ExecutionTaskPtr et, child())
+        {
+            cantCertificada += et->cantidadCertificada();
+        }
+    }
+    else
+    {
+        // es una parte splitted
+        CertificacionesModel *m = dynamic_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
+        if (_idCertificacion != -1)
+        {
+            CertificacionPtr cert = m->cast(m->getItem(_idCertificacion));
+            cantCertificada += (cert->certificacionStatus() == Certificacion::CertificacionStatus::Emitido) ? _cantidadRealizada : 0;
+        }
+    }
+
+    return cantCertificada;
 }
 
 QDateTime ExecutionTask::fechaEstimadaInicio() const
@@ -456,7 +480,7 @@ void ExecutionTask::setPctCompletado(double value)
         if (!_isSplittedPart)
         {
             double realizadoNuevo = value / 100. * cantidad();
-            double hecho = cantidadRealizada() - _cantidadRealizada;
+            double hecho = cantidadRealizada() - cantidadCertificada();
             double hechoEnEstaTarea = realizadoNuevo - hecho;
             int idCertificacionNueva = -1;
             if (hechoEnEstaTarea != _cantidadRealizada)
@@ -506,7 +530,9 @@ void ExecutionTask::setPctCompletado(double value)
                 ExecutionTaskPtr subTask = (tareaConCertificacion.isNull()) ?
                             primerTareaSinCertificacion : tareaConCertificacion;
 
+                hechoEnEstaTarea = hechoEnEstaTarea - cantidadCertificada();
                 subTask->setCantidadRealizadaEnSubTarea(hechoEnEstaTarea);
+                subTask->setCantidad(_cantidad - cantidadCertificada());
                 subTask->setIdCertificacion(idCertificacionNueva);
             }
         }

@@ -689,10 +689,12 @@ void ProjectWindow::certificarTareasEnEjecucion(EntityBasePtr certificaion)
 void ProjectWindow::on_btnEmitido_released()
 {
     CertificacionPtr cert = qSharedPointerDynamicCast<Certificacion>(_certificacionesModel->getItem(_idCertificacionSeleccionada));
-    cert->setCertificacionStatus(Certificacion::CertificacionStatus::Emitido);
+
 
     _tareasCertificacionEnProceso->refreshData();
     certificarTareasEnEjecucion(cert);
+
+    cert->setCertificacionStatus(Certificacion::CertificacionStatus::Emitido);
 
     QSet<int> ids = _tareasCertificacionEnProceso->ids();
     foreach (int id, ids.values())

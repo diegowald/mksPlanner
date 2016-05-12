@@ -22,7 +22,7 @@ public:
                           int idMaterialTask, int idProveedor,
                           double cantidad, const QDateTime &fechaEstimadaInicio,
                           const QDateTime &fechaEstimadaFin, KDGantt::ItemType taskType,
-                           int idTareaPlanificada, double pctCompletado,
+                           int idTareaPlanificada,
                            const QDateTime &fechaRealInicio, const QDateTime &fechaRealFin, bool isSplittedPart,
                            int idCertificacion, double cantidadRealizada);
 
@@ -37,6 +37,7 @@ public:
     EntityBasePtr proveedor() const;
     double cantidad() const;
     double cantidadRealizada() const;
+    double cantidadCertificada() const;
     QDateTime fechaEstimadaInicio() const;
     QDateTime fechaEstimadaFin() const;
     QDateTime fechaRealInicio() const;
@@ -109,7 +110,6 @@ private:
     QDateTime _fechaEstimadaFin;
     QDateTime _fechaRealInicio;
     QDateTime _fechaRealFin;
-    //double _pctCompletado;
     KDGantt::ItemType _taskType;
     bool _isSplittedPart;
     int _idCertificacion;
