@@ -119,6 +119,33 @@ double PlanningTask::precio() const
     return -1;
 }
 
+double PlanningTask::costoMateriales() const
+{
+    if (_idMaterialTask != -1)
+    {
+        CostoMaterialesModel *model = qobject_cast<CostoMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
+        CostoMaterialPtr costo = qSharedPointerDynamicCast<CostoMaterial>(model->getItemByIdMaterial(_idMaterialTask));
+
+        MaterialPtr mat = qSharedPointerDynamicCast<Material>(GlobalContainer::instance().library()->model(Tables::Tareas)->getItem(_idMaterialTask));
+
+/*        if (!costo.isNull())
+            return _cantidad * costo->costo();*/
+    }
+    return -1;
+}
+
+double PlanningTask::precioMateriales() const
+{
+    if (_idMaterialTask != -1)
+    {
+        CostoMaterialesModel *model = qobject_cast<CostoMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
+        CostoMaterialPtr costo = qSharedPointerDynamicCast<CostoMaterial>(model->getItemByIdMaterial(_idMaterialTask));
+        if (!costo.isNull())
+            return _cantidad * costo->precio();
+    }
+    return -1;
+}
+
 void PlanningTask::setIdTareaPadre(int value)
 {
     _idTareaPadre = value;

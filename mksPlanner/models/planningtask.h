@@ -36,6 +36,8 @@ public:
     int duracion() const;
     double costo() const;
     double precio() const;
+    double costoMateriales() const;
+    double precioMateriales() const;
     QString tooltip() const;
     KDGantt::ItemType taskType() const;
     double rendimientoPlanificado() const;

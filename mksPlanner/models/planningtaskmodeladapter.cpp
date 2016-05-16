@@ -28,7 +28,7 @@ int PlanningTaskModelAdapter::rowCount( const QModelIndex& idx ) const
 int PlanningTaskModelAdapter::columnCount( const QModelIndex& idx ) const
 {
     Q_UNUSED(idx);
-    return 13;
+    return 14;
 }
 
 QModelIndex PlanningTaskModelAdapter::index(int row, int col, const QModelIndex& parent) const
@@ -123,19 +123,23 @@ QVariant PlanningTaskModelAdapter::headerData( int section, Qt::Orientation orie
     case 5:
         return tr("Rubro");
     case 6:
-        return tr("materialTask");
+        return tr("Mano de Obra");
     case 7:
         return tr("Proveedor");
     case 8:
         return tr("Cantidad");
 /*    case 9:
         return tr("Unidad de medida");*/
-    case 10:
+    case 9:
         return tr("Duración");
+    case 10:
+        return tr("Costo M/O");
     case 11:
-        return tr("Costo");
+        return tr("Precio M/O");
     case 12:
-        return tr("Precio");
+        return tr("Costo Materiales");
+    case 13:
+        return tr("Precio Materiales");
 
     default:
         return QVariant();
@@ -246,18 +250,6 @@ QVariant PlanningTaskModelAdapter::data( const QModelIndex& idx, int role) const
             return p->cantidad();
         }
     }
-/*    else if (idx.column() == 9 && role == Qt::DisplayRole)
-    {
-        if (p->idMaterialTask() != -1)
-        {
-            MaterialPtr m = qSharedPointerDynamicCast<Material>(p->materialTask());
-            if (m->idUnit() != -1)
-            {
-                UnitPtr unit = qSharedPointerDynamicCast<Unit>(m->unit());
-                return unit->name();
-            }
-        }
-    }*/
     else if (idx.column() == 9 && role == Qt::DisplayRole)
     {
         return p->duracion();
@@ -270,7 +262,14 @@ QVariant PlanningTaskModelAdapter::data( const QModelIndex& idx, int role) const
     {
         return p->precio();
     }
-
+    else if (idx.column() == 12 && role == Qt::DisplayRole)
+    {
+        return p->costoMateriales();
+    }
+    else if (idx.column() == 13 && role == Qt::DisplayRole)
+    {
+        return p->precioMateriales();
+    }
     if (role == Qt::ToolTipRole)
     {
         return p->tooltip();
