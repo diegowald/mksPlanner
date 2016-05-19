@@ -39,38 +39,40 @@ void PersisterBase::save(const QString &filename)
     QList<QSqlQuery*> queries = getQueries(_database);
 
     bool result = true;
-    _database.transaction();
-    foreach (QSqlQuery *query, queries)
+    if (queries.count() > 0)
     {
-        qDebug() << query->executedQuery();
-        qDebug() << query->boundValues();
-        qDebug() << query->boundValues().count();
-        if (!query->exec())
+        _database.transaction();
+        foreach (QSqlQuery *query, queries)
         {
-            qDebug() << query->lastError().databaseText();
-            qDebug() << query->lastError().text();
-            qDebug() << query->lastError().driverText();
-            qDebug() << query->lastError().nativeErrorCode();
-            result = false;
-            break;
+            qDebug() << query->executedQuery();
+            qDebug() << query->boundValues();
+            qDebug() << query->boundValues().count();
+            if (!query->exec())
+            {
+                qDebug() << query->lastError().databaseText();
+                qDebug() << query->lastError().text();
+                qDebug() << query->lastError().driverText();
+                qDebug() << query->lastError().nativeErrorCode();
+                result = false;
+                break;
+            }
         }
-    }
-    if (result)
-    {
-        _database.commit();
-    }
-    else
-    {
-        _database.rollback();
-    }
+        if (result)
+        {
+            _database.commit();
+        }
+        else
+        {
+            _database.rollback();
+        }
 
-    foreach (QSqlQuery *query, queries)
-    {
-        delete query;
+        foreach (QSqlQuery *query, queries)
+        {
+            delete query;
+        }
+        queries.clear();
+        markAsSaved();
     }
-    queries.clear();
-
-    markAsSaved();
 }
 
 
