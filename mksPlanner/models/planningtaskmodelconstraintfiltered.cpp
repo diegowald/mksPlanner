@@ -3,6 +3,8 @@
 #include "models/planningtaskconstraint.h"
 #include "globalcontainer.h"
 #include "models/planningtask.h"
+#include <QMessageBox>
+
 
 PlanningTaskModelConstraintFiltered::PlanningTaskModelConstraintFiltered(int idProyecto, int idTask, PlanningTaskModelConstraint *model, QObject *parent) : ModelBase(Tables::PlanningTasksConstraints, "", false, "", parent)
 {
@@ -239,4 +241,13 @@ bool PlanningTaskModelConstraintFiltered::removeRow(int row, const QModelIndex &
 PlanningTaskConstraintPtr PlanningTaskModelConstraintFiltered::cast(EntityBasePtr entity)
 {
     return qSharedPointerDynamicCast<PlanningTaskConstraint>(entity);
+}
+
+void PlanningTaskModelConstraintFiltered::removeEntity(QWidget *parent, QModelIndex &index)
+{
+    EntityBasePtr entity = getItemByRowid(index.row());
+    if (QMessageBox::question(parent, "Confirmar borrar elemento", "Desea borrar el elemento?", QMessageBox::StandardButton::Yes, QMessageBox::No) == QMessageBox::Yes)
+    {
+        removeRow(index.row(), index.parent());
+    }
 }

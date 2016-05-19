@@ -16,6 +16,7 @@ public:
 
     virtual EntityBasePtr getItemByRowid(int row);
     virtual bool removeRow(int row, const QModelIndex &parent);
+    virtual void removeEntity(QWidget *parent, QModelIndex &index);
 private:
     void extractIds();
 
