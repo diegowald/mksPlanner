@@ -12,7 +12,7 @@ class PlanningTaskModelConstraintAdapter : public KDGantt::ConstraintModel
     Q_OBJECT
 public:
     explicit PlanningTaskModelConstraintAdapter(PlanningTaskModelAdapter *planningModel, IModel* constraintModel, QObject *parent = 0);
-
+    void refresh();
 private slots:
     void on_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
 

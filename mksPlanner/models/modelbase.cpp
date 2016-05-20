@@ -109,8 +109,8 @@ bool ModelBase::removeRow(int row, const QModelIndex &parent)
     beginRemoveRows(parent, row, row);
     _entities[_entityMapping.at(row)]->deleteEntity();
     _entityMapping.removeAt(row);
-    return true;
     endRemoveRows();
+    return true;
 }
 
 bool ModelBase::removeById(int id)
@@ -185,6 +185,7 @@ void ModelBase::removeEntity(QWidget *parent, QModelIndex &index)
     if (QMessageBox::question(parent, "Confirmar borrar elemento", "Desea borrar el elemento?", QMessageBox::StandardButton::Yes, QMessageBox::No) == QMessageBox::Yes)
     {
         removeRow(index.row(), index.parent());
+        emit dataChanged(index, index);
     }
 }
 

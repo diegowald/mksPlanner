@@ -35,3 +35,10 @@ void ExecutionTaskModelConstraintAdapter::on_dataChanged(const QModelIndex &, co
     clear();
     createConstraints();
 }
+
+
+void ExecutionTaskModelConstraintAdapter::refresh()
+{
+    clear();
+    createConstraints();
+}

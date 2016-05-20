@@ -31,3 +31,9 @@ void PlanningTaskModelConstraintAdapter::on_dataChanged(const QModelIndex &, con
     clear();
     createConstraints();
 }
+
+void PlanningTaskModelConstraintAdapter::refresh()
+{
+    clear();
+    createConstraints();
+}

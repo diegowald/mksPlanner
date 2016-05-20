@@ -265,6 +265,7 @@ void ProjectWindow::on_actionEdit_Task_triggered()
     _planningModel->editEntity(index);
     _certificacionesModel->refreshData();
     _tareasCertificacionEnProceso->refreshData();
+    _constraintModel->refresh();
 }
 
 void ProjectWindow::on_actionRemove_Task_triggered()
@@ -292,7 +293,10 @@ void ProjectWindow::on_PlanningModelChanged(Tables)
 void ProjectWindow::on_TreeView_doubleClicked(const QModelIndex &index)
 {
     if (index.isValid())
+    {
         _planningModel->editEntity(index);
+        _constraintModel->refresh();
+    }
 }
 
 void ProjectWindow::on_TreeViewExecution_doubleClicked(const QModelIndex &index)
@@ -306,6 +310,7 @@ void ProjectWindow::on_TreeViewExecution_doubleClicked(const QModelIndex &index)
         _tareasCertificacionEnProceso->refreshData();
         _tareasCertificadoEnProceso->refreshData();
         _tareasCertificadoHechosModel->refreshData();
+        _execConstraintModel->refresh();
     }
 }
 
@@ -770,6 +775,7 @@ void ProjectWindow::on_actionEditExecutionTask_triggered()
     _executionModel->editEntity(index);
     _certificacionesModel->refreshData();
     _tareasCertificacionEnProceso->refreshData();
+    _execConstraintModel->refresh();
 }
 
 void ProjectWindow::on_actionDeleteExecutionTask_triggered()
