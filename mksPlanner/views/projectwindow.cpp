@@ -333,10 +333,9 @@ void ProjectWindow::checkSplitAction()
 void ProjectWindow::updateEstimacionMateriales()
 {
     ui->tblEstimacionMateriales->setRowCount(0);
-    ui->tblEstimacionMateriales->setColumnCount(3);
+    ui->tblEstimacionMateriales->setColumnCount(2);
     ui->tblEstimacionMateriales->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
     ui->tblEstimacionMateriales->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
-    ui->tblEstimacionMateriales->setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Unidad")));
     QMap<QString, CantidadPtr> results;
     int rowCount = _planningModel->rowCount(QModelIndex());
     for (int i = 0; i < rowCount; ++i)
@@ -782,4 +781,50 @@ void ProjectWindow::on_actionDeleteExecutionTask_triggered()
 {
     QModelIndex index = ui->executionView->selectionModel()->currentIndex();
     _executionModel->removeEntity(window(), index);
+}
+
+
+void ProjectWindow::updateEstimacionMaterialesCertificacion(int idCertificacion)
+{
+    // Debo obtener las fechas de inicio y de cierre de la certificacion seleccionada
+    CertificacionPtr cert = _certificacionesModel->getItem(idCertificacion);
+    QDate fechaFin = cert->fechaCertificacion();
+    QDate fechaInicio = cert->fechaInicioCertificacion();
+
+    // debo buscar las tareas que se van a ejecutar en esta ventana
+
+    // Para esas tareas obtengo los materiales necesarios.
+
+    ui->tblEstimacionMateriales->setRowCount(0);
+    ui->tblEstimacionMateriales->setColumnCount(2);
+    ui->tblEstimacionMateriales->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
+    ui->tblEstimacionMateriales->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
+    QMap<QString, CantidadPtr> results;
+    int rowCount = _planningModel->rowCount(QModelIndex());
+    for (int i = 0; i < rowCount; ++i)
+    {
+        EntityBasePtr entity = _planningModel->itemByRowId(i);
+        PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(entity);
+        QMap<QString, CantidadPtr> partialResult = pt->listadoMateriales();
+        foreach (QString material, partialResult.keys())
+        {
+            if (!results.contains(material))
+            {
+                results[material] = partialResult[material];
+            }
+            else
+            {
+                CantidadPtr c = results[material];
+                c->setValue(c->value() + partialResult[material]->value());
+            }
+        }
+    }
+
+    foreach (QString material, results.keys())
+    {
+        int row = ui->tblEstimacionMateriales->rowCount();
+        ui->tblEstimacionMateriales->insertRow(row);
+        ui->tblEstimacionMateriales->setItem(row, 0, new QTableWidgetItem(material));
+        ui->tblEstimacionMateriales->setItem(row, 1, new QTableWidgetItem(results[material]->toString()));
+    }
 }

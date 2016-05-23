@@ -1,7 +1,7 @@
 #include "certificacion.h"
 #include <QSqlQuery>
 #include <QVariant>
-
+#include "globalcontainer.h"
 
 Certificacion::Certificacion(int id, const QDate &fechaCertificacion, CertificacionStatus certificacionStatus) : EntityBase(id)
 {
@@ -63,6 +63,10 @@ QDate Certificacion::fechaCertificacion() const
     return _fechaCertificacion;
 }
 
+QDate Certificacion::fechaInicioCertificacion() const
+{
+    QList<int> ids = GlobalContainer::instance().projectLibrary(_idProyecto);
+}
 
 void Certificacion::setFechaCertificacion(const QDate &value)
 {
@@ -79,4 +83,10 @@ void Certificacion::setCertificacionStatus(CertificacionStatus value)
 {
     _certificacionStatus = value;
     updateStatus();
+}
+
+
+void Certificacion::setIdProyecto(int idProyecto)
+{
+    _idProyecto = idProyecto;
 }

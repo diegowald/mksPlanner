@@ -93,6 +93,8 @@ private slots:
 
 private:
     void updateEstimacionMateriales();
+    void updateEstimacionMaterialesCertificacion(int idCertificacion);
+
     void updateBotonesEstados();
     void checkSplitAction();
 

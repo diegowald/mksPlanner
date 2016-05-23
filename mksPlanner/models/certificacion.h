@@ -25,10 +25,12 @@ public:
 
     QDate fechaCertificacion() const;
     CertificacionStatus certificacionStatus() const;
+    QDate fechaInicioCertificacion() const;
 
     void setFechaCertificacion(const QDate &value);
     void setCertificacionStatus(CertificacionStatus value);
 
+    void setIdProyecto(int idProyecto);
 signals:
 
 public slots:
@@ -36,6 +38,7 @@ public slots:
 private:
     QDate _fechaCertificacion;
     CertificacionStatus _certificacionStatus;
+    int _idProyecto;
 };
 
 typedef QSharedPointer<Certificacion> CertificacionPtr;
