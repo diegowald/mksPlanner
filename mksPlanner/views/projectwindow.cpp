@@ -33,6 +33,7 @@ ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget 
 
     _certificadosHechosModel = NULL;
     _tareasCertificadoHechosModel = NULL;
+    _certificacionesNoEmitidas = NULL;
 
     _certificadoMapper = NULL;
 
@@ -214,6 +215,17 @@ void ProjectWindow::setCertificacionesModel(IModel *model)
             return (c->idCertificacion() == _idCertificacionSeleccionada)
             && (c->idProveedor() == _idProveedorSeleccionado);
 });
+
+    _certificacionesNoEmitidas = new ModelFilter(_projectLibrary->model(Tables::Certificaciones),
+                                                 [&] (EntityBasePtr e) -> bool
+    {
+            CertificacionPtr c = qSharedPointerDynamicCast<Certificacion>(e);
+            return (c->certificacionStatus() != Certificacion::CertificacionStatus::Emitido);
+});
+
+    ui->tblCertificacionesNoEmitidas->setModel(_certificacionesNoEmitidas);
+    ui->tblCertificacionesNoEmitidas->setColumnHidden(0, true);
+
     updateCertificacionView(EntityBasePtr());
 }
 
@@ -462,6 +474,8 @@ void ProjectWindow::on_actionNueva_Certificacion_triggered()
     if (!_certificacionesModel->insertRow(rowCount, index.parent()))
         return;
     _certificacionesModel->editEntity(rowCount);
+    _certificacionesNoEmitidas->refreshData();
+    emit _certificacionesNoEmitidas->layoutChanged();
 }
 
 void ProjectWindow::on_actionEditar_Certificacion_triggered()
@@ -729,6 +743,7 @@ void ProjectWindow::on_btnEmitido_released()
     emit _certificacionesModel->layoutChanged();
     emit _tareasCertificadoHechosModel->layoutChanged();
     emit _certificadosHechosModel->layoutChanged();
+    emit _certificacionesNoEmitidas->layoutChanged();
 }
 
 

@@ -120,6 +120,8 @@ private:
     ModelFilter *_certificadosHechosModel;
     ModelFilter *_tareasCertificadoHechosModel;
 
+    ModelFilter *_certificacionesNoEmitidas;
+
     QDataWidgetMapper *_certificadoMapper;
 
     int _idInterno;
