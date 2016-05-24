@@ -75,7 +75,7 @@ private slots:
 
     void on_tblCertificaciones_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void on_tblCertificados_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-
+    void on_tblCertificacionesNoEmitidas_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
     void on_btnAbonado_released();
 

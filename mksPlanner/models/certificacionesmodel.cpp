@@ -99,13 +99,16 @@ int CertificacionesModel::_loadEntity(QSqlRecord record)
     Certificacion::CertificacionStatus certStatus =
             static_cast<Certificacion::CertificacionStatus>(record.value(record.indexOf("certificacionStatus")).toInt());
     EntityBasePtr entity =  CertificacionPtr::create(id, fechaCertificacion, certStatus);
+    cast(entity)->setIdProyecto(_idProyecto);
     addEntity(entity);
     return id;
 }
 
 EntityBasePtr CertificacionesModel::internalCreateEntity(int assignedId)
 {
-    return CertificacionPtr::create(assignedId);
+    EntityBasePtr e = CertificacionPtr::create(assignedId);
+    cast(e)->setIdProyecto(_idProyecto);
+    return e;
 }
 
 

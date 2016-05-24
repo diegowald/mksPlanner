@@ -225,6 +225,8 @@ void ProjectWindow::setCertificacionesModel(IModel *model)
 
     ui->tblCertificacionesNoEmitidas->setModel(_certificacionesNoEmitidas);
     ui->tblCertificacionesNoEmitidas->setColumnHidden(0, true);
+    connect(ui->tblCertificacionesNoEmitidas->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &ProjectWindow::on_tblCertificacionesNoEmitidas_selectionChanged);
 
     updateCertificacionView(EntityBasePtr());
 }
@@ -500,6 +502,19 @@ void ProjectWindow::on_tblCertificaciones_selectionChanged(const QItemSelection 
     else
     {
         updateCertificacionView(EntityBasePtr());
+    }
+}
+
+void ProjectWindow::on_tblCertificacionesNoEmitidas_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    if ((selected.count() > 0) && (selected.at(0).isValid()))
+    {
+        EntityBasePtr e = _certificacionesModel->getItemByRowid(selected.at(0).top());
+        updateEstimacionMaterialesCertificacion(e->id());
+    }
+    else
+    {
+        updateEstimacionMaterialesCertificacion(-1);
     }
 }
 
