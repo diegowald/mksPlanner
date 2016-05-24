@@ -83,6 +83,7 @@ public:
 
     bool isSplittedPart() const;
     void setIsSplittedPart(bool value);
+    bool hasChild() const;
 
     QString cantidadToString() const;
     QString cantidadRealizadaToString() const;

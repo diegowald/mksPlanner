@@ -568,9 +568,18 @@ bool ExecutionTask::isPctEditable() const
     }
     return result;
 }
+
+
 bool ExecutionTask::isSplittedPart() const
 {
     return _isSplittedPart;
+}
+
+bool ExecutionTask::hasChild() const
+{
+    ExecutionTaskModel *m = static_cast<ExecutionTaskModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::ExecutionTasks));
+    QSet<int> child = m->childIds(id());
+    return child.count() > 0;
 }
 
 void ExecutionTask::setIsSplittedPart(bool value)

@@ -37,7 +37,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="icon">
@@ -599,7 +599,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QTableView" name="tableView"/>
+           <widget class="QTableWidget" name="tblEstimacionMaterialesCertificacion"/>
           </item>
          </layout>
         </item>

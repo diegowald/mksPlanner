@@ -2,6 +2,9 @@
 #include <QSqlQuery>
 #include <QVariant>
 #include "globalcontainer.h"
+#include "models/certificacionesmodel.h"
+
+
 
 Certificacion::Certificacion(int id, const QDate &fechaCertificacion, CertificacionStatus certificacionStatus) : EntityBase(id)
 {
@@ -63,9 +66,27 @@ QDate Certificacion::fechaCertificacion() const
     return _fechaCertificacion;
 }
 
-QDate Certificacion::fechaInicioCertificacion() const
+QDate Certificacion::fechaInicioCertificacion()
 {
-    QList<int> ids = GlobalContainer::instance().projectLibrary(_idProyecto);
+    QDate fechaInicio = QDate::fromJulianDay(0);
+    CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
+
+    QSet<int> ids = m->ids();
+    foreach(int idCert, ids.values())
+    {
+        if (idCert != id())
+        {
+            CertificacionPtr c = m->cast(m->getItem(idCert));
+            if (c->fechaCertificacion() < _fechaCertificacion)
+            {
+                if (fechaInicio < c->fechaCertificacion())
+                {
+                    fechaInicio = c->fechaCertificacion();
+                }
+            }
+        }
+    }
+    return fechaInicio;
 }
 
 void Certificacion::setFechaCertificacion(const QDate &value)

@@ -498,8 +498,8 @@ void ProjectWindow::on_tblCertificados_selectionChanged(const QItemSelection &se
         _tareasCertificacionEnProceso->refreshData();
         _tareasCertificadoEnProceso->refreshData();
         _tareasCertificadoHechosModel->refreshData();
-//        _certificadosEnProceso->refreshData();
-//        _tareasCertificadoEnProceso->refreshData();
+        //        _certificadosEnProceso->refreshData();
+        //        _tareasCertificadoEnProceso->refreshData();
         ui->btnVerCertificadoClienteEnProceso->setChecked(false);
     }
     else
@@ -787,7 +787,7 @@ void ProjectWindow::on_actionDeleteExecutionTask_triggered()
 void ProjectWindow::updateEstimacionMaterialesCertificacion(int idCertificacion)
 {
     // Debo obtener las fechas de inicio y de cierre de la certificacion seleccionada
-    CertificacionPtr cert = _certificacionesModel->getItem(idCertificacion);
+    CertificacionPtr cert = _certificacionesModel->cast(_certificacionesModel->getItem(idCertificacion));
     QDate fechaFin = cert->fechaCertificacion();
     QDate fechaInicio = cert->fechaInicioCertificacion();
 
@@ -795,36 +795,52 @@ void ProjectWindow::updateEstimacionMaterialesCertificacion(int idCertificacion)
 
     // Para esas tareas obtengo los materiales necesarios.
 
-    ui->tblEstimacionMateriales->setRowCount(0);
-    ui->tblEstimacionMateriales->setColumnCount(2);
-    ui->tblEstimacionMateriales->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
-    ui->tblEstimacionMateriales->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
+    ui->tblEstimacionMaterialesCertificacion->setRowCount(0);
+    ui->tblEstimacionMaterialesCertificacion->setColumnCount(2);
+    ui->tblEstimacionMaterialesCertificacion->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
+    ui->tblEstimacionMaterialesCertificacion->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
     QMap<QString, CantidadPtr> results;
-    int rowCount = _planningModel->rowCount(QModelIndex());
-    for (int i = 0; i < rowCount; ++i)
+
+    int rowCount = 0;
+    ExecutionTaskModel *m = dynamic_cast<ExecutionTaskModel*>(_projectLibrary->model(Tables::ExecutionTasks));
+    QSet<int> ids = m->ids();
+
+    foreach(int id, ids.values())
     {
-        EntityBasePtr entity = _planningModel->itemByRowId(i);
-        PlanningTaskPtr pt = qSharedPointerDynamicCast<PlanningTask>(entity);
-        QMap<QString, CantidadPtr> partialResult = pt->listadoMateriales();
-        foreach (QString material, partialResult.keys())
+        ExecutionTaskPtr et = m->cast(m->getItem(id));
+        // Si la tarea no tiene subtareas
+        if (!et->hasChild())
         {
-            if (!results.contains(material))
+            // Si la tarea empieza en el rango de fechas
+            if ((fechaInicio.toJulianDay() <= et->fechaEstimadaInicio().date().toJulianDay()) && (et->fechaEstimadaInicio().date().toJulianDay() <= fechaFin.toJulianDay()))
             {
-                results[material] = partialResult[material];
-            }
-            else
-            {
-                CantidadPtr c = results[material];
-                c->setValue(c->value() + partialResult[material]->value());
+                // Si la tarea no tiene idCertificacion
+                if (et->idCertificacion() == -1)
+                {
+                    rowCount++;
+                    QMap<QString, CantidadPtr> partialResult = et->listadoMateriales();
+                    foreach(QString material, partialResult.keys())
+                    {
+                        if (!results.contains(material))
+                        {
+                            results[material] = partialResult[material];
+                        }
+                        else
+                        {
+                            CantidadPtr c = results[material];
+                            c->setValue(c->value() + partialResult[material]->value());
+                        }
+                    }
+                }
             }
         }
     }
 
     foreach (QString material, results.keys())
     {
-        int row = ui->tblEstimacionMateriales->rowCount();
-        ui->tblEstimacionMateriales->insertRow(row);
-        ui->tblEstimacionMateriales->setItem(row, 0, new QTableWidgetItem(material));
-        ui->tblEstimacionMateriales->setItem(row, 1, new QTableWidgetItem(results[material]->toString()));
+        int row = ui->tblEstimacionMaterialesCertificacion->rowCount();
+        ui->tblEstimacionMaterialesCertificacion->insertRow(row);
+        ui->tblEstimacionMaterialesCertificacion->setItem(row, 0, new QTableWidgetItem(material));
+        ui->tblEstimacionMaterialesCertificacion->setItem(row, 1, new QTableWidgetItem(results[material]->toString()));
     }
 }

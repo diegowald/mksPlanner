@@ -25,7 +25,7 @@ public:
 
     QDate fechaCertificacion() const;
     CertificacionStatus certificacionStatus() const;
-    QDate fechaInicioCertificacion() const;
+    QDate fechaInicioCertificacion();
 
     void setFechaCertificacion(const QDate &value);
     void setCertificacionStatus(CertificacionStatus value);
