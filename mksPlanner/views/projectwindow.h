@@ -91,6 +91,8 @@ private slots:
 
     void on_actionDeleteExecutionTask_triggered();
 
+    void on_actionImprimir_triggered();
+
 private:
     void updateEstimacionMateriales();
     void updateEstimacionMaterialesCertificacion(int idCertificacion);

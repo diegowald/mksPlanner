@@ -12,6 +12,12 @@
 #include "views/dlgeditfechapagocertificado.h"
 #include "views/executiontaskitemdelegate.h"
 
+#include <KDReportsReport.h>
+#include <KDReportsTextElement.h>
+#include <KDReportsPreviewDialog.h>
+#include <QPrintDialog>
+
+
 ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ProjectWindow)
@@ -873,4 +879,26 @@ void ProjectWindow::updateEstimacionMaterialesCertificacion(int idCertificacion)
         ui->tblEstimacionMaterialesCertificacion->setItem(row, 0, new QTableWidgetItem(material));
         ui->tblEstimacionMaterialesCertificacion->setItem(row, 1, new QTableWidgetItem(results[material]->toString()));
     }
+}
+
+void ProjectWindow::on_actionImprimir_triggered()
+{
+    // Create a report
+    KDReports::Report report;
+
+    // Add a text element for the title
+    KDReports::TextElement titleElement( QObject::tr( "Hello World!" ) );
+    titleElement.setPointSize( 18 );
+    report.addElement( titleElement, Qt::AlignHCenter );
+
+    // add 20 mm of vertical space:
+    report.addVerticalSpacing( 20 );
+
+    // add some more text
+    KDReports::TextElement textElement( QObject::tr( "This is a report generated with KDReports" ) );
+    report.addElement( textElement, Qt::AlignLeft );
+
+    // show a print preview
+    KDReports::PreviewDialog preview( &report );
+    preview.exec();
 }

@@ -13,6 +13,9 @@ TEMPLATE = app
 
 CONFIG += c++11
 
+#KDREPORTSDIR=/home/diego/QtProjects/mksPlanner/3rdParty/KDReports
+
+#include( ../3rdParty/KDReports/kdreports.pri)
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -194,7 +197,7 @@ RESOURCES += \
 #  CONFIG( static ) {
 #    LIBEXT = a
 #  }
-#  # qmake insists on passing Qt's -L path first, where there could be a different version of our own
+#  # qmake insists on passing Qts -L path first, where there could be a different version of our own
 #  # libraries. Therefore we pass our own libraries like object files (without -l!) and with full path.
 #  LIBS += ../mksPlanner/3rdParty/kdchart-2.5.1-source/lib/libkdchart.so  ../mksPlanner/3rdParty/kdchart-2.5.1-source/lib/libtesttools.so
 #}
@@ -219,3 +222,15 @@ INCLUDEPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDChart
 INCLUDEPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDGantt
 DEPENDPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDChart
 DEPENDPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDGantt
+
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdParty/KDReports/lib/ -lkdreports
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdParty/KDReports/lib/ -lkdreports
+else:unix: LIBS += -L$$PWD/../3rdParty/KDReports/lib/ -lkdreports
+
+
+INCLUDEPATH += $$PWD/../3rdParty/KDReports/include/KDReports
+DEPENDPATH += $$PWD/../3rdParty/KDReports/include/KDReports
+
+
