@@ -80,10 +80,6 @@ dlgMaterialEditor::~dlgMaterialEditor()
 
 void dlgMaterialEditor::on_buttonBox_accepted()
 {
-    /*qDebug() << ui->cboUnit->currentData();
-    qDebug() << ui->cboUnit->currentIndex();
-    qDebug() << ui->cboUnit->currentText();*/
-
     MaterialPtr material = qSharedPointerDynamicCast<Material>(_entity);
     EntityBasePtr entity = GlobalContainer::instance().library()->model(Tables::Unidades)->getItemByRowid(ui->cboUnit->currentIndex());
     if (!entity.isNull())
@@ -92,7 +88,6 @@ void dlgMaterialEditor::on_buttonBox_accepted()
         material->setUnit(unit->id());
     }
 
-    //entity = GlobalContainer::instance().library()->model(Tables::Rubros)->getItemByRowid(ui->cboRubro->currentIndex());
     entity = _rubroFilter->getItemByRowid(ui->cboRubro->currentIndex());
     if (!entity.isNull())
     {
@@ -102,6 +97,6 @@ void dlgMaterialEditor::on_buttonBox_accepted()
 
     material->setName(ui->txtName->text());
     material->setDescription(ui->txtDescription->text());
-
-    close();
 }
+
+

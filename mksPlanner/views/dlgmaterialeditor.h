@@ -21,6 +21,8 @@ private slots:
     void on_buttonBox_accepted();
 
 private:
+
+private:
     Ui::dlgMaterialEditor *ui;
     MaterialesBaseModel *_model;
     EntityBasePtr _entity;

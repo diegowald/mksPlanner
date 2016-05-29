@@ -12,11 +12,10 @@
 #include "views/dlgeditfechapagocertificado.h"
 #include "views/executiontaskitemdelegate.h"
 
-#include <KDReportsReport.h>
 #include <KDReportsTextElement.h>
 #include <KDReportsPreviewDialog.h>
 #include <QPrintDialog>
-
+#include <KDReportsAutoTableElement>
 
 ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent) :
     QMainWindow(parent),
@@ -886,6 +885,31 @@ void ProjectWindow::on_actionImprimir_triggered()
     // Create a report
     KDReports::Report report;
 
+    switch (ui->tabWidget->currentIndex())
+    {
+    case 0:
+        imprimirProyecto(report);
+        break;
+    case 1:
+        imprimirPlanificacion(report);
+        break;
+    case 2:
+        imprimirMaterialesPlanificacion(report);
+        break;
+    case 3:
+        imprimirEjecucionObra(report);
+        break;
+    case 4:
+        imprimirCertificacion(report);
+        break;
+    case 5:
+        imprimirMaterialesCertificacion(report);
+        break;
+    default:
+        break;
+    }
+
+
     // Add a text element for the title
     KDReports::TextElement titleElement( QObject::tr( "Hello World!" ) );
     titleElement.setPointSize( 18 );
@@ -901,4 +925,41 @@ void ProjectWindow::on_actionImprimir_triggered()
     // show a print preview
     KDReports::PreviewDialog preview( &report );
     preview.exec();
+}
+
+void ProjectWindow::imprimirProyecto(KDReports::Report &report)
+{
+    KDReports::AutoTableElement autoTableElement1( _projectLibrary->model(Tables::Proyectos));
+    autoTableElement1.setWidth( 100, KDReports::Percent );
+    report.addElement(autoTableElement1);
+    report.addPageBreak();
+    imprimirPlanificacion(report);
+    report.addPageBreak();
+    imprimirMaterialesPlanificacion(report);
+    report.addPageBreak();
+    imprimirEjecucionObra(report);
+    report.addPageBreak();
+    imprimirCertificacion(report);
+    report.addPageBreak();
+    imprimirMaterialesCertificacion(report);
+}
+
+void ProjectWindow::imprimirPlanificacion(KDReports::Report &report)
+{
+}
+
+void ProjectWindow::imprimirMaterialesPlanificacion(KDReports::Report &report)
+{
+}
+
+void ProjectWindow::imprimirEjecucionObra(KDReports::Report &report)
+{
+}
+
+void ProjectWindow::imprimirCertificacion(KDReports::Report &report)
+{
+}
+
+void ProjectWindow::imprimirMaterialesCertificacion(KDReports::Report &report)
+{
 }

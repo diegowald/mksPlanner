@@ -14,6 +14,7 @@
 #include "KDGantt"
 #include "persistance/projectlibrary.h"
 #include "models/certificadosmodel.h"
+#include <KDReportsReport.h>
 
 namespace Ui {
 class ProjectWindow;
@@ -103,6 +104,13 @@ private:
     void updateCertificacionView(EntityBasePtr certificacion);
     void recalcularTotalesCertificado(EntityBasePtr certificacion);
     void certificarTareasEnEjecucion(EntityBasePtr certificaion);
+
+    void imprimirProyecto(KDReports::Report &report);
+    void imprimirPlanificacion(KDReports::Report &report);
+    void imprimirMaterialesPlanificacion(KDReports::Report &report);
+    void imprimirEjecucionObra(KDReports::Report &report);
+    void imprimirCertificacion(KDReports::Report &report);
+    void imprimirMaterialesCertificacion(KDReports::Report &report);
 
 private:
     Ui::ProjectWindow *ui;
