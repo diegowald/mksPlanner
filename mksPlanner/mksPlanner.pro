@@ -225,8 +225,8 @@ DEPENDPATH += $$PWD/../3rdParty/kdchart-2.5.1-source/include/KDGantt
 
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rdParty/KDReports/lib/ -lkdreports
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rdParty/KDReports/lib/ -lkdreports
+win32:CONFIG(release, debug|release): LIBS += -LC:/QtProjects/KDReports-bin/lib -lkdreports1
+else:win32:CONFIG(debug, debug|release): LIBS += -LC:/QtProjects/KDReports-bin/lib -lkdreports1
 else:unix: LIBS += -L$$PWD/../3rdParty/KDReports/lib/ -lkdreports
 
 
