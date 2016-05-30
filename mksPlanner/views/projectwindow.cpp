@@ -11,6 +11,7 @@
 #include <QSet>
 #include "views/dlgeditfechapagocertificado.h"
 #include "views/executiontaskitemdelegate.h"
+#include "models/modelfromtablewidget.h"
 
 #include <KDReportsTextElement.h>
 #include <KDReportsPreviewDialog.h>
@@ -950,6 +951,9 @@ void ProjectWindow::imprimirPlanificacion(KDReports::Report &report)
 
 void ProjectWindow::imprimirMaterialesPlanificacion(KDReports::Report &report)
 {
+    ModelFromTableWidget m(ui->tblEstimacionMateriales);
+    KDReports::AutoTableElement autoTableElement(&m);
+    report.addElement(autoTableElement);
 }
 
 void ProjectWindow::imprimirEjecucionObra(KDReports::Report &report)
@@ -962,4 +966,7 @@ void ProjectWindow::imprimirCertificacion(KDReports::Report &report)
 
 void ProjectWindow::imprimirMaterialesCertificacion(KDReports::Report &report)
 {
+    ModelFromTableWidget m(ui->tblEstimacionMaterialesCertificacion);
+    KDReports::AutoTableElement autoTableElement(&m);
+    report.addElement(autoTableElement);
 }
