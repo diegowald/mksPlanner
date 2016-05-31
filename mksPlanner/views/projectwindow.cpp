@@ -904,7 +904,7 @@ void ProjectWindow::on_actionImprimir_triggered()
         imprimirCertificacion(report);
         break;
     case 5:
-        imprimirMaterialesCertificacion(report);
+        imprimirMaterialesTodasCertificaciones(report);
         break;
     default:
         break;
@@ -942,7 +942,7 @@ void ProjectWindow::imprimirProyecto(KDReports::Report &report)
     report.addPageBreak();
     imprimirCertificacion(report);
     report.addPageBreak();
-    imprimirMaterialesCertificacion(report);
+    imprimirMaterialesTodasCertificaciones(report);
 }
 
 void ProjectWindow::imprimirPlanificacion(KDReports::Report &report)
@@ -964,7 +964,12 @@ void ProjectWindow::imprimirCertificacion(KDReports::Report &report)
 {
 }
 
-void ProjectWindow::imprimirMaterialesCertificacion(KDReports::Report &report)
+void ProjectWindow::imprimirMaterialesTodasCertificaciones(KDReports::Report &report)
+{
+
+}
+
+void ProjectWindow::imprimirMaterialesCertificacion(KDReports::Report &report, int idCertificacion)
 {
     ModelFromTableWidget m(ui->tblEstimacionMaterialesCertificacion);
     KDReports::AutoTableElement autoTableElement(&m);

@@ -110,7 +110,8 @@ private:
     void imprimirMaterialesPlanificacion(KDReports::Report &report);
     void imprimirEjecucionObra(KDReports::Report &report);
     void imprimirCertificacion(KDReports::Report &report);
-    void imprimirMaterialesCertificacion(KDReports::Report &report);
+    void imprimirMaterialesTodasCertificaciones(KDReports::Report &report);
+    void imprimirMaterialesCertificacion(KDReports::Report &report, int idCertificacion);
 
 private:
     Ui::ProjectWindow *ui;
