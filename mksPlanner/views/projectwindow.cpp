@@ -350,12 +350,8 @@ void ProjectWindow::checkSplitAction()
     ui->actionInterrumpir_Ejecucion_Tarea->setEnabled(canSplit);
 }
 
-void ProjectWindow::updateEstimacionMateriales()
+QMap<QString, CantidadPtr> ProjectWindow::calcularEstimacionMateriales()
 {
-    ui->tblEstimacionMateriales->setRowCount(0);
-    ui->tblEstimacionMateriales->setColumnCount(2);
-    ui->tblEstimacionMateriales->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
-    ui->tblEstimacionMateriales->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
     QMap<QString, CantidadPtr> results;
     int rowCount = _planningModel->rowCount(QModelIndex());
     for (int i = 0; i < rowCount; ++i)
@@ -376,6 +372,17 @@ void ProjectWindow::updateEstimacionMateriales()
             }
         }
     }
+    return results;
+}
+
+void ProjectWindow::updateEstimacionMateriales()
+{
+    ui->tblEstimacionMateriales->setRowCount(0);
+    ui->tblEstimacionMateriales->setColumnCount(2);
+    ui->tblEstimacionMateriales->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
+    ui->tblEstimacionMateriales->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
+    QMap<QString, CantidadPtr> results = calcularEstimacionMateriales();
+
 
     foreach (QString material, results.keys())
     {
@@ -819,6 +826,8 @@ void ProjectWindow::on_actionDeleteExecutionTask_triggered()
     _executionModel->removeEntity(window(), index);
 }
 
+QMap<QString, CantidadPtr> ProjectWindow::calcularEstimacionMaterialesCertificacion(int idCertificacion)
+{}
 
 void ProjectWindow::updateEstimacionMaterialesCertificacion(int idCertificacion)
 {
@@ -835,7 +844,7 @@ void ProjectWindow::updateEstimacionMaterialesCertificacion(int idCertificacion)
     ui->tblEstimacionMaterialesCertificacion->setColumnCount(2);
     ui->tblEstimacionMaterialesCertificacion->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
     ui->tblEstimacionMaterialesCertificacion->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
-    QMap<QString, CantidadPtr> results;
+    QMap<QString, CantidadPtr> results = calcularEstimacionMaterialesCertificacion(idCertificacion);
 
     int rowCount = 0;
     ExecutionTaskModel *m = dynamic_cast<ExecutionTaskModel*>(_projectLibrary->model(Tables::ExecutionTasks));

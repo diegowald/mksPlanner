@@ -95,7 +95,9 @@ private slots:
     void on_actionImprimir_triggered();
 
 private:
+    QMap<QString, CantidadPtr> calcularEstimacionMateriales();
     void updateEstimacionMateriales();
+    QMap<QString, CantidadPtr> calcularEstimacionMaterialesCertificacion(int idCertificacion);
     void updateEstimacionMaterialesCertificacion(int idCertificacion);
 
     void updateBotonesEstados();
