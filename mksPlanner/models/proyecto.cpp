@@ -193,6 +193,26 @@ Proyecto::ProjectStatus Proyecto::projectStatus() const
     return _status;
 }
 
+QString Proyecto::projectStatusString() const
+{
+    QString s;
+    switch (_status)
+    {
+    case Proyecto::ProjectStatus::Planificacion:
+        s = "Planificación";
+        break;
+    case Proyecto::ProjectStatus::Ejecucion:
+        s = "Ejecución";
+        break;
+    case Proyecto::ProjectStatus::Finalizado:
+        s = "Finalizado";
+        break;
+    case Proyecto::ProjectStatus::Pausado:
+        s = "En pausa";
+        break;
+    }
+    return s;
+}
 
 void Proyecto::setProjectStatus(ProjectStatus status)
 {

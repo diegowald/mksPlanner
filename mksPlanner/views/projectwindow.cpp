@@ -14,6 +14,7 @@
 #include "models/modelfromtablewidget.h"
 
 #include <KDReportsTextElement.h>
+#include <KDReportsChartElement>
 #include <KDReportsPreviewDialog.h>
 #include <QPrintDialog>
 #include <KDReportsAutoTableElement>
@@ -827,26 +828,14 @@ void ProjectWindow::on_actionDeleteExecutionTask_triggered()
 }
 
 QMap<QString, CantidadPtr> ProjectWindow::calcularEstimacionMaterialesCertificacion(int idCertificacion)
-{}
-
-void ProjectWindow::updateEstimacionMaterialesCertificacion(int idCertificacion)
 {
+    QMap<QString, CantidadPtr> results;
+
     // Debo obtener las fechas de inicio y de cierre de la certificacion seleccionada
     CertificacionPtr cert = _certificacionesModel->cast(_certificacionesModel->getItem(idCertificacion));
     QDate fechaFin = cert->fechaCertificacion();
     QDate fechaInicio = cert->fechaInicioCertificacion();
 
-    // debo buscar las tareas que se van a ejecutar en esta ventana
-
-    // Para esas tareas obtengo los materiales necesarios.
-
-    ui->tblEstimacionMaterialesCertificacion->setRowCount(0);
-    ui->tblEstimacionMaterialesCertificacion->setColumnCount(2);
-    ui->tblEstimacionMaterialesCertificacion->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
-    ui->tblEstimacionMaterialesCertificacion->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
-    QMap<QString, CantidadPtr> results = calcularEstimacionMaterialesCertificacion(idCertificacion);
-
-    int rowCount = 0;
     ExecutionTaskModel *m = dynamic_cast<ExecutionTaskModel*>(_projectLibrary->model(Tables::ExecutionTasks));
     QSet<int> ids = m->ids();
 
@@ -862,7 +851,7 @@ void ProjectWindow::updateEstimacionMaterialesCertificacion(int idCertificacion)
                 // Si la tarea no tiene idCertificacion
                 if (et->idCertificacion() == -1)
                 {
-                    rowCount++;
+                    //rowCount++;
                     QMap<QString, CantidadPtr> partialResult = et->listadoMateriales();
                     foreach(QString material, partialResult.keys())
                     {
@@ -880,6 +869,21 @@ void ProjectWindow::updateEstimacionMaterialesCertificacion(int idCertificacion)
             }
         }
     }
+    return results;
+}
+
+void ProjectWindow::updateEstimacionMaterialesCertificacion(int idCertificacion)
+{
+
+    // debo buscar las tareas que se van a ejecutar en esta ventana
+
+    // Para esas tareas obtengo los materiales necesarios.
+
+    ui->tblEstimacionMaterialesCertificacion->setRowCount(0);
+    ui->tblEstimacionMaterialesCertificacion->setColumnCount(2);
+    ui->tblEstimacionMaterialesCertificacion->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Material")));
+    ui->tblEstimacionMaterialesCertificacion->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Cantidad")));
+    QMap<QString, CantidadPtr> results = calcularEstimacionMaterialesCertificacion(idCertificacion);
 
     foreach (QString material, results.keys())
     {
@@ -939,27 +943,83 @@ void ProjectWindow::on_actionImprimir_triggered()
 
 void ProjectWindow::imprimirProyecto(KDReports::Report &report)
 {
-    KDReports::AutoTableElement autoTableElement1( _projectLibrary->model(Tables::Proyectos));
+    ProyectoPtr p = qSharedPointerDynamicCast<Proyecto>(_projectLibrary->model(Tables::Proyectos)->getItemByRowid(0));
+
+    KDReports::TextElement title("Proyecto");
+    title.setPointSize(18);
+    report.addElement(title, Qt::AlignHCenter);
+
+
+    QString s = "Propietario: %1";
+    KDReports::TextElement propietario(s.arg(p->propietario()));
+    propietario.setPointSize(16);
+    report.addElement(propietario);
+
+    s = "Dirección: %1";
+    KDReports::TextElement dir(s.arg(p->direccion()));
+    report.addElement(dir);
+
+    s = "Correo electrónico: %1";
+    KDReports::TextElement email(s.arg(p->email()));
+    report.addElement(email);
+
+    s = "Teléfono: %1";
+    KDReports::TextElement tel(s.arg(p->telefono()));
+    report.addElement(tel);
+
+    s = "Estado del proyecto: %1";
+    KDReports::TextElement estado(s.arg(p->projectStatusString()));
+    report.addElement(estado);
+
+
+    s = "Fecha estimada de inicio: %1";
+    KDReports::TextElement fei(s.arg(p->fechaEstimadaInicio().toString("dd/MM/yyyy")));
+    report.addElement(fei);
+
+    s = "Fecha estimada de finalización: %1";
+    KDReports::TextElement fef(s.arg(p->fechaEstimadaFinalizacion().toString("dd/MM/yyyy")));
+    report.addElement(fef);
+
+    s = "Plazo estimado de obra: %1 días";
+    KDReports::TextElement plazo(s.arg(p->plazoEstimado()));
+    report.addElement(plazo);
+
+    s = "Costo estimado: $ %1";
+    KDReports::TextElement costo(s.arg(p->costoEstimado()));
+    report.addElement(costo);
+
+
+/*    KDReports::AutoTableElement autoTableElement1( _projectLibrary->model(Tables::Proyectos));
+
     autoTableElement1.setWidth( 100, KDReports::Percent );
-    report.addElement(autoTableElement1);
+    report.addElement(autoTableElement1);*/
     report.addPageBreak();
-    imprimirPlanificacion(report);
-    report.addPageBreak();
+    /*imprimirPlanificacion(report);
+    report.addPageBreak();*/
     imprimirMaterialesPlanificacion(report);
-    report.addPageBreak();
-    imprimirEjecucionObra(report);
-    report.addPageBreak();
-    imprimirCertificacion(report);
-    report.addPageBreak();
-    imprimirMaterialesTodasCertificaciones(report);
+    if (p->projectStatus() != Proyecto::ProjectStatus::Planificacion)
+    {
+        report.addPageBreak();
+        imprimirEjecucionObra(report);
+        report.addPageBreak();
+        imprimirCertificacion(report);
+        report.addPageBreak();
+        imprimirMaterialesTodasCertificaciones(report);
+    }
 }
 
 void ProjectWindow::imprimirPlanificacion(KDReports::Report &report)
 {
+
 }
 
 void ProjectWindow::imprimirMaterialesPlanificacion(KDReports::Report &report)
 {
+    KDReports::TextElement title("Listado estimado de materiales");
+    title.setPointSize(18);
+    report.addElement(title, Qt::AlignHCenter);
+
+
     ModelFromTableWidget m(ui->tblEstimacionMateriales);
     KDReports::AutoTableElement autoTableElement(&m);
     report.addElement(autoTableElement);
@@ -971,6 +1031,9 @@ void ProjectWindow::imprimirEjecucionObra(KDReports::Report &report)
 
 void ProjectWindow::imprimirCertificacion(KDReports::Report &report)
 {
+    KDReports::TextElement title("Certificación");
+    title.setPointSize(18);
+    report.addElement(title, Qt::AlignHCenter);
 }
 
 void ProjectWindow::imprimirMaterialesTodasCertificaciones(KDReports::Report &report)
@@ -980,6 +1043,11 @@ void ProjectWindow::imprimirMaterialesTodasCertificaciones(KDReports::Report &re
 
 void ProjectWindow::imprimirMaterialesCertificacion(KDReports::Report &report, int idCertificacion)
 {
+    KDReports::TextElement title("Materiales para realizar trabajos para próxima certificación");
+    title.setPointSize(18);
+    report.addElement(title, Qt::AlignHCenter);
+
+
     ModelFromTableWidget m(ui->tblEstimacionMaterialesCertificacion);
     KDReports::AutoTableElement autoTableElement(&m);
     report.addElement(autoTableElement);

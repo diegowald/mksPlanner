@@ -44,6 +44,7 @@ public:
     int plazoEstimado() const;
     double costoEstimado() const;
     ProjectStatus projectStatus() const;
+    QString projectStatusString() const;
 
     void setPropietario(const QString& value);
     void setDireccion(const QString& value);
