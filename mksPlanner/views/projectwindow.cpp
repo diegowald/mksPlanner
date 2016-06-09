@@ -452,6 +452,8 @@ void ProjectWindow::on_btnEjecucion_released()
     proyecto->setProjectStatus(Proyecto::ProjectStatus::Ejecucion);
     updateBotonesEstados();
     ui->executionView->repaint();
+    setExecutionModel(_projectLibrary->model(Tables::ExecutionTasks));
+    setExecutionConstraintModel(_projectLibrary->model(Tables::ExecutionTasksConstraints));
 }
 
 
