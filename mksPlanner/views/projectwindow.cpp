@@ -451,6 +451,7 @@ void ProjectWindow::on_btnEjecucion_released()
     ProyectoPtr proyecto = qSharedPointerDynamicCast<Proyecto>(entity);
     proyecto->setProjectStatus(Proyecto::ProjectStatus::Ejecucion);
     updateBotonesEstados();
+    ui->executionView->repaint();
 }
 
 

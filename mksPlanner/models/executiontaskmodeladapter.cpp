@@ -209,6 +209,7 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
         {
         case Qt::DisplayRole:
         case Qt::EditRole:
+        case KDGantt::TaskCompletionRole:
             if (p->isSplittedPart())
                 return p->pctCompletadoInSubTask();
             else
@@ -289,6 +290,32 @@ QVariant ExecutionTaskModelAdapter::data( const QModelIndex& idx, int role) cons
     {
         return p->tooltip();
     }
+
+    if (role == KDGantt::StartTimeRole)
+    {
+        qDebug()  << "KDGantt::StartTimeRole";
+    }
+    else if (role == KDGantt::EndTimeRole)
+    {
+        qDebug()  << "KDGantt::EndTimeRole";
+    }
+    else if (role == KDGantt::TaskCompletionRole)
+    {
+        qDebug()  << "KDGantt::TaskCompletionRole";
+    }
+    else if (role == KDGantt::ItemTypeRole)
+    {
+        qDebug()  << "KDGantt::ItemTypeRole";
+    }
+    else if (role == KDGantt::LegendRole)
+    {
+        qDebug()  << "KDGantt::LegendRole";
+    }
+    else if (role == KDGantt::TextPositionRole)
+    {
+        qDebug()  << "KDGantt::TextPositionRole";
+    }
+
     return QVariant();
 }
 

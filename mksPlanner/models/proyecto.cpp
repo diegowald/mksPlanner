@@ -231,7 +231,6 @@ void Proyecto::crearPlanningEjecucion()
     ExecutionTaskModel *execModel = dynamic_cast<ExecutionTaskModel*>(model);
     execModel->cloneFromPlanning();
 
-
     model = GlobalContainer::instance().projectLibrary(_idProyectoInterno)->model(Tables::ExecutionTasksConstraints);
     ExecutionTaskModelConstraint *constraintModel = dynamic_cast<ExecutionTaskModelConstraint*>(model);
     constraintModel->cloneFromPlanning();
