@@ -1042,6 +1042,25 @@ void ProjectWindow::imprimirCertificacion(KDReports::Report &report)
     KDReports::TextElement title("Certificación");
     title.setPointSize(18);
     report.addElement(title, Qt::AlignHCenter);
+
+
+    QString nroCert = "Nro: %1 - %2";
+    KDReports::TextElement nroCertificacion(nroCert.arg(1).arg(2));
+    nroCertificacion.setPointSize(14);
+    report.addElement(nroCertificacion, Qt::AlignRight);
+
+    QString fechaEmision = "Fecha %1";
+    KDReports::TextElement fecha (fechaEmision);
+    fecha.setPointSize(14);
+    report.addElement(fecha, Qt::AlignRight);
+
+    QString periodo = "Período: de %1 a %2.";
+    KDReports::TextElement p(periodo);
+    p.setPointSize(14);
+    report.addElement(p, Qt::AlignLeft);
+
+    KDReports::AutoTableElement tblElement(_tareasCertificadoHechosModel);
+    report.addElement(tblElement);
 }
 
 void ProjectWindow::imprimirMaterialesTodasCertificaciones(KDReports::Report &report)
