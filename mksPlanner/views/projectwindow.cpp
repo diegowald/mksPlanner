@@ -548,6 +548,8 @@ void ProjectWindow::on_tblCertificados_selectionChanged(const QItemSelection &se
         //        _certificadosEnProceso->refreshData();
         //        _tareasCertificadoEnProceso->refreshData();
         ui->btnVerCertificadoClienteEnProceso->setChecked(false);
+        ui->tblTareasCertificado->showColumn(13);
+        ui->tblTareasCertificado->hideColumn(14);
     }
     else
     {
@@ -789,6 +791,8 @@ void ProjectWindow::on_btnVerCertificadoClienteEnProceso_toggled(bool checked)
         _tareasCertificacionEnProceso->refreshData();
         _tareasCertificadoEnProceso->refreshData();
         _tareasCertificadoHechosModel->refreshData();
+        ui->tblTareasCertificado->hideColumn(13);
+        ui->tblTareasCertificado->showColumn(14);
     }
 }
 
