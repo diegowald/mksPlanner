@@ -18,6 +18,7 @@
 #include <KDReportsPreviewDialog.h>
 #include <QPrintDialog>
 #include <KDReportsAutoTableElement>
+#include "models/columnhiddenmodel.h"
 
 ProjectWindow::ProjectWindow(const QString &windowTitle, int idInterno, QWidget *parent) :
     QMainWindow(parent),
@@ -1039,27 +1040,79 @@ void ProjectWindow::imprimirEjecucionObra(KDReports::Report &report)
 
 void ProjectWindow::imprimirCertificacion(KDReports::Report &report)
 {
+    int idCertificacion = _idCertificacionSeleccionada;
+    int idProveedor = _idProveedorSeleccionado;
+    CertificacionPtr cert = _certificacionesModel->cast(_certificacionesModel->getItem(_idCertificacionSeleccionada));
+
+    CertificadoPtr certificado;
+    foreach(int id, _certificadosHechosModel->ids())
+    {
+        CertificadoPtr c = qSharedPointerDynamicCast<Certificado>(_certificadosHechosModel->getItem(id));
+        if (c->idProveedor() == idProveedor)
+        {
+            certificado = c;
+            break;
+        }
+    }
+
+    _certificadoMapper->addMapping(ui->nroCertificado, _certificadosHechosModel->columnIndex("Nro. Certificado"));
+    _certificadoMapper->addMapping(ui->txtCliente, _certificadosHechosModel->columnIndex("Cliente"));
+    _certificadoMapper->addMapping(ui->txtProveedor, _certificadosHechosModel->columnIndex("Proveedor"));
+    _certificadoMapper->addMapping(ui->dateEmision, _certificadosHechosModel->columnIndex("Fecha Emisión"));
+    _certificadoMapper->addMapping(ui->dateDesde, _certificadosHechosModel->columnIndex("Desde"));
+    _certificadoMapper->addMapping(ui->dateHasta, _certificadosHechosModel->columnIndex("Hasta"));
+
+    ModelFilter *tareasCertificadoHechosModel = new ModelFilter(_projectLibrary->model(Tables::TareaCertificados),
+                                                    [&] (EntityBasePtr e) -> bool
+    {
+            TareaCertificadoPtr c = qSharedPointerDynamicCast<TareaCertificado>(e);
+            return (c->idCertificacion() == idCertificacion)
+            && (c->idProveedor() == idProveedor);
+});
+
+
     KDReports::TextElement title("Certificación");
     title.setPointSize(18);
     report.addElement(title, Qt::AlignHCenter);
 
 
-    QString nroCert = "Nro: %1 - %2";
-    KDReports::TextElement nroCertificacion(nroCert.arg(1).arg(2));
+    QString nroCert = "Nro: %1";
+    KDReports::TextElement nroCertificacion(nroCert.arg(certificado->nroCertificado()));
     nroCertificacion.setPointSize(14);
     report.addElement(nroCertificacion, Qt::AlignRight);
 
     QString fechaEmision = "Fecha %1";
-    KDReports::TextElement fecha (fechaEmision);
+    KDReports::TextElement fecha (fechaEmision.arg(certificado->fechaEmision().toString()));
     fecha.setPointSize(14);
     report.addElement(fecha, Qt::AlignRight);
 
     QString periodo = "Período: de %1 a %2.";
-    KDReports::TextElement p(periodo);
+    KDReports::TextElement p(periodo.arg(certificado->desde().toString()).arg(certificado->hasta().toString()));
     p.setPointSize(14);
     report.addElement(p, Qt::AlignLeft);
 
-    KDReports::AutoTableElement tblElement(_tareasCertificadoHechosModel);
+    QString destinatario = "%1: %2";
+    if (idProveedor == -2)
+    {
+        destinatario = destinatario.arg("Cliente")
+                .arg(ui->txtPropietario->text());
+    }
+    else
+    {
+        ProveedorPtr p = qSharedPointerDynamicCast<Proveedor>(GlobalContainer::instance().library()->model(Tables::Proveedores)->getItem(idProveedor));
+        destinatario = destinatario.arg("Proveedor")
+                .arg(p->name());
+    }
+    KDReports::TextElement d(destinatario);
+
+    d.setPointSize(14);
+    report.addElement(d, Qt::AlignLeft);
+
+    ColumnHiddenModel m(tareasCertificadoHechosModel);
+    m.addColumnToHide(0);
+    m.addColumnToHide(1);
+
+    KDReports::AutoTableElement tblElement(&m);
     report.addElement(tblElement);
 }
 
