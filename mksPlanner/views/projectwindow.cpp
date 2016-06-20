@@ -542,7 +542,15 @@ void ProjectWindow::on_tblCertificados_selectionChanged(const QItemSelection &se
     if ((selected.count() > 0) && (selected.at(0).isValid()))
     {
         EntityBasePtr e = dynamic_cast<IModel*>(ui->tblCertificados->model())->getItemByRowid(selected.at(0).top());
-        _idProveedorSeleccionado = e->id();
+        CertificadoPtr c = qSharedPointerDynamicCast<Certificado>(e);
+        if (c.isNull())
+        {
+            _idProveedorSeleccionado = e->id();
+        }
+        else
+        {
+            _idProveedorSeleccionado = c->idProveedor();
+        }
         _tareasCertificacionEnProceso->refreshData();
         _tareasCertificadoEnProceso->refreshData();
         _tareasCertificadoHechosModel->refreshData();
@@ -923,7 +931,7 @@ void ProjectWindow::on_actionImprimir_triggered()
         imprimirEjecucionObra(report);
         break;
     case 4:
-        imprimirCertificacion(report);
+        imprimirCertificacion(report, _idCertificacionSeleccionada, _idProveedorSeleccionado);
         break;
     case 5:
         imprimirMaterialesTodasCertificaciones(report);
@@ -932,7 +940,7 @@ void ProjectWindow::on_actionImprimir_triggered()
         break;
     }
 
-
+/*
     // Add a text element for the title
     KDReports::TextElement titleElement( QObject::tr( "Hello World!" ) );
     titleElement.setPointSize( 18 );
@@ -944,7 +952,7 @@ void ProjectWindow::on_actionImprimir_triggered()
     // add some more text
     KDReports::TextElement textElement( QObject::tr( "This is a report generated with KDReports" ) );
     report.addElement( textElement, Qt::AlignLeft );
-
+*/
     // show a print preview
     KDReports::PreviewDialog preview( &report );
     preview.exec();
@@ -1011,7 +1019,7 @@ void ProjectWindow::imprimirProyecto(KDReports::Report &report)
         report.addPageBreak();
         imprimirEjecucionObra(report);
         report.addPageBreak();
-        imprimirCertificacion(report);
+        imprimirCertificacion(report, _idCertificacionSeleccionada, _idProveedorSeleccionado);
         report.addPageBreak();
         imprimirMaterialesTodasCertificaciones(report);
     }
@@ -1019,7 +1027,13 @@ void ProjectWindow::imprimirProyecto(KDReports::Report &report)
 
 void ProjectWindow::imprimirPlanificacion(KDReports::Report &report)
 {
-
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setOrientation(QPrinter::Landscape);
+    printer.setColorMode(QPrinter::Color);
+    QPrintDialog dialog(&printer, this);
+    if (dialog.exec() != QDialog::Accepted)
+        return;
+    ui->planningView->print(&printer);
 }
 
 void ProjectWindow::imprimirMaterialesPlanificacion(KDReports::Report &report)
@@ -1036,12 +1050,19 @@ void ProjectWindow::imprimirMaterialesPlanificacion(KDReports::Report &report)
 
 void ProjectWindow::imprimirEjecucionObra(KDReports::Report &report)
 {
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setOrientation(QPrinter::Landscape);
+    printer.setColorMode(QPrinter::Color);
+    QPrintDialog dialog(&printer, this);
+    if (dialog.exec() != QDialog::Accepted)
+        return;
+    ui->executionView->print(&printer);
 }
 
-void ProjectWindow::imprimirCertificacion(KDReports::Report &report)
+void ProjectWindow::imprimirCertificacion(KDReports::Report &report,
+                                          int idCertificacion,
+                                          int idProveedor)
 {
-    int idCertificacion = _idCertificacionSeleccionada;
-    int idProveedor = _idProveedorSeleccionado;
     CertificacionPtr cert = _certificacionesModel->cast(_certificacionesModel->getItem(_idCertificacionSeleccionada));
 
     CertificadoPtr certificado;

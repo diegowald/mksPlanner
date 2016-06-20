@@ -111,7 +111,7 @@ private:
     void imprimirPlanificacion(KDReports::Report &report);
     void imprimirMaterialesPlanificacion(KDReports::Report &report);
     void imprimirEjecucionObra(KDReports::Report &report);
-    void imprimirCertificacion(KDReports::Report &report);
+    void imprimirCertificacion(KDReports::Report &report, int idCertificacion, int idProveedor);
     void imprimirMaterialesTodasCertificaciones(KDReports::Report &report);
     void imprimirMaterialesCertificacion(KDReports::Report &report, int idCertificacion);
 

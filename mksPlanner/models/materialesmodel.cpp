@@ -13,6 +13,7 @@ MaterialesModel::MaterialesModel(IModel *materiales, QObject *parent) : IModel(p
 
 EntityBasePtr MaterialesModel::internalCreateEntity(int assignedId)
 {
+    Q_UNUSED(assignedId);
     return _model->createEntity();
 }
 
