@@ -18,7 +18,7 @@ MaterialsLibrary::MaterialsLibrary(QObject *parent) : LibraryBase(parent)
     addModel(Tables::ComponentesMateriales, new ComponentesMaterialesModel(this));
     addModel(Tables::Proveedores, new ProveedoresModel(this));
     addModel(Tables::Rubros, new RubrosModel(this));
-    addModel(Tables::CostosUnitarios, new CostoMaterialesModel(this));
+    addModel(Tables::CostosUnitarios, new CostoMaterialesModel(QDate::currentDate(), this));
     addModel(Tables::RubrosProveedores, new RubrosProveedoresModel(this));
 }
 

@@ -466,6 +466,7 @@ double ExecutionTask::pctCompletadoInSubTask() const
     {
         return _cantidadRealizada / _cantidad * 100.;
     }
+    return 0.;
 }
 
 void ExecutionTask::markAsCompleted()

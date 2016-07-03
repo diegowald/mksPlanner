@@ -14,11 +14,13 @@ ModelFromTableWidget::~ModelFromTableWidget()
 
 int ModelFromTableWidget::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return _widget->rowCount();
 }
 
 int ModelFromTableWidget::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return _widget->columnCount();
 }
 

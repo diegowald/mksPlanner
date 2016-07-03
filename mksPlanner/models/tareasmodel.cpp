@@ -11,6 +11,7 @@ TareasModel::TareasModel(IModel *materiales, QObject *parent) : IModel(parent)
 
 EntityBasePtr TareasModel::internalCreateEntity(int assignedId)
 {
+    Q_UNUSED(assignedId);
     return _model->createEntity();
 }
 

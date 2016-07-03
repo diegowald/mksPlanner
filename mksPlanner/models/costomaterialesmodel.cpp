@@ -9,10 +9,11 @@
 #include "models/costomaterialesdelegate.h"
 #include <QSet>
 
-CostoMaterialesModel::CostoMaterialesModel(QObject *parent)
+CostoMaterialesModel::CostoMaterialesModel(const QDate &fecha, QObject *parent)
     : ModelBase(Tables::CostosUnitarios, "costoMateriales", true, "library", parent)
 {
     _crearMaterialCompuesto = false;
+    _fecha = fecha;
     defineColumnNames();
     addDependency(static_cast<int>(Tables::MaterialesYTareas));
 }
@@ -122,8 +123,8 @@ int CostoMaterialesModel::_loadEntity(QSqlRecord record)
     QDate desde = record.value("desde").toDate();
     EntityBasePtr entity = CostoMaterialPtr::create(id, idMaterial, costo, precio, desde);
     addEntity(entity);
-    //classifyEntity(entity);
-    _mappingMaterialToCosto[idMaterial] = id;
+    //    _mappingMaterialToCosto[idMaterial] = id;
+    _costosPorMaterial.insert(idMaterial, id);
     return id;
 }
 
@@ -253,6 +254,7 @@ bool CostoMaterialesModel::setData(const QModelIndex &index, const QVariant &val
     {
         EntityBasePtr entity = GlobalContainer::instance().library()->model(Tables::MaterialesYTareas)->getItemByRowid(index.row());
         int idMaterial = entity->id();
+
         if (!_mappingMaterialToCosto.contains(idMaterial))
         {
             entity = createEntity();
@@ -291,14 +293,21 @@ QStyledItemDelegate *CostoMaterialesModel::delegate()
 
 void CostoMaterialesModel::postProcessData()
 {
+    _mappingMaterialToCosto.clear();
     QSet<int> idMateriales = GlobalContainer::instance().library()->model(Tables::MaterialesYTareas)->ids();
     foreach (int idMaterial, idMateriales)
     {
         EntityBasePtr entityMaterial = GlobalContainer::instance().library()->model(Tables::MaterialesYTareas)->getItem(idMaterial);
         MaterialPtr material = qSharedPointerDynamicCast<Material>(entityMaterial);
 
-        if (!_mappingMaterialToCosto.contains(entityMaterial->id()))
+        int idCostoMaterial = buscarIdPorIdMaterial(idMaterial);
+        if (idCostoMaterial != -1)
         {
+            _mappingMaterialToCosto[idMaterial] = idCostoMaterial;
+        }
+        else
+        {
+            //        if (!_mappingMaterialToCosto.contains(entityMaterial->id()))
             if (material->isCompuesto())
             {
                 _crearMaterialCompuesto = true;
@@ -309,6 +318,39 @@ void CostoMaterialesModel::postProcessData()
             }
         }
     }
+}
+
+
+int CostoMaterialesModel::buscarIdPorIdMaterial(int idMaterial)
+{
+    int id = -1;
+    QList<int> costos = _costosPorMaterial.values(idMaterial);
+
+    CostoMaterialPtr costoMastReciente;
+    int idConFechaMasReciente = -1;
+    foreach (int idCosto, costos)
+    {
+        CostoMaterialPtr c = cast(getItem(idCosto));
+        if (c->desde().toJulianDay() <= _fecha.toJulianDay())
+        {
+            if (idConFechaMasReciente == -1)
+            {
+                idConFechaMasReciente = idCosto;
+                costoMastReciente = c;
+            }
+            else
+            {
+                if (c->desde().toJulianDay() > costoMastReciente->desde().toJulianDay())
+                {
+                    idConFechaMasReciente = idCosto;
+                    costoMastReciente = c;
+                }
+            }
+        }
+    }
+
+    id = idConFechaMasReciente;
+    return id;
 }
 
 bool CostoMaterialesModel::modelSetData(EntityBasePtr entity, int column, const QVariant &value, int role)
@@ -355,4 +397,16 @@ bool CostoMaterialesModel::modelSetData(EntityBasePtr entity, int column, const 
 CostoMaterialPtr CostoMaterialesModel::cast(EntityBasePtr entity)
 {
     return qSharedPointerDynamicCast<CostoMaterial>(entity);
+}
+
+void CostoMaterialesModel::setFecha(const QDate &fecha)
+{
+    _fecha = fecha;
+    postProcessData();
+}
+
+
+void CostoMaterialesModel::filtrarPorFecha()
+{
+
 }

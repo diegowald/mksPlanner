@@ -21,6 +21,7 @@ EntityBasePtr MaterialesModel::internalCreateEntity(int assignedId)
 
 int MaterialesModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return _mapping.count();
 }
 
@@ -49,11 +50,13 @@ QString MaterialesModel::_getSQLRead() const
 
 int MaterialesModel::_loadEntity(QSqlRecord record)
 {
+    Q_UNUSED(record);
     return -1;
 }
 
 QList<QSqlQuery *> MaterialesModel::getQueries(QSqlDatabase &database)
 {
+    Q_UNUSED(database);
     return QList<QSqlQuery*>();
 }
 
@@ -141,6 +144,7 @@ void MaterialesModel::removeEntity(QWidget *parent, QModelIndex &index)
 
 void MaterialesModel::removeEntity(int id)
 {
+    Q_UNUSED(id);
     /*_model->removeEntity(id);
     _mapping.removeAt(_mapping.indexOf(id));
 */}
@@ -152,6 +156,7 @@ bool MaterialesModel::removeRow(int row, const QModelIndex &parent)
     _model->removeEntity(_mapping.at(row));
     _mapping.removeAt(row);
     endRemoveRows();
+    return true;
 }
 
 int MaterialesModel::columnIndex(const QString &name) const

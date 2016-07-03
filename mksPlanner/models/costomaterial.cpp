@@ -7,6 +7,7 @@ CostoMaterial::CostoMaterial(int id) : EntityBase(id, true)
 {
     _idMaterial = -1;
     _costo = 0.0;
+    _precio = 0.;
     _desde = QDate::currentDate();
 }
 

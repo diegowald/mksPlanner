@@ -513,6 +513,7 @@ void ProjectWindow::on_actionBorrar_Ceritificacion_triggered()
 
 void ProjectWindow::on_tblCertificaciones_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    Q_UNUSED(deselected);
     if ((selected.count() > 0) && (selected.at(0).isValid()))
     {
         EntityBasePtr e = _certificacionesModel->getItemByRowid(selected.at(0).top());
@@ -526,6 +527,7 @@ void ProjectWindow::on_tblCertificaciones_selectionChanged(const QItemSelection 
 
 void ProjectWindow::on_tblCertificacionesNoEmitidas_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    Q_UNUSED(deselected);
     if ((selected.count() > 0) && (selected.at(0).isValid()))
     {
         EntityBasePtr e = _certificacionesModel->getItemByRowid(selected.at(0).top());
@@ -539,6 +541,7 @@ void ProjectWindow::on_tblCertificacionesNoEmitidas_selectionChanged(const QItem
 
 void ProjectWindow::on_tblCertificados_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    Q_UNUSED(deselected);
     if ((selected.count() > 0) && (selected.at(0).isValid()))
     {
         EntityBasePtr e = dynamic_cast<IModel*>(ui->tblCertificados->model())->getItemByRowid(selected.at(0).top());
@@ -922,13 +925,13 @@ void ProjectWindow::on_actionImprimir_triggered()
         imprimirProyecto(report);
         break;
     case 1:
-        imprimirPlanificacion(report);
+        imprimirPlanificacion();
         break;
     case 2:
         imprimirMaterialesPlanificacion(report);
         break;
     case 3:
-        imprimirEjecucionObra(report);
+        imprimirEjecucionObra();
         break;
     case 4:
         imprimirCertificacion(report, _idCertificacionSeleccionada, _idProveedorSeleccionado);
@@ -1017,7 +1020,7 @@ void ProjectWindow::imprimirProyecto(KDReports::Report &report)
     if (p->projectStatus() != Proyecto::ProjectStatus::Planificacion)
     {
         report.addPageBreak();
-        imprimirEjecucionObra(report);
+        imprimirEjecucionObra();
         report.addPageBreak();
         imprimirCertificacion(report, _idCertificacionSeleccionada, _idProveedorSeleccionado);
         report.addPageBreak();
@@ -1025,7 +1028,7 @@ void ProjectWindow::imprimirProyecto(KDReports::Report &report)
     }
 }
 
-void ProjectWindow::imprimirPlanificacion(KDReports::Report &report)
+void ProjectWindow::imprimirPlanificacion()
 {
     QPrinter printer(QPrinter::HighResolution);
     printer.setOrientation(QPrinter::Landscape);
@@ -1048,7 +1051,7 @@ void ProjectWindow::imprimirMaterialesPlanificacion(KDReports::Report &report)
     report.addElement(autoTableElement);
 }
 
-void ProjectWindow::imprimirEjecucionObra(KDReports::Report &report)
+void ProjectWindow::imprimirEjecucionObra()
 {
     QPrinter printer(QPrinter::HighResolution);
     printer.setOrientation(QPrinter::Landscape);

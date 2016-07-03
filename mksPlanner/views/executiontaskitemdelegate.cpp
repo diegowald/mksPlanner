@@ -53,8 +53,8 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
             painter->setBrush(brush);
             painter->setBrushOrigin(itemRect.topLeft());
             // TODO
-            qreal pw = painter->pen().width()/2.;
-            pw -= 1;
+            //qreal pw = painter->pen().width()/2.;
+            //pw -= 1;
             QRectF r = itemRect;
             r.translate( 0., r.height()/6. );
             r.setHeight( 2.*r.height()/3. );
