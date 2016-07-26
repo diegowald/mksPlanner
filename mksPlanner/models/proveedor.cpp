@@ -9,13 +9,15 @@ Proveedor::Proveedor(int id) : EntityBase(id, true)
 }
 
 Proveedor::Proveedor(int id, const QString &name, const QString &contacto,
-                     const QString &email, const QString &telefono, const QString &direccion) : EntityBase(id)
+                     const QString &email, const QString &telefono, const QString &direccion,
+                     const QString &web) : EntityBase(id)
 {
     _name = name;
     _contacto = contacto;
     _email = email;
     _telefono = telefono;
     _direccion = direccion;
+    _web = web;
 }
 
 /*bool Proveedor::internalSetData(const int column, const QVariant &value, int role)
@@ -118,6 +120,11 @@ QString Proveedor::direccion() const
     return _direccion;
 }
 
+QString Proveedor::web() const
+{
+    return _web;
+}
+
 QString Proveedor::toDebugString()
 {
     return QString("id: %1, name: %2, contacto: %3, email: %4, telefono: %5, direccion: %6")
@@ -152,6 +159,12 @@ void Proveedor::setTelefono(const QString &value)
 void Proveedor::setDireccion(const QString &value)
 {
     _direccion = value;
+    updateStatus();
+}
+
+void Proveedor::setWeb(const QString &value)
+{
+    _web = value;
     updateStatus();
 }
 

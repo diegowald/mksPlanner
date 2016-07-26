@@ -11,6 +11,7 @@ public:
 
     void scriptsVersion1();
     void scriptsVersion2();
+    void scriptsversion3();
 };
 
 #endif // MATERIALESUPDATER_H

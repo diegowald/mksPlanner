@@ -241,9 +241,10 @@ int ProveedoresModel::_loadEntity(QSqlRecord record)
     QString email = record.value(record.indexOf("email")).toString();
     QString telefono = record.value(record.indexOf("telefono")).toString();
     QString direccion = record.value(record.indexOf("direccion")).toString();
+    QString web = record.value(record.indexOf("web")).toString();
 
     EntityBasePtr entity = ProveedorPtr::create(id, nombre, contacto,
-                                                email, telefono, direccion);
+                                                email, telefono, direccion, web);
 
     addEntity(entity);
     return id;

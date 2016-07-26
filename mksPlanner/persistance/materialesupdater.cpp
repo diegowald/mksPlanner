@@ -4,6 +4,7 @@ MaterialesUpdater::MaterialesUpdater(QObject *parent) : Updater(parent)
 {
     scriptsVersion1();
     scriptsVersion2();
+    scriptsversion3();
 }
 
 
@@ -57,4 +58,12 @@ void MaterialesUpdater::scriptsVersion2()
     addCommand(2, "ALTER TABLE CostosMateriales ADD COLUMN `precio` REAL;");
 
     addCommand(2, "UPDATE version set versionInfo = 2;");
+}
+
+void MaterialesUpdater::scriptsversion3()
+{
+    addCommand(3, "ALTER TABLE proveedores ADD COLUMN `web` TEXT;");
+
+    addCommand(3, "UPDATE version set versionInfo = 3;");
+
 }

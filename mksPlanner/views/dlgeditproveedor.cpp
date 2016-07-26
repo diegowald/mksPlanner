@@ -23,6 +23,7 @@ dlgEditProveedor::dlgEditProveedor(ProveedoresModel *model, int row, QWidget *pa
     ui->txtEmail->setText(prov->email());
     ui->txtTelefono->setText(prov->telefono());
     ui->txtDireccion->setText(prov->direccion());
+    ui->txtWeb->setText(prov->web());
 
 
     TableWindow *t = new TableWindow("", this);
@@ -48,6 +49,7 @@ void dlgEditProveedor::on_buttonBox_accepted()
     prov->setEMail(ui->txtEmail->text());
     prov->setTelefono(ui->txtTelefono->text());
     prov->setDireccion(ui->txtDireccion->text());
+    prov->setWeb(ui->txtWeb->text());
 
     close();
 }

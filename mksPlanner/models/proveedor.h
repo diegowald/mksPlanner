@@ -12,7 +12,7 @@ public:
     explicit Proveedor(int id);
 
     explicit Proveedor(int id, const QString &name, const QString &contacto,
-                       const QString &email, const QString &telefono, const QString &direccion);
+                       const QString &email, const QString &telefono, const QString &direccion, const QString &web);
 
     //virtual bool internalSetData(const int column, const QVariant &value, int role);
 
@@ -25,12 +25,14 @@ public:
     QString email() const;
     QString telefono() const;
     QString direccion() const;
+    QString web() const;
 
     void setName(const QString &value);
     void setContacto(const QString &value);
     void setEMail(const QString &value);
     void setTelefono(const QString &value);
     void setDireccion(const QString &value);
+    void setWeb(const QString &value);
 
     bool proveeRubro(int idRubro);
 signals:
@@ -43,6 +45,7 @@ private:
     QString _email;
     QString _telefono;
     QString _direccion;
+    QString _web;
 };
 
 typedef QSharedPointer<Proveedor> ProveedorPtr;
