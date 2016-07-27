@@ -19,12 +19,18 @@ public:
         Pausado
     };
 
+    enum class TipoProyecto
+    {
+        ViviendaUnifamiliar
+    };
+
     explicit Proyecto(int id, const QString &propietario,
                       const QString &direccion, const QString &email,
                       const QString &telefono,
                       QDate &fechaEstimadaInicio,
                       QDate &fechaEstimadaFinalizacion,
-                      ProjectStatus projectStatus);
+                      ProjectStatus projectStatus,
+                      TipoProyecto tipoProyecto);
 
     explicit Proyecto(int id);
 
@@ -45,6 +51,8 @@ public:
     double costoEstimado() const;
     ProjectStatus projectStatus() const;
     QString projectStatusString() const;
+    TipoProyecto tipoProyecto() const;
+    QString tipoProyectoString() const;
 
     void setPropietario(const QString& value);
     void setDireccion(const QString& value);
@@ -53,6 +61,7 @@ public:
     void setFechaEstimadaInicio(QDate &value);
     void setFechaEstimadaFinalizacion(QDate &value);
     void setProjectStatus(ProjectStatus status);
+    void setTipoProyecto(TipoProyecto value);
 
 private:
     void crearPlanningEjecucion();
@@ -71,6 +80,7 @@ private:
     ProjectStatus _status;
 
     int _idProyectoInterno;
+    TipoProyecto _tipoProyecto;
 };
 
 

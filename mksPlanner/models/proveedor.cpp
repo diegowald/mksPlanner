@@ -60,13 +60,14 @@ QSqlQuery* Proveedor::getQuery(QSqlDatabase &database)
     case EntityStatus::added:
     {
         query = new QSqlQuery(database);
-        query->prepare("INSERT INTO proveedores (id, name, contacto, email, telefono, direccion) VALUES (:id, :name, :contacto, :email, :telefono, :direccion);");
+        query->prepare("INSERT INTO proveedores (id, name, contacto, email, telefono, direccion, web) VALUES (:id, :name, :contacto, :email, :telefono, :direccion, :web);");
         query->bindValue(":id", id());
         query->bindValue(":name", _name);
         query->bindValue(":contacto", _contacto);
         query->bindValue(":email", _email);
         query->bindValue(":telefono", _telefono);
         query->bindValue(":direccion", _direccion);
+        query->bindValue(":web", _web);
         break;
     }
     case EntityStatus::deleted:
@@ -79,13 +80,14 @@ QSqlQuery* Proveedor::getQuery(QSqlDatabase &database)
     case EntityStatus::modified:
     {
         query = new QSqlQuery(database);
-        query->prepare("UPDATE proveedores SET name = :name, contacto = :contacto, email = :email, telefono = :telefono, direccion = :direccion WHERE id = :id;");
+        query->prepare("UPDATE proveedores SET name = :name, contacto = :contacto, email = :email, telefono = :telefono, direccion = :direccion, web = :web WHERE id = :id;");
         query->bindValue(":name", _name);
         query->bindValue(":contacto", _contacto);
         query->bindValue(":email", _email);
         query->bindValue(":telefono", _telefono);
         query->bindValue(":direccion", _direccion);
         query->bindValue(":id", id());
+        query->bindValue(":web", _web);
         break;
     }
     case EntityStatus::unchanged:

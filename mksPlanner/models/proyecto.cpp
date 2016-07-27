@@ -11,7 +11,7 @@
 
 Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion, const QString &email, const QString &telefono,
                    QDate &fechaEstimadaInicio,
-                   QDate &fechaEstimadaFinalizacion, ProjectStatus projectStatus)
+                   QDate &fechaEstimadaFinalizacion, ProjectStatus projectStatus, TipoProyecto tipoProyecto)
     : EntityBase(id)
 {
     _propietario = propietario;
@@ -21,6 +21,7 @@ Proyecto::Proyecto(int id, const QString &propietario, const QString &direccion,
     _fechaEstimadaInicio = fechaEstimadaInicio;
     _fechaEstimadaFinalizacion = fechaEstimadaFinalizacion;
     _status = projectStatus;
+    _tipoProyecto = tipoProyecto;
 }
 
 
@@ -49,8 +50,8 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
     {
         query = new QSqlQuery(database);
         query->prepare("INSERT INTO proyectos (id, propietario, direccion, email, telefono, "
-                       " fechaEstimadaInicio, fechaEstimadaFinalizacion, status ) "
-                       " VALUES (:id, :propietario, :direccion, :email, :telefono, :fechaEstimadaInicio, :fechaEstimadaFinalizacion, :status);");
+                       " fechaEstimadaInicio, fechaEstimadaFinalizacion, status, idTipoProyecto ) "
+                       " VALUES (:id, :propietario, :direccion, :email, :telefono, :fechaEstimadaInicio, :fechaEstimadaFinalizacion, :status, :idTipoProyecto);");
 
         query->bindValue(":id", id());
         query->bindValue(":propietario", _propietario);
@@ -60,6 +61,7 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
         query->bindValue(":fechaEstimadaInicio", _fechaEstimadaInicio);
         query->bindValue(":fechaEstimadaFinalizacion", _fechaEstimadaFinalizacion);
         query->bindValue(":status", static_cast<int>(_status));
+        query->bindValue(":idTipoProyecto", static_cast<int>(_tipoProyecto));
         break;
     }
     case EntityStatus::deleted:
@@ -74,7 +76,9 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
         query = new QSqlQuery(database);
         query->prepare("UPDATE proyectos SET propietario = :propietario, direccion = :direccion, email = :email, telefono = :telefono, "
                        " fechaEstimadaInicio = :fechaEstimadaInicio, "
-                       " fechaEstimadaFinalizacion = :fechaEstimadaFinalizacion, status = :status "
+                       " fechaEstimadaFinalizacion = :fechaEstimadaFinalizacion, status = :status,"
+                       " "
+                       " idTipoProyecto = :idTipoProyecto "
                        " WHERE id = :id;");
 
         query->bindValue(":propietario", _propietario);
@@ -84,6 +88,7 @@ QSqlQuery* Proyecto::getQuery(QSqlDatabase &database)
         query->bindValue(":fechaEstimadaInicio", _fechaEstimadaInicio);
         query->bindValue(":fechaEstimadaFinalizacion", _fechaEstimadaFinalizacion);
         query->bindValue(":status", static_cast<int>(_status));
+        query->bindValue(":idTipoProyecto", static_cast<int>(_tipoProyecto));
 
         query->bindValue(":id", id());
         break;
@@ -214,6 +219,23 @@ QString Proyecto::projectStatusString() const
     return s;
 }
 
+Proyecto::TipoProyecto Proyecto::tipoProyecto() const
+{
+    return _tipoProyecto;
+}
+
+QString Proyecto::tipoProyectoString() const
+{
+    QString s;
+    switch (_tipoProyecto)
+    {
+    case Proyecto::TipoProyecto::ViviendaUnifamiliar:
+        s = "Vivienda Unifamiliar";
+        break;
+    }
+    return s;
+}
+
 void Proyecto::setProjectStatus(ProjectStatus status)
 {
     ProjectStatus statusViejo = _status;
@@ -222,6 +244,12 @@ void Proyecto::setProjectStatus(ProjectStatus status)
     {
         crearPlanningEjecucion();
     }
+    updateStatus();
+}
+
+void Proyecto::setTipoProyecto(Proyecto::TipoProyecto value)
+{
+    _tipoProyecto = value;
     updateStatus();
 }
 
