@@ -37,7 +37,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="icon">
@@ -225,6 +225,16 @@
                <string>TextLabel</string>
               </property>
              </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_22">
+              <property name="text">
+               <string>Tipo de Obra</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QComboBox" name="cboTipoDeObra"/>
             </item>
            </layout>
           </item>
@@ -615,7 +625,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
@@ -786,6 +796,39 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>txtPropietario</tabstop>
+  <tabstop>txtDireccion</tabstop>
+  <tabstop>txtEmail</tabstop>
+  <tabstop>txtTelefono</tabstop>
+  <tabstop>cboTipoDeObra</tabstop>
+  <tabstop>dateEstimacionInicio</tabstop>
+  <tabstop>dateEstimacionFinalizacion</tabstop>
+  <tabstop>txtPlazo</tabstop>
+  <tabstop>txtCosto</tabstop>
+  <tabstop>dateInicioReal</tabstop>
+  <tabstop>dateFinReal</tabstop>
+  <tabstop>btnEjecucion</tabstop>
+  <tabstop>btnPausa</tabstop>
+  <tabstop>btnFin</tabstop>
+  <tabstop>tblEstimacionMateriales</tabstop>
+  <tabstop>tblCertificaciones</tabstop>
+  <tabstop>btnVerCertificadoClienteEnProceso</tabstop>
+  <tabstop>tblCertificados</tabstop>
+  <tabstop>dateEmision</tabstop>
+  <tabstop>dateDesde</tabstop>
+  <tabstop>dateHasta</tabstop>
+  <tabstop>txtCliente</tabstop>
+  <tabstop>txtProveedor</tabstop>
+  <tabstop>tblTareasCertificado</tabstop>
+  <tabstop>txtCostoTotal</tabstop>
+  <tabstop>txtPrecioTotal</tabstop>
+  <tabstop>btnEmitido</tabstop>
+  <tabstop>btnAbonado</tabstop>
+  <tabstop>tblCertificacionesNoEmitidas</tabstop>
+  <tabstop>tblEstimacionMaterialesCertificacion</tabstop>
+  <tabstop>tabWidget</tabstop>
+ </tabstops>
  <resources>
   <include location="../mksplanner.qrc"/>
  </resources>

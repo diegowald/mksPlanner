@@ -25,7 +25,7 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
                 idx.model()->data(idx, KDGantt::ItemTypeRole).toInt());
 
     QBrush brush = defaultBrush(type);
-    if (ex->idPlanningTask() == -1)
+    //if (ex->idPlanningTask() == -1)
     {
         // Brushes
         QLinearGradient taskgrad( 0., 0., 0., QApplication::fontMetrics().height() );
@@ -45,8 +45,16 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
         if (itemRect.isValid())
         {
             QLinearGradient selectedGrad(0., 0., 0., QApplication::fontMetrics().height());
-            selectedGrad.setColorAt(0., Qt::red);
-            selectedGrad.setColorAt(1., Qt::darkRed);
+            if (ex->idPlanningTask() == -1)
+            {
+                selectedGrad.setColorAt(0., Qt::red);
+                selectedGrad.setColorAt(1., Qt::darkRed);
+            }
+            else
+            {
+                selectedGrad.setColorAt(0., Qt::green);
+                selectedGrad.setColorAt(1., Qt::darkGreen);
+            }
             brush = QBrush(selectedGrad);
             painter->save();
             painter->setPen(defaultPen(type));
@@ -69,8 +77,8 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
                 qreal h = r.height();
                 QRectF cr(r.x(), r.y() + h / 4.,
                           r.width() * completion / 100., h / 2. + 1 /*??*/ );
-                QColor compcolor( painter->pen().color() );
-                compcolor.setAlpha( 150 );
+                QColor compcolor( Qt::yellow /*painter->pen().color()*/ );
+                //compcolor.setAlpha( 150 );
                 painter->fillRect( cr, compcolor );
             }
             painter->restore();
@@ -98,8 +106,8 @@ void ExecutionTaskItemDelegate::paintGanttItem(QPainter *painter, const KDGantt:
         }
 
     }
-    else
+    /*else
     {
         KDGantt::ItemDelegate::paintGanttItem(painter, opt, idx);
-    }
+    }*/
 }
