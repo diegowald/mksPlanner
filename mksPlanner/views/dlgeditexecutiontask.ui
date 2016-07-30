@@ -79,7 +79,28 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="txtCantidad"/>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLineEdit" name="txtCantidad"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblUnidadMedida">
+         <property name="text">
+          <string>Unidad de medida</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="PorcetnajeRealizado">
+       <property name="text">
+        <string>Porcentaje realizado</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QDoubleSpinBox" name="spinPct"/>
      </item>
      <item row="6" column="0">
       <widget class="QLabel" name="label_5">
@@ -114,6 +135,9 @@
        </property>
       </widget>
      </item>
+     <item row="8" column="1">
+      <widget class="QDateEdit" name="dateFechaRealInicio"/>
+     </item>
      <item row="9" column="0">
       <widget class="QLabel" name="label_10">
        <property name="text">
@@ -121,21 +145,8 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
-      <widget class="QDateEdit" name="dateFechaRealInicio"/>
-     </item>
      <item row="9" column="1">
       <widget class="QDateEdit" name="dateFecharealFinalizacion"/>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="PorcetnajeRealizado">
-       <property name="text">
-        <string>Porcentaje realizado</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QDoubleSpinBox" name="spinPct"/>
      </item>
     </layout>
    </item>

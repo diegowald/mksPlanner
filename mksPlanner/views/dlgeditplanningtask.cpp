@@ -6,7 +6,7 @@
 #include "models/material.h"
 #include "views/tablewindow.h"
 #include "models/planningtaskmodelconstraint.h"
-
+#include "models/unit.h"
 
 DlgEditPlanningTask::DlgEditPlanningTask(PlanningTaskModel* model, EntityBasePtr entity, QWidget *parent) :
     QDialog(parent),
@@ -109,6 +109,17 @@ void DlgEditPlanningTask::on_cboTarea_currentIndexChanged(int)
     if (_proveedorByRubroFilterModel != NULL)
     {
         _proveedorByRubroFilterModel->setIdRubro(idRubroMaterialSeleccionado());
+    }
+
+    ui->lblUnidadMedida->clear();
+    MaterialPtr mat = qSharedPointerDynamicCast<Material>(GlobalContainer::instance().library()->model(Tables::Tareas)->getItemByRowid(ui->cboTarea->currentIndex()));
+    if (!mat.isNull())
+    {
+        UnitPtr unidad = qSharedPointerDynamicCast<Unit>(mat->unit());
+        if (!unidad.isNull())
+        {
+            ui->lblUnidadMedida->setText(unidad->name());
+        }
     }
 }
 
