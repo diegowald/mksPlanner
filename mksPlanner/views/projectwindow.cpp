@@ -267,7 +267,7 @@ void ProjectWindow::on_actionAddTask_triggered()
     if (!_planningModel->insertRow(rowCount, index.parent()))
         return;
 
-    rowCount = ui->planningView->model()->rowCount();
+    //rowCount = ui->planningView->model()->rowCount();
     _planningModel->editEntity(rowCount);
 }
 
