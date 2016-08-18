@@ -111,7 +111,7 @@ void TareaCertificadosModel::defineColumnNames()
         case Qt::EditRole:
         {
             ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
-            v = ex->name();
+            v = ex.isNull() ? "" : ex->name();
             break;
         }
         default:
@@ -130,8 +130,15 @@ void TareaCertificadosModel::defineColumnNames()
        case Qt::EditRole:
        {
            ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
-           MaterialPtr m = qSharedPointerDynamicCast<Material>(ex->materialTask());
-           v = m->name();
+           if (!ex.isNull())
+           {
+               MaterialPtr m = qSharedPointerDynamicCast<Material>(ex->materialTask());
+               v = m.isNull() ? "" : m->name();
+           }
+           else
+           {
+               v = "";
+           }
            break;
        }
        default:
@@ -150,7 +157,7 @@ void TareaCertificadosModel::defineColumnNames()
         case Qt::EditRole:
         {
             ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
-            v = ex->cantidadToString();
+            v = ex.isNull() ? "" : ex->cantidadToString();
             break;
         }
         default:
@@ -169,7 +176,7 @@ void TareaCertificadosModel::defineColumnNames()
         case Qt::EditRole:
         {
             ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
-            v = ex->costo();
+            v = ex.isNull() ? 0. : ex->costo();
             break;
         }
         default:
@@ -188,7 +195,7 @@ void TareaCertificadosModel::defineColumnNames()
         case Qt::EditRole:
         {
             ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
-            v = ex->precio();
+            v = ex.isNull() ? 0. : ex->precio();
             break;
         }
         default:

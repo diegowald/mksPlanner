@@ -1045,7 +1045,6 @@ void ProjectWindow::imprimirMaterialesPlanificacion(KDReports::Report &report)
     title.setPointSize(18);
     report.addElement(title, Qt::AlignHCenter);
 
-
     ModelFromTableWidget m(ui->tblEstimacionMateriales);
     KDReports::AutoTableElement autoTableElement(&m);
     report.addElement(autoTableElement);
