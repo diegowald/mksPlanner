@@ -191,8 +191,15 @@ void ProjectWindow::setCertificacionesModel(IModel *model)
                                                   [&] (EntityBasePtr e) -> bool
     {
             ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(e);
-            return (ex->idCertificacion() == _idCertificacionSeleccionada)
-            && ((ex->idProveedor() == _idProveedorSeleccionado) || (_idProveedorSeleccionado == -2));
+            qDebug() << _idProveedorSeleccionado;
+            bool esCertificacionSeleccionada = (ex->idCertificacion() == _idCertificacionSeleccionada);
+            bool esProveedorSeleccionado = (ex->idProveedor() == _idProveedorSeleccionado);
+            bool esClienteSeleccionado = (_idProveedorSeleccionado == -2);
+
+            /*return (ex->idCertificacion() == _idCertificacionSeleccionada)
+            && ((ex->idProveedor() == _idProveedorSeleccionado) || (_idProveedorSeleccionado == -2));*/
+
+            return esCertificacionSeleccionada && (esProveedorSeleccionado || esClienteSeleccionado);
 });
 
     _certificadosEnProceso = new ModelFilter(GlobalContainer::instance().library()->model(Tables::Proveedores),
