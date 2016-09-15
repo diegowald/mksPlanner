@@ -210,6 +210,34 @@ double ExecutionTask::precio() const
     return -1;
 }
 
+double ExecutionTask::costoAcumulado() const
+{
+    if (_idMaterialTask != -1)
+    {
+        CostoMaterialesModel *model = qobject_cast<CostoMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
+        CostoMaterialPtr costo = qSharedPointerDynamicCast<CostoMaterial>(model->getItemByIdMaterial(_idMaterialTask));
+        if (!costo.isNull())
+        {
+            return this->cantidadCertificada() * costo->costo();
+        }
+    }
+    return -1;
+}
+
+double ExecutionTask::precioAcumulado() const
+{
+    if (_idMaterialTask != -1)
+    {
+        CostoMaterialesModel *model = qobject_cast<CostoMaterialesModel*>(GlobalContainer::instance().library()->model(Tables::CostosUnitarios));
+        CostoMaterialPtr costo = qSharedPointerDynamicCast<CostoMaterial>(model->getItemByIdMaterial(_idMaterialTask));
+        if (!costo.isNull())
+        {
+            return this->cantidadCertificada() * costo->precio();
+        }
+    }
+    return -1;
+}
+
 void ExecutionTask::setIdTareaPadre(int value)
 {
     _idTareaPadre = value;

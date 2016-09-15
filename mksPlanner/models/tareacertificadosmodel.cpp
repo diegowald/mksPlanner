@@ -166,7 +166,26 @@ void TareaCertificadosModel::defineColumnNames()
         }
         return v;
     });
-    setField(8, "Costo",
+    setField(8, "Porcentaje",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        {
+            ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
+            v = ex.isNull() ? 0. : ex->pctCompletadoInSubTask();
+            break;
+        }
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+    setField(9, "Costo",
              [&] (EntityBasePtr e, int role) -> QVariant
     {
         QVariant v;
@@ -185,7 +204,7 @@ void TareaCertificadosModel::defineColumnNames()
         }
         return v;
     });
-    setField(9, "Precio",
+    setField(10, "Precio",
              [&] (EntityBasePtr e, int role) -> QVariant
     {
         QVariant v;
@@ -204,6 +223,45 @@ void TareaCertificadosModel::defineColumnNames()
         }
         return v;
     });
+    setField(11, "Costo Acumulado",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        {
+            ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
+            v = ex.isNull() ? 0. : ex->costoAcumulado();
+            break;
+        }
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+    setField(12, "Precio Acumulado",
+             [&] (EntityBasePtr e, int role) -> QVariant
+    {
+        QVariant v;
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        {
+            ExecutionTaskPtr ex = qSharedPointerDynamicCast<ExecutionTask>(cast(e)->tareaEjecucion());
+            v = ex.isNull() ? 0. : ex->precioAcumulado();
+            break;
+        }
+        default:
+            v = QVariant();
+            break;
+        }
+        return v;
+    });
+
 }
 
 

@@ -45,6 +45,8 @@ public:
     int duracion() const;
     double costo() const;
     double precio() const;
+    double costoAcumulado() const;
+    double precioAcumulado() const;
     QString tooltip() const;
     KDGantt::ItemType taskType() const;
     double pctCompletado() const;

@@ -12,7 +12,6 @@
 #include "views/dlgeditfechapagocertificado.h"
 #include "views/executiontaskitemdelegate.h"
 #include "models/modelfromtablewidget.h"
-
 #include <KDReportsTextElement.h>
 #include <KDReportsChartElement>
 #include <KDReportsPreviewDialog.h>
@@ -197,7 +196,7 @@ void ProjectWindow::setCertificacionesModel(IModel *model)
             bool esClienteSeleccionado = (_idProveedorSeleccionado == -2);
 
             /*return (ex->idCertificacion() == _idCertificacionSeleccionada)
-            && ((ex->idProveedor() == _idProveedorSeleccionado) || (_idProveedorSeleccionado == -2));*/
+                    && ((ex->idProveedor() == _idProveedorSeleccionado) || (_idProveedorSeleccionado == -2));*/
 
             return esCertificacionSeleccionada && (esProveedorSeleccionado || esClienteSeleccionado);
 });
@@ -567,8 +566,10 @@ void ProjectWindow::on_tblCertificados_selectionChanged(const QItemSelection &se
         //        _certificadosEnProceso->refreshData();
         //        _tareasCertificadoEnProceso->refreshData();
         ui->btnVerCertificadoClienteEnProceso->setChecked(false);
-        ui->tblTareasCertificado->showColumn(13);
-        ui->tblTareasCertificado->hideColumn(14);
+        ui->tblTareasCertificado->showColumn(9);
+        ui->tblTareasCertificado->showColumn(11);
+        ui->tblTareasCertificado->hideColumn(10);
+        ui->tblTareasCertificado->hideColumn(12);
     }
     else
     {
@@ -595,7 +596,7 @@ void ProjectWindow::updateCertificacionView(EntityBasePtr certificacion)
             ui->tblTareasCertificado->hideColumn(0);
             ui->tblTareasCertificado->hideColumn(1);
             ui->tblTareasCertificado->hideColumn(2);
-            ui->tblTareasCertificado->hideColumn(3);
+            ui->tblTareasCertificado->hideColumn(4);
 
             ui->btnVerCertificadoClienteEnProceso->setVisible(true);
 
@@ -810,8 +811,10 @@ void ProjectWindow::on_btnVerCertificadoClienteEnProceso_toggled(bool checked)
         _tareasCertificacionEnProceso->refreshData();
         _tareasCertificadoEnProceso->refreshData();
         _tareasCertificadoHechosModel->refreshData();
-        ui->tblTareasCertificado->hideColumn(13);
-        ui->tblTareasCertificado->showColumn(14);
+        ui->tblTareasCertificado->hideColumn(9);
+        ui->tblTareasCertificado->hideColumn(11);
+        ui->tblTareasCertificado->showColumn(10);
+        ui->tblTareasCertificado->showColumn(12);
     }
 }
 
@@ -950,7 +953,7 @@ void ProjectWindow::on_actionImprimir_triggered()
         break;
     }
 
-/*
+    /*
     // Add a text element for the title
     KDReports::TextElement titleElement( QObject::tr( "Hello World!" ) );
     titleElement.setPointSize( 18 );
@@ -1016,7 +1019,7 @@ void ProjectWindow::imprimirProyecto(KDReports::Report &report)
     report.addElement(costo);
 
 
-/*    KDReports::AutoTableElement autoTableElement1( _projectLibrary->model(Tables::Proyectos));
+    /*    KDReports::AutoTableElement autoTableElement1( _projectLibrary->model(Tables::Proyectos));
 
     autoTableElement1.setWidth( 100, KDReports::Percent );
     report.addElement(autoTableElement1);*/
@@ -1074,7 +1077,7 @@ void ProjectWindow::imprimirCertificacion(KDReports::Report &report,
 {
     CertificacionPtr cert = _certificacionesModel->cast(_certificacionesModel->getItem(_idCertificacionSeleccionada));
 
-    if (!cert.isNull())
+    if (!cert.isNull() && _certificadosHechosModel->ids().count() > 0)
     {
         CertificadoPtr certificado;
         foreach(int id, _certificadosHechosModel->ids())
@@ -1087,65 +1090,68 @@ void ProjectWindow::imprimirCertificacion(KDReports::Report &report,
             }
         }
 
-        _certificadoMapper->addMapping(ui->nroCertificado, _certificadosHechosModel->columnIndex("Nro. Certificado"));
-        _certificadoMapper->addMapping(ui->txtCliente, _certificadosHechosModel->columnIndex("Cliente"));
-        _certificadoMapper->addMapping(ui->txtProveedor, _certificadosHechosModel->columnIndex("Proveedor"));
-        _certificadoMapper->addMapping(ui->dateEmision, _certificadosHechosModel->columnIndex("Fecha Emisión"));
-        _certificadoMapper->addMapping(ui->dateDesde, _certificadosHechosModel->columnIndex("Desde"));
-        _certificadoMapper->addMapping(ui->dateHasta, _certificadosHechosModel->columnIndex("Hasta"));
-
-        ModelFilter *tareasCertificadoHechosModel = new ModelFilter(_projectLibrary->model(Tables::TareaCertificados),
-                                                                    [&] (EntityBasePtr e) -> bool
+        if (!certificado.isNull())
         {
-                TareaCertificadoPtr c = qSharedPointerDynamicCast<TareaCertificado>(e);
-                return (c->idCertificacion() == idCertificacion)
-                && (c->idProveedor() == idProveedor);
-    });
+            _certificadoMapper->addMapping(ui->nroCertificado, _certificadosHechosModel->columnIndex("Nro. Certificado"));
+            _certificadoMapper->addMapping(ui->txtCliente, _certificadosHechosModel->columnIndex("Cliente"));
+            _certificadoMapper->addMapping(ui->txtProveedor, _certificadosHechosModel->columnIndex("Proveedor"));
+            _certificadoMapper->addMapping(ui->dateEmision, _certificadosHechosModel->columnIndex("Fecha Emisión"));
+            _certificadoMapper->addMapping(ui->dateDesde, _certificadosHechosModel->columnIndex("Desde"));
+            _certificadoMapper->addMapping(ui->dateHasta, _certificadosHechosModel->columnIndex("Hasta"));
+
+            ModelFilter *tareasCertificadoHechosModel = new ModelFilter(_projectLibrary->model(Tables::TareaCertificados),
+                                                                        [&] (EntityBasePtr e) -> bool
+            {
+                    TareaCertificadoPtr c = qSharedPointerDynamicCast<TareaCertificado>(e);
+                    return (c->idCertificacion() == idCertificacion)
+                    && (c->idProveedor() == idProveedor);
+        });
 
 
-        KDReports::TextElement title("Certificación");
-        title.setPointSize(18);
-        report.addElement(title, Qt::AlignHCenter);
+            KDReports::TextElement title("Certificación");
+            title.setPointSize(18);
+            report.addElement(title, Qt::AlignHCenter);
 
 
-        QString nroCert = "Nro: %1";
-        KDReports::TextElement nroCertificacion(nroCert.arg(certificado->nroCertificado()));
-        nroCertificacion.setPointSize(14);
-        report.addElement(nroCertificacion, Qt::AlignRight);
+            QString nroCert = "Nro: %1";
+            KDReports::TextElement nroCertificacion(nroCert.arg(certificado->nroCertificado()));
+            nroCertificacion.setPointSize(14);
+            report.addElement(nroCertificacion, Qt::AlignRight);
 
-        QString fechaEmision = "Fecha %1";
-        KDReports::TextElement fecha (fechaEmision.arg(certificado->fechaEmision().toString()));
-        fecha.setPointSize(14);
-        report.addElement(fecha, Qt::AlignRight);
+            QString fechaEmision = "Fecha %1";
+            KDReports::TextElement fecha (fechaEmision.arg(certificado->fechaEmision().toString()));
+            fecha.setPointSize(14);
+            report.addElement(fecha, Qt::AlignRight);
 
-        QString periodo = "Período: de %1 a %2.";
-        KDReports::TextElement p(periodo.arg(certificado->desde().toString()).arg(certificado->hasta().toString()));
-        p.setPointSize(14);
-        report.addElement(p, Qt::AlignLeft);
+            QString periodo = "Período: de %1 a %2.";
+            KDReports::TextElement p(periodo.arg(certificado->desde().toString()).arg(certificado->hasta().toString()));
+            p.setPointSize(14);
+            report.addElement(p, Qt::AlignLeft);
 
-        QString destinatario = "%1: %2";
-        if (idProveedor == -2)
-        {
-            destinatario = destinatario.arg("Cliente")
-                    .arg(ui->txtPropietario->text());
+            QString destinatario = "%1: %2";
+            if (idProveedor == -2)
+            {
+                destinatario = destinatario.arg("Cliente")
+                        .arg(ui->txtPropietario->text());
+            }
+            else
+            {
+                ProveedorPtr p = qSharedPointerDynamicCast<Proveedor>(GlobalContainer::instance().library()->model(Tables::Proveedores)->getItem(idProveedor));
+                destinatario = destinatario.arg("Proveedor")
+                        .arg(p->name());
+            }
+            KDReports::TextElement d(destinatario);
+
+            d.setPointSize(14);
+            report.addElement(d, Qt::AlignLeft);
+
+            ColumnHiddenModel m(tareasCertificadoHechosModel);
+            m.addColumnToHide(0);
+            m.addColumnToHide(1);
+
+            KDReports::AutoTableElement tblElement(&m);
+            report.addElement(tblElement);
         }
-        else
-        {
-            ProveedorPtr p = qSharedPointerDynamicCast<Proveedor>(GlobalContainer::instance().library()->model(Tables::Proveedores)->getItem(idProveedor));
-            destinatario = destinatario.arg("Proveedor")
-                    .arg(p->name());
-        }
-        KDReports::TextElement d(destinatario);
-
-        d.setPointSize(14);
-        report.addElement(d, Qt::AlignLeft);
-
-        ColumnHiddenModel m(tareasCertificadoHechosModel);
-        m.addColumnToHide(0);
-        m.addColumnToHide(1);
-
-        KDReports::AutoTableElement tblElement(&m);
-        report.addElement(tblElement);
     }
 }
 
