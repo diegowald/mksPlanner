@@ -226,8 +226,15 @@ void ProjectWindow::setCertificacionesModel(IModel *model)
                                                     [&] (EntityBasePtr e) -> bool
     {
             TareaCertificadoPtr c = qSharedPointerDynamicCast<TareaCertificado>(e);
+            if (_idProveedorSeleccionado != -2)
+    {
             return (c->idCertificacion() == _idCertificacionSeleccionada)
             && (c->idProveedor() == _idProveedorSeleccionado);
+}
+            else
+    {
+            return (c->idCertificacion() == _idCertificacionSeleccionada);
+}
 });
 
     _certificacionesNoEmitidas = new ModelFilter(_projectLibrary->model(Tables::Certificaciones),
@@ -566,10 +573,19 @@ void ProjectWindow::on_tblCertificados_selectionChanged(const QItemSelection &se
         //        _certificadosEnProceso->refreshData();
         //        _tareasCertificadoEnProceso->refreshData();
         ui->btnVerCertificadoClienteEnProceso->setChecked(false);
-        ui->tblTareasCertificado->showColumn(9);
-        ui->tblTareasCertificado->showColumn(11);
-        ui->tblTareasCertificado->hideColumn(10);
-        ui->tblTareasCertificado->hideColumn(12);
+        CertificacionPtr certificacion = _certificacionesModel->cast(_certificacionesModel->getItem(_idCertificacionSeleccionada));
+        if (certificacion->certificacionStatus() == Certificacion::CertificacionStatus::Preparacion)
+        {
+            ui->tblTareasCertificado->showColumn(13);
+            ui->tblTareasCertificado->hideColumn(14);
+        }
+        else
+        {
+            ui->tblTareasCertificado->showColumn(9);
+            ui->tblTareasCertificado->showColumn(11);
+            ui->tblTareasCertificado->hideColumn(10);
+            ui->tblTareasCertificado->hideColumn(12);
+        }
     }
     else
     {
@@ -596,7 +612,9 @@ void ProjectWindow::updateCertificacionView(EntityBasePtr certificacion)
             ui->tblTareasCertificado->hideColumn(0);
             ui->tblTareasCertificado->hideColumn(1);
             ui->tblTareasCertificado->hideColumn(2);
-            ui->tblTareasCertificado->hideColumn(4);
+            ui->tblTareasCertificado->hideColumn(3);
+            ui->tblTareasCertificado->hideColumn(14);
+            ui->tblTareasCertificado->showColumn(13);
 
             ui->btnVerCertificadoClienteEnProceso->setVisible(true);
 
@@ -637,6 +655,10 @@ void ProjectWindow::updateCertificacionView(EntityBasePtr certificacion)
             ui->tblTareasCertificado->hideColumn(1);
             ui->tblTareasCertificado->hideColumn(2);
             ui->tblTareasCertificado->hideColumn(4);
+            ui->tblTareasCertificado->hideColumn(10);
+            ui->tblTareasCertificado->hideColumn(12);
+            ui->tblTareasCertificado->showColumn(11);
+            ui->tblTareasCertificado->showColumn(13);
 
             ui->btnEmitido->setVisible(false);
             ui->btnAbonado->setVisible(true);
@@ -811,10 +833,37 @@ void ProjectWindow::on_btnVerCertificadoClienteEnProceso_toggled(bool checked)
         _tareasCertificacionEnProceso->refreshData();
         _tareasCertificadoEnProceso->refreshData();
         _tareasCertificadoHechosModel->refreshData();
-        ui->tblTareasCertificado->hideColumn(9);
-        ui->tblTareasCertificado->hideColumn(11);
-        ui->tblTareasCertificado->showColumn(10);
-        ui->tblTareasCertificado->showColumn(12);
+
+        CertificacionPtr c = _certificacionesModel->cast(_certificacionesModel->getItem(_idCertificacionSeleccionada));
+        switch (c->certificacionStatus())
+        {
+        case Certificacion::CertificacionStatus::Preparacion:
+        {
+            ui->tblTareasCertificado->hideColumn(0);
+            ui->tblTareasCertificado->hideColumn(1);
+            ui->tblTareasCertificado->hideColumn(2);
+            ui->tblTareasCertificado->hideColumn(3);
+            ui->tblTareasCertificado->hideColumn(13);
+            ui->tblTareasCertificado->showColumn(14);
+            break;
+        }
+        case Certificacion::CertificacionStatus::Emitido:
+        default:
+        {
+            ui->tblTareasCertificado->hideColumn(0);
+            ui->tblTareasCertificado->hideColumn(1);
+            ui->tblTareasCertificado->hideColumn(2);
+            ui->tblTareasCertificado->hideColumn(4);
+
+            ui->tblTareasCertificado->hideColumn(9);
+            ui->tblTareasCertificado->hideColumn(11);
+            ui->tblTareasCertificado->showColumn(10);
+            ui->tblTareasCertificado->showColumn(12);
+            break;
+        }
+        }
+
+
     }
 }
 
