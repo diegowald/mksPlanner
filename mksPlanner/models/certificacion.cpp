@@ -3,8 +3,9 @@
 #include <QVariant>
 #include "globalcontainer.h"
 #include "models/certificacionesmodel.h"
-
-
+#include "persistance/materialslibrary.h"
+#include "models/tareacertificadosmodel.h"
+#include "models/executiontask.h"
 
 Certificacion::Certificacion(int id, const QDate &fechaCertificacion, CertificacionStatus certificacionStatus) : EntityBase(id)
 {
@@ -68,10 +69,11 @@ QDate Certificacion::fechaCertificacion() const
 
 QDate Certificacion::fechaInicioCertificacion()
 {
-    QDate fechaInicio = QDate::fromJulianDay(0);
+    QDate fechaInicio = fechaCertificacion();
     CertificacionesModel *m = static_cast<CertificacionesModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::Certificaciones));
 
     QSet<int> ids = m->ids();
+    bool fechaInicioDeCertificacionAnterior = false;
     foreach(int idCert, ids.values())
     {
         if (idCert != id())
@@ -82,10 +84,34 @@ QDate Certificacion::fechaInicioCertificacion()
                 if (fechaInicio < c->fechaCertificacion())
                 {
                     fechaInicio = c->fechaCertificacion();
+                    fechaInicioDeCertificacionAnterior = true;
                 }
             }
         }
     }
+
+    if (!fechaInicioDeCertificacionAnterior)
+    {
+        fechaInicio = calcularFechaInicioPrimerTarea();
+    }
+
+    return fechaInicio;
+}
+
+QDate Certificacion::calcularFechaInicioPrimerTarea() const
+{
+    QDate fechaInicio = fechaCertificacion();
+
+    TareaCertificadosModel *tcModel = qobject_cast<TareaCertificadosModel*>(GlobalContainer::instance().projectLibrary(_idProyecto)->model(Tables::TareaCertificados));
+    int rowCount = tcModel->rowCount(QModelIndex());
+    for (int i = 0; i < rowCount; ++i)
+    {
+        EntityBasePtr e = tcModel->getItemByRowid(i);
+        TareaCertificadoPtr tc = qSharedPointerDynamicCast<TareaCertificado>(e);
+        ExecutionTaskPtr et = qSharedPointerDynamicCast<ExecutionTask>(tc->tareaEjecucion());
+        fechaInicio = (et->fechaRealInicio().date() < fechaInicio) ? et->fechaRealInicio().date() : fechaInicio;
+    }
+
     return fechaInicio;
 }
 

@@ -1,3 +1,4 @@
+
 #ifndef CERTIFICACION_H
 #define CERTIFICACION_H
 
@@ -31,6 +32,10 @@ public:
     void setCertificacionStatus(CertificacionStatus value);
 
     void setIdProyecto(int idProyecto);
+
+private:
+    QDate calcularFechaInicioPrimerTarea() const;
+
 signals:
 
 public slots:

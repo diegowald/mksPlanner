@@ -7,6 +7,7 @@
 #include "models/costomaterialesmodel.h"
 #include "models/componentematerial.h"
 #include <QSharedPointer>
+#include <cmath>
 
 CostoMaterialCompuesto::CostoMaterialCompuesto(int id, int idMaterial) : CostoMaterial(id, idMaterial, 0., 0., QDate(0, 0, 0))
 {

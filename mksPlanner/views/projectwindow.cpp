@@ -814,6 +814,8 @@ void ProjectWindow::on_btnEmitido_released()
         c->setIdProveedor(p->id());
         c->setIdCertificacion(_idCertificacionSeleccionada);
         c->setFechaEmision(cert->fechaCertificacion());
+        c->setDesde(cert->fechaInicioCertificacion());
+        c->setHasta(cert->fechaCertificacion());
         _certificadosHechosModel->addEntity(c);
     }
     updateCertificacionView(cert);
@@ -1177,26 +1179,38 @@ void ProjectWindow::imprimirCertificacion(KDReports::Report &report,
             p.setPointSize(14);
             report.addElement(p, Qt::AlignLeft);
 
-            QString destinatario = "%1: %2";
-            if (idProveedor == -2)
-            {
-                destinatario = destinatario.arg("Cliente")
+            QString cliente = "%1: %2";
+                cliente = cliente.arg("Obra")
                         .arg(ui->txtPropietario->text());
-            }
-            else
+            KDReports::TextElement c(cliente);
+
+            c.setPointSize(14);
+            report.addElement(c, Qt::AlignLeft);
+
+            QString destinatario = "%1: %2";
+            if (idProveedor != -2)
             {
                 ProveedorPtr p = qSharedPointerDynamicCast<Proveedor>(GlobalContainer::instance().library()->model(Tables::Proveedores)->getItem(idProveedor));
                 destinatario = destinatario.arg("Proveedor")
                         .arg(p->name());
-            }
-            KDReports::TextElement d(destinatario);
+                KDReports::TextElement d(destinatario);
 
-            d.setPointSize(14);
-            report.addElement(d, Qt::AlignLeft);
+                d.setPointSize(14);
+                report.addElement(d, Qt::AlignLeft);
+            }
+
+            report.addVerticalSpacing(14);
 
             ColumnHiddenModel m(tareasCertificadoHechosModel);
+
             m.addColumnToHide(0);
             m.addColumnToHide(1);
+            m.addColumnToHide(2);
+            m.addColumnToHide(4);
+            m.addColumnToHide(10);
+            m.addColumnToHide(12);
+            m.addColumnToHide(11);
+            m.addColumnToHide(13);
 
             KDReports::AutoTableElement tblElement(&m);
             report.addElement(tblElement);

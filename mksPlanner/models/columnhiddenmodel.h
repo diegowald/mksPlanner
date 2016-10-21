@@ -21,10 +21,13 @@ public:
     void addColumnToHide(int column);
 
 protected:
-    int calculateColumn(int column) const;
+    //int calculateColumn(int column) const;
+    void setupVisibleColumns();
+
 private:
     IModel *_model;
     QSet<int> _columnsHidden;
+    QList<int> _columnsVisible;
 };
 
 

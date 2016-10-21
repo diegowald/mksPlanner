@@ -7,6 +7,7 @@
 class TareaCertificadosModel : public ModelBase
 {
     Q_OBJECT
+
 public:
     explicit TareaCertificadosModel(int idProyecto, QObject *parent = 0);
 
